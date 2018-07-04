@@ -88,11 +88,12 @@
     }
 
     .center {
-        position: absolute;
-        left: 50%;
-        top: 30%;
-        -webkit-transform: translate(-50%, -50%);
-        transform: translate(-50%, -50%);
+        padding-top: 40px;
+        /*position: absolute;*/
+        /*left: 50%;*/
+        /*top: 30%;*/
+        /*-webkit-transform: translate(-50%, -50%);*/
+        /*transform: translate(-50%, -50%);*/
     }
 
     .btn-default-danger {
@@ -221,11 +222,6 @@
 <script type="text/javascript">
 
 
-    function loading_button(element) {
-        $(''+element).html('<i class="fa fa-refresh fa-spin fa-fw right-margin"></i> Loading...');
-        $(''+element).prop('disabled',true);
-    }
-
     $(document).ready(function () {
 
         // window.base_url_server = 'http://10.1.10.27:8080/siak3/';
@@ -261,9 +257,6 @@
 
         })
 
-
-
-
     });
 
     $(document).on('keypress','#username',function (e) {
@@ -272,8 +265,6 @@
             return false;    //<---- Add this line
         }
     });
-
-
 
     $(document).on('click','#btnLoginCheckPassword',function () {
         CheckPassword2Login();
@@ -286,120 +277,6 @@
         }
     });
 
-
-    function CheckUsername2Login() {
-        var Username = $('#username').val();
-
-        if(Username!='' && Username!=null){
-
-            loading_button('#btnLoginCheckUser');
-
-            var url = base_url_server+'uath/__checkUsername';
-            var token = jwt_encode({Username:Username});
-
-            $.post(url,{token:token},function (jsonResult) {
-                // console.log(jsonResult);
-                setTimeout(function () {
-                    if(jsonResult.Status=='1' && jsonResult.DataUser.Status!='0'){
-                        $('#formWellUsername').animateCss('fadeOutLeft', function() {
-                            // $('#formWellUsername').addClass('hide');
-
-                            var htmlPass = '<div style="text-align: center;" id="dataAvatar">' +
-                                '                        <img data-src="'+jsonResult.DataUser.PathPhoto+'" class="img-fitter img-circle avatar" width="70" height="70" />' +
-                                '                        <h4 style="margin-bottom:0px;">'+jsonResult.DataUser.Name.trim()+'</h4>'+jsonResult.DataUser.Username+
-                                '                        <hr/>' +
-                                '                    </div>' +
-                                '                    <div class="well" id="formWellPassword">' +
-                                '                        <div class="form-group">' +
-                                '                            <label for="password" class="control-label">Password</label>' +
-                                '                            <input type="password" class="hide" hidden readonly id="user" ' +
-                                'value="'+jsonResult.DataUser.Username+'.'+jsonResult.DataUser.Status+'.'+jsonResult.DataUser.User+'.'+jsonResult.DataUser.Year+'">' +
-                                '                            <input type="password" class="form-control" id="password" placeholder="Input password...">' +
-                                '                        </div><div id="divCaptcha"></div>' +
-                                '                        <div style="text-align: right;">' +
-                                '                            <button type="button" class="btn btn-default" id="btnBackLogin"><i class="fa fa-angle-left"></i> Back</button> | ' +
-                                '                            <button type="submit" class="btn btn-success" id="btnLoginCheckPassword">Sign In <i class="fa fa-angle-right"></i></button>' +
-                                '                        </div>' +
-                                '                    </div>';
-
-                            $('#divSignIn').html(htmlPass);
-
-                            $('#formWellPassword').animateCss('fadeInRight', function() {
-                                $('.img-fitter').imgFitter();
-                                $('#password').focus();
-                            });
-
-                        });
-                    }
-                    else {
-                        $('#btnLoginCheckUser').html('Next <i class="fa fa-angle-right"></i>').prop('disabled',false);
-                        toastr.error(jsonResult.Message,'Error');
-                        $('#username').val('').focus();
-
-                    }
-
-
-
-
-                },1000);
-            });
-
-        }
-    }
-
-    function CheckPassword2Login() {
-        var Password = $('#password').val();
-
-
-        if(Password!='' && Password!=null){
-            loading_button('#btnLoginCheckPassword');
-            $('#btnBackLogin').prop('disabled',true);
-            var dataUser = $('#user').val();
-            var url = base_url_server+'uath/__checkPassword';
-            var data = {
-                Username : dataUser.split('.')[0],
-                Status : dataUser.split('.')[1],
-                User : dataUser.split('.')[2],
-                Year : dataUser.split('.')[3],
-                Password : Password
-            };
-            var token = jwt_encode(data);
-            $.post(url,{token:token},function (jsonResult) {
-                if(jsonResult.Status=='0'){
-
-                    toastr.warning(jsonResult.Message,'Warning');
-
-                    var totalWrong = (localStorage.getItem('LoginFalse')==null) ? 1 :
-                        parseInt(localStorage.getItem('LoginFalse')) + 1;
-
-                    if(totalWrong>3){
-                        localStorage.setItem('LoginFalse', 0);
-                        window.location.href='';
-                    } else {
-                        localStorage.setItem('LoginFalse', totalWrong);
-                    }
-
-
-                }
-                else if(jsonResult.Status=='-1'){
-                    modalChangePassword(jsonResult.DataUser);
-                } else if(jsonResult.Status=='1'){
-
-                    if(jsonResult.url_direct.length==1){
-                        window.location.href = jsonResult.url_direct[0].url;
-                    } else if(jsonResult.url_direct.length>1){
-                        loadPagePanel(jsonResult.url_direct);
-                    }
-                }
-
-                setTimeout(function () {
-                    $('#password').val('');
-                    $('#btnBackLogin').prop('disabled',false);
-                    $('#btnLoginCheckPassword').html('Sign In <i class="fa fa-angle-right"></i>').prop('disabled',false);
-                },1000);
-            });
-        }
-    }
 
 
 
@@ -481,6 +358,119 @@
 
     }
 
+    function CheckUsername2Login() {
+        var Username = $('#username').val();
+
+        if(Username!='' && Username!=null){
+
+            loading_button('#btnLoginCheckUser');
+
+            var url = base_url_server+'uath/__checkUsername';
+            var token = jwt_encode({Username:Username});
+
+            $.post(url,{token:token},function (jsonResult) {
+                // console.log(jsonResult);
+                setTimeout(function () {
+                    if(jsonResult.Status=='1' && jsonResult.DataUser.Status!='0'){
+                        $('#formWellUsername').animateCss('fadeOutLeft', function() {
+                            // $('#formWellUsername').addClass('hide');
+
+                            var htmlPass = '<div style="text-align: center;" id="dataAvatar">' +
+                                '                        <img data-src="'+jsonResult.DataUser.PathPhoto+'" class="img-fitter img-circle avatar" width="70" height="70" />' +
+                                '                        <h4 style="margin-bottom:0px;">'+jsonResult.DataUser.Name.trim()+'</h4>'+jsonResult.DataUser.Username+
+                                '                        <hr/>' +
+                                '                    </div>' +
+                                '                    <div class="well" id="formWellPassword">' +
+                                '                        <div class="form-group">' +
+                                '                            <label for="password" class="control-label">Password</label>' +
+                                '                            <input type="password" class="hide" hidden readonly id="user" ' +
+                                'value="'+jsonResult.DataUser.Username+'.'+jsonResult.DataUser.Status+'.'+jsonResult.DataUser.User+'.'+jsonResult.DataUser.Year+'">' +
+                                '                            <input type="password" class="form-control" id="password" placeholder="Input password...">' +
+                                '                        </div><div id="divCaptcha"></div>' +
+                                '                        <div style="text-align: right;">' +
+                                '                            <button type="button" class="btn btn-default" id="btnBackLogin"><i class="fa fa-angle-left"></i> Back</button> | ' +
+                                '                            <button type="submit" class="btn btn-success" id="btnLoginCheckPassword">Sign In <i class="fa fa-angle-right"></i></button>' +
+                                '                        </div>' +
+                                '                    </div>';
+
+                            $('#divSignIn').html(htmlPass);
+
+                            $('#formWellPassword').animateCss('fadeInRight', function() {
+                                $('.img-fitter').imgFitter();
+                                $('#password').focus();
+                            });
+
+                        });
+                    }
+                    else {
+                        $('#btnLoginCheckUser').html('Next <i class="fa fa-angle-right"></i>').prop('disabled',false);
+                        toastr.error(jsonResult.Message,'Error');
+                        $('#username').val('').focus();
+
+                    }
+
+
+
+
+                },1000);
+            });
+
+        }
+    }
+
+    function CheckPassword2Login() {
+        var Password = $('#password').val();
+
+        if(Password!='' && Password!=null){
+            loading_button('#btnLoginCheckPassword');
+            $('#btnBackLogin').prop('disabled',true);
+            var dataUser = $('#user').val();
+            var url = base_url_server+'uath/__checkPassword';
+            var data = {
+                Username : dataUser.split('.')[0],
+                Status : dataUser.split('.')[1],
+                User : dataUser.split('.')[2],
+                Year : dataUser.split('.')[3],
+                Password : Password
+            };
+            var token = jwt_encode(data);
+            $.post(url,{token:token},function (jsonResult) {
+                if(jsonResult.Status=='0'){
+
+                    toastr.warning(jsonResult.Message,'Warning');
+
+                    var totalWrong = (localStorage.getItem('LoginFalse')==null) ? 1 :
+                        parseInt(localStorage.getItem('LoginFalse')) + 1;
+
+                    if(totalWrong>3){
+                        localStorage.setItem('LoginFalse', 0);
+                        window.location.href='';
+                    } else {
+                        localStorage.setItem('LoginFalse', totalWrong);
+                    }
+
+
+                }
+                else if(jsonResult.Status=='-1'){
+                    modalChangePassword(jsonResult.DataUser);
+                } else if(jsonResult.Status=='1'){
+
+                    if(jsonResult.url_direct.length==1){
+                        window.location.href = jsonResult.url_direct[0].url;
+                    } else if(jsonResult.url_direct.length>1){
+                        loadPagePanel(jsonResult.url_direct);
+                    }
+                }
+
+                setTimeout(function () {
+                    $('#password').val('');
+                    $('#btnBackLogin').prop('disabled',false);
+                    $('#btnLoginCheckPassword').html('Sign In <i class="fa fa-angle-right"></i>').prop('disabled',false);
+                },1000);
+            });
+        }
+    }
+
     function modalChangePassword(dataUser){
         var htmlBody = '<div class="row">' +
             '    <div class="col-xs-3" style="text-align:center;">' +
@@ -516,8 +506,6 @@
             'show' : true
         });
     }
-
-
 
     function updatePassword(data){
         var token = jwt_encode(data);
@@ -581,6 +569,11 @@
             'backdrop' : 'static',
             'show' : true
         });
+    }
+
+    function loading_button(element) {
+        $(''+element).html('<i class="fa fa-refresh fa-spin fa-fw right-margin"></i> Loading...');
+        $(''+element).prop('disabled',true);
     }
 
 </script>
