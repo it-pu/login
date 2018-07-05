@@ -155,10 +155,22 @@
     .a-link .thumbnail h4 {
         color: #415a6b;font-weight: bold;margin-bottom: 0px;
     }
+    .list-unstyled li span{
+        margin-right: 5px;
+    }
 
+    .fa-coffee, .fa-heart {
+        margin-right: 5px;
+        margin-left: 5px;
+    }
 
+    .fa-coffee {
+        color: #795548b8;
+    }
 
-
+    .fa-heart {
+        color: #ff857c;
+    }
 </style>
 
 <body>
@@ -172,11 +184,11 @@
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
             <h4 class="modal-title" id="myModalLabel">Login to site.com</h4>
         </div> -->
-        <div class="modal-body">
+        <div class="modal-body" style="padding-bottom:0px;">
 
             <div class="row">
                 <div class="col-xs-12" style="text-align: center;margin: 10px;">
-                    <img src="logo.jpg" style="max-width: 200px;">
+                    <img src="assets/icon/logo.jpg" style="max-width: 200px;">
                     <hr/>
                 </div>
             </div>
@@ -186,14 +198,23 @@
                 <div class="col-xs-6">
                     <p class="lead"><i class="fa fa-info-circle" style="margin-right: 5px;"></i> Announcement</p>
                     <ul class="list-unstyled" style="line-height: 2">
-                        <li><span class="fa fa-caret-right text-success"></span> See all your orders</li>
-                        <li><span class="fa fa-caret-right text-success"></span> Fast re-order</li>
-                        <li><span class="fa fa-caret-right text-success"></span> Save your favorites</li>
-                        <li><span class="fa fa-caret-right text-success"></span> Fast checkout</li>
-                        <li><span class="fa fa-caret-right text-success"></span> Get a gift <small>(only new customers)</small></li>
-                        <li><span class="fa fa-caret-right text-success"></span> Get a gift <small>(only new customers)</small></li>
+                        <li><span class="fa fa-caret-right text-success"></span> Academic Calender</li>
+                        <li><span class="fa fa-caret-right text-success"></span> Students - How to KRS Online</li>
+                        <li><span class="fa fa-caret-right text-success"></span> Students - </li>
+                        <li><span class="fa fa-caret-right text-success"></span> Lecturers</li>
+                        <li><span class="fa fa-caret-right text-success"></span> All Employees</li>
+                        <li><span class="fa fa-caret-right text-success"></span> HBP</li>
                     </ul>
                     <p><a href="/new-customer/" class="btn btn-info btn-block">Read more</a></p>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-12" style="text-align: center;font-size: 12px;color: #9E9E9E;">
+                    <hr style="margin-bottom:10px;" />
+                    <p>© 2018 IT PU, We Made With <i class="fa fa-coffee" aria-hidden="true"></i> & <i class="fa fa-heart" aria-hidden="true"></i>
+                    <br/> Version 2.0.1
+                    </p>
                 </div>
             </div>
         </div>
@@ -500,11 +521,15 @@
         $('#modalGlobal .modal-header').addClass('hide');
         $('#modalGlobal .modal-footer').addClass('hide');
         $('#modalGlobal .modal-body').html(htmlBody);
-        $('#formNewPassword').focus();
+
         $('#modalGlobal').modal({
             'backdrop' : 'static',
             'show' : true
         });
+
+        $('#modalGlobal').on('shown.bs.modal', function () {
+            $('#formNewPassword').focus();
+        })
     }
 
     function updatePassword(data){
