@@ -58,8 +58,8 @@
     define("serverRoot","http://pcam.podomorouniversity.ac.id", true);
     define("url_pas","http://pcam.podomorouniversity.ac.id/", true);
     define("url_pcam","http://pcam.podomorouniversity.ac.id/uath/__portal4SignIn", true);
-    define("url_students","http://studentpu.podomorouniversity.ac.id/home", true);
-    define("url_lecturers","http://lecturerpu.podomorouniversity.ac.id/home", true);
+    define("url_students","http://studentpu.podomorouniversity.ac.id/uath/__portal4SignIn", true);
+    define("url_lecturers","http://lecturerpu.podomorouniversity.ac.id/uath/__portal4SignIn", true);
     define("url_sign_out","http://portal.podomorouniversity.ac.id", true);
 
 
