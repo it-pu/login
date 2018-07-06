@@ -54,7 +54,7 @@ class C_login extends CI_Controller {
                 $dataUser = $this->m_auth->__getUserByEmailPU($userData['email'] );
 
                 if(count($dataUser)>0) {
-                    $this->setSession($dataUser[0]['ID'],$dataUser[0]['NIP']);
+//                    $this->setSession($dataUser[0]['ID'],$dataUser[0]['NIP']);
                     redirect(base_url('dashboard'));
                 } else {
                     redirect(base_url());
@@ -68,28 +68,6 @@ class C_login extends CI_Controller {
         }
     }
 
-//    public function authUserPassword(){
-//        $token = $this->input->post('token');
-//        $key = "L06M31N";
-//        $data_arr = (array) $this->jwt->decode($token,$key);
-//
-//        if(count($data_arr)>0){
-//
-//            $NIP = $data_arr['nip'];
-//            $Password = $this->genratePassword($NIP,$data_arr['password']);
-//
-//            $dataUser = $this->m_auth->__getauthUserPassword($NIP,$Password);
-//
-//            if(count($dataUser)>0){
-//                $this->setSession($dataUser[0]['ID'],$dataUser[0]['NIP']);
-//                return print_r(1);
-//            } else {
-//                return print_r(0);
-//            }
-//        } else {
-//            return print_r(0);
-//        }
-//    }
 
     private function genratePassword($Username,$Password){
 
@@ -99,9 +77,7 @@ class C_login extends CI_Controller {
 
         return $pass;
     }
-
-
-
+    
     // ========= LOGIN SSO =========
 
     public function checkUsername(){
@@ -331,10 +307,19 @@ class C_login extends CI_Controller {
     private function loadData_UserLogin($User,$Year,$Username){
         $url_direct = [];
         if($User=='Students'){
-            $this->setUserSession_Students($Year,$Username);
+//            $this->setUserSession_Students($Year,$Username);
+            $dataStd = $this->db->get_where('db_academic.auth_students',
+                array('NPM' => $Username),1)->result_array();
+
+            $token_passwd = array(
+                'Username' => $Username,
+                'Token' => $dataStd[0]['Password']
+            );
+
+            $token = $this->jwt->encode($token_passwd,'s3Cr3T-G4N');
 
             $arp = array(
-                'url' => url_students,
+                'url' => url_students.'?token='.$token,
                 'flag' => 'std'
             );
             array_push($url_direct,$arp);
@@ -343,11 +328,16 @@ class C_login extends CI_Controller {
             $dataEmp = $this->db->get_where('db_employees.employees',
                 array('NIP' => $Username),1)->result_array();
 
+            $token_passwd = array(
+                'Username' => $dataEmp[0]['NIP'],
+                'Token' => $dataEmp[0]['Password']
+            );
 
+            $token = $this->jwt->encode($token_passwd,'s3Cr3T-G4N');
 
             $Main = explode('.',$dataEmp[0]['PositionMain']);
             if($dataEmp[0]['PositionMain']!=null && $dataEmp[0]['PositionMain']!='' && count($Main)>0){
-                $urlp = ($Main[0]==14) ? url_lecturers : url_pcam ;
+                $urlp = ($Main[0]==14) ? url_lecturers.'?token='.$token : url_pcam.'?token='.$token ;
                 $arp = array(
                     'url' => $urlp,
                     'flag' => ($Main[0]==14) ? 'lec' : 'emp'
@@ -357,7 +347,7 @@ class C_login extends CI_Controller {
 
             $Ot1 = explode('.',$dataEmp[0]['PositionOther1']);
             if($dataEmp[0]['PositionOther1']!=null && $dataEmp[0]['PositionOther1']!='' && count($Ot1)>0){
-                $urlp = ($Ot1[0]==14) ? url_lecturers : url_pcam ;
+                $urlp = ($Ot1[0]==14) ? url_lecturers.'?token='.$token : url_pcam.'?token='.$token ;
                 $arp = array(
                     'url' => $urlp,
                     'flag' => ($Ot1[0]==14) ? 'lec' : 'emp'
@@ -367,7 +357,7 @@ class C_login extends CI_Controller {
 
             $Ot2 = explode('.',$dataEmp[0]['PositionOther2']);
             if($dataEmp[0]['PositionOther2']!=null && $dataEmp[0]['PositionOther2']!='' && count($Ot2)>0){
-                $urlp = ($Ot2[0]==14) ? url_lecturers : url_pcam ;
+                $urlp = ($Ot2[0]==14) ? url_lecturers.'?token='.$token : url_pcam.'?token='.$token ;
                 $arp = array(
                     'url' => $urlp,
                     'flag' => ($Ot2[0]==14) ? 'lec' : 'emp'
@@ -377,26 +367,13 @@ class C_login extends CI_Controller {
 
             $Ot3 = explode('.',$dataEmp[0]['PositionOther3']);
             if($dataEmp[0]['PositionOther3']!=null && $dataEmp[0]['PositionOther3']!='' && count($Ot3)>0){
-                $urlp = ($Ot3[0]==14) ? url_lecturers : url_pcam ;
+                $urlp = ($Ot3[0]==14) ? url_lecturers.'?token='.$token : url_pcam.'?token='.$token ;
                 $arp = array(
                     'url' => $urlp,
                     'flag' => ($Ot3[0]==14) ? 'lec' : 'emp'
                 );
                 array_push($url_direct,$arp);
             }
-
-
-            if(count($url_direct)>0){
-                for($s=0;$s<count($url_direct);$s++){
-                    if($url_direct[$s]['flag']=='emp'){
-                        $this->setSession($dataEmp[0]['ID'],$dataEmp[0]['NIP']);
-                    }
-                    else if($url_direct[$s]['flag']=='lec'){
-                        $this->setUserSession_Lecturer($dataEmp[0]['NIP']);
-                    }
-                }
-            }
-
 
         }
 
@@ -407,137 +384,6 @@ class C_login extends CI_Controller {
 
 
         return $result;
-    }
-
-
-    // ========= Session Students =========
-    private function setUserSession_Students($Year,$NPM){
-
-        $table = 'ta_'.$Year.'.students';
-        $dataUser = $this->m_auth->getDataUser2LoginStudent($Year,$table,$NPM);
-
-        $newdata = array(
-            'student_NPM'  => $dataUser[0]['NPM'],
-            'student_Name'  => $dataUser[0]['Name'],
-            'student_Gender'  => $dataUser[0]['Gender'],
-            'student_EmailPU'  => $dataUser[0]['EmailPU'],
-            'student_Faculty'  => $dataUser[0]['Faculty'],
-            'student_ProdiID'  => $dataUser[0]['ProdiID'],
-            'student_ProdiCode'  => $dataUser[0]['ProdiCode'],
-            'student_CurriculumID'  => $dataUser[0]['CurriculumID'],
-            'student_ProgramCampusID'  => $dataUser[0]['ProgramID'],
-            'student_SemesterID'  => $dataUser[0]['SemesterID'],
-            'student_Semester'  => $dataUser[0]['SemesterNow'],
-            'student_Year'  => $dataUser[0]['Year'],
-            'student_SemesterCode'  => $dataUser[0]['SemesterCode'],
-            'student_Photo'  => $dataUser[0]['Photo'],
-            'student_StatusStudentID'  => $dataUser[0]['StatusStudentID'],
-            'student_ClassOf'  => $Year,
-            'student_AcademicMentor'  => $dataUser[0]['AcademicMentor'],
-            'student_MentorName'  => $dataUser[0]['MentorName'],
-            'student_MentorEmailPU'  => $dataUser[0]['MentorEmailPU'],
-            'student_Token'  => $dataUser[0]['Token'],
-            'student_DB'  => 'ta_'.$Year,
-            'student_loggedIn' => TRUE
-        );
-
-        $this->session->set_userdata($newdata);
-    }
-
-    // ========= Session Lecturer =========
-    private function setUserSession_Lecturer($NIP){
-
-        $dataUser = $this->m_auth->getDataUser2LoginLecturer($NIP);
-
-        $newdata = array(
-            'lecturer_ID'  => $dataUser[0]['ID'],
-            'lecturer_NIP'  => $dataUser[0]['NIP'],
-            'lecturer_NIDN'  => $dataUser[0]['NIDN'],
-            'lecturer_Name'  => $dataUser[0]['Name'],
-            'lecturer_TitleAhead'  => $dataUser[0]['TitleAhead'],
-            'lecturer_TitleBehind'  => $dataUser[0]['TitleBehind'],
-            'lecturer_FacultyID'  => $dataUser[0]['FacultyID'],
-            'lecturer_ProdiID'  => $dataUser[0]['ProdiID'],
-
-            'lecturer_MainPositionID'  => $dataUser[0]['MainPositionID'],
-            'lecturer_MainPosition'  => $dataUser[0]['MainPosition'],
-
-            'lecturer_PositionOther1ID'  => $dataUser[0]['PositionOther1ID'],
-            'lecturer_PositionOther1'  => $dataUser[0]['PositionOther1'],
-
-            'lecturer_PositionOther2ID'  => $dataUser[0]['PositionOther2ID'],
-            'lecturer_PositionOther2'  => $dataUser[0]['PositionOther2'],
-
-            'lecturer_PositionOther3ID'  => $dataUser[0]['PositionOther3ID'],
-            'lecturer_PositionOther3'  => $dataUser[0]['PositionOther3'],
-
-            'lecturer_Email'  => $dataUser[0]['Email'],
-            'lecturer_EmailPU'  => $dataUser[0]['EmailPU'],
-            'lecturer_Token'  => $dataUser[0]['Password'],
-            'lecturer_Photo'  => $dataUser[0]['Photo'],
-            'lecturer_StatusEmployeeID'  => $dataUser[0]['StatusEmployeeID'],
-            'lecturer_SemesterID'  => $dataUser[0]['SemesterID'],
-//            'lecturer_DB'  => 'ta_'.$dataAuth['Year'],
-            'lecturer_loggedIn' => TRUE
-        );
-
-        $this->session->set_userdata($newdata);
-    }
-
-    // ========= Session Employees ========
-    private function setSession($ID,$NIP){
-
-        $dataSession = $this->m_auth->__getUserAuth($ID,$NIP);
-        $timePerCredits = $this->m_auth->__getTimePerCredits();
-
-        $ruleUser = $this->m_auth->__getRuleUser($NIP);
-
-        // Super Divisi -- Lihat ID Di table db_employees.division
-        // 1 (Yayasan), 2 (Rectore) , 12 (IT)
-        $superDivision = [1,2,12];
-
-        $setSession = array(
-            'ID'  => $dataSession[0]['ID'],
-            'NIP'  => $dataSession[0]['NIP'],
-            'Name'  => $dataSession[0]['Name'],
-            'FullNameTitle'  => $dataSession[0]['TitleAhead'].' '.$dataSession[0]['Name'].' '.$dataSession[0]['TitleBehind'],
-            'Email'  => $dataSession[0]['Email'],
-            'EmailPU'  => $dataSession[0]['EmailPU'],
-            'Address'  => $dataSession[0]['Address'],
-            'Photo'  => $dataSession[0]['Photo'],
-            'PositionMain'  => array(
-                'IDDivision' => $dataSession[0]['IDDivision'],
-                'Division' => $dataSession[0]['Division'],
-                'IDPosition' => $dataSession[0]['IDPosition'],
-                'Position' => $dataSession[0]['Position']
-            ),
-            'PositionOther1' => array(
-                'IDDivisionOther1' => $dataSession[0]['IDDivisionOther1'],
-                'DivisionOther1' => $dataSession[0]['DivisionOther1'],
-                'IDPositionOther1' => $dataSession[0]['IDPositionOther1'],
-                'PositionOther1' => $dataSession[0]['PositionOther1']
-            ),
-            'PositionOther2' => array(
-                'IDDivisionOther2' => $dataSession[0]['IDDivisionOther2'],
-                'DivisionOther2' => $dataSession[0]['DivisionOther2'],
-                'IDPositionOther2' => $dataSession[0]['IDPositionOther2'],
-                'PositionOther2' => $dataSession[0]['PositionOther2']
-            ),
-            'PositionOther3' => array(
-                'IDDivisionOther3' => $dataSession[0]['IDDivisionOther3'],
-                'DivisionOther3' => $dataSession[0]['DivisionOther3'],
-                'IDPositionOther3' => $dataSession[0]['IDPositionOther3'],
-                'PositionOther3' => $dataSession[0]['PositionOther3']
-            ),
-            'timePerCredits' => $timePerCredits['time'],
-            'ruleUser' => $ruleUser,
-            'menuDepartement' => (count($ruleUser)>1) ? false : true ,
-            'departementNavigation' => $dataSession[0]['MenuNavigation'],
-            'IDdepartementNavigation' => $dataSession[0]['IDDivision'],
-            'loggedIn' => true
-        );
-
-        $this->session->set_userdata($setSession);
     }
 
 }
