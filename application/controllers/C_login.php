@@ -77,7 +77,7 @@ class C_login extends CI_Controller {
 
         return $pass;
     }
-    
+
     // ========= LOGIN SSO =========
 
     public function checkUsername(){
