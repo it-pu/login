@@ -17,6 +17,7 @@ class C_login extends CI_Controller {
         $this->load->library('google');
         $this->load->model('m_auth');
 
+        date_default_timezone_set("Asia/Jakarta");
 
     }
 
@@ -313,7 +314,8 @@ class C_login extends CI_Controller {
 
             $token_passwd = array(
                 'Username' => $Username,
-                'Token' => $dataStd[0]['Password']
+                'Token' => $dataStd[0]['Password'],
+                'dueDate' => date("Y-m-d")
             );
 
             $token = $this->jwt->encode($token_passwd,'s3Cr3T-G4N');
@@ -330,7 +332,8 @@ class C_login extends CI_Controller {
 
             $token_passwd = array(
                 'Username' => $dataEmp[0]['NIP'],
-                'Token' => $dataEmp[0]['Password']
+                'Token' => $dataEmp[0]['Password'],
+                'dueDate' => date("Y-m-d")
             );
 
             $token = $this->jwt->encode($token_passwd,'s3Cr3T-G4N');
