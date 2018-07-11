@@ -54,13 +54,33 @@
  * NOTE: If you change these, also change the error_reporting() code below
  */
 	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
-    define("url_registration","http://localhost/registeronline/", true);
-    define("serverRoot","http://pcam.podomorouniversity.ac.id", true);
-    define("url_pas","http://pcam.podomorouniversity.ac.id/", true);
-    define("url_pcam","http://pcam.podomorouniversity.ac.id/uath/__portal4SignIn", true);
-    define("url_students","http://studentpu.podomorouniversity.ac.id/uath/__portal4SignIn", true);
-    define("url_lecturers","http://lecturerpu.podomorouniversity.ac.id/uath/__portal4SignIn", true);
-    define("url_sign_out","http://portal.podomorouniversity.ac.id", true);
+
+	if($_SERVER['SERVER_NAME']!='localhost') {
+
+        define("url_registration","http://localhost/registeronline/", true);
+        define("serverRoot","http://pcam.podomorouniversity.ac.id", true);
+        define("url_pas","http://pcam.podomorouniversity.ac.id/", true);
+        define("url_pcam","http://pcam.podomorouniversity.ac.id/uath/__portal4SignIn", true);
+        define("url_students","http://studentpu.podomorouniversity.ac.id/uath/__portal4SignIn", true);
+        define("url_lecturers","http://lecturerpu.podomorouniversity.ac.id/uath/__portal4SignIn", true);
+        define("url_sign_out","http://portal.podomorouniversity.ac.id", true);
+
+    } else {
+
+        $port_user = ($_SERVER['SERVER_PORT']!='80') ? ':'.$_SERVER['SERVER_PORT'] : '';
+        define("port",$port_user, true);
+
+        define("serverRoot","http://localhost".port."/siak3", true);
+        define("url_pas","http://localhost".port."/siak3/", true);
+        define("url_pcam",url_pas."uath/__portal4SignIn", true);
+        define("url_students","http://localhost".port."/students/uath/__portal4SignIn", true);
+        define("url_lecturers","http://localhost".port."/lecturer/uath/__portal4SignIn", true);
+        define("url_sign_out","http://localhost".port."/login3/", true);
+
+    }
+
+
+
 
 
 /*
