@@ -59,8 +59,10 @@ class C_login extends CI_Controller {
                 // Cek Userdata
                 $dataUser = $this->m_auth->__getUserByEmailPU($userData['email'] );
 
+//                print_r($dataUser);
 
-                if(count($dataUser)>0) {
+
+                if(count($dataUser['url_direct'])>0) {
 
                     if(count($dataUser['url_direct'])==1){
 //                        header("Location : ".$dataUser['url_direct'][0]);
