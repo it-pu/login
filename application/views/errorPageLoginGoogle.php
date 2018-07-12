@@ -21,6 +21,7 @@
 
 <!------ Include the above in your HEAD tag ---------->
 <script src="<?php echo base_url(); ?>assets/js/jquery.imgFitter.js"></script>
+
 <script>
 
     $(document).ready(function(){
@@ -45,15 +46,26 @@
 
 <div class="container" style="margin-top: 50px;">
     <div class="row">
-        <div class="col-md-4 col-md-offset-4">
+        <div class="col-md-8 col-md-offset-2">
             <div class="thumbnail" style="padding: 20px;text-align: center;">
-                <img data-src="<?php echo $Url_photo; ?>" class="img-fitter img-circle avatar" width="70" height="70" />
-                <h4 style="margin-bottom:3px"><b><?php echo $Name; ?></b></h4>
-                <span><?php echo $Username; ?></span>
+                <div class="row">
+                    <div class="col-xs-3" style="padding-top: 25px;padding-bottom:25px;background: lightyellow;">
+                        <img src="<?php echo base_url('assets/icon/no-entry.png'); ?>" style="max-width: 100px;width: 100%;">
+                    </div>
+                    <div class="col-xs-9" style="text-align: left;">
+                        <h1 style="margin: 0px;"><b>403</b></h1>
+                        <h3 style="margin-top: 0px;">FORBIDDEN</h3>
+                        <p>You don't have permission to access / on this server.</p>
+                        <hr style="margin: 10px;" />
+                        <p style="color: #00bcd4;">Pleace use email from <b>Podomoro University</b> or contact your administrator</p>
 
-                <hr/>
-                <button type="button" id="btnSignInNow" class="btn btn-sm btn-block btn-success">Sign In Now</button>
-                <a href="<?php echo base_url(); ?>" class="btn btn-sm btn-block btn-default">Sign Out</a>
+                    </div>
+                </div>
+
+            </div>
+
+            <div style="text-align: center;margin-top: 20px;">
+                <a href="<?php echo base_url(); ?>" class="btn btn-danger">Back to page sing in</a>
             </div>
         </div>
     </div>
@@ -62,8 +74,8 @@
 <script>
 
     $('#btnSignInNow').click(function(){
-        var url = "<?php echo $url; ?>";
-        window.location.href = url;
+        //var url = "<?php //echo $url; ?>//";
+        //window.location.href = url;
     });
 </script>
 

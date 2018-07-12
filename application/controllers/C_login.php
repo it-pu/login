@@ -29,9 +29,9 @@ class C_login extends CI_Controller {
         $this->load->view('login',$data);
     }
 
-    public function landingPage()
+    public function index3()
     {
-        $this->load->view('landingPage','');
+        $this->load->view('errorPageLoginGoogle','');
     }
 
     public function authGoogle(){
@@ -70,14 +70,13 @@ class C_login extends CI_Controller {
                         $data['url'] = $dataUser['url_direct'][0]['url'];
                         $this->load->view('landingPage',$data);
                     } else {
-                        print_r($dataUser);
+                        $this->load->view('errorPageLoginGoogle','');
                     }
 
 
                 } else {
 
-                    print_r($dataUser);
-//                    redirect(base_url());
+                    $this->load->view('errorPageLoginGoogle','');
                 }
 
             } catch (Exception $err){
