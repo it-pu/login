@@ -29,6 +29,11 @@ class C_login extends CI_Controller {
         $this->load->view('login',$data);
     }
 
+    public function landingPage()
+    {
+        $this->load->view('landingPage','');
+    }
+
     public function authGoogle(){
         if(isset($_GET['code'])){
 
@@ -54,11 +59,25 @@ class C_login extends CI_Controller {
                 // Cek Userdata
                 $dataUser = $this->m_auth->__getUserByEmailPU($userData['email'] );
 
+
                 if(count($dataUser)>0) {
-//                    $this->setSession($dataUser[0]['ID'],$dataUser[0]['NIP']);
-                    redirect(base_url('dashboard'));
+
+                    if(count($dataUser['url_direct'])==1){
+//                        header("Location : ".$dataUser['url_direct'][0]);
+                        $data['Url_photo'] = $dataUser['url_direct'][0]['Url_photo'];
+                        $data['Name'] = $dataUser['url_direct'][0]['Name'];
+                        $data['Username'] = $dataUser['url_direct'][0]['Username'];
+                        $data['url'] = $dataUser['url_direct'][0]['url'];
+                        $this->load->view('landingPage',$data);
+                    } else {
+                        print_r($dataUser);
+                    }
+
+
                 } else {
-                    redirect(base_url());
+
+                    print_r($dataUser);
+//                    redirect(base_url());
                 }
 
             } catch (Exception $err){
@@ -199,11 +218,7 @@ class C_login extends CI_Controller {
                         'Message' => 'Login success',
                         'url_direct' => $logon['url_direct']
                     );
-//                    $result = array(
-//                        'Status' => 1,
-//                        'Message' => 'Login Success',
-//                        'url_direct' => url_students
-//                    );
+
                 } else {
                     $result = array(
                         'Status' => 0,
@@ -326,7 +341,8 @@ class C_login extends CI_Controller {
             );
             array_push($url_direct,$arp);
 
-        } else if ($User=='Employees') {
+        }
+        else if ($User=='Employees') {
             $dataEmp = $this->db->get_where('db_employees.employees',
                 array('NIP' => $Username),1)->result_array();
 

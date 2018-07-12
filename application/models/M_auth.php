@@ -5,9 +5,110 @@ class M_auth extends CI_Model {
 
     public function __getUserByEmailPU($emailpu)
     {
-        $data = $this->db->query('SELECT ID,NIP,emailpu FROM db_employees.employees WHERE emailpu LIKE "'.$emailpu.'"');
 
-        return $data->result_array();
+        date_default_timezone_set("Asia/Jakarta");
+
+        // Cek Apakah Student
+        $dataStd = $this->db->query('SELECT * FROM db_academic.auth_students WHERE EmailPU LIKE "'.$emailpu.'" LIMIT 1')->result_array();
+
+        $url_direct=[];
+        if(count($dataStd)>0){
+
+            $db_ = 'ta_'.$dataStd[0]['Year'];
+            $dataStdDetail = $this->db->get_where($db_.'.students', array('NPM' => $dataStd[0]['NPM']),1)->result_array();
+
+            $token_passwd = array(
+                'Username' => $dataStd[0]['NPM'],
+                'Token' => $dataStd[0]['Password'],
+                'dueDate' => date("Y-m-d")
+            );
+            $token = $this->jwt->encode($token_passwd,'s3Cr3T-G4N');
+
+            $arp = array(
+                'url' => url_students.'?token='.$token,
+                'Name' => $dataStdDetail[0]['Name'],
+                'Username' => $dataStd[0]['NPM'],
+                'url_photo' => url_pas.'uploads/students/'.$db_.'/'.$dataStdDetail[0]['Photo'],
+                'flag' => 'std'
+            );
+            array_push($url_direct,$arp);
+
+        } else {
+            $dataEmp = $this->db->query('SELECT * FROM db_employees.employees 
+                                                WHERE emailpu LIKE "'.$emailpu.'" LIMIT 1')->result_array();
+
+            if(count($dataEmp)>0){
+
+                $token_passwd = array(
+                    'Username' => $dataEmp[0]['NIP'],
+                    'Token' => $dataEmp[0]['Password'],
+                    'dueDate' => date("Y-m-d")
+                );
+
+                $token = $this->jwt->encode($token_passwd,'s3Cr3T-G4N');
+
+                $Main = explode('.',$dataEmp[0]['PositionMain']);
+                if($dataEmp[0]['PositionMain']!=null && $dataEmp[0]['PositionMain']!='' && count($Main)>0){
+                    $urlp = ($Main[0]==14) ? url_lecturers.'?token='.$token : url_pcam.'?token='.$token ;
+                    $arp = array(
+                        'url' => $urlp,
+                        'Name' => $dataEmp[0]['Name'],
+                        'Username' => $dataEmp[0]['NIP'],
+                        'Url_photo' => url_pas.'uploads/employees/'.$dataEmp[0]['Photo'],
+                        'flag' => ($Main[0]==14) ? 'lec' : 'emp'
+                    );
+                    array_push($url_direct,$arp);
+                }
+
+                $Ot1 = explode('.',$dataEmp[0]['PositionOther1']);
+                if($dataEmp[0]['PositionOther1']!=null && $dataEmp[0]['PositionOther1']!='' && count($Ot1)>0){
+                    $urlp = ($Ot1[0]==14) ? url_lecturers.'?token='.$token : url_pcam.'?token='.$token ;
+                    $arp = array(
+                        'url' => $urlp,
+                        'Name' => $dataEmp[0]['Name'],
+                        'Username' => $dataEmp[0]['NIP'],
+                        'Url_photo' => url_pas.'uploads/employees/'.$dataEmp[0]['Photo'],
+                        'flag' => ($Ot1[0]==14) ? 'lec' : 'emp'
+                    );
+                    array_push($url_direct,$arp);
+                }
+
+                $Ot2 = explode('.',$dataEmp[0]['PositionOther2']);
+                if($dataEmp[0]['PositionOther2']!=null && $dataEmp[0]['PositionOther2']!='' && count($Ot2)>0){
+                    $urlp = ($Ot2[0]==14) ? url_lecturers.'?token='.$token : url_pcam.'?token='.$token ;
+                    $arp = array(
+                        'url' => $urlp,
+                        'Name' => $dataEmp[0]['Name'],
+                        'Username' => $dataEmp[0]['NIP'],
+                        'Url_photo' => url_pas.'uploads/employees/'.$dataEmp[0]['Photo'],
+                        'flag' => ($Ot2[0]==14) ? 'lec' : 'emp'
+                    );
+                    array_push($url_direct,$arp);
+                }
+
+                $Ot3 = explode('.',$dataEmp[0]['PositionOther3']);
+                if($dataEmp[0]['PositionOther3']!=null && $dataEmp[0]['PositionOther3']!='' && count($Ot3)>0){
+                    $urlp = ($Ot3[0]==14) ? url_lecturers.'?token='.$token : url_pcam.'?token='.$token ;
+                    $arp = array(
+                        'url' => $urlp,
+                        'Name' => $dataEmp[0]['Name'],
+                        'Username' => $dataEmp[0]['NIP'],
+                        'Url_photo' => url_pas.'uploads/employees/'.$dataEmp[0]['Photo'],
+                        'flag' => ($Ot3[0]==14) ? 'lec' : 'emp'
+                    );
+                    array_push($url_direct,$arp);
+                }
+
+
+
+            }
+        }
+
+        $result = array(
+            'url_direct' => $url_direct
+        );
+
+        return $result;
     }
 
     public function __getUserAuth($ID,$NIP){
