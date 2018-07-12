@@ -54,7 +54,7 @@
     <div class="row">
 
     <?php if($User==1 || $User=='1'){ ?>
-            <div class="col-md-8 col-md-offset-2">
+            <div class="col-md-4 col-md-offset-4">
                 <div class="thumbnail" style="padding: 20px;text-align: center;">
                     <img data-src="<?php echo $Url_photo; ?>" class="img-fitter img-circle avatar" width="70" height="70" />
                     <h4 style="margin-bottom:3px"><b><?php echo $Name; ?></b></h4>
