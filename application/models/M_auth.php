@@ -28,7 +28,7 @@ class M_auth extends CI_Model {
                 'url' => url_students.'?token='.$token,
                 'Name' => $dataStdDetail[0]['Name'],
                 'Username' => $dataStd[0]['NPM'],
-                'url_photo' => url_pas.'uploads/students/'.$db_.'/'.$dataStdDetail[0]['Photo'],
+                'Url_photo' => url_pas.'uploads/students/'.$db_.'/'.$dataStdDetail[0]['Photo'],
                 'flag' => 'std'
             );
             array_push($url_direct,$arp);

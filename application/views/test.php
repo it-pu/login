@@ -21,6 +21,7 @@
 
 <!------ Include the above in your HEAD tag ---------->
 <script src="<?php echo base_url(); ?>assets/js/jquery.imgFitter.js"></script>
+
 <script>
 
     $(document).ready(function(){
@@ -39,12 +40,7 @@
         border: 2px solid #607D8B;
     }
 
-    #double .thumbnail:hover {
-        border: 3px solid #607D8B;
-        background: #f7f7f7;
-        color: #607D8B;
-        cursor: pointer;
-    }
+
 
 </style>
 
@@ -52,32 +48,11 @@
 
 <div class="container" style="margin-top: 50px;">
     <div class="row">
-
-    <?php if($User==1 || $User=='1'){ ?>
-            <div class="col-md-8 col-md-offset-2">
-                <div class="thumbnail" style="padding: 20px;text-align: center;">
-                    <img data-src="<?php echo $Url_photo; ?>" class="img-fitter img-circle avatar" width="70" height="70" />
-                    <h4 style="margin-bottom:3px"><b><?php echo $Name; ?></b></h4>
-                    <span><?php echo $Username; ?></span>
-
-                    <hr/>
-                    <button type="button" id="btnSignInNow" class="btn btn-sm btn-block btn-success">Sign In Now</button>
-                    <a href="<?php echo base_url(); ?>" class="btn btn-sm btn-block btn-default">Sign Out</a>
-                </div>
-            </div>
-
-    <?php } else { ?>
-
-        <div id="double" class="col-md-8 col-md-offset-2">
-            <div class="col-md-2"></div>
-
-
-     <?php   for($p=0;$p<count($DataUser);$p++){
-            $UserData = $DataUser[$p];
-            if($UserData['flag']=='lec'){
-            ?>
+        <div class="col-md-8 col-md-offset-2">
+            <div class="row">
+                <div class="col-md-2"></div>
                 <div class="col-md-4">
-                    <a href="<?php echo $UserData['url']; ?>">
+                    <a href="">
                         <div class="thumbnail" style="text-align: center;padding: 20px;">
                             <img src="<?php echo base_url('assets/icon/lecturer.png') ?>">
                             <hr/>
@@ -85,10 +60,8 @@
                         </div>
                     </a>
                 </div>
-
-    <?php } else { ?>
                 <div class="col-md-4">
-                    <a href="<?php echo $UserData['url']; ?>">
+                    <a href="">
                         <div class="thumbnail" style="text-align: center;padding: 20px">
                             <img src="<?php echo base_url('assets/icon/employee.png') ?>">
                             <hr/>
@@ -96,20 +69,16 @@
                         </div>
                     </a>
                 </div>
-        <?php
-            }
-        } ?>
+            </div>
         </div>
-    <?php } ?>
-
     </div>
 </div>
 
 <script>
 
     $('#btnSignInNow').click(function(){
-        var url = "<?php echo $url; ?>";
-        window.location.href = url;
+        //var url = "<?php //echo $url; ?>//";
+        //window.location.href = url;
     });
 </script>
 
