@@ -213,7 +213,7 @@
             <div class="row">
                 <div class="col-xs-12" style="text-align: center;font-size: 12px;color: #9E9E9E;">
                     <hr style="margin-bottom:10px;" />
-                    <p>© 2018 IT PU, We Made With <i class="fa fa-coffee" aria-hidden="true"></i> & <i class="fa fa-heart" aria-hidden="true"></i>
+                    <p>© 2018 Universitas Agung Podomoro
                         <br/> Version 2.0.1
                     </p>
                 </div>
@@ -259,8 +259,8 @@
             '                        <hr/>' +
             '                        <a href="'+googleBtn+'" class="btn btn-default btn-default-danger btn-block" id="btnLoginWithGoogle"><i class="fa fa-google-plus"></i> Sign In With Google</a>' +
             '' +
-            '                        <a href="javascript:void(0);">Help to login</a><br/>' +
-            '                    </div>';
+            '                        <br/>' +
+            '                    </div><a href="javascript:void(0);">Forgot Password Portal.</a>';
 
         $('#divSignIn').html(htmlUserName);
     });
