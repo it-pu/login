@@ -251,7 +251,7 @@
         window.htmlUserName = '<div class="well" id="formWellUsername">' +
             '                        <div class="form-group">' +
             '                            <label for="username" class="control-label">Username</label>' +
-            '                            <input type="text" class="form-control" id="username" placeholder="Input username...">' +
+            '                            <input type="text" class="form-control" id="username" placeholder="Input username..." autofocus>' +
             '                        </div>' +
             '                        <div style="text-align: right;">' +
             '                            <button type="submit" class="btn btn-primary" id="btnLoginCheckUser">Next <i class="fa fa-angle-right"></i></button>' +
@@ -263,6 +263,8 @@
             '                    </div><a href="javascript:void(0);">Forgot Password Portal.</a>';
 
         $('#divSignIn').html(htmlUserName);
+
+        localStorage.setItem('LoginFalse', 0);
     });
 
     $(document).on('click','#btnLoginCheckUser',function() {
@@ -368,7 +370,6 @@
             var token = jwt_encode(data);
 
             $.post(url,{token:token},function(jsonResult) {
-                console.log(jsonResult);
 
                 if(jsonResult.Status=='-1'){
                     modalChangePassword(jsonResult.Students);
@@ -391,7 +392,7 @@
             var token = jwt_encode({Username:Username});
 
             $.post(url,{token:token},function (jsonResult) {
-                // console.log(jsonResult);
+
                 setTimeout(function () {
                     if(jsonResult.Status=='1' && jsonResult.DataUser.Status!='0'){
                         $('#formWellUsername').animateCss('fadeOutLeft', function() {
@@ -428,7 +429,7 @@
                         $('#btnLoginCheckUser').html('Next <i class="fa fa-angle-right"></i>').prop('disabled',false);
                         toastr.error(jsonResult.Message,'Error');
                         $('#username').val('').focus();
-
+                        $('#formWellUsername').animateCss('shake');
                     }
 
 
@@ -465,9 +466,13 @@
                         parseInt(localStorage.getItem('LoginFalse')) + 1;
 
                     if(totalWrong>3){
-                        localStorage.setItem('LoginFalse', 0);
-                        window.location.href='';
+                        $('#formWellPassword').animateCss('shake');
+                        setTimeout(function () {
+                            localStorage.setItem('LoginFalse', 0);
+                            window.location.href='';
+                        },500);
                     } else {
+                        $('#formWellPassword').animateCss('shake');
                         localStorage.setItem('LoginFalse', totalWrong);
                     }
 
@@ -538,7 +543,6 @@
         var url = base_url_server+'uath/updatePassword';
 
         $.post(url,{token:token},function(jsonResult){
-            console.log(jsonResult);
 
             $('#modalGlobal').modal('hide');
 
