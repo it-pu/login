@@ -4,7 +4,7 @@
 
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=0.5">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Podomoro University</title>
     <link rel="shortcut icon" type="image/x-icon" href="<?php echo base_url(); ?>assets/icon/favicon.png">
 
@@ -113,13 +113,13 @@
         border: 1px solid #d43f3a;
     }
 
-    .btn-default-danger .fa-google-plus {
+    .btn-default-danger .fa-envelope {
         margin-right: 5px;
         padding-right: 10px;
         border-right: 1.3px solid #d43f3a;
     }
 
-    .btn-default-danger:hover .fa-google-plus {
+    .btn-default-danger:hover .fa-envelope {
         border-right: 1.3px solid #fff;
     }
 
@@ -195,8 +195,8 @@
             </div>
 
             <div class="row">
-                <div class="col-xs-6" id="divSignIn"></div>
-                <div class="col-xs-6">
+                <div class="col-md-6" id="divSignIn"></div>
+                <div class="col-md-6">
                     <p class="lead"><i class="fa fa-info-circle" style="margin-right: 5px;"></i> Announcement</p>
                     <ul class="list-unstyled" style="line-height: 2">
                         <li><span class="fa fa-caret-right text-success"></span> Academic Calender</li>
@@ -251,18 +251,20 @@
         window.htmlUserName = '<div class="well" id="formWellUsername">' +
             '                        <div class="form-group">' +
             '                            <label for="username" class="control-label">Username</label>' +
-            '                            <input type="text" class="form-control" id="username" placeholder="Input username..." autofocus>' +
+            '                            <input type="text" class="form-control" id="username" placeholder="Input username...">' +
             '                        </div>' +
             '                        <div style="text-align: right;">' +
             '                            <button type="submit" class="btn btn-primary" id="btnLoginCheckUser">Next <i class="fa fa-angle-right"></i></button>' +
             '                        </div>' +
             '                        <hr/>' +
-            '                        <a href="'+googleBtn+'" class="btn btn-default btn-default-danger btn-block" id="btnLoginWithGoogle"><i class="fa fa-google-plus"></i> Sign In With Google</a>' +
+            '                        <a href="'+googleBtn+'" class="btn btn-default btn-default-danger btn-block" id="btnLoginWithGoogle"><i class="fa fa-envelope"></i> Sign In With Email</a>' +
             '' +
             '                        <br/>' +
-            '                    </div><a href="javascript:void(0);">Forgot Password Portal.</a>';
+            '                    </div><a href="javascript:void(0);" id="btnForgot">Forgot Password Portal.</a>';
 
         $('#divSignIn').html(htmlUserName);
+
+        $('#username').focus();
 
         localStorage.setItem('LoginFalse', 0);
     });
@@ -352,6 +354,11 @@
             }
 
         }
+    });
+
+    // Forgot Password
+    $(document).on('click','#btnForgot',function () {
+
     });
 
     function loginForm() {
@@ -535,7 +542,7 @@
 
         $('#modalGlobal').on('shown.bs.modal', function () {
             $('#formNewPassword').focus();
-        })
+        });
     }
 
     function updatePassword(data){
