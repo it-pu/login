@@ -12,6 +12,7 @@
 
 
 <link href="<?php echo base_url(); ?>assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<link href="<?php echo base_url(); ?>assets/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" id="bootstrap-css">
 
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 <link href="<?php echo base_url(); ?>assets/css/animate.css" rel="stylesheet">
@@ -124,6 +125,12 @@
         border-right: 1.3px solid #fff;
     }
 
+    .fa-envelope {
+        margin-right: 5px;
+        padding-right: 10px;
+        border-right: 1.3px solid #fff;
+    }
+
     #btnLoginWithGoogle {
 
     }
@@ -197,7 +204,6 @@
 
             <div class="row">
                 <div class="col-md-12" id="divSignIn"></div>
-
                 <hr style="margin-bottom: 5px;"/>
             </div>
 
@@ -206,7 +212,7 @@
                     <a href="<?php echo base_url('assets/documents/Academic_Calendar.pdf'); ?>" target="_blank" class="btn btn-block btn-info" style="margin-top: 10px;">Academic Calendar</a>
                 </div>
                 <div class="col-md-6">
-                    <a href="<?php echo base_url('assets/documents/Panduan_KRS_Online_Student.pdf'); ?>" target="_blank" class="btn btn-block btn-success" style="margin-top: 10px;">Manual KRS Online</a>
+                    <a href="<?php echo base_url('assets/documents/KRSOnlineStudent.pdf'); ?>" target="_blank" class="btn btn-block btn-success" style="margin-top: 10px;">Manual KRS Online</a>
                 </div>
             </div>
 
@@ -259,7 +265,7 @@
             '                            <button type="submit" class="btn btn-primary" id="btnLoginCheckUser">Next <i class="fa fa-angle-right"></i></button>' +
             '                        </div>' +
             '                        <hr/>' +
-            '                        <a href="'+googleBtn+'" class="btn btn-default btn-default-danger btn-block" id="btnLoginWithGoogle"><i class="fa fa-envelope"></i> Sign In With Email</a>' +
+            '                        <a href="'+googleBtn+'" class="btn btn-danger btn-block" id="btnLoginWithGoogle"><i class="fa fa-envelope"></i> Sign In With Email</a>' +
             '<span style="float: right;color: #8c8989;">Use email @podomorouniversity.ac.id</span>' +
             '                        <br/>' +
             '                    </div><a href="javascript:void(0);" id="btnForgot">Forgot Password Portal.</a>';
@@ -361,6 +367,38 @@
     // Forgot Password
     $(document).on('click','#btnForgot',function () {
 
+        var htmlBody = '<div class="row">' +
+            '<div class="col-md-12">' +
+            '<div class="form-group">' +
+            '<input class="form-control" id="formForgotUsername" placeholder="Input username..." /> ' +
+            '</div>' +
+            '<div class="form-group">' +
+            '<div class="input-group">' +
+            '  <input type="text" class="form-control" placeholder="Input your emial..." aria-describedby="basic-addon2">' +
+            '  <span class="input-group-addon" id="basic-addon2">@podomorouniversity.ac.id</span>' +
+            '</div>' +
+            '</div>' +
+            '</div>' +
+            '<div class="col-md-12" style="text-align: right;">' +
+            '<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button> ' +
+            '<button type="button" class="btn btn-success btn-sm" data-dismiss="modal">Submit</button> ' +
+
+            '</div>' +
+            '</div>';
+
+        $('#modalGlobal .modal-header').addClass('hide');
+        $('#modalGlobal .modal-dialog').css('max-width','415px');
+        $('#modalGlobal .modal-footer').addClass('hide');
+        $('#modalGlobal .modal-body').html(htmlBody);
+
+        $('#modalGlobal').modal({
+            'backdrop' : 'static',
+            'show' : true
+        });
+
+        $('#modalGlobal').on('shown.bs.modal', function () {
+            $('#formNewPassword').focus();
+        });
     });
 
     function loginForm() {
@@ -421,7 +459,7 @@
                                 '                        </div><div id="divCaptcha"></div>' +
                                 '                        <div style="text-align: right;">' +
                                 '                            <button type="button" class="btn btn-default" id="btnBackLogin"><i class="fa fa-angle-left"></i> Back</button> | ' +
-                                '                            <button type="submit" class="btn btn-success" id="btnLoginCheckPassword">Sign In <i class="fa fa-angle-right"></i></button>' +
+                                '                            <button type="submit" class="btn btn-primary" id="btnLoginCheckPassword">Sign In <i class="fa fa-angle-right"></i></button>' +
                                 '                        </div>' +
                                 '                    </div>';
 
@@ -534,6 +572,7 @@
             '    </div>';
 
         $('#modalGlobal .modal-header').addClass('hide');
+        $('#modalGlobal .modal-dialog').css('max-width','600px');
         $('#modalGlobal .modal-footer').addClass('hide');
         $('#modalGlobal .modal-body').html(htmlBody);
 
@@ -601,6 +640,7 @@
 
 
         $('#modalGlobal .modal-header').addClass('hide');
+        $('#modalGlobal .modal-dialog').css('max-width','600px');
         $('#modalGlobal .modal-footer').addClass('hide');
         $('#modalGlobal .modal-body').html('<div class="row">'+htmlBody+'</div>');
         $('#formNewPassword').focus();
