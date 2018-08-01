@@ -12,6 +12,7 @@
 
 
 <link href="<?php echo base_url(); ?>assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<link href="<?php echo base_url(); ?>assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 
 <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 <link href="<?php echo base_url(); ?>assets/css/animate.css" rel="stylesheet">
@@ -85,8 +86,7 @@
 
 
     body {
-        /*background: #d4dde6;*/
-        background: #607d8b;
+        background: #d4dde6;
     }
 
     .center {
@@ -175,54 +175,38 @@
     }
 </style>
 
-<body>
+<body style="background: #607D8B;">
 
 
 <!-- <div style="margin-top: 70px;"></div> -->
 
-<div id="login-overlay" class="modal-dialog center" style="z-index:0;max-width: 405px;">
-    <div class="modal-content">
-        <!-- <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-            <h4 class="modal-title" id="myModalLabel">Login to site.com</h4>
-        </div> -->
-        <div class="modal-body" style="padding-bottom:0px;">
-
-            <div class="row">
-                <div class="col-xs-12" style="text-align: center;margin: 10px;">
-                    <img src="assets/icon/logo.jpg" style="max-width: 200px;">
-                    <hr/>
-                </div>
+<div class="container" style="margin-top: 30px;">
+    <div class="row">
+        <div class="col-md-4">
+            <div class="thumbnail" style="min-height: 100px;border-top: 7px solid #d71a20;padding-top: 20px;">
+                <img src="assets/icon/logo.jpg" style="max-width: 200px;">
+                <hr/>
+                <div id="divSignIn"></div>
             </div>
+        </div>
+        <div class="col-md-8">
+            <div class="thumbnail" style="min-height: 100px;padding: 10px;">
 
-            <div class="row">
-                <div class="col-md-12" id="divSignIn"></div>
+                <ul class="nav nav-tabs">
+                    <li role="presentation" class="active"><a href="#">Home</a></li>
+                    <li role="presentation"><a href="#">Event</a></li>
+                    <li role="presentation"><a href="#">News</a></li>
+                    <li role="presentation"><a href="#">Announcement</a></li>
+                </ul>
 
-                <hr style="margin-bottom: 5px;"/>
-            </div>
 
-            <div class="row">
-                <div class="col-md-6">
-                    <a href="<?php echo base_url('assets/documents/Academic_Calendar.pdf'); ?>" target="_blank" class="btn btn-block btn-info" style="margin-top: 10px;">Academic Calendar</a>
-                </div>
-                <div class="col-md-6">
-                    <a href="<?php echo base_url('assets/documents/Panduan_KRS_Online_Student.pdf'); ?>" target="_blank" class="btn btn-block btn-success" style="margin-top: 10px;">Manual KRS Online</a>
-                </div>
-            </div>
-
-            <div class="row">
-                <div class="col-xs-12" style="text-align: center;font-size: 12px;color: #9E9E9E;">
-                    <hr style="margin-bottom:10px;" />
-                    <p>© 2018 Universitas Agung Podomoro
-                        <br/> Version 2.0.1
-                    </p>
-                </div>
             </div>
         </div>
     </div>
-
-<!--    <button class="btn btn-info">Ok</button>-->
 </div>
+
+
+
 
 
 
@@ -260,7 +244,7 @@
             '                        </div>' +
             '                        <hr/>' +
             '                        <a href="'+googleBtn+'" class="btn btn-default btn-default-danger btn-block" id="btnLoginWithGoogle"><i class="fa fa-envelope"></i> Sign In With Email</a>' +
-            '<span style="float: right;color: #8c8989;">Use email @podomorouniversity.ac.id</span>' +
+            '' +
             '                        <br/>' +
             '                    </div><a href="javascript:void(0);" id="btnForgot">Forgot Password Portal.</a>';
 
