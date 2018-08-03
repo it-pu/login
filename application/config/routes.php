@@ -24,3 +24,9 @@ $route['auth/logMeOut'] = 'c_login/logMeOut';
 $route['sendmail'] = 'c_login/sendmail';
 $route['callback'] = 'c_login/callback';
 
+// ===== Reset Password
+$route['uath/resetPassword'] = 'c_login/resetPassword';
+$route['resetPasswordpage'] = 'c_login/resetPasswordpage';
+$route['resetPasswordAction'] = 'c_login/resetPasswordAct';
+
+

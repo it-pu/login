@@ -256,6 +256,7 @@
 
         window.googleBtn = '<?php echo $loginURL; ?>';
         window.base_url_server = '<?php echo base_url(); ?>';
+        window.base_url_pas = '<?php echo url_pas; ?>';
         window.htmlUserName = '<div class="well" id="formWellUsername">' +
             '                        <div class="form-group">' +
             '                            <label for="username" class="control-label">Username</label>' +
@@ -268,7 +269,7 @@
             '                        <a href="'+googleBtn+'" class="btn btn-danger btn-block" id="btnLoginWithGoogle"><i class="fa fa-envelope"></i> Sign In With Email</a>' +
             '<span style="float: right;color: #8c8989;">Use email @podomorouniversity.ac.id</span>' +
             '                        <br/>' +
-            '                    </div><a href="javascript:void(0);" id="btnForgot">Forgot Password Portal.</a>';
+            '                    </div><a href="javascript:void(0);" class="" id="btnForgot">Forgot Password Portal.</a>';
 
         $('#divSignIn').html(htmlUserName);
 
@@ -374,14 +375,14 @@
             '</div>' +
             '<div class="form-group">' +
             '<div class="input-group">' +
-            '  <input type="text" class="form-control" placeholder="Input your emial..." aria-describedby="basic-addon2">' +
+            '  <input type="text" class="form-control" id="formForgotEmailPU" placeholder="Input your emial..." aria-describedby="basic-addon2">' +
             '  <span class="input-group-addon" id="basic-addon2">@podomorouniversity.ac.id</span>' +
             '</div>' +
             '</div>' +
             '</div>' +
             '<div class="col-md-12" style="text-align: right;">' +
-            '<button type="button" class="btn btn-default btn-sm" data-dismiss="modal">Close</button> ' +
-            '<button type="button" class="btn btn-success btn-sm" data-dismiss="modal">Submit</button> ' +
+            '<button type="button" class="btn btn-default btn-sm" id="btnCloseForgotPassword" data-dismiss="modal">Close</button> ' +
+            '<button type="button" class="btn btn-success btn-sm" id="btnSubmitForgotPassword">Submit</button> ' +
 
             '</div>' +
             '</div>';
@@ -399,6 +400,41 @@
         $('#modalGlobal').on('shown.bs.modal', function () {
             $('#formNewPassword').focus();
         });
+    });
+
+    $(document).on('click','#btnSubmitForgotPassword',function () {
+        var formForgotUsername = $('#formForgotUsername').val();
+        var formForgotEmailPU = $('#formForgotEmailPU').val();
+
+        if(formForgotUsername!='' && formForgotUsername!=null
+            && formForgotEmailPU!='' && formForgotEmailPU!=null){
+
+            loading_button('#btnSubmitForgotPassword');
+            $('#formForgotUsername,#formForgotEmailPU,#btnCloseForgotPassword').prop('disabled',true);
+
+            var url = base_url_server+'uath/resetPassword?username='+formForgotUsername+'&email='+formForgotEmailPU;
+
+            $.getJSON(url,function (jsonResult) {
+                console.log(jsonResult);
+                if(jsonResult.length>0)
+                {
+                    var url_send = base_url_pas+'__resetPasswordUser?token='+jsonResult[0].Token+'&f='+jsonResult[0].Flag+'&d='+jsonResult[0].Date;
+                    $.get(url_send,function (result) {
+                        if(result=='0'){
+                            toastr.error('Email not send','Error');
+                        } else {
+                            setTimeout(function () {
+                                window.location.href = base_url_server;
+                            },500);
+                        }
+                    });
+
+                } else {
+                    toastr.error('Username & Email not match','Error');
+                }
+            });
+        }
+
     });
 
     function loginForm() {

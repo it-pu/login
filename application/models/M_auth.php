@@ -305,4 +305,33 @@ class M_auth extends CI_Model {
         return $dataPosition;
     }
 
+    public function getUserToResetPassword($username,$email){
+
+        $dataMhs = $this->db->query('SELECT ast.Password AS Token FROM db_academic.auth_students ast 
+                                            WHERE ast.NPM = "'.$username.'" AND ast.EmailPU LIKE "'.$email.'"  LIMIT 1')->result_array();
+
+
+
+        $result = $dataMhs;
+        if(count($dataMhs)<=0){
+            $dataLecturer = $this->db->query('SELECT em.Password AS Token FROM db_employees.employees em 
+                                                      WHERE em.NIP = "'.$username.'" 
+                                                          AND em.EmailPU LIKE "'.$email.'" LIMIT 1')->result_array();
+            $result = $dataLecturer;
+        }
+
+        if(count($result)>0){
+
+            date_default_timezone_set("Asia/Jakarta");
+
+
+            $label = (count($dataMhs)>0) ? 'st' : 'em';
+            $result[0]['Date'] = date("Y-m-d H:m:s");
+            $result[0]['Flag'] = $label;
+        }
+
+        return $result;
+
+    }
+
 }

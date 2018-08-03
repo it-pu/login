@@ -409,4 +409,60 @@ class C_login extends CI_Controller {
         return $result;
     }
 
+    // ======= Reset Password ========
+    public function resetPassword(){
+
+        header('Access-Control-Allow-Origin: *');
+        header('Content-Type: application/json');
+
+        $Username = $this->input->get('username');
+        $Email = $this->input->get('email');
+
+        if($Username!='' && $Username!=null && $Email!='' && $Email!=null){
+
+            // Cek apakah user ada
+            $dataUser = $this->m_auth->getUserToResetPassword($Username,$Email.'@podomorouniversity.ac.id');
+
+            return print_r(json_encode($dataUser));
+
+        }
+
+    }
+
+    public function resetPasswordpage(){
+
+        $token = $this->input->get('token');
+        $key = "chPass";
+        $data_arr = (array) $this->jwt->decode($token,$key);
+
+        $data['data_arr'] = $data_arr;
+
+        $this->load->view('resetPassword',$data);
+
+    }
+
+    public function resetPasswordAct(){
+        header('Access-Control-Allow-Origin: *');
+        header('Content-Type: application/json');
+
+        $token = $this->input->post('token');
+        $key = "L0G1N-3R0";
+        $data_arr = (array) $this->jwt->decode($token,$key);
+
+        $pass = $this->genratePassword($data_arr['Username'],$data_arr['NewPassword']);
+
+        if($data_arr['Flag']=='em'){
+            $this->db->set('Password', $pass);
+            $this->db->where('NIP',$data_arr['Username']);
+            $this->db->update('db_employees.employees');
+        } else if($data_arr['Flag']=='st'){
+            $this->db->set('Password', $pass);
+            $this->db->where('NPM',$data_arr['Username']);
+            $this->db->update('db_academic.auth_students');
+        }
+
+        return print_r(1);
+
+    }
+
 }
