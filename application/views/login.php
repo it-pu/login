@@ -269,7 +269,7 @@
             '                        <a href="'+googleBtn+'" class="btn btn-danger btn-block" id="btnLoginWithGoogle"><i class="fa fa-envelope"></i> Sign In With Email</a>' +
             '<span style="float: right;color: #8c8989;">Use email @podomorouniversity.ac.id</span>' +
             '                        <br/>' +
-            '                    </div><a href="javascript:void(0);" class="" id="btnForgot">Forgot Password Portal.</a>';
+            '                    </div><a href="javascript:void(0);" class="hide" id="btnForgot">Forgot Password Portal.</a>';
 
         $('#divSignIn').html(htmlUserName);
 
