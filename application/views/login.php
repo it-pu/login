@@ -196,7 +196,7 @@
         <div class="modal-body" style="padding-bottom:0px;">
 
             <div class="row">
-                <div class="col-xs-12" style="text-align: center;margin: 10px;">
+                <div class="col-xs-12" style="text-align: center;">
                     <img src="assets/icon/logo.jpg" style="max-width: 200px;">
                     <hr/>
                 </div>
@@ -204,10 +204,13 @@
 
             <div class="row">
                 <div class="col-md-12" id="divSignIn"></div>
-                <hr style="margin-bottom: 5px;"/>
+
             </div>
 
             <div class="row">
+                <div class="col-md-12">
+                    <hr style="margin-bottom: 5px;">
+                </div>
                 <div class="col-md-6">
                     <a href="<?php echo base_url('assets/documents/Academic_Calendar.pdf'); ?>" target="_blank" class="btn btn-block btn-info" style="margin-top: 10px;">Academic Calendar</a>
                 </div>
@@ -269,7 +272,7 @@
             '                        <a href="'+googleBtn+'" class="btn btn-danger btn-block" id="btnLoginWithGoogle"><i class="fa fa-envelope"></i> Sign In With Email</a>' +
             '<span style="float: right;color: #8c8989;">Use email @podomorouniversity.ac.id</span>' +
             '                        <br/>' +
-            '                    </div><a href="javascript:void(0);" class="hide" id="btnForgot">Forgot Password Portal.</a>';
+            '                    </div><a href="javascript:void(0);" class="" id="btnForgot">Forgot Password Portal.</a>';
 
         $('#divSignIn').html(htmlUserName);
 
