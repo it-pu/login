@@ -14,7 +14,8 @@
 <link href="<?php echo base_url(); ?>assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <link href="<?php echo base_url(); ?>assets/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" id="bootstrap-css">
 
-<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+<!--<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">-->
+<link href="<?php echo base_url(); ?>assets/fontawesome/css/font-awesome.min.css" rel="stylesheet">
 <link href="<?php echo base_url(); ?>assets/css/animate.css" rel="stylesheet">
 <link href="<?php echo base_url(); ?>assets/toastr/toastr.min.css" rel="stylesheet">
 
@@ -230,6 +231,11 @@
         </div>
     </div>
 
+    <form action="" hidden id="formSubmitLogin" method="post">
+        <input id="formTokenLogin" class="hide" hidden readonly name="token" />
+    </form>
+
+
 <!--    <button class="btn btn-info">Ok</button>-->
 </div>
 
@@ -272,7 +278,7 @@
             '                        <a href="'+googleBtn+'" class="btn btn-danger btn-block" id="btnLoginWithGoogle"><i class="fa fa-envelope"></i> Sign In With Email</a>' +
             '<span style="float: right;color: #8c8989;">Use email @podomorouniversity.ac.id</span>' +
             '                        <br/>' +
-            '                    </div><a href="javascript:void(0);" class="" id="btnForgot">Forgot Password Portal.</a>';
+            '                    </div><a href="javascript:void(0);" class="hide" id="btnForgot">Forgot Password Portal.</a>';
 
         $('#divSignIn').html(htmlUserName);
 
@@ -544,6 +550,8 @@
             };
             var token = jwt_encode(data);
             $.post(url,{token:token},function (jsonResult) {
+
+
                 if(jsonResult.Status=='0'){
 
                     toastr.warning(jsonResult.Message,'Warning');
@@ -569,7 +577,13 @@
                 } else if(jsonResult.Status=='1'){
 
                     if(jsonResult.url_direct.length==1){
-                        window.location.href = jsonResult.url_direct[0].url;
+
+                        $('#formSubmitLogin').attr('action',jsonResult.url_direct[0].url_login);
+                        $('#formTokenLogin').val(jsonResult.url_direct[0].token);
+
+                        $('#formSubmitLogin').submit();
+
+
                     } else if(jsonResult.url_direct.length>1){
                         loadPagePanel(jsonResult.url_direct);
                     }
@@ -633,13 +647,18 @@
 
             $('#modalGlobal').modal('hide');
 
-            if(jsonResult.url_direct.length==1){
-                window.location.href = jsonResult.url_direct[0].url;
-            } else if(jsonResult.url_direct.length>1){
-                setTimeout(function () {
+
+            setTimeout(function () {
+                if(jsonResult.url_direct.length==1){
+                    $('#formSubmitLogin').attr('action',jsonResult.url_direct[0].url_login);
+                    $('#formTokenLogin').val(jsonResult.url_direct[0].token);
+                    $('#formSubmitLogin').submit();
+                } else if(jsonResult.url_direct.length>1){
                     loadPagePanel(jsonResult.url_direct);
-                },1000)
-            }
+                }
+            },500);
+
+
 
         });
 
@@ -652,7 +671,7 @@
             var h = '';
             if(ArrPage[i].flag=='lec'){
                 h = '<div class="col-md-6">' +
-                    '    <a href="'+ArrPage[i].url+'" class="a-link">' +
+                    '    <a href="javascript:void(0);" data-url="'+ArrPage[i].url_login+'" data-token="'+ArrPage[i].token+'" class="a-link">' +
                     '        <div class="thumbnail">' +
                     '            <img src="assets/icon/lecturer.png" />' +
                     '            <h4>Portal Lecturer</h4>' +
@@ -662,7 +681,7 @@
             }
             else {
                 h = '<div class="col-md-6">' +
-                    '    <a href="'+ArrPage[i].url+'" class="a-link">' +
+                    '    <a href="javascript:void(0);" data-url="'+ArrPage[i].url_login+'" data-token="'+ArrPage[i].token+'" class="a-link">' +
                     '        <div class="thumbnail">' +
                     '            <img src="assets/icon/employee.png" />' +
                     '            <h4>P - Cam</h4>' +
@@ -675,9 +694,6 @@
         }
 
 
-
-
-
         $('#modalGlobal .modal-header').addClass('hide');
         $('#modalGlobal .modal-dialog').css('max-width','600px');
         $('#modalGlobal .modal-footer').addClass('hide');
@@ -688,6 +704,20 @@
             'show' : true
         });
     }
+
+    $(document).on('click','.a-link',function () {
+        var url_login = $(this).attr('data-url');
+        var token = $(this).attr('data-token');
+
+        if(url_login!='' && url_login!=null && token!='' && token!=null){
+            $('#formSubmitLogin').attr('action',url_login);
+            $('#formTokenLogin').val(token);
+
+            $('#formSubmitLogin').submit();
+
+        }
+
+    });
 
     function loading_button(element) {
         $(''+element).html('<i class="fa fa-refresh fa-spin fa-fw right-margin"></i> Loading...');

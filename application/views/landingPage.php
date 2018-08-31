@@ -12,7 +12,7 @@
 
 
 <link href="<?php echo base_url(); ?>assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-
+<link href="<?php echo base_url(); ?>assets/fontawesome/css/font-awesome.min.css" rel="stylesheet">
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="<?php echo base_url(); ?>assets/js/jquery.min.js"></script>
 <!--<script type="text/javascript" src="--><?php //echo base_url('assets/template/js/libs/jquery-1.10.2.min.js'); ?><!--"></script>-->
@@ -46,6 +46,10 @@
         cursor: pointer;
     }
 
+    .a-link {
+        display: block;
+        cursor: pointer;
+    }
 </style>
 
 <body>
@@ -54,15 +58,9 @@
     <div class="row">
 
     <?php if($User==1 || $User=='1'){ ?>
-            <div class="col-md-4 col-md-offset-4">
+            <div class="col-xs-4 col-md-offset-4">
                 <div class="thumbnail" style="padding: 20px;text-align: center;">
-                    <img data-src="<?php echo $Url_photo; ?>" class="img-fitter img-circle avatar" width="70" height="70" />
-                    <h4 style="margin-bottom:3px"><b><?php echo $Name; ?></b></h4>
-                    <span><?php echo $Username; ?></span>
-
-                    <hr/>
-                    <button type="button" id="btnSignInNow" class="btn btn-sm btn-block btn-success">Sign In Now</button>
-                    <a href="<?php echo base_url(); ?>" class="btn btn-sm btn-block btn-default">Sign Out</a>
+                    <i class="fa fa-refresh fa-spin fa-fw right-margin"></i> Loading page...
                 </div>
             </div>
 
@@ -77,7 +75,7 @@
             if($UserData['flag']=='lec'){
             ?>
                 <div class="col-md-4">
-                    <a href="<?php echo $UserData['url']; ?>">
+                    <a href="javascript:void(0);" class="a-link" data-url="<?php echo $UserData['url_login']; ?>" data-token="<?php echo $UserData['token']; ?>">
                         <div class="thumbnail" style="text-align: center;padding: 20px;">
                             <img src="<?php echo base_url('assets/icon/lecturer.png') ?>">
                             <hr/>
@@ -86,9 +84,9 @@
                     </a>
                 </div>
 
-    <?php } else { ?>
+    <?php } else {  ?>
                 <div class="col-md-4">
-                    <a href="<?php echo $UserData['url']; ?>">
+                    <a href="javascript:void(0);" class="a-link" data-url="<?php echo $UserData['url_login']; ?>" data-token="<?php echo $UserData['token']; ?>">
                         <div class="thumbnail" style="text-align: center;padding: 20px">
                             <img src="<?php echo base_url('assets/icon/employee.png') ?>">
                             <hr/>
@@ -105,12 +103,33 @@
     </div>
 </div>
 
+<form action="" hidden id="formSubmitLogin" method="post">
+    <input id="formTokenLogin" class="hide" hidden readonly name="token" />
+</form>
+
 <script>
 
-    $('#btnSignInNow').click(function(){
-        var url = "<?php echo $url; ?>";
-        window.location.href = url;
+    $(document).ready(function () {
+        var user = "<?php echo $User; ?>";
+        if(user==1 || user=='1'){
+            var url_login = "<?php echo $url_login; ?>";
+            var token = "<?php echo $token; ?>";
+            $('#formSubmitLogin').attr('action',url_login);
+            $('#formTokenLogin').val(token);
+            $('#formSubmitLogin').submit();
+        }
     });
+
+    $(document).on('click','.a-link',function () {
+        var url_login = $(this).attr('data-url');
+        var token = $(this).attr('data-token');
+        if(url_login!='' && url_login!=null && token!='' && token!=null){
+            $('#formSubmitLogin').attr('action',url_login);
+            $('#formTokenLogin').val(token);
+            $('#formSubmitLogin').submit();
+        }
+    });
+
 </script>
 
 </body>

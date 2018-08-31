@@ -26,6 +26,8 @@ class M_auth extends CI_Model {
 
             $arp = array(
                 'url' => url_students.'?token='.$token,
+                'url_login' => url_students,
+                'token' => $token,
                 'Name' => $dataStdDetail[0]['Name'],
                 'Username' => $dataStd[0]['NPM'],
                 'Url_photo' => url_pas.'uploads/students/'.$db_.'/'.$dataStdDetail[0]['Photo'],
@@ -33,7 +35,8 @@ class M_auth extends CI_Model {
             );
             array_push($url_direct,$arp);
 
-        } else {
+        }
+        else {
             $dataEmp = $this->db->query('SELECT * FROM db_employees.employees 
                                                 WHERE emailpu LIKE "'.$emailpu.'" LIMIT 1')->result_array();
 
@@ -50,8 +53,11 @@ class M_auth extends CI_Model {
                 $Main = explode('.',$dataEmp[0]['PositionMain']);
                 if($dataEmp[0]['PositionMain']!=null && $dataEmp[0]['PositionMain']!='' && count($Main)>0){
                     $urlp = ($Main[0]==14) ? url_lecturers.'?token='.$token : url_pcam.'?token='.$token ;
+                    $url_login = ($Main[0]==14) ? url_lecturers : url_pcam ;
                     $arp = array(
                         'url' => $urlp,
+                        'url_login' => $url_login,
+                        'token' => $token,
                         'Name' => $dataEmp[0]['Name'],
                         'Username' => $dataEmp[0]['NIP'],
                         'Url_photo' => url_pas.'uploads/employees/'.$dataEmp[0]['Photo'],
@@ -63,8 +69,11 @@ class M_auth extends CI_Model {
                 $Ot1 = explode('.',$dataEmp[0]['PositionOther1']);
                 if($dataEmp[0]['PositionOther1']!=null && $dataEmp[0]['PositionOther1']!='' && count($Ot1)>0){
                     $urlp = ($Ot1[0]==14) ? url_lecturers.'?token='.$token : url_pcam.'?token='.$token ;
+                    $url_login = ($Ot1[0]==14) ? url_lecturers : url_pcam ;
                     $arp = array(
                         'url' => $urlp,
+                        'url_login' => $url_login,
+                        'token' => $token,
                         'Name' => $dataEmp[0]['Name'],
                         'Username' => $dataEmp[0]['NIP'],
                         'Url_photo' => url_pas.'uploads/employees/'.$dataEmp[0]['Photo'],
@@ -76,8 +85,11 @@ class M_auth extends CI_Model {
                 $Ot2 = explode('.',$dataEmp[0]['PositionOther2']);
                 if($dataEmp[0]['PositionOther2']!=null && $dataEmp[0]['PositionOther2']!='' && count($Ot2)>0){
                     $urlp = ($Ot2[0]==14) ? url_lecturers.'?token='.$token : url_pcam.'?token='.$token ;
+                    $url_login = ($Ot2[0]==14) ? url_lecturers : url_pcam ;
                     $arp = array(
                         'url' => $urlp,
+                        'url_login' => $url_login,
+                        'token' => $token,
                         'Name' => $dataEmp[0]['Name'],
                         'Username' => $dataEmp[0]['NIP'],
                         'Url_photo' => url_pas.'uploads/employees/'.$dataEmp[0]['Photo'],
@@ -89,8 +101,11 @@ class M_auth extends CI_Model {
                 $Ot3 = explode('.',$dataEmp[0]['PositionOther3']);
                 if($dataEmp[0]['PositionOther3']!=null && $dataEmp[0]['PositionOther3']!='' && count($Ot3)>0){
                     $urlp = ($Ot3[0]==14) ? url_lecturers.'?token='.$token : url_pcam.'?token='.$token ;
+                    $url_login = ($Ot3[0]==14) ? url_lecturers : url_pcam ;
                     $arp = array(
                         'url' => $urlp,
+                        'url_login' => $url_login,
+                        'token' => $token,
                         'Name' => $dataEmp[0]['Name'],
                         'Username' => $dataEmp[0]['NIP'],
                         'Url_photo' => url_pas.'uploads/employees/'.$dataEmp[0]['Photo'],
