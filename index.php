@@ -55,7 +55,7 @@
  */
 	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
 
-	if($_SERVER['SERVER_NAME']!='localhost') {
+	if($_SERVER['SERVER_NAME']!='localhost' && $_SERVER['SERVER_NAME'] == 'portal.podomorouniversity.ac.id') {
 
         define("url_registration","http://localhost/registeronline/", true);
         define("serverRoot","http://pcam.podomorouniversity.ac.id", true);
@@ -65,7 +65,21 @@
         define("url_lecturers","http://lecturerpu.podomorouniversity.ac.id/uath/__portal4SignIn", true);
         define("url_sign_out","http://portal.podomorouniversity.ac.id", true);
 
-    } else {
+    } 
+    elseif ($_SERVER['SERVER_NAME'] == '10.1.10.230') {
+    		    $port_user = ($_SERVER['SERVER_PORT']!='80') ? ':'.$_SERVER['SERVER_PORT'] : '';
+	            $folder_user = ($_SERVER['SERVER_PORT']!='80') ? 'siak3' : 'puis';
+	            $portal_user = ($_SERVER['SERVER_PORT']!='80') ? 'login3' : 'portal';
+	            define("port",$port_user, true);
+
+	            define("serverRoot","http://10.1.10.230".port."/".$folder_user, true);
+	            define("url_pas","http://10.1.10.230".port."/".$folder_user."/", true);
+	            define("url_pcam",url_pas."uath/__portal4SignIn", true);
+	            define("url_students","http://10.1.10.230".port."/students/uath/__portal4SignIn", true);
+	            define("url_lecturers","http://10.1.10.230".port."/lecturer/uath/__portal4SignIn", true);
+	            define("url_sign_out","http://10.1.10.230".port."/".$portal_user."/", true);
+    }
+    else {
 
         $port_user = ($_SERVER['SERVER_PORT']!='80') ? ':'.$_SERVER['SERVER_PORT'] : '';
         $folder_user = ($_SERVER['SERVER_PORT']!='80') ? 'siak3' : 'puis';
