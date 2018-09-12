@@ -221,7 +221,7 @@ class C_login extends CI_Controller {
 
                 if(count($dataMhs)>0){
 
-                    $logon = $this->loadData_UserLogin('Students',$dataMhs[0]['Year'],$data_arr['Username']);
+                    $logon = $this->loadData_UserLogin('Students',$dataMhs[0]['Year'],$data_arr['Username'],$data_arr['TypeUser']);
                     $result = array(
                         'Status' => 1,
                         'Message' => 'Login success',
@@ -238,6 +238,8 @@ class C_login extends CI_Controller {
         }
 
         else if($data_arr['User']=='Employees') {
+
+
             if($data_arr['Status']=='-1'){
                 $dataEm = $this->db->get_where('db_employees.employees',
                     array(
@@ -273,7 +275,7 @@ class C_login extends CI_Controller {
                         'NIP' => $data_arr['Username'],
                         'Password' => $pass))->result_array();
                 if(count($dataEm)>0){
-                    $logon = $this->loadData_UserLogin('Employees',0,$data_arr['Username']);
+                    $logon = $this->loadData_UserLogin('Employees',0,$data_arr['Username'],$data_arr['TypeUser']);
                     $result = array(
                         'Status' => 1,
                         'Message' => 'Login success',
@@ -324,12 +326,14 @@ class C_login extends CI_Controller {
             $this->db->update('db_employees.employees', $data);
         }
 
-        $result = $this->loadData_UserLogin($data_arr['User'],$data_arr['Year'],$data_arr['Username']);
+        $TypeUser = (isset($data_arr['TypeUser'])) ? $data_arr['TypeUser'] : '';
+
+        $result = $this->loadData_UserLogin($data_arr['User'],$data_arr['Year'],$data_arr['Username'],$TypeUser);
         return print_r(json_encode($result));
 
     }
 
-    private function loadData_UserLogin($User,$Year,$Username){
+    private function loadData_UserLogin($User,$Year,$Username,$TypeUser){
         $url_direct = [];
         if($User=='Students'){
 //            $this->setUserSession_Students($Year,$Username);
@@ -359,63 +363,79 @@ class C_login extends CI_Controller {
 
             $token_passwd = array(
                 'Username' => $dataEmp[0]['NIP'],
+                'TypeUser' => $TypeUser,
                 'Token' => $dataEmp[0]['Password'],
                 'dueDate' => date("Y-m-d")
             );
 
             $token = $this->jwt->encode($token_passwd,'s3Cr3T-G4N');
 
-            $Main = explode('.',$dataEmp[0]['PositionMain']);
-            if($dataEmp[0]['PositionMain']!=null && $dataEmp[0]['PositionMain']!='' && count($Main)>0){
-                $urlp = ($Main[0]==14) ? url_lecturers.'?token='.$token : url_pcam.'?token='.$token ;
-                $urlLogin = ($Main[0]==14) ? url_lecturers : url_pcam ;
+            if($TypeUser=='i'){
+                $urlp = '';
+                $urlLogin = url_pcam ;
                 $arp = array(
                     'url' => $urlp,
                     'url_login' => $urlLogin,
                     'token' => $token,
-                    'flag' => ($Main[0]==14) ? 'lec' : 'emp'
+                    'flag' => 'emp'
                 );
                 array_push($url_direct,$arp);
+            }
+            else {
+                $Main = explode('.',$dataEmp[0]['PositionMain']);
+                if($dataEmp[0]['PositionMain']!=null && $dataEmp[0]['PositionMain']!='' && count($Main)>0){
+                    $urlp = ($Main[0]==14) ? url_lecturers.'?token='.$token : url_pcam.'?token='.$token ;
+                    $urlLogin = ($Main[0]==14) ? url_lecturers : url_pcam ;
+                    $arp = array(
+                        'url' => $urlp,
+                        'url_login' => $urlLogin,
+                        'token' => $token,
+                        'flag' => ($Main[0]==14) ? 'lec' : 'emp'
+                    );
+                    array_push($url_direct,$arp);
+                }
+
+                $Ot1 = explode('.',$dataEmp[0]['PositionOther1']);
+                if($dataEmp[0]['PositionOther1']!=null && $dataEmp[0]['PositionOther1']!='' && count($Ot1)>0){
+                    $urlp = ($Ot1[0]==14) ? url_lecturers.'?token='.$token : url_pcam.'?token='.$token ;
+                    $urlLogin = ($Ot1[0]==14) ? url_lecturers : url_pcam ;
+                    $arp = array(
+                        'url' => $urlp,
+                        'url_login' => $urlLogin,
+                        'token' => $token,
+                        'flag' => ($Ot1[0]==14) ? 'lec' : 'emp'
+                    );
+                    array_push($url_direct,$arp);
+                }
+
+                $Ot2 = explode('.',$dataEmp[0]['PositionOther2']);
+                if($dataEmp[0]['PositionOther2']!=null && $dataEmp[0]['PositionOther2']!='' && count($Ot2)>0){
+                    $urlp = ($Ot2[0]==14) ? url_lecturers.'?token='.$token : url_pcam.'?token='.$token ;
+                    $urlLogin = ($Ot2[0]==14) ? url_lecturers : url_pcam ;
+                    $arp = array(
+                        'url' => $urlp,
+                        'url_login' => $urlLogin,
+                        'token' => $token,
+                        'flag' => ($Ot2[0]==14) ? 'lec' : 'emp'
+                    );
+                    array_push($url_direct,$arp);
+                }
+
+                $Ot3 = explode('.',$dataEmp[0]['PositionOther3']);
+                if($dataEmp[0]['PositionOther3']!=null && $dataEmp[0]['PositionOther3']!='' && count($Ot3)>0){
+                    $urlp = ($Ot3[0]==14) ? url_lecturers.'?token='.$token : url_pcam.'?token='.$token ;
+                    $urlLogin = ($Ot3[0]==14) ? url_lecturers : url_pcam ;
+                    $arp = array(
+                        'url' => $urlp,
+                        'url_login' => $urlLogin,
+                        'token' => $token,
+                        'flag' => ($Ot3[0]==14) ? 'lec' : 'emp'
+                    );
+                    array_push($url_direct,$arp);
+                }
             }
 
-            $Ot1 = explode('.',$dataEmp[0]['PositionOther1']);
-            if($dataEmp[0]['PositionOther1']!=null && $dataEmp[0]['PositionOther1']!='' && count($Ot1)>0){
-                $urlp = ($Ot1[0]==14) ? url_lecturers.'?token='.$token : url_pcam.'?token='.$token ;
-                $urlLogin = ($Ot1[0]==14) ? url_lecturers : url_pcam ;
-                $arp = array(
-                    'url' => $urlp,
-                    'url_login' => $urlLogin,
-                    'token' => $token,
-                    'flag' => ($Ot1[0]==14) ? 'lec' : 'emp'
-                );
-                array_push($url_direct,$arp);
-            }
 
-            $Ot2 = explode('.',$dataEmp[0]['PositionOther2']);
-            if($dataEmp[0]['PositionOther2']!=null && $dataEmp[0]['PositionOther2']!='' && count($Ot2)>0){
-                $urlp = ($Ot2[0]==14) ? url_lecturers.'?token='.$token : url_pcam.'?token='.$token ;
-                $urlLogin = ($Ot2[0]==14) ? url_lecturers : url_pcam ;
-                $arp = array(
-                    'url' => $urlp,
-                    'url_login' => $urlLogin,
-                    'token' => $token,
-                    'flag' => ($Ot2[0]==14) ? 'lec' : 'emp'
-                );
-                array_push($url_direct,$arp);
-            }
-
-            $Ot3 = explode('.',$dataEmp[0]['PositionOther3']);
-            if($dataEmp[0]['PositionOther3']!=null && $dataEmp[0]['PositionOther3']!='' && count($Ot3)>0){
-                $urlp = ($Ot3[0]==14) ? url_lecturers.'?token='.$token : url_pcam.'?token='.$token ;
-                $urlLogin = ($Ot3[0]==14) ? url_lecturers : url_pcam ;
-                $arp = array(
-                    'url' => $urlp,
-                    'url_login' => $urlLogin,
-                    'token' => $token,
-                    'flag' => ($Ot3[0]==14) ? 'lec' : 'emp'
-                );
-                array_push($url_direct,$arp);
-            }
 
         }
 
