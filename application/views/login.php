@@ -547,7 +547,7 @@
                             });
                         } else {
                             $('#btnLoginCheckUser').html('Next <i class="fa fa-angle-right"></i>').prop('disabled',false);
-                            toastr.warning('Plaece Fixing User','Warning');
+                            toastr.warning('Please Fixing User','Warning');
                             $('#username').val('').focus();
                             $('#formWellUsername').animateCss('shake');
                         }
@@ -675,7 +675,7 @@
             '    </div>' +
             '    <div class="col-xs-9">' +
             '    <h4>Hello, '+dataUser.Name+'</h4>' +
-            'Pleace change your password first <i class="fa fa-smile-o" aria-hidden="true"></i>.' +
+            'Please, change your password first <i class="fa fa-smile-o" aria-hidden="true"></i>.' +
             '    <hr/>' +
             '    <div class="form-group">' +
             '    <input type="password" class="form-control" id="formNewPassword" placeholder="New password..." autofocus="autofocus">' +
