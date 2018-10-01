@@ -29,4 +29,8 @@ $route['uath/resetPassword'] = 'c_login/resetPassword';
 $route['resetPasswordpage'] = 'c_login/resetPasswordpage';
 $route['resetPasswordAction'] = 'c_login/resetPasswordAct';
 
+// ===== New Reset Password ====
+$route['resetpassword/(:any)'] = 'c_reset_password/loadpageReset/$1';
+$route['updatepassword'] = 'c_reset_password/updatepassword';
+
 
