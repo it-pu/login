@@ -148,36 +148,7 @@
         }
     });
 
-    $(document).on('keyup','#formNewPasswordRe',function () {
-        checkPassword();
-    });
 
-    $(document).on('blur','#formNewPasswordRe',function () {
-        checkPassword();
-    });
-
-    function checkPassword() {
-        var formNewPassword = $('#formNewPassword').val();
-        var formNewPasswordRe = $('#formNewPasswordRe').val();
-
-        if(formNewPassword!='' && formNewPassword!=null && formNewPasswordRe!='' && formNewPasswordRe!=null){
-            if(formNewPassword==formNewPasswordRe){
-                $('#btnSubmit').prop('disabled',false);
-                $('#formNewPasswordRe').css('border','1px solid green');
-                $('#alertPass').html('<i style="color: green;">Match</i>');
-            } else {
-                $('#btnSubmit').prop('disabled',true);
-                $('#formNewPasswordRe').css('border','1px solid red');
-                $('#alertPass').html('<i style="color: red;">Not match</i>');
-            }
-        }
-
-    }
-
-    function loading_button(element) {
-        $(''+element).html('<i class="fa fa-refresh fa-spin fa-fw right-margin"></i> Loading...');
-        $(''+element).prop('disabled',true);
-    }
 </script>
 
 </body>
