@@ -118,57 +118,81 @@
 
     $('#btnSubmit').click(function () {
         //cek apakah password match
+        saveNewPassword();
+
+    });
+
+    function saveNewPassword() {
         loading_button('#btnSubmit');
 
         var formNewPassword = $('#formNewPassword').val();
         var formNewPasswordRe = $('#formNewPasswordRe').val();
-        if(formNewPassword!='' && formNewPassword!=null && formNewPasswordRe!='' && formNewPasswordRe!=null && formNewPassword==formNewPasswordRe){
+        if(formNewPassword!='' && formNewPassword!=null && formNewPasswordRe!='' && formNewPasswordRe!=null){
 
-            // Cek apakah password < 8 karakter
-            if(formNewPassword.length>=8){
-                var url = "<?php echo base_url('updatepassword'); ?>"
-                var formToken = $('#formToken').val();
+            if(formNewPassword==formNewPasswordRe){
+                // Cek apakah password < 8 karakter
+                if(formNewPassword.length>=8){
+                    var url = "<?php echo base_url('updatepassword'); ?>"
+                    var formToken = $('#formToken').val();
 
-                var data_arr = jwt_decode(formToken,'UAP)(*');
+                    var data_arr = jwt_decode(formToken,'UAP)(*');
 
-                // Cek due date
-                var Date = data_arr.DueDate.split(' ')[0].trim();
-                if(Date == moment().format('YYYY-MM-DD')){
+                    // Cek due date
+                    var Date = data_arr.DueDate.split(' ')[0].trim();
+                    if(Date == moment().format('YYYY-MM-DD')){
 
 
 
-                    data_arr.Password = formNewPassword;
-                    var Username = (data_arr.Type=='std') ? data_arr.NPM : data_arr.NIP;
-                    var DB = (data_arr.Type=='std') ? 'db_academic.auth_students' : 'db_emplyees.employees';
-                    var data = {
-                        DB : DB,
-                        Type : data_arr.Type,
-                        Username : Username,
-                        Password : formNewPassword
-                    };
-                    var token = jwt_encode(data);
-                    $.post(url,{token:token},function (result) {
-                        toastr.success('Password Saved','Success');
-                        setTimeout(function () {
-                            window.location.href="<?php echo base_url(); ?>";
-                        },500);
-                    });
-                } else {
-                    toastr.error('Token Expired','Error');
+                        data_arr.Password = formNewPassword;
+                        var Username = (data_arr.Type=='std') ? data_arr.NPM : data_arr.NIP;
+                        var DB = (data_arr.Type=='std') ? 'db_academic.auth_students' : 'db_employees.employees';
+                        var data = {
+                            DB : DB,
+                            Type : data_arr.Type,
+                            Username : Username,
+                            Password : formNewPassword
+                        };
+                        var token = jwt_encode(data);
+                        $.post(url,{token:token},function (result) {
+                            toastr.success('Password Saved','Success');
+                            setTimeout(function () {
+                                window.location.href="<?php echo base_url(); ?>";
+                            },500);
+                        });
+                    } else {
+                        toastr.error('Token Expired','Error');
+                    }
+
                 }
-
+                else {
+                    toastr.error('Password less than 8 character','Error');
+                }
             } else {
-                toastr.error('Password less than 8 character','Error');
+                toastr.error('Password and Re-password not match','Error');
             }
+
+
         } else {
-            toastr.error('Password and Re-password not match','Error');
+
+            if(formNewPasswordRe=='' || formNewPasswordRe==null) {
+                $('#formNewPassword').css('border','1px solid red');
+                setTimeout(function (args) {
+                    $('#formNewPassword').css('border','1px solid #ccc');
+                },1000);
+            }
+
+            if(formNewPasswordRe=='' || formNewPasswordRe==null){
+                $('#formNewPasswordRe').css('border','1px solid red');
+                setTimeout(function (args) {
+                    $('#formNewPasswordRe').css('border','1px solid #ccc');
+                },1000);
+            }
         }
 
         setTimeout(function (args) {
             $('#btnSubmit').html('Submit').prop('disabled',true);
         },1000);
-
-    });
+    }
 
     $(document).on('keyup','#formNewPassword',function () {
         countChar();
@@ -195,8 +219,15 @@
         checkPassword();
     });
 
-    $(document).on('blur','#formNewPasswordRe',function () {
+    $(document).on('blur','#formNewPasswordRe,#formNewPassword',function () {
         checkPassword();
+    });
+
+    $(document).on('keypress','#formNewPasswordRe,#formNewPasswordRe',function (e) {
+        if (e.which == 13) {
+            saveNewPassword();
+            return false;    //<---- Add this line
+        }
     });
 
     function checkPassword() {
