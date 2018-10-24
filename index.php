@@ -55,48 +55,45 @@
  */
 	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
 
-	if($_SERVER['SERVER_NAME']!='localhost' && $_SERVER['SERVER_NAME'] == 'portal.podomorouniversity.ac.id') {
+	$ServerName = $_SERVER['SERVER_NAME'];
+	switch ($ServerName) {
+		case 'localhost':
+			$port_user = ($_SERVER['SERVER_PORT']!='80') ? ':'.$_SERVER['SERVER_PORT'] : '';
+			$folder_user = ($_SERVER['SERVER_PORT']!='80') ? 'siak3' : 'puis';
+			$portal_user = ($_SERVER['SERVER_PORT']!='80') ? 'login3' : 'portal';
+			define("port",$port_user, true);
 
-        define("url_registration","http://localhost/registeronline/", true);
-        define("serverRoot","http://pcam.podomorouniversity.ac.id", true);
-        define("url_pas","http://pcam.podomorouniversity.ac.id/", true);
-        define("url_pcam","http://pcam.podomorouniversity.ac.id/uath/__portal4SignIn", true);
-        define("url_students","http://studentpu.podomorouniversity.ac.id/uath/__portal4SignIn", true);
-        define("url_lecturers","http://lecturerpu.podomorouniversity.ac.id/uath/__portal4SignIn", true);
-        define("url_sign_out","http://portal.podomorouniversity.ac.id", true);
+			define("serverRoot","http://localhost".port."/".$folder_user, true);
+			define("url_pas","http://localhost".port."/".$folder_user."/", true);
+			define("url_pcam",url_pas."uath/__portal4SignIn", true);
+			define("url_students","http://localhost".port."/students/uath/__portal4SignIn", true);
+			define("url_lecturers","http://localhost".port."/lecturer/uath/__portal4SignIn", true);
+			define("url_sign_out","http://localhost".port."/".$portal_user."/", true);
 
-    } 
-    elseif ($_SERVER['SERVER_NAME'] == '10.1.10.230' || $_SERVER['SERVER_NAME'] ==  'demo.web.podomorouniversity.ac.id') {
-    		    $port_user = ($_SERVER['SERVER_PORT']!='80') ? ':'.$_SERVER['SERVER_PORT'] : '';
-	            $folder_user = ($_SERVER['SERVER_PORT']!='80') ? 'siak3' : 'puis';
-	            $portal_user = ($_SERVER['SERVER_PORT']!='80') ? 'login3' : 'portal';
-	            define("port",$port_user, true);
-
-	            define("serverRoot","http://".$_SERVER['SERVER_NAME'].port."/".$folder_user, true);
-	            define("url_pas","http://".$_SERVER['SERVER_NAME'].port."/".$folder_user."/", true);
-	            define("url_pcam",url_pas."uath/__portal4SignIn", true);
-	            define("url_students","http://".$_SERVER['SERVER_NAME'].port."/students/uath/__portal4SignIn", true);
-	            define("url_lecturers","http://".$_SERVER['SERVER_NAME'].port."/lecturer/uath/__portal4SignIn", true);
-	            define("url_sign_out","http://".$_SERVER['SERVER_NAME'].port."/".$portal_user."/", true);
-    }
-    else {
-
-        $port_user = ($_SERVER['SERVER_PORT']!='80') ? ':'.$_SERVER['SERVER_PORT'] : '';
-        $folder_user = ($_SERVER['SERVER_PORT']!='80') ? 'siak3' : 'puis';
-        $portal_user = ($_SERVER['SERVER_PORT']!='80') ? 'login3' : 'portal';
-        define("port",$port_user, true);
-
-        define("serverRoot","http://localhost".port."/".$folder_user, true);
-        define("url_pas","http://localhost".port."/".$folder_user."/", true);
-        define("url_pcam",url_pas."uath/__portal4SignIn", true);
-        define("url_students","http://localhost".port."/students/uath/__portal4SignIn", true);
-        define("url_lecturers","http://localhost".port."/lecturer/uath/__portal4SignIn", true);
-        define("url_sign_out","http://localhost".port."/".$portal_user."/", true);
-
-    }
-
-
-
+			break;
+		case 'portal.podomorouniversity.ac.id':
+			define("url_registration","http://admission.podomorouniversity.ac.id/", true);
+	        define("serverRoot","http://pcam.podomorouniversity.ac.id", true);
+	        define("url_pas","http://pcam.podomorouniversity.ac.id/", true);
+	        define("url_pcam","http://pcam.podomorouniversity.ac.id/uath/__portal4SignIn", true);
+	        define("url_students","http://studentpu.podomorouniversity.ac.id/uath/__portal4SignIn", true);
+	        define("url_lecturers","http://lecturerpu.podomorouniversity.ac.id/uath/__portal4SignIn", true);
+	        define("url_sign_out","http://portal.podomorouniversity.ac.id", true);
+			
+			break;
+		case 'demo.portal.podomorouniversity.ac.id':
+			define("url_registration","http://demo.admission.podomorouniversity.ac.id/", true);
+	        define("serverRoot","http://demo.pcam.podomorouniversity.ac.id", true);
+	        define("url_pas","http://demo.pcam.podomorouniversity.ac.id/", true);
+	        define("url_pcam","http://demo.pcam.podomorouniversity.ac.id/uath/__portal4SignIn", true);
+	        define("url_students","http://demo.studentpu.podomorouniversity.ac.id/uath/__portal4SignIn", true);
+	        define("url_lecturers","http://demo.lecturerpu.podomorouniversity.ac.id/uath/__portal4SignIn", true);
+	        define("url_sign_out","http://demo.portal.podomorouniversity.ac.id", true);
+			break;	
+		default:
+			# code...
+			break;
+	}
 
 
 /*
