@@ -54,7 +54,6 @@
  * NOTE: If you change these, also change the error_reporting() code below
  */
 	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
-
 	$ServerName = $_SERVER['SERVER_NAME'];
 	switch ($ServerName) {
 		case 'localhost':
@@ -68,6 +67,7 @@
 			define("url_pcam",url_pas."uath/__portal4SignIn", true);
 			define("url_students","http://localhost".port."/students/uath/__portal4SignIn", true);
 			define("url_lecturers","http://localhost".port."/lecturer/uath/__portal4SignIn", true);
+      define("url_parents","http://localhost".port."/parent/uath/__portal4SignIn", true);
 			define("url_sign_out","http://localhost".port."/".$portal_user."/", true);
 
 			break;
@@ -78,6 +78,7 @@
 	        define("url_pcam","http://pcam.podomorouniversity.ac.id/uath/__portal4SignIn", true);
 	        define("url_students","http://studentpu.podomorouniversity.ac.id/uath/__portal4SignIn", true);
 	        define("url_lecturers","http://lecturerpu.podomorouniversity.ac.id/uath/__portal4SignIn", true);
+          define("url_parents","http://parentpu.podomorouniversity.ac.id/uath/__portal4SignIn", true);
 	        define("url_sign_out","http://portal.podomorouniversity.ac.id", true);
 			
 			break;
@@ -88,12 +89,14 @@
 	        define("url_pcam","http://demo.pcam.podomorouniversity.ac.id/uath/__portal4SignIn", true);
 	        define("url_students","http://demo.studentpu.podomorouniversity.ac.id/uath/__portal4SignIn", true);
 	        define("url_lecturers","http://demo.lecturerpu.podomorouniversity.ac.id/uath/__portal4SignIn", true);
+          define("url_parents","http://demo.parentpu.podomorouniversity.ac.id/uath/__portal4SignIn", true);
 	        define("url_sign_out","http://demo.portal.podomorouniversity.ac.id", true);
 			break;	
 		default:
 			# code...
 			break;
 	}
+
 
 
 /*
