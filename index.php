@@ -63,10 +63,11 @@
         define("url_pcam","http://pcam.podomorouniversity.ac.id/uath/__portal4SignIn", true);
         define("url_students","http://studentpu.podomorouniversity.ac.id/uath/__portal4SignIn", true);
         define("url_lecturers","http://lecturerpu.podomorouniversity.ac.id/uath/__portal4SignIn", true);
+        define("url_parents","http://parentpu.podomorouniversity.ac.id/uath/__portal4SignIn", true);
         define("url_sign_out","http://portal.podomorouniversity.ac.id", true);
 
     } 
-    elseif ($_SERVER['SERVER_NAME'] == '10.1.10.230') {
+    else if ($_SERVER['SERVER_NAME'] == '10.1.10.230') {
     		    $port_user = ($_SERVER['SERVER_PORT']!='80') ? ':'.$_SERVER['SERVER_PORT'] : '';
 	            $folder_user = ($_SERVER['SERVER_PORT']!='80') ? 'siak3' : 'puis';
 	            $portal_user = ($_SERVER['SERVER_PORT']!='80') ? 'login3' : 'portal';
@@ -77,6 +78,7 @@
 	            define("url_pcam",url_pas."uath/__portal4SignIn", true);
 	            define("url_students","http://10.1.10.230".port."/students/uath/__portal4SignIn", true);
 	            define("url_lecturers","http://10.1.10.230".port."/lecturer/uath/__portal4SignIn", true);
+	            define("url_parents","http://10.1.10.230".port."/parent/uath/__portal4SignIn", true);
 	            define("url_sign_out","http://10.1.10.230".port."/".$portal_user."/", true);
     }
     else {
@@ -91,6 +93,7 @@
         define("url_pcam",url_pas."uath/__portal4SignIn", true);
         define("url_students","http://localhost".port."/students/uath/__portal4SignIn", true);
         define("url_lecturers","http://localhost".port."/lecturer/uath/__portal4SignIn", true);
+        define("url_parents","http://localhost".port."/parent/uath/__portal4SignIn", true);
         define("url_sign_out","http://localhost".port."/".$portal_user."/", true);
 
     }

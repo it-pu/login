@@ -6,6 +6,9 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
 
+
+$route['loadDataParent/(:num)'] = 'c_login/loadDataParent/$1';
+
 $route['navigation/(:num)'] = 'c_departement/navigation/$1';
 $route['profile'] = 'c_dashboard/profile';
 

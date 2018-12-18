@@ -478,14 +478,17 @@
 
         if(Username!='' && Username!=null){
 
-            loading_button('#btnLoginCheckUser');
+            // loading_button('#btnLoginCheckUser');
 
             var splitusername = Username.split('.');
 
+            console.log(splitusername);
+
             if(splitusername.length>1){
-                if(splitusername[0]=='i' || splitusername[0]=='I'){
-                    nextToInsertPasswors(splitusername[1],splitusername[0]);
-                } else {
+                if(splitusername[0].toUpperCase()=='I' || splitusername[0].toUpperCase()=='P'){
+                    nextToInsertPasswors(splitusername[1],splitusername[0].toUpperCase());
+                }
+                else {
                     $('#btnLoginCheckUser').html('Next <i class="fa fa-angle-right"></i>').prop('disabled',false);
                     toastr.error('User not found','Error');
                     $('#username').val('').focus();
@@ -498,22 +501,20 @@
 
 
 
-
-
-
         }
     }
 
     function nextToInsertPasswors(Username,userType) {
+
         var url = base_url_server+'uath/__checkUsername';
-        var token = jwt_encode({Username:Username});
+        var token = jwt_encode({Username:Username,userType : userType});
 
         $.post(url,{token:token},function (jsonResult) {
 
             setTimeout(function () {
                 if(jsonResult.Status=='1' && jsonResult.DataUser.Status!='0'){
 
-                    if(userType!=''){
+                    if(userType!='' &&  userType=='I'){
 
                         if(jsonResult.DataUser.Status=='1' && jsonResult.DataUser.User=='Employees'){
                             $('#formWellUsername').animateCss('fadeOutLeft', function() {
@@ -547,13 +548,52 @@
                             });
                         } else {
                             $('#btnLoginCheckUser').html('Next <i class="fa fa-angle-right"></i>').prop('disabled',false);
-                            toastr.warning('Please Fixing User','Warning');
+                            toastr.warning('Account non-active','Warning');
                             $('#username').val('').focus();
                             $('#formWellUsername').animateCss('shake');
                         }
 
 
-                    } else {
+                    }
+                    else if(userType!='' &&  userType=='P'){
+                        if(jsonResult.DataUser.Status=='1' || jsonResult.DataUser.Status=='-1'){
+                            $('#formWellUsername').animateCss('fadeOutLeft', function() {
+
+                                var htmlPass = '<div style="text-align: center;" id="dataAvatar">' +
+                                    '                        <img data-src="'+jsonResult.DataUser.PathPhoto+'" class="img-fitter img-circle avatar" width="70" height="70" />' +
+                                    '                        <h4 style="margin-bottom:0px;">'+jsonResult.DataUser.Name.trim()+'</h4>'+jsonResult.DataUser.Username+
+                                    '                        <hr/>' +
+                                    '                    </div>' +
+                                    '                    <div class="well" id="formWellPassword">' +
+                                    '                        <div class="form-group">' +
+                                    '                             <input type="hidden" class="hide" hidden readonly id="TypeUser" value="'+userType.toUpperCase()+'" />' +
+                                    '                            <label for="password" class="control-label">Password</label>' +
+                                    '                            <input type="password" class="hide" hidden readonly id="user" ' +
+                                    '                                       value="'+jsonResult.DataUser.Username+'.'+jsonResult.DataUser.Status+'.'+jsonResult.DataUser.User+'.'+jsonResult.DataUser.Year+'">' +
+                                    '                            <input type="password" class="form-control" id="password" placeholder="Input password...">' +
+                                    '                        </div><div id="divCaptcha"></div>' +
+                                    '                        <div style="text-align: right;">' +
+                                    '                            <button type="button" class="btn btn-default" id="btnBackLogin"><i class="fa fa-angle-left"></i> Back</button> | ' +
+                                    '                            <button type="submit" class="btn btn-primary" id="btnLoginCheckPassword">Sign In <i class="fa fa-angle-right"></i></button>' +
+                                    '                        </div>' +
+                                    '                    </div>';
+
+                                $('#divSignIn').html(htmlPass);
+
+                                $('#formWellPassword').animateCss('fadeInRight', function() {
+                                    $('.img-fitter').imgFitter();
+                                    $('#password').focus();
+                                });
+
+                            });
+                        } else {
+                            $('#btnLoginCheckUser').html('Next <i class="fa fa-angle-right"></i>').prop('disabled',false);
+                            toastr.warning('Account non-active','Warning');
+                            $('#username').val('').focus();
+                            $('#formWellUsername').animateCss('shake');
+                        }
+                    }
+                    else {
                         $('#formWellUsername').animateCss('fadeOutLeft', function() {
 
                             var htmlPass = '<div style="text-align: center;" id="dataAvatar">' +
@@ -563,7 +603,7 @@
                                 '                    </div>' +
                                 '                    <div class="well" id="formWellPassword">' +
                                 '                        <div class="form-group">' +
-                                '                             <input type="hidden" class="hide" hidden readonly id="TypeUser" value="'+userType.toLowerCase()+'" />' +
+                                '                             <input type="hidden" class="hide" hidden readonly id="TypeUser" value="'+userType.toUpperCase()+'" />' +
                                 '                            <label for="password" class="control-label">Password</label>' +
                                 '                            <input type="password" class="hide" hidden readonly id="user" ' +
                                 '                                       value="'+jsonResult.DataUser.Username+'.'+jsonResult.DataUser.Status+'.'+jsonResult.DataUser.User+'.'+jsonResult.DataUser.Year+'">' +
@@ -597,7 +637,7 @@
 
 
 
-            },1000);
+            },500);
         });
     }
 
@@ -669,12 +709,15 @@
     }
 
     function modalChangePassword(dataUser){
+
+        var title = (dataUser.User=='Parent') ? 'Hello, '+dataUser.Name+'\'s Parents' : 'Hello, '+dataUser.Name;
+
         var htmlBody = '<div class="row">' +
             '    <div class="col-xs-3" style="text-align:center;">' +
             '    <img src="'+dataUser.PathPhoto+'" class="img-rounded" style="width:100%;max-width: 200px;" />'+dataUser.Username+
             '    </div>' +
             '    <div class="col-xs-9">' +
-            '    <h4>Hello, '+dataUser.Name+'</h4>' +
+            '    <h4>'+title+'</h4>' +
             'Please, change your password first <i class="fa fa-smile-o" aria-hidden="true"></i>.' +
             '    <hr/>' +
             '    <div class="form-group">' +

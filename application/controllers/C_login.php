@@ -22,6 +22,49 @@ class C_login extends CI_Controller {
     }
 
 
+    public function loadDataParent($Year){
+
+        $db_ = 'ta_'.$Year;
+
+        $data = $this->db->query('SELECT s.NPM,s.ProgramID,s.ProdiID,s.DateOfBirth, s.StatusStudentID, aus.ProdiGroupID, s.Father, s.Mother FROM '.$db_.'.students s
+                                    LEFT JOIN db_academic.auth_students aus ON (aus.NPM = s.NPM)
+                                    ORDER BY s.NPM ASC ')->result_array();
+
+        if(count($data)>0){
+            for($i=0;$i<count($data);$i++){
+                $d = $data[$i];
+                $d_explode = explode('-',$d['DateOfBirth']);
+
+                $Paasord = null;
+                $Status = '0';
+                if(count($d_explode)==3){
+
+                    if($d_explode[0]!='0000'){
+                        $Paasord = md5($d_explode[2].''.$d_explode[1].''.substr($d_explode[0],2,2));
+                        $Status = '-1';
+                    }
+
+                }
+
+                $arr = array(
+                    'NPM' => $d['NPM'],
+                    'ProgramID' => $d['ProgramID'],
+                    'ProdiID' => $d['ProdiID'],
+                    'ProdiGroupID' => $d['ProdiGroupID'],
+                    'Year' => $Year,
+                    'FatherName' => ucwords(strtolower($d['Father'])),
+                    'MotherName' => ucwords(strtolower($d['Mother'])),
+                    'Password_Old' => $Paasord,
+                    'StatusStudentID' => $d['StatusStudentID'],
+                    'Status' => $Status
+                );
+                $this->db->insert('db_academic.auth_parents', $arr);
+            }
+        }
+
+
+    }
+
 
     public function index()
     {
@@ -117,57 +160,88 @@ class C_login extends CI_Controller {
         $key = "L0G1N-S50-3R0";
         $data_arr = (array) $this->jwt->decode($token,$key);
 
-        $dataStudents = $this->db->query('SELECT * FROM db_academic.auth_students
-                                                  WHERE NPM = "'.$data_arr['Username'].'" LIMIT 1')->result_array();
+        $result = array(
+            'Status' => '0',
+            'Message' => 'User Not Exist'
+        );
 
-        if(count($dataStudents)>0){
+        if($data_arr['userType']!='' && $data_arr['userType']=='P'){
+            $dataparent = $this->db->query('SELECT aup.*,aus.Name,aus.Year  FROM db_academic.auth_parents aup 
+                                                          LEFT JOIN db_academic.auth_students aus ON (aus.NPM = aup.NPM)
+                                                          WHERE aup.NPM = "'.$data_arr['Username'].'" LIMIT 1')->result_array();
 
-            $dataMhs = $this->get_dataStd($dataStudents[0]['Year'],$dataStudents[0]['NPM']);
-
-            $DataUser = array(
-                'Name' => $dataMhs['Name'],
-                'Username' => $dataMhs['NPM'],
-                'User' => 'Students',
-                'Year' => $dataStudents[0]['Year'],
-                'Status' => $dataStudents[0]['Status'],
-                'PathPhoto' => url_pas.'uploads/students/ta_'.$dataStudents[0]['Year'].'/'.$dataMhs['Photo']
-            );
-            $result = array(
-                'DataUser' => $DataUser,
-                'Status' => '1',
-                'Message' => 'User Exist'
-            );
-
-        }
-        else {
-
-            // Cek Apakah karyawan atau bukan
-            $dataEmploy = $this->db->get_where('db_employees.employees',
-                array('NIP' => $data_arr['Username']),1)->result_array();
-
-            if(count($dataEmploy)>0){
+            if(count($dataparent)>0){
+                $dataMhs = $this->get_dataStd($dataparent[0]['Year'],$dataparent[0]['NPM']);
                 $DataUser = array(
-                    'Name' => $dataEmploy[0]['TitleAhead'].' '.$dataEmploy[0]['Name'].' '.$dataEmploy[0]['TitleBehind'],
-                    'Username' => $dataEmploy[0]['NIP'],
-                    'User' => 'Employees',
-                    'Year' => 0,
-                    'Status' => $dataEmploy[0]['Status'],
-                    'PathPhoto' => url_pas.'uploads/employees/'.$dataEmploy[0]['Photo']
+                    'Name' => $dataMhs['Name'],
+                    'Username' => $dataMhs['NPM'],
+                    'User' => 'Parent',
+                    'Year' => $dataparent[0]['Year'],
+                    'Status' => $dataparent[0]['Status'],
+                    'PathPhoto' => url_pas.'uploads/students/ta_'.$dataparent[0]['Year'].'/'.$dataMhs['Photo']
                 );
                 $result = array(
                     'DataUser' => $DataUser,
                     'Status' => '1',
                     'Message' => 'User Exist'
                 );
-            } else {
-                $result = array(
-                    'Status' => '0',
-                    'Message' => 'User Not Exist'
-                );
             }
 
 
+        } else {
+
+            $dataStudents = $this->db->query('SELECT * FROM db_academic.auth_students
+                                                  WHERE NPM = "'.$data_arr['Username'].'" LIMIT 1')->result_array();
+
+            if(count($dataStudents)>0){
+
+                $dataMhs = $this->get_dataStd($dataStudents[0]['Year'],$dataStudents[0]['NPM']);
+
+                $DataUser = array(
+                    'Name' => $dataMhs['Name'],
+                    'Username' => $dataStudents[0]['NPM'],
+                    'User' => 'Students',
+                    'Year' => $dataStudents[0]['Year'],
+                    'Status' => $dataStudents[0]['Status'],
+                    'PathPhoto' => url_pas.'uploads/students/ta_'.$dataStudents[0]['Year'].'/'.$dataMhs['Photo']
+                );
+                $result = array(
+                    'DataUser' => $DataUser,
+                    'Status' => '1',
+                    'Message' => 'User Exist'
+                );
+
+            } else {
+
+                // Cek Apakah karyawan atau bukan
+                $dataEmploy = $this->db->get_where('db_employees.employees',
+                    array('NIP' => $data_arr['Username']),1)->result_array();
+
+                if(count($dataEmploy)>0){
+                    $DataUser = array(
+                        'Name' => $dataEmploy[0]['TitleAhead'].' '.$dataEmploy[0]['Name'].' '.$dataEmploy[0]['TitleBehind'],
+                        'Username' => $dataEmploy[0]['NIP'],
+                        'User' => 'Employees',
+                        'Year' => 0,
+                        'Status' => $dataEmploy[0]['Status'],
+                        'PathPhoto' => url_pas.'uploads/employees/'.$dataEmploy[0]['Photo']
+                    );
+                    $result = array(
+                        'DataUser' => $DataUser,
+                        'Status' => '1',
+                        'Message' => 'User Exist'
+                    );
+                }
+
+
+            }
+
         }
+
+
+
+
+
 
         return print_r(json_encode($result));
     }
@@ -236,7 +310,6 @@ class C_login extends CI_Controller {
                 }
             }
         }
-
         else if($data_arr['User']=='Employees') {
 
 
@@ -289,6 +362,65 @@ class C_login extends CI_Controller {
                 }
             }
         }
+        else if($data_arr['User']=='Parent'){
+
+            if($data_arr['Status']=='-1'){
+                $dataMhs = $this->db->get_where('db_academic.auth_parents',
+                    array('NPM' => $data_arr['Username'],'Password_Old' => md5($data_arr['Password'])),1)
+                    ->result_array();
+
+                if(count($dataMhs)>0){
+                    $dataMhsDetail = $this->get_dataStd($dataMhs[0]['Year'],$dataMhs[0]['NPM']);
+
+                    $DataUser = array(
+                        'Name' => $dataMhsDetail['Name'],
+                        'Username' => $dataMhsDetail['NPM'],
+                        'User' => 'Parent',
+                        'Year' => $dataMhs[0]['Year'],
+                        'Status' => $dataMhs[0]['Status'],
+                        'LastPassword' => $dataMhs[0]['Password_Old'],
+                        'PathPhoto' => url_pas.'uploads/students/ta_'.$dataMhs[0]['Year'].'/'.$dataMhsDetail['Photo']
+                    );
+
+                    $result = array(
+                        'DataUser' => $DataUser,
+                        'Status' => -1,
+                        'Message' => 'Pleace, change your password'
+                    );
+                } else {
+                    $result = array(
+                        'Status' => 0,
+                        'Message' => 'Password is wrong'
+                    );
+                }
+            }
+            else if($data_arr['Status']=='1'){
+
+                $pass = $this->genratePassword($data_arr['Username'],$data_arr['Password']);
+                $dataMhs = $this->db->get_where('db_academic.auth_parents',
+                    array('NPM' => $data_arr['Username'],'Password' => $pass),1)
+                    ->result_array();
+
+                if(count($dataMhs)>0){
+
+                    $logon = $this->loadData_UserLogin('Parent',$dataMhs[0]['Year'],$data_arr['Username'],$data_arr['TypeUser']);
+                    $result = array(
+                        'Status' => 1,
+                        'Message' => 'Login success',
+                        'url_direct' => $logon['url_direct']
+                    );
+
+                } else {
+                    $result = array(
+                        'Status' => 0,
+                        'Message' => 'Password is wrong'
+                    );
+                }
+            }
+
+//            print_r($data_arr);
+//            exit;
+        }
 
 
         return print_r(json_encode($result));
@@ -325,6 +457,10 @@ class C_login extends CI_Controller {
             $this->db->where('NIP', $data_arr['Username']);
             $this->db->update('db_employees.employees', $data);
         }
+        else if($data_arr['User']=='Parent'){
+            $this->db->where('NPM', $data_arr['Username']);
+            $this->db->update('db_academic.auth_parents', $data);
+        }
 
         $TypeUser = (isset($data_arr['TypeUser'])) ? $data_arr['TypeUser'] : '';
 
@@ -336,7 +472,6 @@ class C_login extends CI_Controller {
     private function loadData_UserLogin($User,$Year,$Username,$TypeUser){
         $url_direct = [];
         if($User=='Students'){
-//            $this->setUserSession_Students($Year,$Username);
             $dataStd = $this->db->get_where('db_academic.auth_students',
                 array('NPM' => $Username),1)->result_array();
 
@@ -355,7 +490,6 @@ class C_login extends CI_Controller {
                 'flag' => 'std'
             );
             array_push($url_direct,$arp);
-
         }
         else if ($User=='Employees') {
             $dataEmp = $this->db->get_where('db_employees.employees',
@@ -370,7 +504,7 @@ class C_login extends CI_Controller {
 
             $token = $this->jwt->encode($token_passwd,'s3Cr3T-G4N');
 
-            if($TypeUser=='i'){
+            if($TypeUser=='I'){
                 $urlp = '';
                 $urlLogin = url_pcam ;
                 $arp = array(
@@ -437,6 +571,26 @@ class C_login extends CI_Controller {
 
 
 
+        }
+        else if($User=='Parent'){
+            $dataStd = $this->db->get_where('db_academic.auth_parents',
+                array('NPM' => $Username),1)->result_array();
+
+            $token_passwd = array(
+                'Username' => $Username,
+                'Token' => $dataStd[0]['Password'],
+                'dueDate' => date("Y-m-d")
+            );
+
+            $token = $this->jwt->encode($token_passwd,'s3Cr3T-G4N');
+
+            $arp = array(
+                'url' => url_parents.'?token='.$token,
+                'url_login' => url_parents,
+                'token' => $token,
+                'flag' => 'std'
+            );
+            array_push($url_direct,$arp);
         }
 
         $result = array(
