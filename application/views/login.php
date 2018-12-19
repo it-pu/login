@@ -478,7 +478,7 @@
 
         if(Username!='' && Username!=null){
 
-            // loading_button('#btnLoginCheckUser');
+            loading_button('#btnLoginCheckUser');
 
             var splitusername = Username.split('.');
 
