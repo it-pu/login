@@ -658,4 +658,88 @@ class C_login extends CI_Controller {
 
     }
 
+
+    public function checkloginwithAd()
+    {
+        header('Access-Control-Allow-Origin: *');
+        header('Content-Type: application/json');
+        $arr_result = array('Status' => false,'msg'=> '','desc' => '');
+        $bool = false;
+        $total = 0;
+        $token = $this->input->post('token');
+        $key = "L0G1N-S50-3R0";
+        $Input = (array) $this->jwt->decode($token,$key);
+
+        try {
+            
+        } catch (Exception $e) {
+            
+        }
+
+        $server = "ldap://10.1.30.2";
+        $user = $Input['Username'].'@pu.local';
+        $psw = $Input['Password'];
+        $dn = "CN=users,DC=pu,DC=local";
+
+        $filtering = explode('.', $Input['Username']);
+        if (count($filtering) == 2) {
+            $a = $filtering[1];
+            $b = $filtering[0];
+            $filter="(|(sn=$a)(givenname=$b))";
+            $justthese = array("ou", "sn", "givenname", "mail");
+
+            $ds=ldap_connect($server);
+            if ($bind = ldap_bind($ds, $user , $psw)) {
+              $r=ldap_bind($ds, $user , $psw); 
+              // performing search
+              $sr=ldap_search($ds, $dn,  $filter, $justthese);
+              $data = ldap_get_entries($ds, $sr);
+              // print_r($data); 
+              $total =  $data["count"];  
+            } else {
+              $arr_result['msg'] = 'Login invalid';
+            }
+          
+        }
+        else
+        {
+            $a = $filtering[0].' '.$filtering[1];
+            $search = "CN=$a";
+            $ds=ldap_connect($server);
+            if ($r=ldap_bind($ds, $user , $psw)) {
+                // performing search
+                $sr=ldap_search($ds, $dn, $search);
+                $data = ldap_get_entries($ds, $sr);
+                $total =  $data["count"];   
+            }
+            else
+            {
+                $arr_result['msg'] = 'Login invalid';
+            }
+ 
+        }
+
+
+        if ($total == 0) {
+            $dn = "OU=ldap,DC=pu,DC=local";
+            $a = $filtering[0].' '.$filtering[1];
+            $search = "CN=$a";
+            $ds=ldap_connect($server);
+            if ($r=ldap_bind($ds, $user , $psw)) {
+                // performing search
+                $sr=ldap_search($ds, $dn, $search);
+                $data = ldap_get_entries($ds, $sr);
+                $total =  $data["count"];    
+            }
+            else
+            {
+                $arr_result['msg'] = 'Login invalid';
+            }
+          
+        }
+        
+        print_r($total);
+
+    }
+
 }
