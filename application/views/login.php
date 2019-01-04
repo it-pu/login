@@ -350,7 +350,9 @@
 
     $(document).on('keypress','#username',function (e) {
         if (e.which == 13) {
-            CheckUsername2Login();
+            if (!$("#btnLoginCheckAD").length) {
+                CheckUsername2Login();
+            }
             return false;    //<---- Add this line
         }
     });
@@ -367,7 +369,28 @@
 
     $(document).on('keypress','#password',function (e) {
         if (e.which == 13) {
-            CheckPassword2Login();
+            if ($("#btnLoginCheckAD").length) {
+                loading_button('#btnLoginCheckAD');
+                $('#btnBackLoginFrAd').prop('disabled',true);
+                var username = $("#username").val();
+                var password = $("#password").val();
+                if (username == '' || password == '') {
+                    toastr.error('Username and Password is Required');
+                    $('#password').val('');
+                    $('#username').val('');
+                    $('#btnLoginCheckAD').html('Sign In <i class="fa fa-angle-right"></i>').prop('disabled',false);
+                    $('#btnBackLoginFrAd').prop('disabled',false);
+                }
+                else
+                {
+                    CheckPasswordLoginAD(username,password);
+                }
+            }
+            else
+            {
+                CheckPassword2Login();
+            }
+            
             return false;    //<---- Add this line
         }
     });
@@ -695,18 +718,36 @@
     function CheckPasswordLoginAD(Username,Password) {
         var url = base_url_server+'uath/__checkloginwithAd';
         var data = {
-            Username : Username,
-            Password : Password
+            Username : Username.trim(),
+            Password : Password.trim()
         };
         var token = jwt_encode(data);
         $.post(url,{token:token},function (jsonResult) {
+            if (jsonResult['Status']) {
+                var rs = jsonResult['data'];
+                if(rs.url_direct.length==1){
 
-            // $('#password').val('');
-            // $('#username').val('');
-            // $('#btnLoginCheckAD').html('Sign In <i class="fa fa-angle-right"></i>').prop('disabled',false);
-            // $('#btnBackLoginFrAd').prop('disabled',false);
+                    $('#formSubmitLogin').attr('action',rs.url_direct[0].url_login);
+                    $('#formTokenLogin').val(rs.url_direct[0].token);
+                    $('#formSubmitLogin').submit();
+
+                } else if(rs.url_direct.length>1){
+                    loadPagePanel(rs.url_direct);
+                }
+                
+            }
+            else
+            {
+                toastr.error(jsonResult['msg'])
+                // $('#password').val('');
+                // $('#username').val('');
+                $('#btnLoginCheckAD').html('Sign In <i class="fa fa-angle-right"></i>').prop('disabled',false);
+                $('#btnBackLoginFrAd').prop('disabled',false);
+            }
+            
         });
-        $('#btnLoginCheckAD').html('Sign In <i class="fa fa-angle-right"></i>').prop('disabled',false);
+        // $('#btnLoginCheckAD').html('Sign In <i class="fa fa-angle-right"></i>').prop('disabled',false);
+        
     }
 
     function CheckPassword2Login() {
