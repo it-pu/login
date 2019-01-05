@@ -116,10 +116,16 @@
         border: 1px solid #d43f3a;
     }
 
-    .btn-default-danger .fa-envelope {
+    .btn-default-danger .fa-envelope{
         margin-right: 5px;
         padding-right: 10px;
         border-right: 1.3px solid #d43f3a;
+    }
+
+    .fa-windows  {
+        margin-right: 5px;
+        padding-right: 10px;
+        border-right: 1.3px solid #333;
     }
 
     .btn-default-danger:hover .fa-envelope {
@@ -277,7 +283,9 @@
             '                        <hr/>' +
             '                        <a href="'+googleBtn+'" class="btn btn-danger btn-block" id="btnLoginWithGoogle"><i class="fa fa-envelope"></i> Sign In With Email</a>' +
             '<span style="float: right;color: #8c8989;">Use email @podomorouniversity.ac.id</span>' +
-            '                        <br/>' +
+            '                        <br/><br/>' +
+            '                        <a href="javascript:void(0)" class="btn btn-default btn-block" id="btnLoginWithAD"><i class="fa fa-windows"></i> Sign In With AD</a>' +
+            // '<span style="float: right;color: #8c8989;">Use AD Login</span>' +
             '                    </div><a href="javascript:void(0);" class="hide" id="btnForgot">Forgot Password Portal.</a>';
 
         $('#divSignIn').html(htmlUserName);
@@ -303,9 +311,48 @@
 
     });
 
+    $(document).on('click','#btnLoginWithAD',function () {
+
+        var html = '<div class="well" id="formWellUsername">' +
+            '                        <div class="form-group">' +
+            '                            <label for="username" class="control-label">Username</label>' +
+            '                            <input type="text" class="form-control" id="username" placeholder="Input username...">' +
+            '                        </div>' +
+            '                        <div class="form-group">' +
+            '                            <label for="password" class="control-label">Password</label>' +
+            '                            <input type="password" class="form-control" id="password" placeholder="Input password...">' +
+            '                        </div>' +
+            '<div style="text-align: right;"> <button type="button" class="btn btn-default" id="btnBackLoginFrAd"><i class="fa fa-angle-left"></i> Back</button> <button type="submit" class="btn btn-primary" id="btnLoginCheckAD">Sign In <i class="fa fa-angle-right"></i></button></div>';
+
+            $('#divSignIn').html(html);
+            $('#username').focus();
+            $('#formWellUsername').animateCss('fadeInRight');
+    });
+
+    $(document).on('click','#btnLoginCheckAD',function (e) {
+        loading_button('#btnLoginCheckAD');
+        $('#btnBackLoginFrAd').prop('disabled',true);
+        var username = $("#username").val();
+        var password = $("#password").val();
+        if (username == '' || password == '') {
+            toastr.error('Username and Password is Required');
+            $('#password').val('');
+            $('#username').val('');
+            $('#btnLoginCheckAD').html('Sign In <i class="fa fa-angle-right"></i>').prop('disabled',false);
+            $('#btnBackLoginFrAd').prop('disabled',false);
+        }
+        else
+        {
+            CheckPasswordLoginAD(username,password);
+        }
+        
+    });
+
     $(document).on('keypress','#username',function (e) {
         if (e.which == 13) {
-            CheckUsername2Login();
+            if (!$("#btnLoginCheckAD").length) {
+                CheckUsername2Login();
+            }
             return false;    //<---- Add this line
         }
     });
@@ -314,9 +361,36 @@
         CheckPassword2Login();
     });
 
+    $(document).on('click','#btnBackLoginFrAd',function () {
+        $('#divSignIn').html(htmlUserName);
+        $('#username').focus();
+        $('#formWellUsername').animateCss('fadeInLeft');
+    });
+
     $(document).on('keypress','#password',function (e) {
         if (e.which == 13) {
-            CheckPassword2Login();
+            if ($("#btnLoginCheckAD").length) {
+                loading_button('#btnLoginCheckAD');
+                $('#btnBackLoginFrAd').prop('disabled',true);
+                var username = $("#username").val();
+                var password = $("#password").val();
+                if (username == '' || password == '') {
+                    toastr.error('Username and Password is Required');
+                    $('#password').val('');
+                    $('#username').val('');
+                    $('#btnLoginCheckAD').html('Sign In <i class="fa fa-angle-right"></i>').prop('disabled',false);
+                    $('#btnBackLoginFrAd').prop('disabled',false);
+                }
+                else
+                {
+                    CheckPasswordLoginAD(username,password);
+                }
+            }
+            else
+            {
+                CheckPassword2Login();
+            }
+            
             return false;    //<---- Add this line
         }
     });
@@ -639,6 +713,41 @@
 
             },500);
         });
+    }
+
+    function CheckPasswordLoginAD(Username,Password) {
+        var url = base_url_server+'uath/__checkloginwithAd';
+        var data = {
+            Username : Username.trim(),
+            Password : Password.trim()
+        };
+        var token = jwt_encode(data);
+        $.post(url,{token:token},function (jsonResult) {
+            if (jsonResult['Status']) {
+                var rs = jsonResult['data'];
+                if(rs.url_direct.length==1){
+
+                    $('#formSubmitLogin').attr('action',rs.url_direct[0].url_login);
+                    $('#formTokenLogin').val(rs.url_direct[0].token);
+                    $('#formSubmitLogin').submit();
+
+                } else if(rs.url_direct.length>1){
+                    loadPagePanel(rs.url_direct);
+                }
+                
+            }
+            else
+            {
+                toastr.error(jsonResult['msg'])
+                // $('#password').val('');
+                // $('#username').val('');
+                $('#btnLoginCheckAD').html('Sign In <i class="fa fa-angle-right"></i>').prop('disabled',false);
+                $('#btnBackLoginFrAd').prop('disabled',false);
+            }
+            
+        });
+        // $('#btnLoginCheckAD').html('Sign In <i class="fa fa-angle-right"></i>').prop('disabled',false);
+        
     }
 
     function CheckPassword2Login() {

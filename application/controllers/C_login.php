@@ -658,4 +658,132 @@ class C_login extends CI_Controller {
 
     }
 
+
+    public function checkloginwithAd()
+    {
+        error_reporting(0);
+        header('Access-Control-Allow-Origin: *');
+        header('Content-Type: application/json');
+        $arr_result = array('Status' => false,'msg'=> '','desc' => '','data' => array());
+        $bool = false;
+        $total = 0;
+        $token = $this->input->post('token');
+        $key = "L0G1N-S50-3R0";
+        $Input = (array) $this->jwt->decode($token,$key);
+        $user_email = '';
+
+        $server = "ldap://10.1.30.2";
+        $user = $Input['Username'].'@pu.local';
+        $usernameAD = $Input['Username'];
+        $psw = $Input['Password'];
+        $dn = "CN=users,DC=pu,DC=local";
+        $data = '';
+
+        $filter="(|(sAMAccountName=$usernameAD))";
+        $justthese = array("ou","sAMAccountName","mail");
+
+        $ds=ldap_connect($server);
+        if ($bind = ldap_bind($ds, $user , $psw)) {
+          // performing search
+          $sr=ldap_search($ds, $dn,  $filter, $justthese);
+          $data = ldap_get_entries($ds, $sr);
+          // print_r($data); 
+          $total =  $data["count"];  
+        } else {
+          $arr_result['msg'] = 'Login invalid';
+        }
+
+
+        if ($total == 0) { // student 
+            $dn = "OU=ldap,DC=pu,DC=local";
+            $filter="(|(sAMAccountName=$usernameAD))";
+            $justthese = array("ou","sAMAccountName","mail");
+
+            $ds=ldap_connect($server);
+            if ($r=ldap_bind($ds, $user , $psw)) {
+                // performing search
+                 $sr=ldap_search($ds, $dn,  $filter, $justthese);
+                $data = ldap_get_entries($ds, $sr);
+                $total =  $data["count"];
+                if ($total == 1) {
+                   // action to login
+                    $dataStudents = $this->db->query('SELECT * FROM db_academic.auth_students
+                                                                      WHERE NPM = "'.$Input['Username'].'" LIMIT 1')->result_array();
+                    $dataMhs = $this->get_dataStd($dataStudents[0]['Year'],$dataStudents[0]['NPM']);
+
+                    $DataUser = array(
+                        'Name' => $dataMhs['Name'],
+                        'Username' => $dataStudents[0]['NPM'],
+                        'User' => 'Students',
+                        'Year' => $dataStudents[0]['Year'],
+                        'Status' => $dataStudents[0]['Status'],
+                        'PathPhoto' => url_pas.'uploads/students/ta_'.$dataStudents[0]['Year'].'/'.$dataMhs['Photo']
+                    );
+
+                    $logon = $this->loadData_UserLogin('Students',0,$DataUser['Username'],'');
+                    $arr_result = array('Status' => true,'msg'=> '','desc' => '','data' => $logon);
+
+                }
+                else
+                {
+                    if ($total>1) {
+                        $arr_result['msg'] = 'Your username is duplicated with another user <br> !!please contact administrator';
+                    }
+                    else
+                    {
+                        $arr_result['msg'] = 'Student username doesn\'t exist';
+                    }
+                    
+                }
+
+            }
+            else
+            {
+                $arr_result['msg'] = 'Login invalid';
+            }
+          
+        }
+        else
+        {
+            // action to login excep student
+            if ($total == 1) {
+               // action to login
+                // Cek Apakah karyawan atau bukan
+                $dataEmploy = $this->db->get_where('db_employees.employees',
+                    array('EmailPU' => $Input['Username'].'@podomorouniversity.ac.id'),1)->result_array();
+                if(count($dataEmploy)>0){
+                    $DataUser = array(
+                        'Name' => $dataEmploy[0]['TitleAhead'].' '.$dataEmploy[0]['Name'].' '.$dataEmploy[0]['TitleBehind'],
+                        'Username' => $dataEmploy[0]['NIP'],
+                        'User' => 'Employees',
+                        'Year' => 0,
+                        'Status' => $dataEmploy[0]['Status'],
+                        'PathPhoto' => url_pas.'uploads/employees/'.$dataEmploy[0]['Photo']
+                    );
+
+                    $logon = $this->loadData_UserLogin('Employees',0,$DataUser['Username'],'');
+                    $arr_result = array('Status' => true,'msg'=> '','desc' => '','data' => $logon);
+                }
+                else
+                {
+                    $arr_result['msg'] = 'Your username doesn\'t exist';
+                }
+                
+            }
+            else
+            {
+                if ($total>1) {
+                    $arr_result['msg'] = 'Your username is duplicated with another user <br> !!please contact administrator';
+                }
+                else
+                {
+                    $arr_result['msg'] = 'Your username doesn\'t exist';
+                }
+            }
+        }
+        
+        echo json_encode($arr_result);
+
+    }
+
 }
