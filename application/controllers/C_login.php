@@ -239,10 +239,6 @@ class C_login extends CI_Controller {
         }
 
 
-
-
-
-
         return print_r(json_encode($result));
     }
 
@@ -504,7 +500,7 @@ class C_login extends CI_Controller {
 
             $token = $this->jwt->encode($token_passwd,'s3Cr3T-G4N');
 
-            if($TypeUser=='I'){
+            if($TypeUser=='I' || $TypeUser=='i'){
                 $urlp = '';
                 $urlLogin = url_pcam ;
                 $arp = array(
