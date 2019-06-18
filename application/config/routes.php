@@ -36,6 +36,8 @@ $route['resetPasswordAction'] = 'c_login/resetPasswordAct';
 
 // ===== New Reset Password ====
 $route['resetpassword/(:any)'] = 'c_reset_password/loadpageReset/$1';
+$route['resetpassword_intake/(:any)'] = 'c_reset_password/loadpageReset_intake/$1';
 $route['updatepassword'] = 'c_reset_password/updatepassword';
+$route['updatepassword_intake'] = 'c_reset_password/updatepassword_intake';
 
 

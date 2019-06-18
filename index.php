@@ -69,7 +69,7 @@
 			define("url_lecturers","http://localhost".port."/lecturer/uath/__portal4SignIn", true);
       define("url_parents","http://localhost".port."/parent/uath/__portal4SignIn", true);
 			define("url_sign_out","http://localhost".port."/".$portal_user."/", true);
-
+			define("url_registration","http://localhost/registeronline/", true);
 			break;
 		case 'portal.podomorouniversity.ac.id':
 			define("url_registration","http://admission.podomorouniversity.ac.id/", true);

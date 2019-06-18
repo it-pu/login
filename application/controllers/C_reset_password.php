@@ -27,6 +27,12 @@ class C_reset_password extends CI_Controller {
         $this->load->view('page/resetPassword',$data);
     }
 
+    public function loadpageReset_intake($token)
+    {
+        $data['token'] = $token;
+        $this->load->view('page/resetPassword_intake',$data);
+    }
+
     public function updatepassword(){
 
         $token = $this->input->post('token');
@@ -42,6 +48,50 @@ class C_reset_password extends CI_Controller {
         $this->db->update($data_arr['DB'],$dataUpdate);
 
         return print_r(1);
+
+    }
+
+    public function updatepassword_intake(){
+
+        $token = $this->input->post('token');
+
+        $data_arr = (array) $this->jwt->decode($token,'L0G1N-S50-3R0');
+        $data_arr_ = $data_arr['data_arr'];
+        $data_arr_ = json_decode(json_encode($data_arr_),true);
+        
+        // cek aktivasi token
+            $DateToken = $data_arr_['date'];
+            $__checkTglNow = function($tglInput){
+                $sql = 'select * from (
+                        select CURDATE() as skrg
+                        ) aa where "'.$tglInput.'" = skrg ';
+                $query=$this->db->query($sql, array())->result_array();
+                if (count($query) > 0) {
+                    return true;
+                }     
+                else
+                {
+                    return false;
+                }
+            };
+
+            if ($__checkTglNow($DateToken)) {
+               // process reset pwd
+                $Email = $data_arr_['Email'];
+                $Password = $data_arr['Password'];
+                $dataUpdate = array(
+                    'Password' => $this->genratePassword($Email,$Password),
+                );
+                $this->db->where('Email', $Email);
+                $this->db->update('db_admission.register',$dataUpdate);
+                return print_r(1);
+            }
+            else
+            {
+                return print_r(0);
+            }
+
+        return print_r(0);
 
     }
 
