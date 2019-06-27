@@ -343,7 +343,7 @@
         $('#modalGlobal .modal-header').addClass('hide');
         $('#modalGlobal .modal-footer').html('<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>');
         $('#modalGlobal .modal-body').html('<div style="text-align: center;">' +
-            '    <h1>Dear Students<br/><small>Now you can access academic portal on android</small></h1><hr/>' +
+            '    <h1>Dear Students<br/><small>Now you can access the academic portal on Android</small></h1><hr/>' +
             '    <a href="https://play.google.com/store/apps/details?id=com.ypap.StudentPU"><img class="" src="<?= base_url('assets/google-play-badge.png'); ?>" style="width: 100%;max-width:180px;"></a>' +
             '</div>');
 
