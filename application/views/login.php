@@ -19,6 +19,9 @@
 <link href="<?php echo base_url(); ?>assets/css/animate.css" rel="stylesheet">
 <link href="<?php echo base_url(); ?>assets/toastr/toastr.min.css" rel="stylesheet">
 
+
+<link href="<?php echo base_url(); ?>assets/social/bootstrap-social.css" rel="stylesheet">
+
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="<?php echo base_url(); ?>assets/js/jquery.min.js"></script>
 <!--<script type="text/javascript" src="--><?php //echo base_url('assets/template/js/libs/jquery-1.10.2.min.js'); ?><!--"></script>-->
@@ -123,9 +126,9 @@
     }
 
     .fa-windows  {
-        margin-right: 5px;
-        padding-right: 10px;
-        border-right: 1.3px solid #333;
+        /*margin-right: 5px;*/
+        /*padding-right: 10px;*/
+        /*border-right: 1.3px solid #333;*/
     }
 
     .btn-default-danger:hover .fa-envelope {
@@ -209,6 +212,10 @@
             left: 50%;
             margin-left: -512px; }
     }
+
+    .btn-social-2>:first-child {
+        line-height: 31px;
+    }
 </style>
 
 <body>
@@ -217,6 +224,7 @@
 
 
 <!-- <div style="margin-top: 70px;"></div> -->
+
 
 
 <div id="login-overlay" class="modal-dialog center" style="z-index:0;max-width: 405px;">
@@ -250,6 +258,18 @@
                     <a href="<?php echo base_url('assets/documents/KRSOnlineStudent.pdf'); ?>" target="_blank" class="btn btn-block btn-success" style="margin-top: 10px;">Manual KRS Online</a>
                 </div>
             </div>
+
+
+<!--            <div class="row col-md-12">-->
+<!--                <hr/>-->
+<!--            </div>-->
+<!---->
+<!--            <div class="row">-->
+<!--                <div class="col-md-6 col-md-offset-3">-->
+<!--                    <a href="https://play.google.com/store/apps/details?id=com.ypap.StudentPU"><img class="" src="--><?//= base_url('assets/google-play-badge.png') ?><!--" style="width: 100%;"></a>-->
+<!--                </div>-->
+<!--            </div>-->
+
 
             <div class="row">
                 <div class="col-xs-12" style="text-align: center;font-size: 12px;color: #9E9E9E;">
@@ -306,10 +326,10 @@
             '                            <button type="submit" class="btn btn-primary" id="btnLoginCheckUser">Next <i class="fa fa-angle-right"></i></button>' +
             '                        </div>' +
             '                        <hr/>' +
-            '                        <a href="'+googleBtn+'" class="btn btn-danger btn-block" id="btnLoginWithGoogle"><i class="fa fa-envelope"></i> Sign In With Email</a>' +
+            '                        <a href="'+googleBtn+'" class="btn btn-danger btn-block btn-social btn-google" id="btnLoginWithGoogle"><i class="fa fa-google"></i> Sign in with Google</a>' +
             '<span style="float: right;color: #8c8989;">Use email @podomorouniversity.ac.id</span>' +
             '                        <br/><br/>' +
-            '                        <a href="javascript:void(0)" class="btn btn-default btn-block" id="btnLoginWithAD"><i class="fa fa-windows"></i> Sign In With AD</a>' +
+            '                        <a href="javascript:void(0)" class="btn btn-block btn-default btn-social btn-social-2" id="btnLoginWithAD"><i class="fa fa-windows"></i> Sign in with AD</a>' +
             // '<span style="float: right;color: #8c8989;">Use AD Login</span>' +
             '                    </div><a href="javascript:void(0);" class="hide" id="btnForgot">Forgot Password Portal.</a>';
 
@@ -318,6 +338,19 @@
         $('#username').focus();
 
         localStorage.setItem('LoginFalse', 0);
+
+
+        $('#modalGlobal .modal-header').addClass('hide');
+        $('#modalGlobal .modal-footer').html('<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>');
+        $('#modalGlobal .modal-body').html('<div style="text-align: center;">' +
+            '    <h1>Dear Students<br/><small>Now you can access the academic portal on Android</small></h1><hr/>' +
+            '    <a href="https://play.google.com/store/apps/details?id=com.ypap.StudentPU"><img class="" src="<?= base_url('assets/google-play-badge.png'); ?>" style="width: 100%;max-width:180px;"></a>' +
+            '</div>');
+
+        $('#modalGlobal').modal({
+            'backdrop' : 'static',
+            'show' : true
+        });
     });
 
     $(document).on('click','#btnLoginCheckUser',function() {
