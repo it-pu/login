@@ -1,11 +1,27 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-$route['default_controller'] = 'c_login';
+
+
+require_once( BASEPATH .'database/DB.php' );
+$db =& DB();
+
+$dataMode = $db->get_where('db_it.m_config',array(
+    'ID' => 3
+))->result_array();
+
+if($dataMode[0]['MaintenanceMode']=='1'){
+    $s = '(:any)';
+    for ($i=1;$i<=10;$i++){
+        $route[$s] = 'c_login/maintenance';
+        $s = $s.'/(:any)';
+    }
+
+}
+
+$route['default_controller'] = ($dataMode[0]['MaintenanceMode']=='1') ? 'c_login/maintenance' : 'c_login';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
-
-
 
 $route['loadDataParent/(:num)'] = 'c_login/loadDataParent/$1';
 
