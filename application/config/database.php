@@ -48,8 +48,8 @@ switch ($ServerName) {
         $db['default']['stricton'] = FALSE;
         break;
     case 'demo.portal.podomorouniversity.ac.id':
-        $db['default']['hostname'] = 'localhost';
-        $db['default']['username'] = 'root';
+        $db['default']['hostname'] = '10.1.30.59';
+        $db['default']['username'] = 'db_itpu';
         $db['default']['password'] = 'Uap)(*&^%';
         $db['default']['database'] = 'db_academic';
         $db['default']['dbdriver'] = 'mysqli';// support with MYSQl,POSTGRE SQL, ORACLE,SQL SERVER
