@@ -47,6 +47,19 @@ class C_reset_password extends CI_Controller {
         $this->db->where($w, $data_arr['Username']);
         $this->db->update($data_arr['DB'],$dataUpdate);
 
+        if ($data_arr['Type']=='std') {
+            $data_arr['User']='Students';
+        }
+        else
+        {
+            $data_arr['User']='Employees';
+        }
+        $data_arr['NewPassword'] = $data_arr['Password'];
+        if($_SERVER['SERVER_NAME']=='portal.podomorouniversity.ac.id') {
+            // update for AD
+            $this->m_auth->UpdatePwdAD($data_arr);
+        }
+
         return print_r(1);
 
     }

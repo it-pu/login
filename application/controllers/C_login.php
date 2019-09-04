@@ -430,6 +430,7 @@ class C_login extends CI_Controller {
         return $data->result_array()[0];
     }
 
+
     public function updatePassword(){
         header('Access-Control-Allow-Origin: *');
         header('Content-Type: application/json');
@@ -437,7 +438,6 @@ class C_login extends CI_Controller {
         $token = $this->input->post('token');
         $key = "L0G1N-S50-3R0";
         $data_arr = (array) $this->jwt->decode($token,$key);
-
 
         $pass = $this->genratePassword($data_arr['Username'],$data_arr['NewPassword']);
         $data = array(
@@ -461,6 +461,12 @@ class C_login extends CI_Controller {
         $TypeUser = (isset($data_arr['TypeUser'])) ? $data_arr['TypeUser'] : '';
 
         $result = $this->loadData_UserLogin($data_arr['User'],$data_arr['Year'],$data_arr['Username'],$TypeUser);
+
+        if($_SERVER['SERVER_NAME']=='portal.podomorouniversity.ac.id') {
+            // update for AD
+            $this->m_auth->UpdatePwdAD($data_arr);
+        }
+
         return print_r(json_encode($result));
 
     }
@@ -644,11 +650,16 @@ class C_login extends CI_Controller {
             $this->db->set('Password', $pass);
             $this->db->where('NIP',$data_arr['Username']);
             $this->db->update('db_employees.employees');
+            $data_arr['User']='Employees';
         } else if($data_arr['Flag']=='st'){
             $this->db->set('Password', $pass);
             $this->db->where('NPM',$data_arr['Username']);
             $this->db->update('db_academic.auth_students');
+            $data_arr['User']='Students';
         }
+
+        // update for AD
+        // $this->UpdatePwdAD($data_arr);
 
         return print_r(1);
 
