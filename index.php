@@ -54,6 +54,7 @@
  * NOTE: If you change these, also change the error_reporting() code below
  */
 	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
+	define("URLAD","http://10.1.30.2:8076/", true);
 	$ServerName = $_SERVER['SERVER_NAME'];
 	switch ($ServerName) {
 		case 'localhost':
