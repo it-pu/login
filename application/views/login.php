@@ -987,7 +987,7 @@
                     '    <a href="javascript:void(0);" data-url="'+ArrPage[i].url_login+'" data-token="'+ArrPage[i].token+'" class="a-link">' +
                     '        <div class="thumbnail">' +
                     '            <img src="assets/icon/employee.png" />' +
-                    '            <h4>P - Cam</h4>' +
+                    '            <h4>Portal Campus</h4>' +
                     '        </div>' +
                     '    </a>' +
                     '</div>';
