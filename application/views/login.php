@@ -947,6 +947,29 @@
     function loadPagePanel(ArrPage) {
 
         var htmlBody = '';
+        // filtering pcam agar tidak double
+        var rs = [];
+        for (let index = 0; index < ArrPage.length; index++) {
+           var f = true;
+           var flag = ArrPage[index].flag;
+           for (let j = 0; j < rs.length; j++) {
+            var flag2 = rs[j].flag;
+            if (flag == flag2) {
+                f = false;
+                break;
+            }
+               
+           }
+
+           if (f) {
+               rs.push(ArrPage[index]);
+           }
+            
+        }
+
+        ArrPage = [];
+        ArrPage = rs;
+        // End filtering pcam agar tidak double
         for(var i=0;i<ArrPage.length;i++){
             var h = '';
             if(ArrPage[i].flag=='lec'){
