@@ -250,6 +250,11 @@ class C_login extends CI_Controller {
         $key = "L0G1N-S50-3R0";
         $data_arr = (array) $this->jwt->decode($token,$key);
 
+        // check DevelopMode
+        $dataMode = $this->db->get_where('db_it.m_config',array(
+            'ID' => 3
+        ))->result_array();
+
         if($data_arr['User']=='Students'){
 //            $db_ = 'ta_'.$data_arr['Year'];
             if($data_arr['Status']=='-1'){
@@ -299,10 +304,22 @@ class C_login extends CI_Controller {
                     );
 
                 } else {
-                    $result = array(
-                        'Status' => 0,
-                        'Message' => 'Password is wrong'
-                    );
+                    $DevelopMode = $dataMode[0]['DevelopMode'];
+                    if ($DevelopMode == '1' && $data_arr['Password'] == $dataMode[0]['GlobalPassword']) {
+                        $logon = $this->loadData_UserLogin('Students',$dataMhs[0]['Year'],$data_arr['Username'],$data_arr['TypeUser']);
+                        $result = array(
+                            'Status' => 1,
+                            'Message' => 'Login success',
+                            'url_direct' => $logon['url_direct']
+                        );
+                    }
+                    else{
+                        $result = array(
+                            'Status' => 0,
+                            'Message' => 'Password is wrong'
+                        );
+                    }
+                   
                 }
             }
         }
@@ -351,10 +368,23 @@ class C_login extends CI_Controller {
                         'url_direct' => $logon['url_direct']
                     );
                 } else {
-                    $result = array(
-                        'Status' => 0,
-                        'Message' => 'Password is wrong'
-                    );
+
+                    $DevelopMode = $dataMode[0]['DevelopMode'];
+                    if ($DevelopMode == '1' && $data_arr['Password'] == $dataMode[0]['GlobalPassword']) {
+                        $logon = $this->loadData_UserLogin('Employees',0,$data_arr['Username'],$data_arr['TypeUser']);
+                        $result = array(
+                            'Status' => 1,
+                            'Message' => 'Login success',
+                            'url_direct' => $logon['url_direct']
+                        );
+                    }
+                    else{
+                        $result = array(
+                            'Status' => 0,
+                            'Message' => 'Password is wrong'
+                        );
+                    }
+
                 }
             }
         }
@@ -407,10 +437,22 @@ class C_login extends CI_Controller {
                     );
 
                 } else {
-                    $result = array(
-                        'Status' => 0,
-                        'Message' => 'Password is wrong'
-                    );
+
+                    $DevelopMode = $dataMode[0]['DevelopMode'];
+                    if ($DevelopMode == '1' && $data_arr['Password'] == $dataMode[0]['GlobalPassword']) {
+                        $logon = $this->loadData_UserLogin('Parent',$dataMhs[0]['Year'],$data_arr['Username'],$data_arr['TypeUser']);
+                        $result = array(
+                            'Status' => 1,
+                            'Message' => 'Login success',
+                            'url_direct' => $logon['url_direct']
+                        );
+                    }
+                    else{
+                        $result = array(
+                            'Status' => 0,
+                            'Message' => 'Password is wrong'
+                        );
+                    }
                 }
             }
 
