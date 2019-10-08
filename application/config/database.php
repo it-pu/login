@@ -47,7 +47,7 @@ switch ($ServerName) {
         $db['default']['autoinit'] = TRUE;
         $db['default']['stricton'] = FALSE;
         break;
-    case 'demo.portal.podomorouniversity.ac.id':
+    case 'demoportal.podomorouniversity.ac.id':
         $db['default']['hostname'] = '10.1.30.59';
         $db['default']['username'] = 'db_itpu';
         $db['default']['password'] = 'Uap)(*&^%';
