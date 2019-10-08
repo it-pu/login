@@ -53,6 +53,35 @@
  *
  * NOTE: If you change these, also change the error_reporting() code below
  */
+
+	/*
+		Buat function https manual
+		Alhadi Rahman
+		08 Okt 2019
+
+	*/
+
+	function is_https_chek()
+	{
+		if ( ! empty($_SERVER['HTTPS']) && strtolower($_SERVER['HTTPS']) !== 'off')
+		{
+			return TRUE;
+		}
+		elseif (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && strtolower($_SERVER['HTTP_X_FORWARDED_PROTO']) === 'https')
+		{
+			return TRUE;
+		}
+		elseif ( ! empty($_SERVER['HTTP_FRONT_END_HTTPS']) && strtolower($_SERVER['HTTP_FRONT_END_HTTPS']) !== 'off')
+		{
+			return TRUE;
+		}
+
+		return FALSE;			
+	}
+
+	$HostPath=(is_https_chek() ? "https://" : "http://");
+	/* End Function https */
+
 	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
 	define("URLAD","http://10.1.30.2:8076/", true);
 	$ServerName = $_SERVER['SERVER_NAME'];
@@ -63,35 +92,35 @@
 			$portal_user = ($_SERVER['SERVER_PORT']!='80') ? 'login3' : 'portal';
 			define("port",$port_user, true);
 
-			define("serverRoot","http://localhost".port."/".$folder_user, true);
-			define("url_pas","http://localhost".port."/".$folder_user."/", true);
+			define("serverRoot",$HostPath."localhost".port."/".$folder_user, true);
+			define("url_pas",$HostPath."localhost".port."/".$folder_user."/", true);
 			define("url_pcam",url_pas."uath/__portal4SignIn", true);
-			define("url_students","http://localhost".port."/students/uath/__portal4SignIn", true);
-			define("url_lecturers","http://localhost".port."/lecturer/uath/__portal4SignIn", true);
-      define("url_parents","http://localhost".port."/parent/uath/__portal4SignIn", true);
-			define("url_sign_out","http://localhost".port."/".$portal_user."/", true);
-			define("url_registration","http://localhost/registeronline/", true);
+			define("url_students",$HostPath."localhost".port."/students/uath/__portal4SignIn", true);
+			define("url_lecturers",$HostPath."localhost".port."/lecturer/uath/__portal4SignIn", true);
+      		define("url_parents",$HostPath."localhost".port."/parent/uath/__portal4SignIn", true);
+			define("url_sign_out",$HostPath."localhost".port."/".$portal_user."/", true);
+			define("url_registration",$HostPath."localhost/registeronline/", true);
 			break;
 		case 'portal.podomorouniversity.ac.id':
-			define("url_registration","http://admission.podomorouniversity.ac.id/", true);
-	        define("serverRoot","http://pcam.podomorouniversity.ac.id", true);
-	        define("url_pas","http://pcam.podomorouniversity.ac.id/", true);
-	        define("url_pcam","http://pcam.podomorouniversity.ac.id/uath/__portal4SignIn", true);
-	        define("url_students","http://studentpu.podomorouniversity.ac.id/uath/__portal4SignIn", true);
-	        define("url_lecturers","http://lecturerpu.podomorouniversity.ac.id/uath/__portal4SignIn", true);
-          define("url_parents","http://parentpu.podomorouniversity.ac.id/uath/__portal4SignIn", true);
-	        define("url_sign_out","http://portal.podomorouniversity.ac.id", true);
+			define("url_registration",$HostPath."admission.podomorouniversity.ac.id/", true);
+	        define("serverRoot",$HostPath."pcam.podomorouniversity.ac.id", true);
+	        define("url_pas",$HostPath."pcam.podomorouniversity.ac.id/", true);
+	        define("url_pcam",$HostPath."pcam.podomorouniversity.ac.id/uath/__portal4SignIn", true);
+	        define("url_students",$HostPath."studentpu.podomorouniversity.ac.id/uath/__portal4SignIn", true);
+	        define("url_lecturers",$HostPath."lecturerpu.podomorouniversity.ac.id/uath/__portal4SignIn", true);
+          	define("url_parents",$HostPath."parentpu.podomorouniversity.ac.id/uath/__portal4SignIn", true);
+	        define("url_sign_out",$HostPath."portal.podomorouniversity.ac.id", true);
 			
 			break;
-		case 'demo.portal.podomorouniversity.ac.id':
-			define("url_registration","http://demo.admission.podomorouniversity.ac.id/", true);
-	        define("serverRoot","http://demo.pcam.podomorouniversity.ac.id", true);
-	        define("url_pas","http://demo.pcam.podomorouniversity.ac.id/", true);
-	        define("url_pcam","http://demo.pcam.podomorouniversity.ac.id/uath/__portal4SignIn", true);
-	        define("url_students","http://demo.studentpu.podomorouniversity.ac.id/uath/__portal4SignIn", true);
-	        define("url_lecturers","http://demo.lecturerpu.podomorouniversity.ac.id/uath/__portal4SignIn", true);
-          define("url_parents","http://demo.parentpu.podomorouniversity.ac.id/uath/__portal4SignIn", true);
-	        define("url_sign_out","http://demo.portal.podomorouniversity.ac.id", true);
+		case 'demoportal.podomorouniversity.ac.id':
+			define("url_registration",$HostPath."demoadmission.podomorouniversity.ac.id/", true);
+	        define("serverRoot",$HostPath."demopcam.podomorouniversity.ac.id", true);
+	        define("url_pas",$HostPath."demopcam.podomorouniversity.ac.id/", true);
+	        define("url_pcam",$HostPath."demopcam.podomorouniversity.ac.id/uath/__portal4SignIn", true);
+	        define("url_students",$HostPath."demostudentpu.podomorouniversity.ac.id/uath/__portal4SignIn", true);
+	        define("url_lecturers",$HostPath."demolecturerpu.podomorouniversity.ac.id/uath/__portal4SignIn", true);
+          	define("url_parents",$HostPath."demoparentpu.podomorouniversity.ac.id/uath/__portal4SignIn", true);
+	        define("url_sign_out",$HostPath."demoportal.podomorouniversity.ac.id", true);
 			break;	
 		default:
 			# code...
