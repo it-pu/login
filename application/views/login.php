@@ -237,7 +237,7 @@
 
             <div class="row">
                 <div class="col-xs-12" style="text-align: center;">
-                    <img src="assets/icon/logo.jpg" style="max-width: 200px;">
+                    <img src="<?= base_url('assets/icon/logo_pu.png') ?>" style="max-width: 200px;">
                     <hr/>
                 </div>
             </div>
@@ -949,10 +949,10 @@
         var htmlBody = '';
         // filtering pcam agar tidak double
         var rs = [];
-        for (let index = 0; index < ArrPage.length; index++) {
+        for (var index = 0; index < ArrPage.length; index++) {
            var f = true;
            var flag = ArrPage[index].flag;
-           for (let j = 0; j < rs.length; j++) {
+           for (var j = 0; j < rs.length; j++) {
             var flag2 = rs[j].flag;
             if (flag == flag2) {
                 f = false;
