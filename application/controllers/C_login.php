@@ -78,6 +78,7 @@ class C_login extends CI_Controller {
     }
 
     public function authGoogle(){
+
         if(isset($_GET['code'])){
 
             try{
