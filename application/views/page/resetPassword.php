@@ -87,7 +87,7 @@
 
             <!--            <h3><b>Reset Password</b></h3>-->
             <div class="thumbnail" style="min-height: 100px;padding: 15px;text-align: center;">
-                <img src="<?php echo base_url('assets/icon/logo.jpg'); ?>" style="max-width: 200px;">
+                <img src="<?php echo base_url('assets/icon/logo_pu.jpg'); ?>" style="max-width: 200px;">
 
                 <hr/>
 
