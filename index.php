@@ -86,21 +86,6 @@
 	define("URLAD","http://10.1.30.2:8076/", true);
 	$ServerName = $_SERVER['SERVER_NAME'];
 	switch ($ServerName) {
-		case 'localhost':
-			$port_user = ($_SERVER['SERVER_PORT']!='80') ? ':'.$_SERVER['SERVER_PORT'] : '';
-			$folder_user = ($_SERVER['SERVER_PORT']!='80') ? 'siak3' : 'puis';
-			$portal_user = ($_SERVER['SERVER_PORT']!='80') ? 'login3' : 'portal';
-			define("port",$port_user, true);
-
-			define("serverRoot",$HostPath."localhost".port."/".$folder_user, true);
-			define("url_pas",$HostPath."localhost".port."/".$folder_user."/", true);
-			define("url_pcam",url_pas."uath/__portal4SignIn", true);
-			define("url_students",$HostPath."localhost".port."/students/uath/__portal4SignIn", true);
-			define("url_lecturers",$HostPath."localhost".port."/lecturer/uath/__portal4SignIn", true);
-      		define("url_parents",$HostPath."localhost".port."/parent/uath/__portal4SignIn", true);
-			define("url_sign_out",$HostPath."localhost".port."/".$portal_user."/", true);
-			define("url_registration",$HostPath."localhost/registeronline/", true);
-			break;
 		case 'portal.podomorouniversity.ac.id':
 			define("url_registration",$HostPath."admission.podomorouniversity.ac.id/", true);
 	        define("serverRoot",$HostPath."pcam.podomorouniversity.ac.id", true);
@@ -123,7 +108,19 @@
 	        define("url_sign_out",$HostPath."demoportal.podomorouniversity.ac.id", true);
 			break;	
 		default:
-			# code...
+            $port_user = ($_SERVER['SERVER_PORT']!='80') ? ':'.$_SERVER['SERVER_PORT'] : '';
+            $folder_user = ($_SERVER['SERVER_PORT']!='80') ? 'siak3' : 'puis';
+            $portal_user = ($_SERVER['SERVER_PORT']!='80') ? 'login3' : 'portal';
+            define("port",$port_user, true);
+
+            define("serverRoot",$HostPath."localhost".port."/".$folder_user, true);
+            define("url_pas",$HostPath."localhost".port."/".$folder_user."/", true);
+            define("url_pcam",url_pas."uath/__portal4SignIn", true);
+            define("url_students",$HostPath."localhost".port."/students/uath/__portal4SignIn", true);
+            define("url_lecturers",$HostPath."localhost".port."/lecturer/uath/__portal4SignIn", true);
+            define("url_parents",$HostPath."localhost".port."/parent/uath/__portal4SignIn", true);
+            define("url_sign_out",$HostPath."localhost".port."/".$portal_user."/", true);
+            define("url_registration",$HostPath."localhost/registeronline/", true);
 			break;
 	}
 
