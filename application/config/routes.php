@@ -29,6 +29,7 @@ $route['navigation/(:num)'] = 'c_departement/navigation/$1';
 $route['profile'] = 'c_dashboard/profile';
 
 
+
 // === AUTH ===
 $route['uath/getAuthSSOLogin'] = 'c_login/getAuthSSOLogin';
 
@@ -56,4 +57,6 @@ $route['resetpassword_intake/(:any)'] = 'c_reset_password/loadpageReset_intake/$
 $route['updatepassword'] = 'c_reset_password/updatepassword';
 $route['updatepassword_intake'] = 'c_reset_password/updatepassword_intake';
 
+// ======= Digital SKPI ========= //
+$route['skpi'] = 'c_skpi';
 
