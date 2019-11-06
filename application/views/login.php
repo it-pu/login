@@ -346,7 +346,7 @@
             '    <h1>Dear Students<br/><small>Now you can access the academic portal on Android</small></h1><hr/>' +
             '    <a href="https://play.google.com/store/apps/details?id=com.ypap.StudentPU"><img class="" src="<?= base_url('assets/google-play-badge.png'); ?>" style="width: 100%;max-width:180px;"></a>' +
             '</div>' +
-            '<div class="alert alert-info" style="margin-top:15px;text-align:center;"><p style="font-weight:bold;font-size:15px;">If the downloaded application has problems <br/>(for example : it cannot sign in), <br/> please try downloading the alternative link that we have provided below ' +
+            '<div class="alert alert-info" style="margin-top:15px;text-align:center;"><p style="font-weight:bold;font-size:15px;">If the application has problems (for example : it cannot sign in), <br/> please try downloading the alternative link that we have provided below ' +
             '<br/><br/><a href="'+base_url_server+'assets/documents/Student_Portal.pdf" target="_blank" class="btn btn-primary" id="btnAlt">Alternative Link</a></p></div>' +
             '');
 
