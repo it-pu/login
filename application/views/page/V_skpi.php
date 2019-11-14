@@ -376,3 +376,9 @@
 
   </div>
 </section>
+
+<style>
+    body {
+        background: #9e9e9e8a;
+    }
+</style>

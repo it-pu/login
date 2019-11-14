@@ -339,7 +339,14 @@
 
         localStorage.setItem('LoginFalse', 0);
 
+        var servername = "<?= $_SERVER['SERVER_NAME']; ?>";
+        if(servername!='localhost'){
+            loadModalAwal();
+        }
 
+    });
+
+    function loadModalAwal() {
         $('#modalGlobal .modal-header').addClass('hide');
         $('#modalGlobal .modal-footer').html('<div id="viewBtnClose"><u>Close on <i class="fa fa-angle-double-right"></i> <span id="viewTimer">-</span> seconds</u></div>');
         $('#modalGlobal .modal-body').html('<div style="text-align: center;">' +
@@ -371,7 +378,7 @@
             'backdrop' : 'static',
             'show' : true
         });
-    });
+    }
 
     $(document).on('click','#btnLoginCheckUser',function() {
         CheckUsername2Login();
