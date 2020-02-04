@@ -28,6 +28,15 @@ $route['loadDataParent/(:num)'] = 'c_login/loadDataParent/$1';
 $route['navigation/(:num)'] = 'c_departement/navigation/$1';
 $route['profile'] = 'c_dashboard/profile';
 
+$route['newlogin'] = 'c_login/index2';
+$route['newlogin2'] = 'c_login/index3';
+$route['meet-our-team'] = 'c_login/meet_our_team';
+
+
+$route['search-people'] = 'c_search_people/search_people';
+$route['__getPeople'] = 'c_search_people/getPeople';
+
+
 
 
 // === AUTH ===
