@@ -401,7 +401,7 @@
                                 '                <div>' +
                                 '                    <img class="avatar img-fitter" data-src="'+v.Photo+'">' +
                                 '                </div>' +
-                                '                <h4 class="avatar-name">'+v.Name+'<br/><small>'+v.NIP+' - '+isi+'</small></h4>' +
+                                '                <h4 class="avatar-name">'+v.Name+'<br/><small>'+v.NIP+'</small></h4>' +
                                 '                <p>'+v.Dvision+'</p>' +
                                 '            </div>' +
                                 '        </div>'+belakang;
