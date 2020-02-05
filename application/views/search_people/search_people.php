@@ -162,6 +162,28 @@
         border-radius: 45px;
         border: 1px solid #CCCCCC;
     }
+
+    @keyframes placeHolderShimmer {
+        0% {
+            background-position: -468px 0
+        }
+        100% {
+            background-position: 468px 0
+        }
+    }
+
+    .animated-background {
+        animation-duration: 1s;
+        animation-fill-mode: forwards;
+        animation-iteration-count: infinite;
+        animation-name: placeHolderShimmer;
+        animation-timing-function: linear;
+        background: #f6f7f8;
+        background: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);
+        background-size: 800px 104px;
+        height: 221px;
+        position: relative;
+    }
 </style>
 
 <div class="container">
@@ -182,11 +204,18 @@
 
 
 
-<!--        <div style="text-align: center;color: #9e9e9ea6;margin-bottom: 15px;">-->
-<!--            <h1>- - - Find the coolest person here <i class="fa fa-smile-o"></i> - - -</h1>-->
-<!--        </div>-->
     </div>
 </div>
+
+
+
+<script>
+    // setTimeout(function () {
+    //     $('.timeline-wrapper').hide();
+    //     $('.show-data').show();
+    // }, 3000);
+</script>
+
 
 
 <script>
@@ -208,6 +237,121 @@
             '            </div>' +
             '        </div>';
 
+        window.notFoundPage = function (key) {
+
+            var pg = '<div style="text-align: center;color: #9e9e9ea6;margin-bottom: 15px;">' +
+            '            <h1>Sorry we couldn\'t find any matches for  <span style="color: #1e90ffbd;">'+key+'</span></h1>' +
+            '        </div>';
+
+            return pg;
+
+
+
+        };
+
+        window.loadingPage = '<div class="col-md-2">' +
+            '            <div class="animated-background">' +
+            '                <div class="background-masker header-top"></div>' +
+            '                <div class="background-masker header-left"></div>' +
+            '                <div class="background-masker header-right"></div>' +
+            '                <div class="background-masker header-bottom"></div>' +
+            '                <div class="background-masker subheader-left"></div>' +
+            '                <div class="background-masker subheader-right"></div>' +
+            '                <div class="background-masker subheader-bottom"></div>' +
+            '                <div class="background-masker content-top"></div>' +
+            '                <div class="background-masker content-first-end"></div>' +
+            '                <div class="background-masker content-second-line"></div>' +
+            '                <div class="background-masker content-second-end"></div>' +
+            '                <div class="background-masker content-third-line"></div>' +
+            '                <div class="background-masker content-third-end"></div>' +
+            '            </div>' +
+            '        </div>' +
+            '        <div class="col-md-2">' +
+            '            <div class="animated-background">' +
+            '                <div class="background-masker header-top"></div>' +
+            '                <div class="background-masker header-left"></div>' +
+            '                <div class="background-masker header-right"></div>' +
+            '                <div class="background-masker header-bottom"></div>' +
+            '                <div class="background-masker subheader-left"></div>' +
+            '                <div class="background-masker subheader-right"></div>' +
+            '                <div class="background-masker subheader-bottom"></div>' +
+            '                <div class="background-masker content-top"></div>' +
+            '                <div class="background-masker content-first-end"></div>' +
+            '                <div class="background-masker content-second-line"></div>' +
+            '                <div class="background-masker content-second-end"></div>' +
+            '                <div class="background-masker content-third-line"></div>' +
+            '                <div class="background-masker content-third-end"></div>' +
+            '            </div>' +
+            '        </div>' +
+            '        <div class="col-md-2">' +
+            '            <div class="animated-background">' +
+            '                <div class="background-masker header-top"></div>' +
+            '                <div class="background-masker header-left"></div>' +
+            '                <div class="background-masker header-right"></div>' +
+            '                <div class="background-masker header-bottom"></div>' +
+            '                <div class="background-masker subheader-left"></div>' +
+            '                <div class="background-masker subheader-right"></div>' +
+            '                <div class="background-masker subheader-bottom"></div>' +
+            '                <div class="background-masker content-top"></div>' +
+            '                <div class="background-masker content-first-end"></div>' +
+            '                <div class="background-masker content-second-line"></div>' +
+            '                <div class="background-masker content-second-end"></div>' +
+            '                <div class="background-masker content-third-line"></div>' +
+            '                <div class="background-masker content-third-end"></div>' +
+            '            </div>' +
+            '        </div>' +
+            '        <div class="col-md-2">' +
+            '            <div class="animated-background">' +
+            '                <div class="background-masker header-top"></div>' +
+            '                <div class="background-masker header-left"></div>' +
+            '                <div class="background-masker header-right"></div>' +
+            '                <div class="background-masker header-bottom"></div>' +
+            '                <div class="background-masker subheader-left"></div>' +
+            '                <div class="background-masker subheader-right"></div>' +
+            '                <div class="background-masker subheader-bottom"></div>' +
+            '                <div class="background-masker content-top"></div>' +
+            '                <div class="background-masker content-first-end"></div>' +
+            '                <div class="background-masker content-second-line"></div>' +
+            '                <div class="background-masker content-second-end"></div>' +
+            '                <div class="background-masker content-third-line"></div>' +
+            '                <div class="background-masker content-third-end"></div>' +
+            '            </div>' +
+            '        </div>' +
+            '        <div class="col-md-2">' +
+            '            <div class="animated-background">' +
+            '                <div class="background-masker header-top"></div>' +
+            '                <div class="background-masker header-left"></div>' +
+            '                <div class="background-masker header-right"></div>' +
+            '                <div class="background-masker header-bottom"></div>' +
+            '                <div class="background-masker subheader-left"></div>' +
+            '                <div class="background-masker subheader-right"></div>' +
+            '                <div class="background-masker subheader-bottom"></div>' +
+            '                <div class="background-masker content-top"></div>' +
+            '                <div class="background-masker content-first-end"></div>' +
+            '                <div class="background-masker content-second-line"></div>' +
+            '                <div class="background-masker content-second-end"></div>' +
+            '                <div class="background-masker content-third-line"></div>' +
+            '                <div class="background-masker content-third-end"></div>' +
+            '            </div>' +
+            '        </div>' +
+            '        <div class="col-md-2">' +
+            '            <div class="animated-background">' +
+            '                <div class="background-masker header-top"></div>' +
+            '                <div class="background-masker header-left"></div>' +
+            '                <div class="background-masker header-right"></div>' +
+            '                <div class="background-masker header-bottom"></div>' +
+            '                <div class="background-masker subheader-left"></div>' +
+            '                <div class="background-masker subheader-right"></div>' +
+            '                <div class="background-masker subheader-bottom"></div>' +
+            '                <div class="background-masker content-top"></div>' +
+            '                <div class="background-masker content-first-end"></div>' +
+            '                <div class="background-masker content-second-line"></div>' +
+            '                <div class="background-masker content-second-end"></div>' +
+            '                <div class="background-masker content-third-line"></div>' +
+            '                <div class="background-masker content-third-end"></div>' +
+            '            </div>' +
+            '        </div>';
+
         $('#showData').html(defaultPage);
 
         $('.img-fitter').imgFitter();
@@ -219,38 +363,69 @@
 
 
         if(key!=''){
-            $('#showData').empty();
+
+
+
+            $('#showData').html(loadingPage);
 
             var base_url_js = "<?= base_url(); ?>";
             var url = base_url_js+'__getPeople?key='+key.trim();
             $.getJSON(url,function (jsonResult) {
                 console.log(jsonResult);
+                
 
-                // Employees
-                if(jsonResult.Employees.length>0){
-                    $.each(jsonResult.Employees,function (i,v) {
+                setTimeout(function () {
+                    $('#showData').empty();
+                    // Employees
+                    if(jsonResult.Employees.length>0){
+                        $.each(jsonResult.Employees,function (i,v) {
 
-                        $('#showData').append('<div class="col-md-2">' +
-                            '            <div class="card">' +
-                            '                <div>' +
-                            '                    <img class="avatar img-fitter" data-src="http://localhost/puis/uploads/employees/'+v.Photo+'">' +
-                            '                </div>' +
-                            '                <h4 class="avatar-name">'+v.Name+'<br/><small>'+v.NIP+'</small></h4>' +
-                            '                <p>'+v.Dvision+'</p>' +
-                            '            </div>' +
-                            '        </div>');
-                    });
+                            $('#showData').append('<div class="col-md-2 animated fadeIn">' +
+                                '            <div class="card">' +
+                                '                <div>' +
+                                '                    <img class="avatar img-fitter" data-src="'+v.Photo+'">' +
+                                '                </div>' +
+                                '                <h4 class="avatar-name">'+v.Name+'<br/><small>'+v.NIP+'</small></h4>' +
+                                '                <p>'+v.Dvision+'</p>' +
+                                '            </div>' +
+                                '        </div>');
+                        });
 
-                    $('.img-fitter').imgFitter();
-                }
-                else {
-                    $('#showData').html(defaultPage);
-                }
+                        $('.img-fitter').imgFitter();
+                    }
+
+                    if(jsonResult.Students.length>0){
+                        $.each(jsonResult.Students,function (i,v) {
+
+                            $('#showData').append('<div class="col-md-2 animated fadeIn">' +
+                                '            <div class="card">' +
+                                '                <div>' +
+                                '                    <img class="avatar img-fitter" data-src="'+v.Photo+'">' +
+                                '                </div>' +
+                                '                <h4 class="avatar-name">'+v.Name+'<br/><small>'+v.NPM+'</small></h4>' +
+                                '                <p>'+v.Prodi+'</p>' +
+                                '            </div>' +
+                                '        </div>');
+                        });
+
+                        $('.img-fitter').imgFitter();
+                    }
+
+
+                    if(jsonResult.Employees.length<=0 && jsonResult.Students.length<=0) {
+                        var notFoundPageData = notFoundPage(key);
+                        $('#showData').html(notFoundPageData);
+                    }
+                },1000);
+
+
             });
 
 
         } else {
-            $('#showData').html(defaultPage);
+            setTimeout(function () {
+                $('#showData').html(defaultPage);
+            },1000);
         }
     });
 </script>

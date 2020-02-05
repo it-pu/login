@@ -45,6 +45,12 @@ class C_search_people extends CI_Controller {
                                                 OR em.NIP LIKE "%'.$key.'%" 
                                                 ORDER BY em.Name ASC LIMIT 24')->result_array();
 
+        $dataStd = $this->db->query('SELECT ats.NPM, ats.Name, ps.NameEng AS Prodi, ats.Year FROM db_academic.auth_students ats 
+                                                LEFT JOIN db_academic.program_study ps ON (ps.ID = ats.ProdiID)
+                                                WHERE ats.Name LIKE "%'.$key.'%" 
+                                                OR ats.NPM LIKE "%'.$key.'%"
+                                                 ORDER BY ats.Name LIMIT 24')->result_array();
+
         if(count($dataEmp)>0){
             for ($e=0;$e<count($dataEmp);$e++){
                 $DivID = ($dataEmp[$e]['PositionMain']!='' && $dataEmp[$e]['PositionMain']!=null)
@@ -55,13 +61,41 @@ class C_search_people extends CI_Controller {
                     $dataEmp[$e]['Dvision'] = (count($Dvision)>0) ? $Dvision[0]['Division'] : '' ;
                 }
 
+                $imgPhoto = ($dataEmp[$e]['Photo']!='' && $dataEmp[$e]['Photo']!=null)
+                    ? 'https://pcam.podomorouniversity.ac.id/uploads/employees/'.$dataEmp[$e]['Photo']
+                    : 'https://pcam.podomorouniversity.ac.id/images/icon/no_image.png';
 
+                $dataEmp[$e]['Photo'] = $imgPhoto;
+                $dataEmp[$e]['Name'] = ucwords(strtolower($dataEmp[$e]['Name']));
+
+
+            }
+        }
+
+        if(count($dataStd)>0){
+            for($s=0;$s<count($dataStd);$s++){
+                $NPM = $dataStd[$s]['NPM'];
+                $db = 'ta_'.$dataStd[$s]['Year'];
+
+                $dataPhoto = $this->db->select('Photo')->get_where($db.'.students',array('NPM' => $NPM))->result_array();
+
+                $imgPhoto = (count($dataPhoto)>0)
+                    ? 'https://pcam.podomorouniversity.ac.id/uploads/students/'.$db.'/'.$dataPhoto[0]['Photo']
+                    : 'https://pcam.podomorouniversity.ac.id/images/icon/no_image.png';
+                $dataStd[$s]['Photo'] = $imgPhoto;
+
+                $Name = explode(' ',$dataStd[$s]['Name']);
+
+                $viewName = (count($Name)>2) ? $Name[0].' '.$Name[1] : $dataStd[$s]['Name'];
+
+                $dataStd[$s]['Name'] = ucwords(strtolower($viewName));
             }
         }
 
 
         $result = array(
-            'Employees' => $dataEmp
+            'Employees' => $dataEmp,
+            'Students' => $dataStd
         );
 
         return print_r(json_encode($result));
