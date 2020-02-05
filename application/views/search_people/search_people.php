@@ -375,7 +375,7 @@
 
 
 
-            $('#showData').html(loadingPage);
+            $('#showData,#showDataStd').html(loadingPage);
 
             var base_url_js = "<?= base_url(); ?>";
             var url = base_url_js+'__getPeople?key='+key.trim();
@@ -384,7 +384,7 @@
                 
 
                 setTimeout(function () {
-                    $('#showData').empty();
+                    $('#showData,#showDataStd').empty();
                     // Employees
                     if(jsonResult.Employees.length>0){
                         var isi = 1;
