@@ -357,7 +357,7 @@
             '<br/><br/><a href="'+base_url_server+'assets/documents/Student_Portal.pdf" target="_blank" class="btn btn-primary" id="btnAlt">Alternative Link</a></p></div>' +
             '');
 
-        var tim = 6;
+        var tim = 0;
         var loadTimer = setInterval(function () {
 
             if(tim>=1){
