@@ -83,84 +83,135 @@
         "hideMethod": "fadeOut"
     };
 </script>
-<link href="https://fonts.googleapis.com/css?family=Anton&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Courgette&display=swap" rel="stylesheet">
 <style>
-    h1 {
-        font-family: 'Anton', sans-serif;
+    body {
+        /*background: #f9f9f9;*/
+        background: #ffffff;
+        /*background: rgba(218,218,218,1)*/
     }
-    img {
-        max-width: 150px;
+    h1 {
+        font-family: 'Courgette', cursive;
+    }
+
+    .thumbnail {
+        padding: 10px;
         height: 150px;
-        width: 100%;
-        border-radius: 83px;
-        border: 3px solid #CCCCCC;
+        border: 3px solid #e2e2e2;
+    }
+
+    img {
+        width: 90px;
+        border-radius: 85px;
+        /*border-bottom-left-radius: 0px;*/
+        /*border-bottom-right-radius: 0px;*/
+        border: 3px solid #e2e2e2;
     }
     .team-name {
         margin-top: 10px;
+        font-family: 'Courgette', cursive;
         font-size: 17px;
+        background: #fff;
+        font-weight: bold;
+    }
+
+    .col-xs-6 {
+        text-align: center;
     }
 </style>
 <body>
 
+
 <div class="container">
 
-    <div class="row">
+    <div class="row" style="margin-bottom: 50px;">
         <div class="col-md-12" style="text-align: center;">
             <h1>- - - Meet our team - - -</h1>
         </div>
     </div>
 
-    <div class="row" style="text-align: center;margin-top: 50px;">
-        <div class="col-md-2">
-            <img class="img-fitter" data-src="https://pcam.podomorouniversity.ac.id/uploads/employees/2019003.jpeg">
-            <div class="team-name">Agustian</div>
+    <div class="row">
+
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col-xs-6">
+                    <img class="img-fitter" data-src="https://pcam.podomorouniversity.ac.id/uploads/employees/9907003.jpeg">
+                    <div class="team-name">Lily B Putri</div>
+                </div>
+                <div class="col-xs-6">
+                    <img class="img-fitter" data-src="https://pcam.podomorouniversity.ac.id/uploads/employees/2018034.jpeg">
+                    <div class="team-name">Martin Hasen</div>
+                </div>
+            </div>
         </div>
-        <div class="col-md-2">
-            <img class="img-fitter" data-src="https://pcam.podomorouniversity.ac.id/uploads/employees/2019072.png">
-            <div class="team-name">Ridwantoro</div>
+
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col-xs-6">
+                    <img class="img-fitter" data-src="https://pcam.podomorouniversity.ac.id/uploads/employees/2016065.JPG">
+                    <div class="team-name">Novita Riani Br Ginting</div>
+                </div>
+                <div class="col-xs-6">
+                    <img class="img-fitter" data-src="https://pcam.podomorouniversity.ac.id/uploads/employees/2017090.JPG">
+                    <div class="team-name">Nandang Mulyadi</div>
+                </div>
+            </div>
         </div>
-        <div class="col-md-2">
-            <img class="img-fitter" data-src="https://pcam.podomorouniversity.ac.id/uploads/employees/2019069.jpeg">
-            <div class="team-name">Febri Damatraseta</div>
+
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col-xs-6">
+                    <img class="img-fitter" data-src="https://pcam.podomorouniversity.ac.id/uploads/employees/2018018.jpg">
+                    <div class="team-name">Alhadi Rahman</div>
+                </div>
+                <div class="col-xs-6">
+                    <img class="img-fitter" data-src="https://pcam.podomorouniversity.ac.id/uploads/employees/2017114.jpeg">
+                    <div class="team-name">Irfan Firdaus</div>
+                </div>
+            </div>
         </div>
-        <div class="col-md-2">
-            <img class="img-fitter" data-src="https://pcam.podomorouniversity.ac.id/uploads/employees/2019064.jpeg">
-            <div class="team-name">Ahmad Askhabul Yamin</div>
-        </div>
-        <div class="col-md-2">
-            <img class="img-fitter" data-src="https://pcam.podomorouniversity.ac.id/uploads/employees/2019006.jpeg">
-            <div class="team-name">Bismar Gazali</div>
-        </div>
-        <div class="col-md-2">
-            <img class="img-fitter" data-src="https://pcam.podomorouniversity.ac.id/uploads/employees/2019002.jpeg">
-            <div class="team-name">Jorgie Gilbert Sumual</div>
-        </div>
+
     </div>
 
-    <div class="row" style="text-align: center;margin-top: 50px;">
-        <div class="col-md-2">
-            <img class="img-fitter" data-src="https://pcam.podomorouniversity.ac.id/uploads/employees/2018034.jpeg">
-            <div class="team-name">Bapak Martin Hasen</div>
+    <div class="row" style="text-align: center;margin-top: 20px;">
+
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col-xs-6">
+                    <img class="img-fitter" data-src="https://pcam.podomorouniversity.ac.id/uploads/employees/2019003.jpeg">
+                    <div class="team-name">Agustian</div>
+                </div>
+                <div class="col-xs-6">
+                    <img class="img-fitter" data-src="https://pcam.podomorouniversity.ac.id/uploads/employees/2019072.png">
+                    <div class="team-name">Ridwantoro</div>
+                </div>
+            </div>
         </div>
-        <div class="col-md-2">
-            <img class="img-fitter" data-src="https://pcam.podomorouniversity.ac.id/uploads/employees/2018018.jpg">
-            <div class="team-name">Alhadi Rahman</div>
+
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col-xs-6">
+                    <img class="img-fitter" data-src="https://pcam.podomorouniversity.ac.id/uploads/employees/2019069.jpeg">
+                    <div class="team-name">Febri Damatraseta</div>
+                </div>
+                <div class="col-xs-6">
+                    <img class="img-fitter" data-src="https://pcam.podomorouniversity.ac.id/uploads/employees/2019064.jpeg">
+                    <div class="team-name">Ahmad Askhabul Yamin</div>
+                </div>
+            </div>
         </div>
-        <div class="col-md-2">
-            <img class="img-fitter" data-src="https://pcam.podomorouniversity.ac.id/uploads/employees/2017114.jpeg">
-            <div class="team-name">Irfan Firdaus</div>
-        </div>
-        <div class="col-md-2">
-            <img class="img-fitter" data-src="https://pcam.podomorouniversity.ac.id/uploads/employees/2017090.JPG">
-            <div class="team-name">Nandang Mulyadi</div>
-        </div>
-        <div class="col-md-2">
-            <img class="img-fitter" data-src="https://pcam.podomorouniversity.ac.id/uploads/employees/2016065.JPG">
-            <div class="team-name">Novita Riani Br Ginting</div>
-        </div>
-        <div class="col-md-2">
-            <img class="img-fitter" data-src="https://pcam.podomorouniversity.ac.id/uploads/employees/9907003.jpeg">
-            <div class="team-name">Ibu Sia Lily Bramaputri</div>
+
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col-xs-6">
+                    <img class="img-fitter" data-src="https://pcam.podomorouniversity.ac.id/uploads/employees/2019006.jpeg">
+                    <div class="team-name">Bismar Gazali</div>
+                </div>
+                <div class="col-xs-6">
+                    <img class="img-fitter" data-src="https://pcam.podomorouniversity.ac.id/uploads/employees/2019002.jpeg">
+                    <div class="team-name">Jorgie Gilbert Sumual</div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
