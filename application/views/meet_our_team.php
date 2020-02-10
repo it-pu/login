@@ -117,6 +117,7 @@
 
     .col-xs-6 {
         text-align: center;
+        margin-bottom: 15px;
     }
 </style>
 <body>
