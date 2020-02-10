@@ -16,8 +16,16 @@ class C_search_people extends CI_Controller {
         $this->load->library('JWT');
         $this->load->library('google');
         $this->load->model('m_auth');
+        $this->load->model('M_search_people','m_sp');
 
         date_default_timezone_set("Asia/Jakarta");
+
+    }
+
+    private function temp($content){
+
+        $data['content'] = $content;
+        $this->load->view('template/template_search_people',$data);
 
     }
 
@@ -25,13 +33,25 @@ class C_search_people extends CI_Controller {
 
     public function search_people()
     {
+        $content = $this->load->view('search_people/search_people','',true);
+        $this->temp($content);
+    }
 
-        $data['CalendarAcademic'] = $this->db->get_where('db_academic.calendar_academic',
-            array('StatusPublish' => '2'))->result_array();
+    public function detail_people_employees($NIP)
+    {
 
-        $data['loginURL'] = $this->google->loginURL();
-        $this->load->view('search_people/search_people',$data);
-//        $this->load->view('login3',$data);
+        $data['dataEmployees'] = $this->db->query('SELECT em.NIP, em.Name, em.NIDN, ps.NameEng AS ProdiName, em.Address,  
+                                                            ems.Description AS StatusEmployees, ems2.Description AS StatusLecturer, em.Photo FROM db_employees.employees em
+                                                            LEFT JOIN db_academic.program_study ps ON (ps.ID = em.ProdiID)
+                                                            LEFT JOIN db_employees.employees_status ems ON (ems.IDStatus = em.StatusEmployeeID)
+                                                            LEFT JOIN db_employees.employees_status ems2 ON (ems2.IDStatus = em.StatusLecturerID)
+                                                            WHERE em.NIP = "'.$NIP.'"')->result_array();
+
+        // Total Mentor FP
+        $data['TotalFP'] =  $this->m_sp->getTotalMentoring($NIP);
+
+        $content = $this->load->view('search_people/detail_people_employees',$data,true);
+        $this->temp($content);
     }
 
     public function getPeople(){
@@ -41,8 +61,8 @@ class C_search_people extends CI_Controller {
         $key = $this->input->get('key');
 
         $dataEmp = $this->db->query('SELECT em.NIP, em.Name, em.Photo, em.PositionMain FROM db_employees.employees em
-                                                WHERE em.Name LIKE "%'.$key.'%" 
-                                                OR em.NIP LIKE "%'.$key.'%" 
+                                                WHERE (em.StatusEmployeeID != "-1" AND em.StatusEmployeeID != "-2") AND (em.Name LIKE "%'.$key.'%" 
+                                                OR em.NIP LIKE "%'.$key.'%" ) 
                                                 ORDER BY em.Name ASC LIMIT 24')->result_array();
 
         $dataStd = $this->db->query('SELECT ats.NPM, ats.Name, ps.NameEng AS Prodi, ats.Year FROM db_academic.auth_students ats 
@@ -99,6 +119,35 @@ class C_search_people extends CI_Controller {
         );
 
         return print_r(json_encode($result));
+
+    }
+
+    private function extractToken(){
+        $token = $this->input->post('token');
+        $key = 'L0G1N-S50-3R0';
+        $data_arr = (array) $this->jwt->decode($token,$key);
+        return $data_arr;
+
+    }
+
+    public function getDetailsPeople(){
+        header('Access-Control-Allow-Origin: *');
+        header('Content-Type: application/json');
+
+        $data_arr = $this->extractToken();
+
+        if($data_arr['action']=='getDPTimetable'){
+
+            $data = $this->m_sp->getTimetables($data_arr['NIP']);
+
+            return print_r(json_encode($data));
+
+        }
+        else if($data_arr['action']=='getMentoring'){
+
+            $data = $this->m_sp->getMentoring($data_arr['NIP']);
+            return print_r(json_encode($data));
+        }
 
     }
 
