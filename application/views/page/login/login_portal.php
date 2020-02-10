@@ -388,7 +388,7 @@
 
                     if(count($CalendarAcademic)>0){ $dc = $CalendarAcademic[0]; $fileCalendar = json_decode($dc['FileUpload']); ?>
                         <div style="padding: 5px 15px 5px 15px;text-align: center;">
-                            <a href="<?= url_pas.'fileGetAny/'.$fileCalendar[0]; ?>" target="_blank"><i class="fa fa-download" style="margin-right: 5px;"></i> Academic Calendar</a>
+                            <a href="<?= url_pas.'fileGetAny/calendar-'.$fileCalendar[0]; ?>" target="_blank"><i class="fa fa-download" style="margin-right: 5px;"></i> Academic Calendar</a>
                         </div>
                     <?php } ?>
 
