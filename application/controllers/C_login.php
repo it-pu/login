@@ -68,13 +68,34 @@ class C_login extends CI_Controller {
 
     public function index()
     {
+
+        $data['CalendarAcademic'] = $this->db->get_where('db_academic.calendar_academic',
+            array('StatusPublish' => '2'))->result_array();
+
         $data['loginURL'] = $this->google->loginURL();
         $this->load->view('login',$data);
+//        $this->load->view('login3',$data);
     }
 
     public function index2()
     {
-        $this->load->view('test','');
+        $data['loginURL'] = $this->google->loginURL();
+        $this->load->view('login3',$data);
+    }
+
+    public function index3()
+    {
+        $data['CalendarAcademic'] = $this->db->get_where('db_academic.calendar_academic',
+            array('StatusPublish' => '2'))->result_array();
+        $data['loginURL'] = $this->google->loginURL();
+//        $this->load->view('login4',$data);
+        $this->load->view('page/login/login_portal',$data);
+    }
+
+    public function meet_our_team()
+    {
+        $data['loginURL'] = $this->google->loginURL();
+        $this->load->view('meet_our_team',$data);
     }
 
     public function authGoogle(){

@@ -12,7 +12,7 @@
 
 
 <link href="<?php echo base_url(); ?>assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<link href="<?php echo base_url(); ?>assets/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" id="bootstrap-css">
+<!--<link href="--><?php //echo base_url(); ?><!--assets/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" id="bootstrap-css">-->
 
 <!--<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">-->
 <link href="<?php echo base_url(); ?>assets/fontawesome/css/font-awesome.min.css" rel="stylesheet">
@@ -84,14 +84,15 @@
     };
 </script>
 
-
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap" rel="stylesheet">
 
 <style type="text/css">
 
 
     body {
-        /*background: #d4dde6;*/
-        background: #607d8b;
+        background: #d4dde6;
+        /*background: #607d8b;*/
+        /*background: #963a33;*/
     }
 
     .center {
@@ -216,18 +217,385 @@
     .btn-social-2>:first-child {
         line-height: 31px;
     }
+
+    .thumbnail {
+        -webkit-box-shadow: 3px 7px 26px -8px rgba(0,0,0,1);
+        -moz-box-shadow: 3px 7px 26px -8px rgba(0,0,0,1);
+        box-shadow: 3px 7px 26px -8px rgba(0,0,0,1);
+        border-radius: 15px;
+    }
+
+    .panel-prodi {
+        -webkit-box-shadow: 3px 7px 26px -8px rgba(0,0,0,1);
+        -moz-box-shadow: 3px 7px 26px -8px rgba(0,0,0,1);
+        box-shadow: 3px 7px 26px -8px rgba(0,0,0,1);
+        border-radius: 15px;
+        transition: transform .2s;
+    }
+
+    .h1-c {
+        font-family: 'Source Sans Pro', sans-serif;
+        color: #ffffff;
+        margin-top: 0px;
+        margin-bottom: 35px;
+        text-shadow: 2px 0px 8px rgba(0,0,0,0.94);
+    }
+
+    #page-list-app a {
+        color: #333333;
+        text-decoration: none;
+    }
+
+    #page-list-app2 a {
+        text-decoration: none;
+    }
+
+    .panel-prodi img {
+        width: 100%;
+        border-top-right-radius: 15px;
+        border-top-left-radius:15px;
+        border: 3px solid #fff;
+        border-bottom: none;
+
+    }
+
+    .panel-prodi:hover {
+        transform: scale(1.05);
+    }
+
+
+    .panel-prodi-name {
+        background: #ffffff;
+        min-height: 90px;
+        padding: 5px 3px 10px 3px;
+        text-align: center;
+        border-bottom-right-radius: 15px;
+        border-bottom-left-radius: 15px;
+        font-size: 17px;
+    }
+
+    .panel-icon {
+        text-align: center;
+        min-height: 180px !important;
+        padding: 10px;
+        border: 5px solid #9e9e9e3b;
+        color: #607d8b;
+    }
+
+    .panel-icon:hover {
+        /*background: lightblue;*/
+        cursor: pointer;
+        /*border: 5px solid #607d8b61;*/
+        color: #135e82;
+
+        transform: scale(1.1);
+    }
+
+    .panel-icon img {
+        width: 100%;
+        max-width: 88px;
+        margin-bottom: 10px;
+    }
+    .panel-icon-title {
+        font-size: 19px;
+        font-weight: bold;
+
+        font-family: 'Source Sans Pro', sans-serif;
+    }
+
+    .well {
+        border-radius: 15px;
+    }
+
+    #page-list-app .col-md-6 .row {
+        margin-bottom: 25px;
+    }
+
+    #page-list-app2 .col-md-4 .row {
+        margin-bottom: 25px;
+    }
+
+    .row {
+
+    }
+
+    .table-centre tr th, .table-centre tr td {
+        text-align: center;
+    }
+    .table-academic td:nth-child(2) {
+        text-align: left;
+    }
 </style>
 
 <body>
 
-<img src="<?= base_url('assets/img4.JPG'); ?>" class="bg">
+<!--<img src="--><?//= base_url('assets/img4.JPG'); ?><!--" class="bg">-->
+<!--<img src="--><?//= base_url('images/bg.png'); ?><!--" class="bg">-->
+<img src="<?= base_url('images/slider/4.png'); ?>" class="bg">
+
+<div class="container" style="margin-top: 30px;">
+
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="h1-c">Undergraduate Programs</h1>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-4" style="margin-bottom: 25px;">
+
+            <div class="thumbnail" style="min-height: 500px;padding-top: 15px;">
+                <img src="<?= base_url('assets/icon/logo_pu.png') ?>" style="max-width: 200px;">
+                <hr/>
+                <div class="col-md-12" id="divSignIn"></div>
+
+                <?php
+
+                if(count($CalendarAcademic)>0){ $dc = $CalendarAcademic[0]; $fileCalendar = json_decode($dc['FileUpload']); ?>
+                    <div style="padding: 5px 15px 5px 15px;text-align: center;">
+                        <a href="<?= url_pas.'fileGetAny/'.$fileCalendar[0]; ?>" target="_blank"><i class="fa fa-download" style="margin-right: 5px;"></i> Academic Calendar</a>
+                    </div>
+                <?php } ?>
+
+            </div>
+        </div>
+
+        <div class="col-md-8" id="page-list-app">
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <a href="https://acc.podomorouniversity.ac.id/" target="_blank">
+                                <div class="panel-prodi">
+                                    <img src="<?= base_url('images/prodi/butt-acc-613x542-613x542.jpg'); ?>" />
+                                    <div class="panel-prodi-name">
+                                        Accounting
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-xs-6">
+                            <a href="https://arc.podomorouniversity.ac.id/" target="_blank">
+                                <div class="panel-prodi">
+                                    <img src="<?= base_url('images/prodi/butt-ars-1-613x542-613x542.jpg'); ?>" />
+                                    <div class="panel-prodi-name">
+                                        Architecture
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <a href="https://cem.podomorouniversity.ac.id/" target="_blank">
+                                <div class="panel-prodi">
+                                    <img src="<?= base_url('images/prodi/butt-cem-1-613x542-613x542.jpg'); ?>" />
+                                    <div class="panel-prodi-name">
+                                        Construction Engineering & Management
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-xs-6">
+                            <a href="https://pdp.podomorouniversity.ac.id/" target="_blank">
+                                <div class="panel-prodi">
+                                    <img src="<?= base_url('images/prodi/butt-dpp-1-613x542-613x542.jpg'); ?>" />
+                                    <div class="panel-prodi-name">
+                                        Design Product
+                                    </div>
+                                </div>
+                            </a>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <a href="https://ent.podomorouniversity.ac.id/" target="_blank">
+                                <div class="panel-prodi">
+                                    <img src="<?= base_url('images/prodi/butt-ent-613x542-613x542.jpg'); ?>" />
+                                    <div class="panel-prodi-name">
+                                        Entreprenuership
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-xs-6">
+                            <a href="https://hbp.podomorouniversity.ac.id/" target="_blank">
+                                <div class="panel-prodi">
+                                    <img src="<?= base_url('images/prodi/butt-hbp-613x542-613x542.jpg'); ?>" />
+                                    <div class="panel-prodi-name">
+                                        Hotel Business
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <a href="https://law.podomorouniversity.ac.id/" target="_blank">
+                                <div class="panel-prodi">
+                                    <img src="<?= base_url('images/prodi/butt-law-613x542-613x542.jpg'); ?>" />
+                                    <div class="panel-prodi-name">
+                                        Business Law
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-xs-6">
+                            <a href="https://urp.podomorouniversity.ac.id/" target="_blank">
+                                <div class="panel-prodi">
+                                    <img src="<?= base_url('images/prodi/butt-upp-1-613x542-613x542.jpg'); ?>" />
+                                    <div class="panel-prodi-name">
+                                        Urban & Regional Planning
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
 
-<!-- <div style="margin-top: 70px;"></div> -->
+        </div>
+
+
+    </div>
+
+
+    <div class="row" id="page-list-app2">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-12">
+                    <h1 class="h1-c">System</h1>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <a href="https://portal.podomorouniversity.ac.id/assets/documents/Student_Portal.pdf" target="_blank">
+                                <div class="thumbnail panel-icon">
+                                    <img src="<?= base_url('images/icon/android.png'); ?>" class="img-icon">
+                                    <div class="panel-icon-title">Student Mobile Portal</div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="thumbnail panel-icon">
+                                <img src="<?= base_url('images/icon/searc-people.png'); ?>" class="img-icon">
+                                <div class="panel-icon-title">Search People</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <a href="https://alumni.podomorouniversity.ac.id/" target="_blank">
+                                <div class="thumbnail panel-icon">
+                                    <img src="<?= base_url('images/icon/alumni.png'); ?>" class="img-icon">
+                                    <div class="panel-icon-title">Alumni</div>
+                                </div>
+                            </a>
+                        </div>
+                        <div class="col-xs-6">
+                            <a href="https://admission.podomorouniversity.ac.id/" target="_blank">
+                                <div class="thumbnail panel-icon">
+                                    <img src="<?= base_url('images/icon/admission.png'); ?>" class="img-icon">
+                                    <div class="panel-icon-title">Admissions</div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <div class="thumbnail panel-icon">
+                                <img src="<?= base_url('images/icon/bem.png'); ?>" class="img-icon">
+                                <div class="panel-icon-title">Student Executive Board</div>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="thumbnail panel-icon">
+                                <img src="<?= base_url('images/icon/career.png'); ?>" class="img-icon">
+                                <div class="panel-icon-title">Career</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <div class="thumbnail panel-icon">
+                                <img src="<?= base_url('images/icon/student.png'); ?>" class="img-icon">
+                                <div class="panel-icon-title">Cosmas Batubara Library</div>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="thumbnail panel-icon">
+                                <img src="<?= base_url('images/icon/journal.png'); ?>" class="img-icon">
+                                <div class="panel-icon-title">Journal</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <div class="thumbnail panel-icon">
+                                <img src="<?= base_url('images/icon/parents.png'); ?>" class="img-icon">
+                                <div class="panel-icon-title">Parents Portal</div>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div class="thumbnail panel-icon">
+                                <img src="<?= base_url('images/icon/repository.png'); ?>" class="img-icon">
+                                <div class="panel-icon-title">Repository</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="row">
+                        <div class="col-xs-6">
+                            <div class="thumbnail panel-icon">
+                                <img src="<?= base_url('images/icon/sister.png'); ?>" class="img-icon">
+                                <div class="panel-icon-title">Sister</div>
+                            </div>
+                        </div>
+                        <div class="col-xs-6 hide">
+                            <div class="thumbnail panel-icon">
+                                <img src="<?= base_url('images/icon/journal.png'); ?>" class="img-icon">
+                                <div class="panel-icon-title">Journal</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
 
 
 
-<div id="login-overlay" class="modal-dialog center" style="z-index:0;max-width: 405px;">
+<div id="login-overlay" class="modal-dialog center hide" style="z-index:0;max-width: 405px;">
     <div class="modal-content">
         <!-- <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
@@ -243,7 +611,7 @@
             </div>
 
             <div class="row">
-                <div class="col-md-12" id="divSignIn"></div>
+
 
             </div>
 
@@ -285,7 +653,6 @@
     <form action="" hidden id="formSubmitLogin" method="post">
         <input id="formTokenLogin" class="hide" hidden readonly name="token" />
     </form>
-
 
     <!--    <button class="btn btn-info">Ok</button>-->
 </div>
@@ -339,14 +706,17 @@
 
         localStorage.setItem('LoginFalse', 0);
 
-        var servername = "<?= $_SERVER['SERVER_NAME']; ?>";
-        if(servername!='localhost'){
-            loadModalAwal();
-        }
+        //var servername = "<?//= $_SERVER['SERVER_NAME']; ?>//";
+        //if(servername!='localhost'){
+        //    loadModalAwal();
+        //}
 
     });
 
     function loadModalAwal() {
+
+        return false;
+
         $('#modalGlobal .modal-header').addClass('hide');
         $('#modalGlobal .modal-footer').html('<div id="viewBtnClose"><u>Close on <i class="fa fa-angle-double-right"></i> <span id="viewTimer">-</span> seconds</u></div>');
         $('#modalGlobal .modal-body').html('<div style="text-align: center;">' +
