@@ -19,7 +19,9 @@ if($dataMode[0]['MaintenanceMode']=='1'){
 
 }
 
-$route['default_controller'] = ($dataMode[0]['MaintenanceMode']=='1') ? 'c_login/maintenance' : 'c_login';
+$route['default_controller'] = ($dataMode[0]['MaintenanceMode']=='1')
+    ? 'c_login/maintenance'
+    : 'c_login/dashboard';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
