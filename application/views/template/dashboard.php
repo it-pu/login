@@ -94,7 +94,7 @@
         background-color: #eaeaea;
     }
 
-    #listApps {
+    #listApps, #listProdi {
         margin-bottom: 30px;
     }
 
@@ -109,7 +109,7 @@
     #listApps .thumbnail {
         padding: 10px;
         text-align: center;
-        min-height: 110px;
+        height: 130px;
         border-radius: 5px;
         border: none;
     }
@@ -127,7 +127,7 @@
     #listApps .thumbnail img {
         width: 100%;
         max-width: 50px;
-        padding-top: 15px;
+        padding-top: 10px;
     }
 
     #listProdi .thumbnail {
@@ -139,7 +139,7 @@
 
     .page-coming-soon {
         position: absolute;
-        top: 2px;
+        top: -6px;
         right: 18px;
         background: #FF5722;
         color: #fff;
@@ -352,14 +352,15 @@
                                 </div>
                             </a>
                         </div>
-                        <!--                        <div class="col-xs-6 hvr-grow-rotate">-->
-                        <!--                            <a href="https://pu-x.com/" target="_blank">-->
-                        <!--                                <div class="thumbnail">-->
-                        <!--                                    <img src="--><?//= base_url(); ?><!--images/icon/pux.png">-->
-                        <!--                                    <p>PU-X</p>-->
-                        <!--                                </div>-->
-                        <!--                            </a>-->
-                        <!--                        </div>-->
+
+                        <div class="col-xs-6 hvr-grow-rotate">
+                            <a href="https://admission.podomorouniversity.ac.id/" target="_blank">
+                                <div class="thumbnail">
+                                    <img src="<?= base_url(); ?>images/icon/registration.png">
+                                    <p>Online Registrations</p>
+                                </div>
+                            </a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -443,6 +444,18 @@
 
             </div>
 
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+            <div style="text-align: center;">
+                <a href="<?= base_url('meet-our-team'); ?>" style="color: #333333;">
+                    <i class="fa fa-copyright" aria-hidden="true"></i> 2020 Universitas Agung Podomoro
+                </a>
+            </div>
         </div>
     </div>
 </div>
