@@ -77,6 +77,17 @@ class C_login extends CI_Controller {
 //        $this->load->view('login3',$data);
     }
 
+    public function dashboard()
+    {
+
+        $data['CalendarAcademic'] = $this->db->get_where('db_academic.calendar_academic',
+            array('StatusPublish' => '2'))->result_array();
+
+        $data['loginURL'] = $this->google->loginURL();
+        $this->load->view('template/dashboard',$data);
+//        $this->load->view('login3',$data);
+    }
+
     public function index2()
     {
         $data['loginURL'] = $this->google->loginURL();
