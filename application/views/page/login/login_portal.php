@@ -367,10 +367,6 @@
 <body style="background: #f8f8f8 !important;">
 
 
-<!--<img src="--><?//= base_url('assets/img4.JPG'); ?><!--" class="bg">-->
-<!--<img src="--><?//= base_url('images/bg.png'); ?><!--" class="bg">-->
-<!--<img src="--><?//= base_url('images/326790-P9JGFI-23.jpg'); ?><!--" class="bg">-->
-
 <div style="height: 79px;text-align: center;">
     <img src="<?= base_url('assets/icon/logo_pu.png') ?>" style="max-width: 200px;margin-top:20px;">
 </div>
@@ -928,9 +924,11 @@
                 var rs = jsonResult['data'];
                 if(rs.url_direct.length==1){
 
-                    $('#formSubmitLogin').attr('action',rs.url_direct[0].url_login);
-                    $('#formTokenLogin').val(rs.url_direct[0].token);
-                    $('#formSubmitLogin').submit();
+                    var url = rs.url_direct[0].url_login;
+                    var token = rs.url_direct[0].token;
+                    FormSubmitAuto(url, 'POST', [
+                        { name: 'token', value: token },
+                    ],'');
 
                 } else if(rs.url_direct.length>1){
                     loadPagePanel(rs.url_direct);
@@ -1074,9 +1072,12 @@
 
             setTimeout(function () {
                 if(jsonResult.url_direct.length==1){
-                    $('#formSubmitLogin').attr('action',jsonResult.url_direct[0].url_login);
-                    $('#formTokenLogin').val(jsonResult.url_direct[0].token);
-                    $('#formSubmitLogin').submit();
+                    var url = jsonResult.url_direct[0].url_login;
+                    var token = jsonResult.url_direct[0].token;
+                    FormSubmitAuto(url, 'POST', [
+                        { name: 'token', value: token },
+                    ],'');
+
                 } else if(jsonResult.url_direct.length>1){
                     loadPagePanel(jsonResult.url_direct);
                 }
