@@ -272,7 +272,7 @@
                             </a>
                         </div>
                         <div class="col-xs-6 hvr-grow-rotate">
-                            <a href="https://journal.podomorouniversity.ac.id/" target="_blank">
+                            <a href="http://journal.podomorouniversity.ac.id/" target="_blank">
                                 <div class="thumbnail">
                                     <img src="<?= base_url(); ?>images/icon/journal.png">
                                     <p>Journal</p>
