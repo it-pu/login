@@ -125,6 +125,8 @@ if(count($dataEmployees)>0){
 
 
 
+
+
                 </div>
             </div>
         </div>
@@ -239,6 +241,31 @@ if(count($dataEmployees)>0){
                 if(jsonResult.length>0){
 
 
+                    var tb = '';
+                    $.each(jsonResult,function (i,v) {
+                        tb = tb+'<tr>' +
+                            '<td>'+(i+1)+'</td>' +
+                            '<td>'+v.NPM+'</td>' +
+                            '<td>'+v.Name+'</td>' +
+                            '<td>'+v.Year+'</td>' +
+                            '</tr>';
+                    });
+
+                    setTimeout(function () {
+                        $('#loadDetails').html('<div class="table-responsive">' +
+                            '                        <table class="table table-striped">' +
+                            '                            <thead>' +
+                            '                            <tr>' +
+                            '                                <th style="width: 1%;">No</th>' +
+                            '                                <th style="width: 15%;">NIM</th>' +
+                            '                                <th>Name</th>' +
+                            '                                <th style="width: 15%;">Class Of</th>' +
+                            '                            </tr>' +
+                            '                            </thead>' +
+                            '                            <tbody>'+tb+'</tbody>' +
+                            '                        </table>' +
+                            '                    </div>');
+                    },500);
 
                 } else {
                     dataNotYet();
