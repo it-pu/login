@@ -40,15 +40,49 @@ class C_search_people extends CI_Controller {
     public function detail_people_employees($NIP)
     {
 
-        $data['dataEmployees'] = $this->db->query('SELECT em.NIP, em.Name, em.NIDN, ps.NameEng AS ProdiName, em.Address,  
-                                                            ems.Description AS StatusEmployees, ems2.Description AS StatusLecturer, em.Photo FROM db_employees.employees em
+        $dataEmployees = $this->db->query('SELECT em.NIP, em.Name, em.NIDN, ps.NameEng AS ProdiName, em.Address,  
+                                                            ems.Description AS StatusEmployees, ems2.Description AS StatusLecturer, em.Photo, em.PositionMain FROM db_employees.employees em
                                                             LEFT JOIN db_academic.program_study ps ON (ps.ID = em.ProdiID)
                                                             LEFT JOIN db_employees.employees_status ems ON (ems.IDStatus = em.StatusEmployeeID)
                                                             LEFT JOIN db_employees.employees_status ems2 ON (ems2.IDStatus = em.StatusLecturerID)
                                                             WHERE em.NIP = "'.$NIP.'"')->result_array();
 
+        $data['dataEmployees'] = $dataEmployees ;
+
         // Total Mentor FP
         $data['TotalFP'] =  $this->m_sp->getTotalMentoring($NIP);
+        $data['TotalResaerch'] =  $this->m_sp->getTotalResaerch($NIP);
+        $data['TotalPublikasi'] =  $this->m_sp->getTotalPublikasi($NIP);
+        $data['TotalDedication'] =  $this->m_sp->getTotalDedication($NIP);
+        $data['TotalHKI'] =  $this->m_sp->getTotalHKI($NIP);
+
+        $Division = '';
+        $Position = '';
+
+        if(count($dataEmployees)>0){
+
+            if($dataEmployees[0]['PositionMain']!='' && $dataEmployees[0]['PositionMain']!=null){
+                $DivID = explode('.',$dataEmployees[0]['PositionMain'])[0];
+                $PosID = explode('.',$dataEmployees[0]['PositionMain'])[1];
+
+                $dataDiv = $this->db->select('Division')->get_where('db_employees.division',array(
+                    'ID' => $DivID
+                ))->result_array();
+
+                $Division = (count($dataDiv)>0) ? $dataDiv[0]['Division'] : '';
+
+                $dataPos = $this->db->select('Position')->get_where('db_employees.position',array(
+                    'ID' => $PosID
+                ))->result_array();
+
+                $Position = (count($dataPos)>0) ? $dataPos[0]['Position'] : '';
+            }
+
+        }
+
+
+        $data['Division'] =  $Division;
+        $data['Position'] =  $Position;
 
         $content = $this->load->view('search_people/detail_people_employees',$data,true);
         $this->temp($content);
@@ -146,6 +180,22 @@ class C_search_people extends CI_Controller {
         else if($data_arr['action']=='getMentoring'){
 
             $data = $this->m_sp->getMentoring($data_arr['NIP']);
+            return print_r(json_encode($data));
+        }
+        else if($data_arr['action']=='getResearch'){
+            $data = $this->m_sp->getResearch($data_arr['NIP']);
+            return print_r(json_encode($data));
+        }
+        else if($data_arr['action']=='getPublikasi'){
+            $data = $this->m_sp->getPublikasi($data_arr['NIP']);
+            return print_r(json_encode($data));
+        }
+        else if($data_arr['action']=='getDedication'){
+            $data = $this->m_sp->getDedication($data_arr['NIP']);
+            return print_r(json_encode($data));
+        }
+        else if($data_arr['action']=='getHKI'){
+            $data = $this->m_sp->getHKI($data_arr['NIP']);
             return print_r(json_encode($data));
         }
 

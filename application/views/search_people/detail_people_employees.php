@@ -53,7 +53,7 @@ if(count($dataEmployees)>0){
                                     : 'https://pcam.podomorouniversity.ac.id/images/icon/no_image.png';
                             ?>
                             <img src="<?= $imgPhoto; ?>" class="avatar-img">
-                            <div style="margin-top: 15px;">
+                            <div style="margin-top: 15px;" class="hide">
                                 <img src="http://simpeg.dinus.ac.id/updir/qr/0686.11.2001.267.png" class="avatar-img-scholar">
                                 <div>My Scholar</div>
                             </div>
@@ -87,7 +87,7 @@ if(count($dataEmployees)>0){
                                 <tr>
                                     <td>Position</td>
                                     <td>:</td>
-                                    <td><?= $d['StatusLecturer']; ?></td>
+                                    <td><?= $Division; ?> <i class="fa fa-arrow-right" style="margin-right: 5px; margin-left: 5px;"></i> <?= $Position; ?></td>
                                 </tr>
                                 <tr>
                                     <td>Address</td>
@@ -96,7 +96,7 @@ if(count($dataEmployees)>0){
                                 </tr>
                             </table>
                         </div>
-                        <div style="margin-top: 10px;">
+                        <div class="hide" style="margin-top: 10px;">
                             <button class="btn btn-default" style="color: blue;"><i class="fa fa-link" style="margin-right: 5px;"></i> Get short link</button>
                             <button class="btn btn-primary"><i class="fa fa-linkedin-square" style="margin-right: 5px;"></i> Linkedin</button>
                         </div>
@@ -105,23 +105,24 @@ if(count($dataEmployees)>0){
             </div>
         </div>
 
-        <div class="row" style="margin-top: 20px;">
-            <div class="col-md-12">
+        <div class="row" style="margin-top: 20px;margin-bottom: 50px;">
+            <div class="col-md-10 col-md-offset-1">
 
                 <div class="thumbnail" style="padding: 10px;">
 
                     <ul class="nav nav-tabs">
-                        <li role="presentation" class="active"><a href="javascript:void(0);" class="btnDetailAcc" data-acc="getDPTimetable"><i class="fa fa-calendar"></i> Timetables</a></li>
-                        <li role="presentation"><a href="javascript:void(0);" class="btnDetailAcc" data-acc="getMentoring"><i class="fa fa-graduation-cap"></i> Mentoring Final Project <span class="badge"><?= $TotalFP; ?></span></a></li>
-                        <li role="presentation"><a href="javascript:void(0);" class="btnDetailAcc" data-acc="getResearch"><i class="fa fa-tags"></i> Research <span class="badge">42</span></a></li>
-                        <li role="presentation"><a href="javascript:void(0);" class="btnDetailAcc" data-acc="1"><i class="fa fa-globe"></i> Publikasi Karya</a></li>
-                        <li role="presentation"><a href="javascript:void(0);" class="btnDetailAcc" data-acc="2"><i class="fa fa-users"></i> Pengamdian Masyarakat</a></li>
-                        <li role="presentation"><a href="javascript:void(0);" class="btnDetailAcc" data-acc="3"><i class="fa fa-flag"></i> HKI</a></li>
+                        <li role="presentation" class="active"><a href="javascript:void(0);" class="btnDetailAcc" data-acc="getDPTimetable">Timetables</a></li>
+                        <li role="presentation"><a href="javascript:void(0);" class="btnDetailAcc" data-acc="getMentoring">Mentoring Final Project <span class="badge"><?= $TotalFP; ?></span></a></li>
+                        <li role="presentation"><a href="javascript:void(0);" class="btnDetailAcc" data-acc="getResearch">Research <span class="badge"><?= $TotalResaerch; ?></span></a></li>
+                        <li role="presentation"><a href="javascript:void(0);" class="btnDetailAcc" data-acc="getPublikasi">Scientific Publications <span class="badge"><?= $TotalPublikasi; ?></span></a></li>
+                        <li role="presentation"><a href="javascript:void(0);" class="btnDetailAcc" data-acc="getDedication">Scienty Services <span class="badge"><?= $TotalDedication; ?></span></a></li>
+                        <li role="presentation"><a href="javascript:void(0);" class="btnDetailAcc" data-acc="getHKI">HKI  <span class="badge"><?= $TotalHKI; ?></span></a></li>
                     </ul>
 
                     <div style="margin-top: 30px;" id="loadDetails">
-
                     </div>
+
+
 
 
                 </div>
@@ -136,10 +137,17 @@ if(count($dataEmployees)>0){
             loading_page('#loadDetails');
             window.dt_NIP = "<?= $d['NIP']; ?>";
             loadTimeTable();
+
         });
 
+        function dataNotYet() {
+            setTimeout(function () {
+                $('#loadDetails').html('<div style="text-align: center;margin-top: 50px;margin-bottom: 50px;"><h3 style="color: #a7a7a7;">--- <img src="'+dt_base_url_js+'images/icon/empty-folder.png" style="max-width: 50px;margin-top: -14px;margin-right: 10px;"/>No data ---</h3></div>');
+            },500);
+        };
+
         function loading_page(elm){
-            $(elm).html('<div style="text-align: center;margin-top: 20px;"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span></div>');
+            $(elm).html('<div style="text-align: center;margin-top: 20px;margin-bottom: 50px;"><i class="fa fa-circle-o-notch fa-spin fa-fw" style="margin-right: 5px;"></i>Loading...</div>');
         }
 
         $('.btnDetailAcc').click(function () {
@@ -155,11 +163,21 @@ if(count($dataEmployees)>0){
             else if(acc=='getMentoring'){
                 loadMentoring();
             }
+            else if(acc=='getResearch'){
+                loadResearch();
+            }
+            else if(acc=='getPublikasi'){
+                loadPublikasi();
+            }
+            else if(acc=='getDedication'){
+                loadDedication();
+            }
+            else if(acc=='getHKI'){
+                loadHKI();
+            }
         });
 
         function loadTimeTable() {
-
-
 
             var data = { action : 'getDPTimetable', NIP : dt_NIP };
             var token = jwt_encode(data);
@@ -186,28 +204,25 @@ if(count($dataEmployees)>0){
                             '<td style="text-align: left;">'+Schedule+'</td>' +
                             '</tr>';
                     });
+                    setTimeout(function () {
+
+                        $('#loadDetails').html('<h4 class="avatar-name" style="border-left: 10px solid orange;padding-left: 10px;">2019/2020 Ganjil</h4>' +
+                            '                        <table class="table table-striped table-bordered table-centre">' +
+                            '                            <thead>' +
+                            '                            <tr style="background: #e0e0e091;">' +
+                            '                                <th style="width: 1%;">No</th>' +
+                            '                                <th>Course</th>' +
+                            '                                <th style="width: 10%;">Group</th>' +
+                            '                                <th style="width: 35%;">Schedule</th>' +
+                            '                            </tr>' +
+                            '                            </thead>' +
+                            '                            <tbody>'+viewlistTb+'</tbody>' +
+                            '                        </table>');
+
+                    },500);
+                } else {
+                    dataNotYet();
                 }
-
-                setTimeout(function () {
-
-                    $('#loadDetails2').html('<h4 class="avatar-name" style="border-left: 10px solid orange;padding-left: 10px;">2019/2020 Ganjil</h4>' +
-                        '                        <table class="table table-striped table-bordered table-centre">' +
-                        '                            <thead>' +
-                        '                            <tr style="background: #e0e0e091;">' +
-                        '                                <th style="width: 1%;">No</th>' +
-                        '                                <th>Course</th>' +
-                        '                                <th style="width: 10%;">Group</th>' +
-                        '                                <th style="width: 35%;">Schedule</th>' +
-                        '                            </tr>' +
-                        '                            </thead>' +
-                        '                            <tbody>'+viewlistTb+'</tbody>' +
-                        '                        </table>');
-
-                },1500);
-
-
-
-
 
 
 
@@ -221,9 +236,165 @@ if(count($dataEmployees)>0){
             var url = dt_base_url_js+'__getDetailsPeople';
 
             $.post(url,{token:token},function (jsonResult) {
+                if(jsonResult.length>0){
 
+
+
+                } else {
+                    dataNotYet();
+                }
             })
 
+        }
+
+        function loadResearch() {
+            var data = { action : 'getResearch', NIP : dt_NIP };
+            var token = jwt_encode(data);
+            var url = dt_base_url_js+'__getDetailsPeople';
+            $.post(url,{token:token},function (jsonResult) {
+
+                if(jsonResult.length>0){
+
+                    var tb = '';
+
+                    $.each(jsonResult,function (i,v) {
+
+                        tb = tb+'<tr>' +
+                            '<td style="text-align: center;">'+(i+1)+'</td>' +
+                            '<td>'+v.Title+'</td>' +
+                            '</tr>';
+
+                    });
+
+
+                    setTimeout(function () {
+                        $('#loadDetails').html('<div class="row"><div class="col-md-12"><div class="table-responsive">' +
+                            '                        <table class="table table-striped">' +
+                            '                            <thead>' +
+                            '                            <tr>' +
+                            '                                <th style="width: 1%;text-align: center;">No</th>' +
+                            '                                <th style="text-align: center;">Title</th>' +
+                            '                            </tr>' +
+                            '                            </thead><tbody>'+tb+'</tbody>' +
+                            '                        </table>' +
+                            '                    </div></div></div>');
+                    },500);
+
+                } else {
+                    dataNotYet()
+                }
+
+            });
+        }
+
+        function loadPublikasi() {
+            var data = { action : 'getPublikasi', NIP : dt_NIP };
+            var token = jwt_encode(data);
+            var url = dt_base_url_js+'__getDetailsPeople';
+            $.post(url,{token:token},function (jsonResult) {
+
+                if(jsonResult.length>0){
+                    var tb = '';
+
+                    $.each(jsonResult,function (i,v) {
+
+                        tb = tb+'<tr>' +
+                            '<td style="text-align: center;">'+(i+1)+'</td>' +
+                            '<td>'+v.Title+'</td>' +
+                            '</tr>';
+
+                    });
+
+
+                    setTimeout(function () {
+                        $('#loadDetails').html('<div class="row"><div class="col-md-12"><div class="table-responsive">' +
+                            '                        <table class="table table-striped">' +
+                            '                            <thead>' +
+                            '                            <tr>' +
+                            '                                <th style="width: 1%;text-align: center;">No</th>' +
+                            '                                <th style="text-align: center;">Title</th>' +
+                            '                            </tr>' +
+                            '                            </thead><tbody>'+tb+'</tbody>' +
+                            '                        </table>' +
+                            '                    </div></div></div>');
+                    },500);
+                } else {
+                    dataNotYet();
+                }
+
+            });
+        }
+
+        function loadDedication() {
+            var data = { action : 'getDedication', NIP : dt_NIP };
+            var token = jwt_encode(data);
+            var url = dt_base_url_js+'__getDetailsPeople';
+            $.post(url,{token:token},function (jsonResult) {
+                if(jsonResult.length>0){
+                    var tb = '';
+
+                    $.each(jsonResult,function (i,v) {
+
+                        tb = tb+'<tr>' +
+                            '<td style="text-align: center;">'+(i+1)+'</td>' +
+                            '<td>'+v.Title+'</td>' +
+                            '</tr>';
+
+                    });
+
+
+                    setTimeout(function () {
+                        $('#loadDetails').html('<div class="row"><div class="col-md-12"><div class="table-responsive">' +
+                            '                        <table class="table table-striped">' +
+                            '                            <thead>' +
+                            '                            <tr>' +
+                            '                                <th style="width: 1%;text-align: center;">No</th>' +
+                            '                                <th style="text-align: center;">Title</th>' +
+                            '                            </tr>' +
+                            '                            </thead><tbody>'+tb+'</tbody>' +
+                            '                        </table>' +
+                            '                    </div></div></div>');
+                    },500);
+                } else {
+                    dataNotYet();
+                }
+            });
+        }
+
+        function loadHKI() {
+            var data = { action : 'getHKI', NIP : dt_NIP };
+            var token = jwt_encode(data);
+            var url = dt_base_url_js+'__getDetailsPeople';
+            $.post(url,{token:token},function (jsonResult) {
+                if(jsonResult.length>0){
+                    var tb = '';
+
+                    $.each(jsonResult,function (i,v) {
+
+                        tb = tb+'<tr>' +
+                            '<td style="text-align: center;">'+(i+1)+'</td>' +
+                            '<td>'+v.Title+'</td>' +
+                            '</tr>';
+
+                    });
+
+
+                    setTimeout(function () {
+                        $('#loadDetails').html('<div class="row"><div class="col-md-12"><div class="table-responsive">' +
+                            '                        <table class="table table-striped">' +
+                            '                            <thead>' +
+                            '                            <tr>' +
+                            '                                <th style="width: 1%;text-align: center;">No</th>' +
+                            '                                <th style="text-align: center;">Title</th>' +
+                            '                            </tr>' +
+                            '                            </thead><tbody>'+tb+'</tbody>' +
+                            '                        </table>' +
+                            '                    </div></div></div>');
+                    },500);
+                } else {
+                    dataNotYet();
+                }
+            });
         }
 
     </script>

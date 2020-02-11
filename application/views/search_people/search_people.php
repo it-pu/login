@@ -24,6 +24,11 @@
         outline: 0 none;
     }
 
+    #showData a {
+        text-decoration: none;
+        color: #333333;
+    }
+
 
     .card {
         background-color: rgba(214, 224, 226, 0.2);
@@ -241,7 +246,7 @@
         $('.img-fitter').imgFitter();
     });
 
-    $(document).on('click','.card',function () {
+    $(document).on('click','#showDataStd .card',function () {
         alert('Coming soon :) ');
     });
 
@@ -271,13 +276,13 @@
                             var belakang = ((i+1) == jsonResult.Employees.length || isi==2) ? '</div></div>' : '';
 
                             detailList = detailList+depan+'<div class="col-xs-6 animated fadeIn">' +
-                                '            <div class="card">' +
+                                '            <a href="'+dt_base_url_js+'search-people/detail-employees/'+v.NIP+'" target="_blank"><div class="card">' +
                                 '                <div>' +
                                 '                    <img class="avatar img-fitter" data-src="'+v.Photo+'">' +
                                 '                </div>' +
                                 '                <h4 class="avatar-name">'+v.Name+'<br/><small>'+v.NIP+'</small></h4>' +
                                 '                <p>'+v.Dvision+'</p>' +
-                                '            </div>' +
+                                '            </div></a>' +
                                 '        </div>'+belakang;
 
                             isi = isi + 1;
