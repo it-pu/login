@@ -168,7 +168,31 @@ if(count($dataEmployees)>0){
             window.dt_NIP = "<?= $d['NIP']; ?>";
             loadTimeTable();
 
+
+            try {
+                $.getJSON("https://api.ipify.org/?format=json", function(e) {
+                    inputLogging(dt_NIP,e.ip);
+                });
+            } catch (e){
+                inputLogging(dt_NIP,'');
+            }
+
         });
+        
+        function inputLogging(NIP,IP_Public) {
+
+            var token = jwt_encode({
+                action : 'setDataLogging',
+                NIP : NIP,
+                IP_Public : IP_Public
+            });
+            var url = dt_base_url_js+'__getDetailsPeople';
+
+            $.post(url,{token:token},function(result) {
+
+            });
+
+        }
 
         function dataNotYet() {
             setTimeout(function () {
