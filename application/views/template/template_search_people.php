@@ -31,6 +31,8 @@
 
 <link href="<?php echo base_url(); ?>assets/social/bootstrap-social.css" rel="stylesheet">
 
+<link href="<?php echo base_url(); ?>assets/hover-master/hover-min.css" rel="stylesheet">
+
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="<?php echo base_url(); ?>assets/js/jquery.min.js"></script>
 <!--<script type="text/javascript" src="--><?php //echo base_url('assets/template/js/libs/jquery-1.10.2.min.js'); ?><!--"></script>-->
@@ -94,37 +96,8 @@
 
     window.dt_base_url_js = "<?= base_url(); ?>";
 </script>
-<link href="https://fonts.googleapis.com/css?family=Fredoka+One&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css?family=Fjalla+One&display=swap" rel="stylesheet">
+
 <style>
-    h1 {
-        font-family: 'Fredoka One', cursive;
-    }
-
-    .avatar-name {
-        font-family: 'Fjalla One', sans-serif;
-    }
-
-    .input-group-lg {
-        -webkit-box-shadow: 1px 1px 5px -2px rgba(0,0,0,0.75);
-        -moz-box-shadow: 1px 1px 5px -2px rgba(0,0,0,0.75);
-        box-shadow: 1px 1px 5px -2px rgba(0,0,0,0.75);
-
-        border-radius: 45px;
-    }
-    .input-group-addon {
-        background: #ffffff;
-        border-right: 1px solid #ffffff;
-    }
-    .input-group-lg>.form-control {
-        border-radius: 22px;
-        border-left: none;
-    }
-
-    .input-group-lg>.input-group-addon {
-        border-top-left-radius: 22px;
-        border-bottom-left-radius: 22px;
-    }
 
     .table-centre tr th, .table-centre tr td {
         text-align: center;

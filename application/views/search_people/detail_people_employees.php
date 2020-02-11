@@ -6,8 +6,12 @@ if(count($dataEmployees)>0){
 
 
 ?>
-
+    <link href="https://fonts.googleapis.com/css?family=Fjalla+One&display=swap" rel="stylesheet">
     <style>
+        .avatar-name {
+            font-family: 'Fjalla One', sans-serif;
+        }
+
         .thumbnail {
             border-radius: 0px;
             -webkit-box-shadow: 0px 0px 10px -5px rgba(0,0,0,0.75);
@@ -44,6 +48,15 @@ if(count($dataEmployees)>0){
 
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <div style="text-align: center;">
+                            <h1 class="avatar-name" style="margin-top: 0px;margin-bottom: 25px;"><?= $d['Name']; ?></h1>
+                        </div>
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="col-md-3">
                         <div style="text-align: center;">
@@ -61,29 +74,44 @@ if(count($dataEmployees)>0){
                     </div>
 
                     <div class="col-md-9">
-                        <h1 class="avatar-name" style="margin-top: 0px;"><?= $d['Name']; ?><br/><small><?= $d['NIP']; ?></small></h1>
+
                         <div class="thumbnail">
                             <table class="table table-striped" style="margin-bottom: 0px;">
                                 <tr>
-                                    <td style="width: 25%;border-top: none;">NIDN</td>
+                                    <td style="width: 25%;border-top: none;">NIP</td>
                                     <td style="width: 1%;border-top: none;">:</td>
-                                    <td style="border-top: none;"><?= $d['NIDN']; ?></td>
+                                    <td style="border-top: none;"><?= $d['NIP']; ?></td>
                                 </tr>
-                                <tr>
-                                    <td>Home Base</td>
-                                    <td>:</td>
-                                    <td><?= $d['ProdiName']; ?></td>
-                                </tr>
+                                <?php if($d['NIDN']!='') { ?>
+                                    <tr>
+                                        <td>NIDN</td>
+                                        <td>:</td>
+                                        <td><?= $d['NIDN']; ?></td>
+                                    </tr>
+                                <?php } ?>
+
+                                <?php if( $d['ProdiName']!='') { ?>
+                                    <tr>
+                                        <td>Home Base</td>
+                                        <td>:</td>
+                                        <td><?= $d['ProdiName']; ?></td>
+                                    </tr>
+                                <?php } ?>
+
                                 <tr>
                                     <td>Status</td>
                                     <td>:</td>
                                     <td><?= $d['StatusEmployees']; ?></td>
                                 </tr>
-                                <tr>
-                                    <td>Lecturer Status</td>
-                                    <td>:</td>
-                                    <td><?= $d['StatusLecturer']; ?></td>
-                                </tr>
+
+                                <?php if($d['StatusLecturer']!='') { ?>
+                                    <tr>
+                                        <td>Lecturer Status</td>
+                                        <td>:</td>
+                                        <td><?= $d['StatusLecturer']; ?></td>
+                                    </tr>
+                                <?php } ?>
+
                                 <tr>
                                     <td>Position</td>
                                     <td>:</td>
@@ -206,10 +234,13 @@ if(count($dataEmployees)>0){
                             '<td style="text-align: left;">'+Schedule+'</td>' +
                             '</tr>';
                     });
+
+                    var SemesterName = jsonResult.Semester[0].Name;
                     setTimeout(function () {
 
-                        $('#loadDetails').html('<h4 class="avatar-name" style="border-left: 10px solid orange;padding-left: 10px;">2019/2020 Ganjil</h4>' +
-                            '                        <table class="table table-striped table-bordered table-centre">' +
+                        $('#loadDetails').html('<h4 class="avatar-name" style="border-left: 10px solid orange;padding-left: 10px;">'+SemesterName+'</h4>' +
+                            '                        <div class="table-responsive">' +
+                            '                           <table class="table table-striped table-bordered table-centre">' +
                             '                            <thead>' +
                             '                            <tr style="background: #e0e0e091;">' +
                             '                                <th style="width: 1%;">No</th>' +
@@ -219,7 +250,7 @@ if(count($dataEmployees)>0){
                             '                            </tr>' +
                             '                            </thead>' +
                             '                            <tbody>'+viewlistTb+'</tbody>' +
-                            '                        </table>');
+                            '                        </table></div>');
 
                     },500);
                 } else {
@@ -246,16 +277,17 @@ if(count($dataEmployees)>0){
                         tb = tb+'<tr>' +
                             '<td>'+(i+1)+'</td>' +
                             '<td>'+v.NPM+'</td>' +
-                            '<td>'+v.Name+'</td>' +
+                            '<td style="text-align: left;">'+v.Name+'</td>' +
                             '<td>'+v.Year+'</td>' +
                             '</tr>';
                     });
 
                     setTimeout(function () {
-                        $('#loadDetails').html('<div class="table-responsive">' +
-                            '                        <table class="table table-striped">' +
+                        $('#loadDetails').html('<div class="row"><div class="col-md-12"><h4 class="avatar-name" style="border-left: 10px solid orange;padding-left: 10px;">Mentoring Final Project</h4>' +
+                            '           <div class="table-responsive">' +
+                            '                        <table class="table table-striped table-centre table-bordered">' +
                             '                            <thead>' +
-                            '                            <tr>' +
+                            '                            <tr style="background: #e0e0e091;">' +
                             '                                <th style="width: 1%;">No</th>' +
                             '                                <th style="width: 15%;">NIM</th>' +
                             '                                <th>Name</th>' +
@@ -264,7 +296,7 @@ if(count($dataEmployees)>0){
                             '                            </thead>' +
                             '                            <tbody>'+tb+'</tbody>' +
                             '                        </table>' +
-                            '                    </div>');
+                            '                    </div></div></div>');
                     },500);
 
                 } else {
@@ -287,20 +319,22 @@ if(count($dataEmployees)>0){
                     $.each(jsonResult,function (i,v) {
 
                         tb = tb+'<tr>' +
-                            '<td style="text-align: center;">'+(i+1)+'</td>' +
-                            '<td>'+v.Title+'</td>' +
+                            '<td>'+(i+1)+'</td>' +
+                            '<td style="text-align: left;">'+v.Title+'</td>' +
                             '</tr>';
 
                     });
 
 
                     setTimeout(function () {
-                        $('#loadDetails').html('<div class="row"><div class="col-md-12"><div class="table-responsive">' +
-                            '                        <table class="table table-striped">' +
+                        $('#loadDetails').html('<div class="row"><div class="col-md-12">' +
+                            '                   <h4 class="avatar-name" style="border-left: 10px solid orange;padding-left: 10px;">Research</h4>' +
+                            '                   <div class="table-responsive">' +
+                            '                        <table class="table table-striped table-centre table-bordered">' +
                             '                            <thead>' +
-                            '                            <tr>' +
-                            '                                <th style="width: 1%;text-align: center;">No</th>' +
-                            '                                <th style="text-align: center;">Title</th>' +
+                            '                            <tr style="background: #e0e0e091;">' +
+                            '                                <th style="width: 1%;">No</th>' +
+                            '                                <th>Title</th>' +
                             '                            </tr>' +
                             '                            </thead><tbody>'+tb+'</tbody>' +
                             '                        </table>' +
@@ -326,20 +360,20 @@ if(count($dataEmployees)>0){
                     $.each(jsonResult,function (i,v) {
 
                         tb = tb+'<tr>' +
-                            '<td style="text-align: center;">'+(i+1)+'</td>' +
-                            '<td>'+v.Title+'</td>' +
+                            '<td>'+(i+1)+'</td>' +
+                            '<td style="text-align: left;">'+v.Title+'</td>' +
                             '</tr>';
-
                     });
 
-
                     setTimeout(function () {
-                        $('#loadDetails').html('<div class="row"><div class="col-md-12"><div class="table-responsive">' +
-                            '                        <table class="table table-striped">' +
+                        $('#loadDetails').html('<div class="row"><div class="col-md-12">' +
+                            '               <h4 class="avatar-name" style="border-left: 10px solid orange;padding-left: 10px;">Scientific Publications</h4>' +
+                            '                   <div class="table-responsive">' +
+                            '                        <table class="table table-striped table-centre table-bordered">' +
                             '                            <thead>' +
-                            '                            <tr>' +
-                            '                                <th style="width: 1%;text-align: center;">No</th>' +
-                            '                                <th style="text-align: center;">Title</th>' +
+                            '                            <tr style="background: #e0e0e091;">' +
+                            '                                <th style="width: 1%;">No</th>' +
+                            '                                <th>Title</th>' +
                             '                            </tr>' +
                             '                            </thead><tbody>'+tb+'</tbody>' +
                             '                        </table>' +
@@ -363,20 +397,20 @@ if(count($dataEmployees)>0){
                     $.each(jsonResult,function (i,v) {
 
                         tb = tb+'<tr>' +
-                            '<td style="text-align: center;">'+(i+1)+'</td>' +
-                            '<td>'+v.Title+'</td>' +
+                            '<td>'+(i+1)+'</td>' +
+                            '<td style="text-align: left;">'+v.Title+'</td>' +
                             '</tr>';
-
                     });
 
-
                     setTimeout(function () {
-                        $('#loadDetails').html('<div class="row"><div class="col-md-12"><div class="table-responsive">' +
-                            '                        <table class="table table-striped">' +
+                        $('#loadDetails').html('<div class="row"><div class="col-md-12">' +
+                            '               <h4 class="avatar-name" style="border-left: 10px solid orange;padding-left: 10px;">Scienty Services</h4>' +
+                            '                   <div class="table-responsive">' +
+                            '                        <table class="table table-striped table-centre table-bordered">' +
                             '                            <thead>' +
-                            '                            <tr>' +
-                            '                                <th style="width: 1%;text-align: center;">No</th>' +
-                            '                                <th style="text-align: center;">Title</th>' +
+                            '                            <tr style="background: #e0e0e091;">' +
+                            '                                <th style="width: 1%;">No</th>' +
+                            '                                <th>Title</th>' +
                             '                            </tr>' +
                             '                            </thead><tbody>'+tb+'</tbody>' +
                             '                        </table>' +
@@ -399,20 +433,20 @@ if(count($dataEmployees)>0){
                     $.each(jsonResult,function (i,v) {
 
                         tb = tb+'<tr>' +
-                            '<td style="text-align: center;">'+(i+1)+'</td>' +
-                            '<td>'+v.Title+'</td>' +
+                            '<td>'+(i+1)+'</td>' +
+                            '<td style="text-align: left;">'+v.Title+'</td>' +
                             '</tr>';
-
                     });
 
-
                     setTimeout(function () {
-                        $('#loadDetails').html('<div class="row"><div class="col-md-12"><div class="table-responsive">' +
-                            '                        <table class="table table-striped">' +
+                        $('#loadDetails').html('<div class="row"><div class="col-md-12">' +
+                            '               <h4 class="avatar-name" style="border-left: 10px solid orange;padding-left: 10px;">HKI</h4>' +
+                            '                   <div class="table-responsive">' +
+                            '                        <table class="table table-striped table-centre table-bordered">' +
                             '                            <thead>' +
-                            '                            <tr>' +
-                            '                                <th style="width: 1%;text-align: center;">No</th>' +
-                            '                                <th style="text-align: center;">Title</th>' +
+                            '                            <tr style="background: #e0e0e091;">' +
+                            '                                <th style="width: 1%;">No</th>' +
+                            '                                <th>Title</th>' +
                             '                            </tr>' +
                             '                            </thead><tbody>'+tb+'</tbody>' +
                             '                        </table>' +
