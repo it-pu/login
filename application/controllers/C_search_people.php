@@ -92,7 +92,24 @@ class C_search_people extends CI_Controller {
         header('Access-Control-Allow-Origin: *');
         header('Content-Type: application/json');
 
-        $key = $this->input->get('key');
+        $token = $this->input->get('token');
+
+        $dataToken = (array) $this->jwt->decode($token,'L0G1N-S50-3R0');
+
+
+        $key = $dataToken['key'];
+        $IP_Public = $dataToken['IPPublic'];
+
+        $hostname = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+        $IP_Local = ($hostname!='') ? $hostname : $this->input->ip_address();
+
+        $dataInsrt = array(
+            'Key' => $key,
+            'IP_Public' => $IP_Public,
+            'IP_Local' => $IP_Local
+        );
+
+        $this->db->insert('db_it.search_people_key',$dataInsrt);
 
         $dataEmp = $this->db->query('SELECT em.NIP, em.Name, em.Photo, em.PositionMain FROM db_employees.employees em
                                                 WHERE (em.StatusEmployeeID != "-1" AND em.StatusEmployeeID != "-2") AND (em.Name LIKE "%'.$key.'%" 
