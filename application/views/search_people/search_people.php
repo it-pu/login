@@ -1,7 +1,40 @@
 
-
+<link href="https://fonts.googleapis.com/css?family=Fredoka+One&display=swap" rel="stylesheet">
 
 <style>
+
+    body {
+        background: #eaeaea;
+    }
+
+    h1 {
+        font-family: 'Fredoka One', cursive;
+    }
+
+
+
+    .input-group-lg {
+        -webkit-box-shadow: 1px 1px 5px -2px rgba(0,0,0,0.75);
+        -moz-box-shadow: 1px 1px 5px -2px rgba(0,0,0,0.75);
+        box-shadow: 1px 1px 5px -2px rgba(0,0,0,0.75);
+
+        border-radius: 45px;
+    }
+    .input-group-addon {
+        background: #ffffff;
+        border-right: 1px solid #ffffff;
+    }
+    .input-group-lg>.form-control {
+        border-radius: 22px;
+        border-left: none;
+    }
+
+    .input-group-lg>.input-group-addon {
+        border-top-left-radius: 22px;
+        border-bottom-left-radius: 22px;
+    }
+
+
 
     textarea:focus,
     input[type="text"]:focus,
@@ -31,7 +64,7 @@
 
 
     .card {
-        background-color: rgba(214, 224, 226, 0.2);
+        background-color: #ffffff;
         text-align: center;
         padding: 15px;
         border: 1px solid #cccccc7a;
@@ -39,10 +72,7 @@
         height: 221px;
         margin-bottom: 25px;
     }
-    .card:hover {
-        background: rgba(214, 224, 226, 0.59);
-        cursor: pointer;
-    }
+
     .card img.avatar {
         width: 75px;
         height: 75px;
@@ -296,7 +326,7 @@
                         var depan = (isi==1) ? '<div class="col-md-4"><div class="row">' : '';
                         var belakang = ((i+1) == jsonResult.Employees.length || isi==2) ? '</div></div>' : '';
 
-                        detailList = detailList+depan+'<div class="col-xs-6 animated fadeIn">' +
+                        detailList = detailList+depan+'<div class="col-xs-6 animated fadeIn hvr-bubble-float-top">' +
                             '            <a href="'+dt_base_url_js+'search-people/detail-employees/'+v.NIP+'" target="_blank"><div class="card">' +
                             '                <div>' +
                             '                    <img class="avatar img-fitter" data-src="'+v.Photo+'">' +
@@ -325,7 +355,7 @@
                         var depan = (isi==1) ? '<div class="col-md-4"><div class="row">' : '';
                         var belakang = ((i+1) == jsonResult.Students.length || isi==2) ? '</div></div>' : '';
 
-                        detailList = detailList+depan+'<div class="col-xs-6 animated fadeIn">' +
+                        detailList = detailList+depan+'<div class="col-xs-6 animated fadeIn hvr-bubble-float-top">' +
                             '            <div class="card">' +
                             '                <div>' +
                             '                    <img class="avatar img-fitter" data-src="'+v.Photo+'">' +
