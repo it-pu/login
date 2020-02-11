@@ -61,10 +61,58 @@ class M_search_people extends CI_Model {
 
     }
 
+    public function getResearch($NIP){
+        $data = $this->db->query('SELECT Judul_litabmas AS Title FROM db_research.litabmas WHERE NIP = "'.$NIP.'" ORDER BY ID_litabmas DESC')->result_array();
+        return $data;
+    }
+
+    public function getPublikasi($NIP){
+        $data = $this->db->query('SELECT Judul AS Title FROM db_research.publikasi WHERE NIP = "'.$NIP.'" ORDER BY ID_publikasi DESC')->result_array();
+        return $data;
+    }
+
+    public function getDedication($NIP){
+        $data = $this->db->query('SELECT Judul_PKM AS Title FROM db_research.pengabdian_masyarakat WHERE NIP = "'.$NIP.'" ORDER BY ID_PKM DESC')->result_array();
+        return $data;
+    }
+
+    public function getHKI($NIP){
+        $data = $this->db->query('SELECT Judul_hki AS Title FROM db_research.hak_kekayaan_intelektual WHERE NIP = "'.$NIP.'" ORDER BY ID_HKI DESC')->result_array();
+        return $data;
+    }
+
     public function getTotalMentoring($NIP){
         $dataFP= $this->db->query('SELECT COUNT(*) AS Total FROM 
                                                         (SELECT ats.NPM,ats.Name, CONCAT("1") AS Mentor, ats.Year FROM db_academic.auth_students ats WHERE ats.MentorFP1 = "'.$NIP.'"
                                                         UNION SELECT ats.NPM, ats.Name, CONCAT("2") AS Mentor, ats.Year FROM db_academic.auth_students ats WHERE ats.MentorFP2 = "'.$NIP.'") xx')
+            ->result_array();
+
+        return $dataFP[0]['Total'];
+    }
+
+    public function getTotalResaerch($NIP){
+        $dataFP= $this->db->query('SELECT COUNT(*) AS Total FROM db_research.litabmas WHERE NIP = "'.$NIP.'" ')
+            ->result_array();
+
+        return $dataFP[0]['Total'];
+    }
+
+    public function getTotalPublikasi($NIP){
+        $dataFP= $this->db->query('SELECT COUNT(*) AS Total FROM db_research.publikasi WHERE NIP = "'.$NIP.'" ')
+            ->result_array();
+
+        return $dataFP[0]['Total'];
+    }
+
+    public function getTotalDedication($NIP){
+        $dataFP= $this->db->query('SELECT COUNT(*) AS Total FROM db_research.pengabdian_masyarakat WHERE NIP = "'.$NIP.'" ')
+            ->result_array();
+
+        return $dataFP[0]['Total'];
+    }
+
+    public function getTotalHKI($NIP){
+        $dataFP= $this->db->query('SELECT COUNT(*) AS Total FROM db_research.hak_kekayaan_intelektual WHERE NIP = "'.$NIP.'" ')
             ->result_array();
 
         return $dataFP[0]['Total'];
