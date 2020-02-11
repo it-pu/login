@@ -5,6 +5,15 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="keywords" content="education, top education, education in indonesia, world education, education and training, education system, education system in indonesia, top education countries, academic, academy asia, top academic journals, best academic colleges, best academic colleges in the world, top academic countries, top academic universities in the world, top academic universities, research, international research, research in indonesia, international research university, collaboration, international collaboration, collaboration and innovation, collaboration and social business, student exchange international, student exchange 2017 indonesia, student exchange indonesia, international student exchange program, student exchange, international student exchange, culture, scholar, independent, it, sme, university, its, technology, student, dkv, computer science, superior, itb, information technology, collaboration, broadcasting, mmu, online courses, lecture, accreditation, utem, semarang, job fair, informatics, information systems, fkm, information management, podomoro university, pu, cultured,
+    visual communication design, PU, pu, central park, APL Tower, Agung Podomoro Group, APL, Agung Podomoro, Trihatma Kusuma Haliman, Bacelius Ruru, Cosmas Batubara, Serian Wijatno, central java, faculty of public health, student achievement, tv ku, world class university, economics faculty, faculty of computer science, engineering informatics, semarang central java, the faculty of engineering, scholarship s2, scholarship s1, cultural studies , collaborative research, collaborating and partnering, research colleges, international research papers "/>
+    <meta name="description" content="Universitas Agung Podomoro | Podomoro University"/>
+    <meta name="Author" content="Copyright 2020, Designed & Development by IT Podomoro University"/>
+    <meta name="robots" content="all"/>
+    <meta name="robots" content="index,follow"/>
+    <meta name="Googlebot" content="index,follow"/>
+
     <title>Podomoro University</title>
     <link rel="shortcut icon" type="image/x-icon" href="<?php echo base_url(); ?>assets/icon/favicon.png">
 
