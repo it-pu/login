@@ -86,7 +86,7 @@
         <div class="col-md-8 col-md-offset-2" style="margin-top: 20px;">
             <div class="input-group input-group-lg">
                 <span class="input-group-addon" id="sizing-addon1"><i class="fa fa-search"></i></span>
-                <input type="text" class="form-control" id="formSearch" autofocus placeholder="Search..." aria-describedby="sizing-addon1">
+                <input type="text" class="form-control" id="formSearch" autofocus placeholder="Search minimum 3 characters . . ." aria-describedby="sizing-addon1">
             </div>
         </div>
     </div>
@@ -253,85 +253,17 @@
     $('#formSearch').keyup(function () {
         var key = $(this).val();
 
-        if(key!=''){
+        if(key!='' && key.length>=3){
 
             $('#showData,#showDataStd').html(loadingPage);
 
-            var url = dt_base_url_js+'__getPeople?key='+key.trim();
-            $.getJSON(url,function (jsonResult) {
-                console.log(jsonResult);
-
-
-                setTimeout(function () {
-                    $('#showData,#showDataStd').empty();
-                    // Employees
-                    if(jsonResult.Employees.length>0){
-                        var isi = 1;
-                        var detailList = '';
-                        $.each(jsonResult.Employees,function (i,v) {
-
-                            if(isi==3){ isi = 1; }
-
-                            var depan = (isi==1) ? '<div class="col-md-4"><div class="row">' : '';
-                            var belakang = ((i+1) == jsonResult.Employees.length || isi==2) ? '</div></div>' : '';
-
-                            detailList = detailList+depan+'<div class="col-xs-6 animated fadeIn">' +
-                                '            <a href="'+dt_base_url_js+'search-people/detail-employees/'+v.NIP+'" target="_blank"><div class="card">' +
-                                '                <div>' +
-                                '                    <img class="avatar img-fitter" data-src="'+v.Photo+'">' +
-                                '                </div>' +
-                                '                <h4 class="avatar-name">'+v.Name+'<br/><small>'+v.NIP+'</small></h4>' +
-                                '                <p>'+v.Dvision+'</p>' +
-                                '            </div></a>' +
-                                '        </div>'+belakang;
-
-                            isi = isi + 1;
-                        });
-
-                        $('#showData').html(detailList);
-
-                        $('.img-fitter').imgFitter();
-                    }
-
-                    if(jsonResult.Students.length>0){
-                        var isi = 1;
-                        var detailList = '';
-
-                        $.each(jsonResult.Students,function (i,v) {
-
-                            if(isi==3){ isi = 1; }
-
-                            var depan = (isi==1) ? '<div class="col-md-4"><div class="row">' : '';
-                            var belakang = ((i+1) == jsonResult.Students.length || isi==2) ? '</div></div>' : '';
-
-                            detailList = detailList+depan+'<div class="col-xs-6 animated fadeIn">' +
-                                '            <div class="card">' +
-                                '                <div>' +
-                                '                    <img class="avatar img-fitter" data-src="'+v.Photo+'">' +
-                                '                </div>' +
-                                '                <h4 class="avatar-name">'+v.Name+'<br/><small>'+v.NPM+'</small></h4>' +
-                                '                <p>'+v.Prodi+'</p>' +
-                                '            </div>' +
-                                '        </div>'+belakang;
-
-                            isi = isi + 1;
-                        });
-
-                        $('#showDataStd').html(detailList);
-
-                        $('.img-fitter').imgFitter();
-                    }
-
-
-                    if(jsonResult.Employees.length<=0 && jsonResult.Students.length<=0) {
-                        var notFoundPageData = notFoundPage(key);
-                        $('#showData').html(notFoundPageData);
-                    }
-                },1000);
-
-
-            });
-
+            try {
+                $.getJSON("https://api.ipify.org/?format=json", function(e) {
+                    getSearchPeople(key,e.ip);
+                });
+            } catch (e){
+                getSearchPeople(key,'');
+            }
 
         } 
         else {
@@ -340,4 +272,85 @@
             },1000);
         }
     });
+
+    function getSearchPeople(key,IPPublic) {
+
+        var token = jwt_encode({
+            IPPublic : IPPublic,
+            key : key.trim()
+        });
+
+        var url = dt_base_url_js+'__getPeople?token='+token;
+        $.getJSON(url,function (jsonResult) {
+
+            setTimeout(function () {
+                $('#showData,#showDataStd').empty();
+                // Employees
+                if(jsonResult.Employees.length>0){
+                    var isi = 1;
+                    var detailList = '';
+                    $.each(jsonResult.Employees,function (i,v) {
+
+                        if(isi==3){ isi = 1; }
+
+                        var depan = (isi==1) ? '<div class="col-md-4"><div class="row">' : '';
+                        var belakang = ((i+1) == jsonResult.Employees.length || isi==2) ? '</div></div>' : '';
+
+                        detailList = detailList+depan+'<div class="col-xs-6 animated fadeIn">' +
+                            '            <a href="'+dt_base_url_js+'search-people/detail-employees/'+v.NIP+'" target="_blank"><div class="card">' +
+                            '                <div>' +
+                            '                    <img class="avatar img-fitter" data-src="'+v.Photo+'">' +
+                            '                </div>' +
+                            '                <h4 class="avatar-name">'+v.Name+'<br/><small>'+v.NIP+'</small></h4>' +
+                            '                <p>'+v.Dvision+'</p>' +
+                            '            </div></a>' +
+                            '        </div>'+belakang;
+
+                        isi = isi + 1;
+                    });
+
+                    $('#showData').html(detailList);
+
+                    $('.img-fitter').imgFitter();
+                }
+
+                if(jsonResult.Students.length>0){
+                    var isi = 1;
+                    var detailList = '';
+
+                    $.each(jsonResult.Students,function (i,v) {
+
+                        if(isi==3){ isi = 1; }
+
+                        var depan = (isi==1) ? '<div class="col-md-4"><div class="row">' : '';
+                        var belakang = ((i+1) == jsonResult.Students.length || isi==2) ? '</div></div>' : '';
+
+                        detailList = detailList+depan+'<div class="col-xs-6 animated fadeIn">' +
+                            '            <div class="card">' +
+                            '                <div>' +
+                            '                    <img class="avatar img-fitter" data-src="'+v.Photo+'">' +
+                            '                </div>' +
+                            '                <h4 class="avatar-name">'+v.Name+'<br/><small>'+v.NPM+'</small></h4>' +
+                            '                <p>'+v.Prodi+'</p>' +
+                            '            </div>' +
+                            '        </div>'+belakang;
+
+                        isi = isi + 1;
+                    });
+
+                    $('#showDataStd').html(detailList);
+
+                    $('.img-fitter').imgFitter();
+                }
+
+
+                if(jsonResult.Employees.length<=0 && jsonResult.Students.length<=0) {
+                    var notFoundPageData = notFoundPage(key);
+                    $('#showData').html(notFoundPageData);
+                }
+            },1000);
+
+
+        });
+    }
 </script>
