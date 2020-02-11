@@ -215,6 +215,20 @@ class C_search_people extends CI_Controller {
             $data = $this->m_sp->getHKI($data_arr['NIP']);
             return print_r(json_encode($data));
         }
+        else if($data_arr['action']=='setDataLogging'){
+
+            $hostname = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+            $IP_Local = ($hostname!='') ? $hostname : $this->input->ip_address();
+
+            $dataInsert = array(
+                "NIP" => $data_arr['NIP'],
+                "IP_Public" => $data_arr['IP_Public'],
+                "IP_Local" => $IP_Local
+            );
+
+            $data = $this->db->insert('db_it.search_people_employees',$dataInsert);
+            return print_r(json_encode($data));
+        }
 
     }
 
