@@ -228,7 +228,21 @@ class C_search_people extends CI_Controller {
             );
 
             $data = $this->db->insert('db_it.search_people_employees',$dataInsert);
-            return print_r(json_encode($data));
+            return print_r(1);
+        }
+        else if($data_arr['action']=='setDataLoggingStudent'){
+
+            $hostname = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+            $IP_Local = ($hostname!='') ? $hostname : $this->input->ip_address();
+
+            $dataInsert = array(
+                "NPM" => $data_arr['NPM'],
+                "IP_Public" => $data_arr['IP_Public'],
+                "IP_Local" => $IP_Local
+            );
+
+            $data = $this->db->insert('db_it.search_people_student',$dataInsert);
+            return print_r(1);
         }
 
     }

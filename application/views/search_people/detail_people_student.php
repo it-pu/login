@@ -288,7 +288,30 @@ if($sts=='1'){
 
             addingLastSeen(dt_NPM,'std',dt_Name);
 
+            try {
+                $.getJSON("https://api.ipify.org/?format=json", function(e) {
+                    inputLogging(dt_NPM,e.ip);
+                });
+            } catch (e){
+                inputLogging(dt_NPM,'');
+            }
+
         });
+
+        function inputLogging(NPM,IP_Public) {
+
+            var token = jwt_encode({
+                action : 'setDataLoggingStudent',
+                NPM : NPM,
+                IP_Public : IP_Public
+            });
+            var url = dt_base_url_js+'__getDetailsPeople';
+
+            $.post(url,{token:token},function(result) {
+
+            });
+
+        }
 
 
 
