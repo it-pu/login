@@ -141,7 +141,6 @@
     </div>
 
     <div id="lastSeen"></div>
-
     <div class="row" style="margin-top: 50px;" id="showData"></div>
     <div class="row" style="margin-top: 50px;" id="showDataStd"></div>
 </div>
