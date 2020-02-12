@@ -100,7 +100,7 @@ if(count($dataEmployees)>0){
                                     <tr>
                                         <td>Home Base</td>
                                         <td>:</td>
-                                        <td><?= $d['ProdiName']; ?></td>
+                                        <td><a href="https://<?= $d['Host']; ?>" target="_blank"><?= $d['ProdiName']; ?></a></td>
                                     </tr>
                                 <?php } ?>
 
@@ -305,7 +305,7 @@ if(count($dataEmployees)>0){
                         tb = tb+'<tr>' +
                             '<td>'+(i+1)+'</td>' +
                             '<td>'+v.NPM+'</td>' +
-                            '<td style="text-align: left;">'+v.Name+'</td>' +
+                            '<td style="text-align: left;"><a href="'+dt_base_url_js+'search-people/detail-student/'+v.NPM+'" target="_blank">'+v.Name+'</a></td>' +
                             '<td>'+v.Year+'</td>' +
                             '</tr>';
                     });

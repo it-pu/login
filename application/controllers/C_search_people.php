@@ -136,8 +136,11 @@ class C_search_people extends CI_Controller {
     {
 
         $dataEmployees = $this->db->query('SELECT em.NIP, em.Name, em.NIDN, ps.NameEng AS ProdiName, em.Address,  
-                                                            ems.Description AS StatusEmployees, ems2.Description AS StatusLecturer, em.Photo, em.PositionMain FROM db_employees.employees em
+                                                            ems.Description AS StatusEmployees, ems2.Description AS StatusLecturer, 
+                                                            em.Photo, em.PositionMain, psd.Host 
+                                                            FROM db_employees.employees em
                                                             LEFT JOIN db_academic.program_study ps ON (ps.ID = em.ProdiID)
+                                                            LEFT JOIN db_academic.program_study_detail psd ON (ps.ID = psd.ProdiID)
                                                             LEFT JOIN db_employees.employees_status ems ON (ems.IDStatus = em.StatusEmployeeID)
                                                             LEFT JOIN db_employees.employees_status ems2 ON (ems2.IDStatus = em.StatusLecturerID)
                                                             WHERE em.NIP = "'.$NIP.'"')->result_array();
