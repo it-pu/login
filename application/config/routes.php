@@ -37,6 +37,7 @@ $route['meet-our-team'] = 'c_login/meet_our_team';
 
 $route['search-people'] = 'c_search_people/search_people';
 $route['search-people/detail-employees/(:any)'] = 'c_search_people/detail_people_employees/$1';
+$route['search-people/detail-student/(:any)'] = 'c_search_people/detail_people_student/$1';
 $route['__getPeople'] = 'c_search_people/getPeople';
 $route['__getDetailsPeople'] = 'c_search_people/getDetailsPeople';
 

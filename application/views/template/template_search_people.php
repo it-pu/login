@@ -48,6 +48,8 @@
 <script src="<?php echo base_url(); ?>assets/toastr/toastr.min.js"></script>
 <!------ Include the above in your HEAD tag ---------->
 
+<script type="text/javascript" src="<?php echo base_url('assets/'); ?>moment/moment.js"></script>
+
 <script>
     $.fn.extend({
         animateCss: function(animationName, callback) {
@@ -95,6 +97,37 @@
     };
 
     window.dt_base_url_js = "<?= base_url(); ?>";
+    window.dt_base_url_pas = "<?= url_pas; ?>";
+
+    function addingLastSeen(UserID,Type,Name) {
+
+        var dataLastSeen = localStorage.getItem('dataLastSeen');
+
+        var newData = {
+            Name : Name,
+            UserID : UserID,
+            Type : Type
+        };
+        var dataPush2LastSeen = [];
+        if(dataLastSeen!=null && dataLastSeen!=''){
+            dataPush2LastSeen = JSON.parse(dataLastSeen);
+            var pushNew = true;
+            for(var i=0;i<dataPush2LastSeen.length;i++){
+                if(UserID==dataPush2LastSeen[i].UserID){
+                    pushNew = false;
+                    break;
+                }
+            }
+            if (pushNew){
+                dataPush2LastSeen.push(newData);
+            }
+        } else {
+            dataPush2LastSeen.push(newData);
+        }
+
+        localStorage.setItem('dataLastSeen',JSON.stringify(dataPush2LastSeen));
+
+    }
 </script>
 
 <style>

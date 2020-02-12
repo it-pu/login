@@ -57,7 +57,7 @@
         outline: 0 none;
     }
 
-    #showData a {
+    #showData a, #showDataStd a {
         text-decoration: none;
         color: #333333;
     }
@@ -95,14 +95,32 @@
         animation-iteration-count: infinite;
         animation-name: placeHolderShimmer;
         animation-timing-function: linear;
-        background: #f6f7f8;
-        background: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);
+        background: #ffffff;
+        /*background: linear-gradient(to right, #eeeeee 8%, #dddddd 18%, #eeeeee 33%);*/
+        background: linear-gradient(to right, #f9f9f9 8%, #f9f9f9 18%, #ffffff 33%);
         background-size: 800px 104px;
         height: 221px;
         position: relative;
     }
     .loading-page .col-xs-6{
         margin-bottom: 25px;
+    }
+
+    .label-lastseen {
+
+        color: #6d5b5b;
+        padding: 7px;
+        border-radius: 9px;
+        border: 1px solid #9e9d9d;
+    }
+    .label-lastseen-std {
+        background: #ffeb3b4f;
+    }
+    .label-lastseen-emp {
+        background: #00bcd438;
+    }
+    #lastSeen a {
+        text-decoration: none;
     }
 </style>
 
@@ -121,6 +139,7 @@
         </div>
     </div>
 
+    <div id="lastSeen"></div>
 
     <div class="row" style="margin-top: 50px;" id="showData"></div>
     <div class="row" style="margin-top: 50px;" id="showDataStd"></div>
@@ -274,33 +293,78 @@
         $('#showData').html(defaultPage);
 
         $('.img-fitter').imgFitter();
+
+        loadLastSeen();
     });
 
-    $(document).on('click','#showDataStd .card',function () {
-        alert('Coming soon :) ');
-    });
+    // $(document).on('click','#showDataStd .card',function () {
+    //     alert('Coming soon :) ');
+    // });
 
-    $('#formSearch').keyup(function () {
-        var key = $(this).val();
+    function loadLastSeen(){
+        var dataLastSeen = localStorage.getItem('dataLastSeen');
+        if(dataLastSeen!='' && dataLastSeen!=null){
 
-        if(key!='' && key.length>=3){
+            var d = JSON.parse(dataLastSeen);
 
-            $('#showData,#showDataStd').html(loadingPage);
+            var listLastSeen = '';
+            for(var i=0;i<d.length;i++){
+                var link = (d[i].Type=='emp')
+                    ? dt_base_url_js+'search-people/detail-employees/'+d[i].UserID
+                    : dt_base_url_js+'search-people/detail-student/'+d[i].UserID;
 
-            try {
-                $.getJSON("https://api.ipify.org/?format=json", function(e) {
-                    getSearchPeople(key,e.ip);
-                });
-            } catch (e){
-                getSearchPeople(key,'');
+                var classtype = (d[i].Type=='emp') ? 'label-lastseen-emp' : 'label-lastseen-std';
+
+                listLastSeen = listLastSeen+' <a href="'+link+'" target="_blank" class="a-lastseen '+classtype+' hvr-bob"><span class="label label-lastseen">'+d[i].Name+'</span></a> ';
             }
 
-        } 
-        else {
-            setTimeout(function () {
-                $('#showData,#showDataStd').html(defaultPage);
-            },1000);
+
+            $('#lastSeen').html('<div class="row" style="margin-top: 20px;">' +
+                '            <div class="col-md-12">' +
+                '                <p style="color: #8a8a8a;"><i class="fa fa-history"></i> Last seen. <a href="javascript:void(0);" id="clearHistorySeen"><u>Delete data that was last seen ?</u></a></p>' +
+                '                ' +listLastSeen+
+                '            </div>' +
+                '        </div>');
+        } else {
+            $('#lastSeen').empty();
         }
+    }
+
+    $(document).on('click','#clearHistorySeen',function () {
+        if(confirm('Are you sure?')){
+            localStorage.removeItem('dataLastSeen');
+            loadLastSeen();
+        }
+    });
+
+    $('#formSearch').keypress(function (e) {
+
+
+        if(e.keyCode == 13)
+        {
+            var key = $(this).val();
+
+            if(key!='' && key.length>=3){
+
+                $('#showData,#showDataStd').html(loadingPage);
+
+                try {
+                    $.getJSON("https://api.ipify.org/?format=json", function(e) {
+                        getSearchPeople(key,e.ip);
+                    });
+                } catch (e){
+                    getSearchPeople(key,'');
+                }
+
+            }
+            else {
+                setTimeout(function () {
+                    $('#showData,#showDataStd').html(defaultPage);
+                },1000);
+            }
+        }
+
+
     });
 
     function getSearchPeople(key,IPPublic) {
@@ -327,7 +391,8 @@
                         var belakang = ((i+1) == jsonResult.Employees.length || isi==2) ? '</div></div>' : '';
 
                         detailList = detailList+depan+'<div class="col-xs-6 animated fadeIn hvr-bubble-float-top">' +
-                            '            <a href="'+dt_base_url_js+'search-people/detail-employees/'+v.NIP+'" target="_blank"><div class="card">' +
+                            '            <a href="'+dt_base_url_js+'search-people/detail-employees/'+v.NIP+'">' +
+                            '               <div class="card">' +
                             '                <div>' +
                             '                    <img class="avatar img-fitter" data-src="'+v.Photo+'">' +
                             '                </div>' +
@@ -356,13 +421,14 @@
                         var belakang = ((i+1) == jsonResult.Students.length || isi==2) ? '</div></div>' : '';
 
                         detailList = detailList+depan+'<div class="col-xs-6 animated fadeIn hvr-bubble-float-top">' +
-                            '            <div class="card">' +
+                            '            <a href="'+dt_base_url_js+'search-people/detail-student/'+v.NPM+'">' +
+                            '             <div class="card">' +
                             '                <div>' +
                             '                    <img class="avatar img-fitter" data-src="'+v.Photo+'">' +
                             '                </div>' +
                             '                <h4 class="avatar-name">'+v.Name+'<br/><small>'+v.NPM+'</small></h4>' +
                             '                <p>'+v.Prodi+'</p>' +
-                            '            </div>' +
+                            '            </div></a>' +
                             '        </div>'+belakang;
 
                         isi = isi + 1;
