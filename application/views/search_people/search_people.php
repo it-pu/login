@@ -121,6 +121,7 @@
     }
     #lastSeen a {
         text-decoration: none;
+        margin-bottom: 15px;
     }
 </style>
 
