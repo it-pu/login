@@ -2,14 +2,14 @@
 
 
 
-function jwt_encode(data) {
+function jwt_encode(data,key='') {
 
     var header = {
         "alg": "HS256",
         "typ": "JWT"
     };
 
-    var secret = "L0G1N-S50-3R0";
+    var secret = (key!='') ? key : "L0G1N-S50-3R0";
 
     var stringifiedHeader = CryptoJS.enc.Utf8.parse(JSON.stringify(header));
     var encodedHeader = base64url(stringifiedHeader);

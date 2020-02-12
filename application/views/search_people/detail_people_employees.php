@@ -49,6 +49,12 @@ if(count($dataEmployees)>0){
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
 
+                <div class="row" style="margin-bottom: 20px;">
+                    <div class="col-md-12">
+                        <a href="<?= base_url('search-people'); ?>" class="btn btn-warning"><i class="fa fa-arrow-left" style="margin-right: 5px"></i> Back to search people</a>
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="col-md-12">
                         <div style="text-align: center;">
@@ -58,7 +64,7 @@ if(count($dataEmployees)>0){
                 </div>
 
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-3" style="margin-bottom: 15px;">
                         <div style="text-align: center;">
                             <?php
                                 $imgPhoto = ($d['Photo']!='' && $d['Photo']!=null)
@@ -150,11 +156,6 @@ if(count($dataEmployees)>0){
                     <div style="margin-top: 30px;" id="loadDetails">
                     </div>
 
-
-
-
-
-
                 </div>
             </div>
         </div>
@@ -166,6 +167,7 @@ if(count($dataEmployees)>0){
         $(document).ready(function () {
             loading_page('#loadDetails');
             window.dt_NIP = "<?= $d['NIP']; ?>";
+            window.dt_Name = "<?= $d['Name']; ?>";
             loadTimeTable();
 
 
@@ -176,6 +178,8 @@ if(count($dataEmployees)>0){
             } catch (e){
                 inputLogging(dt_NIP,'');
             }
+
+            addingLastSeen(dt_NIP,'emp',dt_Name);
 
         });
         

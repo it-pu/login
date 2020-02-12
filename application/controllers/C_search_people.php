@@ -37,55 +37,12 @@ class C_search_people extends CI_Controller {
         $this->temp($content);
     }
 
-    public function detail_people_employees($NIP)
-    {
+    private function extractTokenPost(){
+        $token = $this->input->post('token');
+        $key = 'L0G1N-S50-3R0';
+        $data_arr = (array) $this->jwt->decode($token,$key);
+        return $data_arr;
 
-        $dataEmployees = $this->db->query('SELECT em.NIP, em.Name, em.NIDN, ps.NameEng AS ProdiName, em.Address,  
-                                                            ems.Description AS StatusEmployees, ems2.Description AS StatusLecturer, em.Photo, em.PositionMain FROM db_employees.employees em
-                                                            LEFT JOIN db_academic.program_study ps ON (ps.ID = em.ProdiID)
-                                                            LEFT JOIN db_employees.employees_status ems ON (ems.IDStatus = em.StatusEmployeeID)
-                                                            LEFT JOIN db_employees.employees_status ems2 ON (ems2.IDStatus = em.StatusLecturerID)
-                                                            WHERE em.NIP = "'.$NIP.'"')->result_array();
-
-        $data['dataEmployees'] = $dataEmployees ;
-
-        // Total Mentor FP
-        $data['TotalFP'] =  $this->m_sp->getTotalMentoring($NIP);
-        $data['TotalResaerch'] =  $this->m_sp->getTotalResaerch($NIP);
-        $data['TotalPublikasi'] =  $this->m_sp->getTotalPublikasi($NIP);
-        $data['TotalDedication'] =  $this->m_sp->getTotalDedication($NIP);
-        $data['TotalHKI'] =  $this->m_sp->getTotalHKI($NIP);
-
-        $Division = '';
-        $Position = '';
-
-        if(count($dataEmployees)>0){
-
-            if($dataEmployees[0]['PositionMain']!='' && $dataEmployees[0]['PositionMain']!=null){
-                $DivID = explode('.',$dataEmployees[0]['PositionMain'])[0];
-                $PosID = explode('.',$dataEmployees[0]['PositionMain'])[1];
-
-                $dataDiv = $this->db->select('Division')->get_where('db_employees.division',array(
-                    'ID' => $DivID
-                ))->result_array();
-
-                $Division = (count($dataDiv)>0) ? $dataDiv[0]['Division'] : '';
-
-                $dataPos = $this->db->select('Position')->get_where('db_employees.position',array(
-                    'ID' => $PosID
-                ))->result_array();
-
-                $Position = (count($dataPos)>0) ? $dataPos[0]['Position'] : '';
-            }
-
-        }
-
-
-        $data['Division'] =  $Division;
-        $data['Position'] =  $Position;
-
-        $content = $this->load->view('search_people/detail_people_employees',$data,true);
-        $this->temp($content);
     }
 
     public function getPeople(){
@@ -173,19 +130,63 @@ class C_search_people extends CI_Controller {
 
     }
 
-    private function extractToken(){
-        $token = $this->input->post('token');
-        $key = 'L0G1N-S50-3R0';
-        $data_arr = (array) $this->jwt->decode($token,$key);
-        return $data_arr;
 
+    // ============ Detail Employees ============
+    public function detail_people_employees($NIP)
+    {
+
+        $dataEmployees = $this->db->query('SELECT em.NIP, em.Name, em.NIDN, ps.NameEng AS ProdiName, em.Address,  
+                                                            ems.Description AS StatusEmployees, ems2.Description AS StatusLecturer, em.Photo, em.PositionMain FROM db_employees.employees em
+                                                            LEFT JOIN db_academic.program_study ps ON (ps.ID = em.ProdiID)
+                                                            LEFT JOIN db_employees.employees_status ems ON (ems.IDStatus = em.StatusEmployeeID)
+                                                            LEFT JOIN db_employees.employees_status ems2 ON (ems2.IDStatus = em.StatusLecturerID)
+                                                            WHERE em.NIP = "'.$NIP.'"')->result_array();
+
+        $data['dataEmployees'] = $dataEmployees ;
+
+        // Total Mentor FP
+        $data['TotalFP'] =  $this->m_sp->getTotalMentoring($NIP);
+        $data['TotalResaerch'] =  $this->m_sp->getTotalResaerch($NIP);
+        $data['TotalPublikasi'] =  $this->m_sp->getTotalPublikasi($NIP);
+        $data['TotalDedication'] =  $this->m_sp->getTotalDedication($NIP);
+        $data['TotalHKI'] =  $this->m_sp->getTotalHKI($NIP);
+
+        $Division = '';
+        $Position = '';
+
+        if(count($dataEmployees)>0){
+
+            if($dataEmployees[0]['PositionMain']!='' && $dataEmployees[0]['PositionMain']!=null){
+                $DivID = explode('.',$dataEmployees[0]['PositionMain'])[0];
+                $PosID = explode('.',$dataEmployees[0]['PositionMain'])[1];
+
+                $dataDiv = $this->db->select('Division')->get_where('db_employees.division',array(
+                    'ID' => $DivID
+                ))->result_array();
+
+                $Division = (count($dataDiv)>0) ? $dataDiv[0]['Division'] : '';
+
+                $dataPos = $this->db->select('Position')->get_where('db_employees.position',array(
+                    'ID' => $PosID
+                ))->result_array();
+
+                $Position = (count($dataPos)>0) ? $dataPos[0]['Position'] : '';
+            }
+
+        }
+
+        $data['Division'] =  $Division;
+        $data['Position'] =  $Position;
+
+        $content = $this->load->view('search_people/detail_people_employees',$data,true);
+        $this->temp($content);
     }
 
     public function getDetailsPeople(){
         header('Access-Control-Allow-Origin: *');
         header('Content-Type: application/json');
 
-        $data_arr = $this->extractToken();
+        $data_arr = $this->extractTokenPost();
 
         if($data_arr['action']=='getDPTimetable'){
 
@@ -230,6 +231,74 @@ class C_search_people extends CI_Controller {
             return print_r(json_encode($data));
         }
 
+    }
+
+
+    // =========== Detail Student ========
+    public function detail_people_student($NPM){
+        $data['NPM'] = $NPM;
+
+        $student = $this->db->query('SELECT ats.Name, ats.NPM, ats.Year, ps.NameEng AS ProdiEng, j.JudiciumsDate, ats.StatusStudentID,     
+                                                    ss.Description AS StatusStudent, em.NIP AS MentorNIP, em.Name AS Mentor, em.TitleAhead, em.TitleBehind,
+                                                    psd.Host, ats.Password AS Token
+                                                    FROM db_academic.auth_students ats 
+                                                    LEFT JOIN db_academic.program_study ps ON (ps.ID = ats.ProdiID)
+                                                    LEFT JOIN db_academic.program_study_detail psd ON (ps.ID = psd.ProdiID)
+                                                    LEFT JOIN db_academic.status_student ss ON (ss.ID = ats.StatusStudentID)
+                                                    LEFT JOIN db_academic.judiciums_list jl ON (jl.NPM = ats.NPM)
+                                                    LEFT JOIN db_academic.judiciums j ON (j.ID = jl.JID)
+                                                    LEFT JOIN db_academic.mentor_academic ma ON (ma.NPM = ats.NPM)
+                                                    LEFT JOIN db_employees.employees em ON (em.NIP = ma.NIP)
+                                                    WHERE ats.NPM = "'.$NPM.'"')->result_array();
+
+
+        if(count($student)>0){
+            $d = $student[0];
+            $db = 'ta_'.$d['Year'];
+
+            $dataDetails = $this->db->select('Photo,DateOfBirth,Gender')->get_where($db.'.students',array('NPM' => $NPM))
+                ->result_array();
+
+            $student[0]['Gender'] = $dataDetails[0]['Gender'];
+            $student[0]['Photo'] = $dataDetails[0]['Photo'];
+            $student[0]['DateOfBirth'] = $dataDetails[0]['DateOfBirth'];
+            $student[0]['DB'] = $db;
+
+
+            $dataAch_1 = $this->db->query('SELECT sa.Event, sa.Level, sa.Location, sa.Achievement FROM db_studentlife.student_achievement_student sas
+                                                              LEFT JOIN db_studentlife.student_achievement sa ON (sa.ID = sas.SAID)
+                                                              WHERE sa.isSKPI = 1 AND sas.NPM = "'.$NPM.'" AND (sa.CategID = 1 OR sa.CategID = 5) ')
+                ->result_array();
+
+            $student[0]['Achievement'] = $dataAch_1;
+
+            $dataAch_3 = $this->db->query('SELECT sa.Event, sa.Level, sa.Location, sa.Achievement FROM db_studentlife.student_achievement_student sas
+                                                              LEFT JOIN db_studentlife.student_achievement sa ON (sa.ID = sas.SAID)
+                                                              WHERE sa.isSKPI = 1 AND sas.NPM = "'.$NPM.'" AND sa.CategID = 3 ')
+                ->result_array();
+
+            $student[0]['Participation'] = $dataAch_3;
+
+            $dataAch_2 = $this->db->query('SELECT sa.Event, sa.Level, sa.Location, sa.Achievement FROM db_studentlife.student_achievement_student sas
+                                                              LEFT JOIN db_studentlife.student_achievement sa ON (sa.ID = sas.SAID)
+                                                              WHERE sa.isSKPI = 1 AND sas.NPM = "'.$d['NPM'].'" AND sa.CategID = 2 ')
+                ->result_array();
+
+            $student[0]['Training'] = $dataAch_2;
+
+            $dataAch_4 = $this->db->query('SELECT sa.Event, sa.Level, sa.Location, sa.Achievement FROM db_studentlife.student_achievement_student sas
+                                                              LEFT JOIN db_studentlife.student_achievement sa ON (sa.ID = sas.SAID)
+                                                              WHERE sa.isSKPI = 1 AND sas.NPM = "'.$d['NPM'].'" AND sa.CategID = 6 ')
+                ->result_array();
+
+            $student[0]['Internship'] = $dataAch_4;
+
+        }
+
+        $data['dataStd'] = $student;
+
+        $content = $this->load->view('search_people/detail_people_student',$data,true);
+        $this->temp($content);
     }
 
 }
