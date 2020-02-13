@@ -316,10 +316,8 @@
                             </a>
                         </div>
                         <div class="col-xs-6 hvr-grow-rotate">
-                            <!--                            <a href="https://blogs.podomorouniversity.ac.id/" target="_blank">-->
-                            <a href="javascript:void(0)" class="coming-soon">
+                            <a href="https://blogs.podomorouniversity.ac.id/" target="_blank">
                                 <div class="thumbnail">
-                                    <div class="page-coming-soon">Coming soon</div>
                                     <img src="<?= base_url(); ?>images/icon/blogs.png">
                                     <p>Blogs</p>
                                 </div>
