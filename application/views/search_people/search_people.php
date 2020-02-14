@@ -1,5 +1,5 @@
 
-<link href="https://fonts.googleapis.com/css?family=Fredoka+One&display=swap" rel="stylesheet">
+
 
 <style>
 
@@ -8,7 +8,7 @@
     }
 
     h1 {
-        font-family: 'Fredoka One', cursive;
+        font-family: 'MavenPro-SemiBold';
     }
 
 

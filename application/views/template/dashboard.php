@@ -95,11 +95,27 @@
     };
 </script>
 
-
+<link href="https://fonts.googleapis.com/css?family=Maven+Pro:400,800&display=swap&subset=latin-ext,vietnamese" rel="stylesheet">
 <style>
+
+    @font-face {
+        font-family: 'MavenPro';
+        src: url("./assets/font/maven/MavenPro.ttf");
+        src: url("./assets/font/maven/MavenPro.ttf") format('ttf'),
+        url("./assets/font/maven/MavenPro.ttf") format('truetype');
+    }
+
+    @font-face {
+        font-family: 'MavenPro-SemiBold';
+        src: url("./assets/font/maven/static/MavenPro-SemiBold.ttf");
+        src: url("./assets/font/maven/static/MavenPro-SemiBold.ttf") format('ttf'),
+        url("./assets/font/maven/static/MavenPro-SemiBold.ttf") format('truetype');
+    }
+
     body {
         padding: 20px;
-        font-family: 'Open Sans', sans-serif;
+        /*font-family: 'Maven Pro', sans-serif;*/
+        font-family: 'MavenPro-SemiBold';
         background-color: #eaeaea;
     }
 
@@ -131,6 +147,7 @@
     #listApps .thumbnail p {
         font-size: 15px;
         margin-top: 10px;
+        color: #7b7b7b;
     }
 
     #listApps .thumbnail img {
