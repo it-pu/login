@@ -131,9 +131,24 @@
 </script>
 
 <style>
+    @font-face {
+        font-family: 'MavenPro';
+        src: url("./assets/font/maven/MavenPro.ttf");
+        src: url("./assets/font/maven/MavenPro.ttf") format('ttf'),
+        url("./assets/font/maven/MavenPro.ttf") format('truetype');
+    }
+    @font-face {
+        font-family: 'MavenPro-SemiBold';
+        src: url("./assets/font/maven/static/MavenPro-SemiBold.ttf");
+        src: url("./assets/font/maven/static/MavenPro-SemiBold.ttf") format('ttf'),
+        url("./assets/font/maven/static/MavenPro-SemiBold.ttf") format('truetype');
+    }
 
     .table-centre tr th, .table-centre tr td {
         text-align: center;
+    }
+    body {
+        font-family: 'MavenPro';
     }
 </style>
 
