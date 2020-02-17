@@ -112,10 +112,8 @@
                             </a>
                         </div>
                         <div class="col-xs-6 hvr-grow-rotate">
-                            <!--                            <a href="https://portal.podomorouniversity.ac.id/assets/documents/Student_Portal.pdf" target="_blank">-->
-                            <a href="javascript:void(0)" class="maintenance">
+                            <a href="<?= base_url('mobile'); ?>" target="_blank">
                                 <div class="thumbnail">
-                                    <div class="page-label page-maintenance"><i class="fa fa-info-circle"></i> Maintenance</div>
                                     <img src="<?= base_url(); ?>images/icon/android.png">
                                     <p>Student Mobile</p>
                                 </div>

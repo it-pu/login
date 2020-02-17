@@ -42,6 +42,9 @@ $route['search-people/detail-student/(:any)'] = 'c_search_people/detail_people_s
 $route['__getPeople'] = 'c_search_people/getPeople';
 $route['__getDetailsPeople'] = 'c_search_people/getDetailsPeople';
 
+$route['mobile'] = 'c_mobile/mobile_page';
+
+
 
 
 
