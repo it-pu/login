@@ -33,6 +33,8 @@
 
 <link href="<?php echo base_url(); ?>assets/hover-master/hover-min.css" rel="stylesheet">
 
+<link href="<?php echo base_url(); ?>assets/css/custom-font.css" rel="stylesheet">
+
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="<?php echo base_url(); ?>assets/js/jquery.min.js"></script>
 <!--<script type="text/javascript" src="--><?php //echo base_url('assets/template/js/libs/jquery-1.10.2.min.js'); ?><!--"></script>-->
@@ -95,22 +97,9 @@
     };
 </script>
 
-<link href="https://fonts.googleapis.com/css?family=Maven+Pro:400,800&display=swap&subset=latin-ext,vietnamese" rel="stylesheet">
 <style>
 
-    @font-face {
-        font-family: 'MavenPro';
-        src: url("./assets/font/maven/MavenPro.ttf");
-        src: url("./assets/font/maven/MavenPro.ttf") format('ttf'),
-        url("./assets/font/maven/MavenPro.ttf") format('truetype');
-    }
 
-    @font-face {
-        font-family: 'MavenPro-SemiBold';
-        src: url("./assets/font/maven/static/MavenPro-SemiBold.ttf");
-        src: url("./assets/font/maven/static/MavenPro-SemiBold.ttf") format('ttf'),
-        url("./assets/font/maven/static/MavenPro-SemiBold.ttf") format('truetype');
-    }
 
     body {
         padding: 20px;
