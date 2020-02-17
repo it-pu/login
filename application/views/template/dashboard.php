@@ -164,6 +164,19 @@
         border: 1px solid #ffffff;
     }
 
+
+    .page-maintenance {
+        position: absolute;
+        top: -6px;
+        right: 18px;
+        background: #03a9f4;
+        color: #fff;
+        font-size: 10px;
+        padding: 0px 5px 0px 5px;
+        border-radius: 3px;
+        border: 1px solid #ffffff;
+    }
+
     #listProdi img {
         width: 100%;
         border-radius: 5px;
@@ -208,8 +221,10 @@
                             </a>
                         </div>
                         <div class="col-xs-6 hvr-grow-rotate">
-                            <a href="https://portal.podomorouniversity.ac.id/assets/documents/Student_Portal.pdf" target="_blank">
+<!--                            <a href="https://portal.podomorouniversity.ac.id/assets/documents/Student_Portal.pdf" target="_blank">-->
+                            <a href="javascript:void(0)" class="maintenance">
                                 <div class="thumbnail">
+                                    <div class="page-maintenance"><i class="fa fa-info-circle"></i> Maintenance</div>
                                     <img src="<?= base_url(); ?>images/icon/android.png">
                                     <p>Student Mobile</p>
                                 </div>
@@ -476,6 +491,9 @@
 <script>
     $('.coming-soon').click(function () {
         alert('Coming soon :)');
+    });
+    $('.maintenance').click(function () {
+        alert('Maintenance :)');
     });
 </script>
 
