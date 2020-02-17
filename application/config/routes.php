@@ -31,7 +31,8 @@ $route['navigation/(:num)'] = 'c_departement/navigation/$1';
 $route['profile'] = 'c_dashboard/profile';
 
 $route['newlogin'] = 'c_login/index2';
-$route['portal-login'] = 'c_login/index3';
+
+$route['portal-login'] = 'c_login/portal_login';
 $route['meet-our-team'] = 'c_login/meet_our_team';
 
 

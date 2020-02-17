@@ -8,7 +8,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * Time: 2:50 PM
  */
 
-class C_search_people extends CI_Controller {
+class C_search_people extends MY_Controller {
 
     function __construct()
     {
@@ -22,19 +22,19 @@ class C_search_people extends CI_Controller {
 
     }
 
-    private function temp($content){
-
-        $data['content'] = $content;
-        $this->load->view('template/template_search_people',$data);
-
-    }
+//    private function temp($content){
+//
+//        $data['content'] = $content;
+//        $this->load->view('template/template_search_people',$data);
+//
+//    }
 
 
 
     public function search_people()
     {
-        $content = $this->load->view('search_people/search_people','',true);
-        $this->temp($content);
+        $content = $this->load->view('page/search_people/search_people','',true);
+        parent::template($content);
     }
 
     private function extractTokenPost(){
@@ -181,8 +181,8 @@ class C_search_people extends CI_Controller {
         $data['Division'] =  $Division;
         $data['Position'] =  $Position;
 
-        $content = $this->load->view('search_people/detail_people_employees',$data,true);
-        $this->temp($content);
+        $content = $this->load->view('page/search_people/detail_people_employees',$data,true);
+        parent::template($content);
     }
 
     public function getDetailsPeople(){
@@ -314,8 +314,8 @@ class C_search_people extends CI_Controller {
 
         $data['dataStd'] = $student;
 
-        $content = $this->load->view('search_people/detail_people_student',$data,true);
-        $this->temp($content);
+        $content = $this->load->view('page/search_people/detail_people_student',$data,true);
+        parent::template($content);
     }
 
 }
