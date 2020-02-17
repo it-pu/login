@@ -169,7 +169,7 @@
         position: absolute;
         top: -6px;
         right: 18px;
-        background: #03a9f4;
+        background: #607D8B;
         color: #fff;
         font-size: 10px;
         padding: 0px 5px 0px 5px;
