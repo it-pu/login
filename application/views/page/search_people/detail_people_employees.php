@@ -6,10 +6,9 @@ if(count($dataEmployees)>0){
 
 
 ?>
-    <link href="https://fonts.googleapis.com/css?family=Fjalla+One&display=swap" rel="stylesheet">
     <style>
         .avatar-name {
-            font-family: 'Fjalla One', sans-serif;
+            font-family: "MavenPro-Bold"
         }
 
         .thumbnail {

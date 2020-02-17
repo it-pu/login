@@ -12,7 +12,7 @@
 
 
 <link href="<?php echo base_url(); ?>assets/bootstrap/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<link href="<?php echo base_url(); ?>assets/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" id="bootstrap-css">
+<!--<link href="--><?php //echo base_url(); ?><!--assets/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" id="bootstrap-css">-->
 
 <!--<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">-->
 <link href="<?php echo base_url(); ?>assets/fontawesome/css/font-awesome.min.css" rel="stylesheet">
@@ -84,14 +84,15 @@
     };
 </script>
 
-
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap" rel="stylesheet">
 
 <style type="text/css">
 
 
     body {
-        /*background: #d4dde6;*/
-        background: #607d8b;
+        background: #d4dde6;
+        /*background: #607d8b;*/
+        /*background: #963a33;*/
     }
 
     .center {
@@ -143,6 +144,24 @@
 
     #btnLoginWithGoogle {
 
+        background: #ffffff !important;
+        color: #dd4b39;
+        border: 1px solid #dd4b39;
+        font-weight: bold;
+
+    }
+
+    #btnLoginWithGoogle:hover {
+
+        background: #dd4b39 !important;
+        color: #ffffff;
+        border: 1px solid #dd4b39;
+        font-weight: bold;
+
+    }
+
+    .btn-google>:first-child {
+        border-right: 1px solid #dd4b39 !important;
     }
 
     .avatar {
@@ -216,78 +235,168 @@
     .btn-social-2>:first-child {
         line-height: 31px;
     }
+
+    .thumbnail {
+        /*border: none;*/
+        border-radius: 0px;
+    }
+    .well {
+        border-radius: 0px !important;
+        border: none !important;
+        background-color: #e4eaf6ba;
+    }
+
+    .panel-prodi {
+        -webkit-box-shadow: 3px 7px 26px -8px rgba(0,0,0,1);
+        -moz-box-shadow: 3px 7px 26px -8px rgba(0,0,0,1);
+        box-shadow: 3px 7px 26px -8px rgba(0,0,0,1);
+        border-radius: 15px;
+        transition: transform .2s;
+    }
+
+    .h1-c {
+        font-family: 'Source Sans Pro', sans-serif;
+        color: #ffffff;
+        margin-top: 0px;
+        margin-bottom: 35px;
+        text-shadow: 2px 0px 8px rgba(0,0,0,0.94);
+    }
+
+    #page-list-app a {
+        color: #333333;
+        text-decoration: none;
+    }
+
+    #page-list-app2 a {
+        text-decoration: none;
+    }
+
+    .panel-prodi img {
+        width: 100%;
+        border-top-right-radius: 15px;
+        border-top-left-radius:15px;
+        border: 3px solid #fff;
+        border-bottom: none;
+
+    }
+
+    .panel-prodi:hover {
+        transform: scale(1.05);
+    }
+
+
+    .panel-prodi-name {
+        background: #ffffff;
+        min-height: 90px;
+        padding: 5px 3px 10px 3px;
+        text-align: center;
+        border-bottom-right-radius: 15px;
+        border-bottom-left-radius: 15px;
+        font-size: 17px;
+    }
+
+    .panel-icon {
+        text-align: center;
+        min-height: 180px !important;
+        padding: 10px;
+        border: 5px solid #9e9e9e3b;
+        color: #607d8b;
+    }
+
+    .panel-icon:hover {
+        /*background: lightblue;*/
+        cursor: pointer;
+        /*border: 5px solid #607d8b61;*/
+        color: #135e82;
+
+        transform: scale(1.1);
+    }
+
+    .panel-icon img {
+        width: 100%;
+        max-width: 88px;
+        margin-bottom: 10px;
+    }
+    .panel-icon-title {
+        font-size: 19px;
+        font-weight: bold;
+
+        font-family: 'Source Sans Pro', sans-serif;
+    }
+
+    .well {
+        border-radius: 15px;
+    }
+
+    #page-list-app .col-md-6 .row {
+        margin-bottom: 25px;
+    }
+
+    #page-list-app2 .col-md-4 .row {
+        margin-bottom: 25px;
+    }
+
+    .row {
+
+    }
+
+    .table-centre tr th, .table-centre tr td {
+        text-align: center;
+    }
+    .table-academic td:nth-child(2) {
+        text-align: left;
+    }
+
+
+    #btnLoginCheckUser, #btnLoginCheckPassword {
+        color: #274675;
+        background-color: #ffffff;
+        border-color: #24416d;
+    }
+    #btnLoginCheckUser:hover, btnLoginCheckPassword:hover {
+        color: #ffffff;
+        background-color: #274675;
+        border-color: #24416d;
+    }
+
+    #btnLoginWithAD {
+        font-weight: bold;
+    }
 </style>
 
-<body>
-
-<img src="<?= base_url('assets/img4.JPG'); ?>" class="bg">
+<body style="background: #f8f8f8 !important;">
 
 
-<!-- <div style="margin-top: 70px;"></div> -->
+<div style="height: 79px;text-align: center;">
+    <img src="<?= base_url('assets/icon/logo_pu.png') ?>" style="max-width: 200px;margin-top:20px;">
+</div>
 
+<div style="background: #ffffff;border-top: 4px solid #cccccc5e;margin-top: 20px;">
+    <div class="container" style="margin-top: 30px;">
 
-
-<div id="login-overlay" class="modal-dialog center" style="z-index:0;max-width: 405px;">
-    <div class="modal-content">
-        <!-- <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-            <h4 class="modal-title" id="myModalLabel">Login to site.com</h4>
-        </div> -->
-        <div class="modal-body" style="padding-bottom:0px;">
-
-            <div class="row">
-                <div class="col-xs-12" style="text-align: center;">
-                    <img src="<?= base_url('assets/icon/logo_pu.png') ?>" style="max-width: 200px;">
-                    <hr/>
-                </div>
+        <div class="row">
+            <div class="col-md-8 hidden-xs">
+                <img src="<?= base_url('images/portal-login-2.jpg'); ?>" style="width: 100%">
             </div>
+            <div class="col-md-4" style="margin-bottom: 25px;">
 
-            <div class="row">
-                <div class="col-md-12" id="divSignIn"></div>
+                <div class="thumbnail" style="padding-top: 25px;border: none;">
 
-            </div>
+                    <div class="col-md-12" id="divSignIn"></div>
 
-            <div class="row">
-                <div class="col-md-12">
-                    <hr style="margin-bottom: 5px;">
-                </div>
-                <div class="col-md-6">
-                    <a href="<?php echo base_url('assets/documents/Academic_Calendar.pdf'); ?>" target="_blank" class="btn btn-block btn-info" style="margin-top: 10px;">Academic Calendar</a>
-                </div>
-                <div class="col-md-6">
-                    <a href="<?php echo base_url('assets/documents/KRSOnlineStudent.pdf'); ?>" target="_blank" class="btn btn-block btn-success" style="margin-top: 10px;">Manual KRS Online</a>
-                </div>
-            </div>
+                    <?php
 
+                    if(count($CalendarAcademic)>0){ $dc = $CalendarAcademic[0]; $fileCalendar = json_decode($dc['FileUpload']); ?>
+                        <div style="padding: 5px 15px 5px 15px;text-align: center;">
+                            <a href="<?= url_pas.'fileGetAny/calendar-'.$fileCalendar[0]; ?>" target="_blank"><i class="fa fa-download" style="margin-right: 5px;"></i> Academic Calendar</a>
+                        </div>
+                    <?php } ?>
 
-            <!--            <div class="row col-md-12">-->
-            <!--                <hr/>-->
-            <!--            </div>-->
-            <!---->
-            <!--            <div class="row">-->
-            <!--                <div class="col-md-6 col-md-offset-3">-->
-            <!--                    <a href="https://play.google.com/store/apps/details?id=com.ypap.StudentPU"><img class="" src="--><?//= base_url('assets/google-play-badge.png') ?><!--" style="width: 100%;"></a>-->
-            <!--                </div>-->
-            <!--            </div>-->
-
-
-            <div class="row">
-                <div class="col-xs-12" style="text-align: center;font-size: 12px;color: #9E9E9E;">
-                    <hr style="margin-bottom:10px;" />
-                    <p>© 2018 Universitas Agung Podomoro
-                        <br/> Version 2.0.1
-                    </p>
                 </div>
             </div>
         </div>
+
     </div>
-
-    <form action="" hidden id="formSubmitLogin" method="post">
-        <input id="formTokenLogin" class="hide" hidden readonly name="token" />
-    </form>
-
-
-    <!--    <button class="btn btn-info">Ok</button>-->
 </div>
 
 
@@ -327,9 +436,9 @@
             '                        </div>' +
             '                        <hr/>' +
             '                        <a href="'+googleBtn+'" class="btn btn-danger btn-block btn-social btn-google" id="btnLoginWithGoogle"><i class="fa fa-google"></i> Sign in with Google</a>' +
-            '<span style="float: right;color: #8c8989;">Use email @podomorouniversity.ac.id</span>' +
+            '<span style="float: right;color: #8c8989;font-size: 12px;">Use email @podomorouniversity.ac.id</span>' +
             '                        <br/><br/>' +
-            '                        <a href="javascript:void(0)" class="btn btn-block btn-default btn-social btn-social-2" id="btnLoginWithAD"><i class="fa fa-windows"></i> Sign in with AD</a>' +
+            '                        <a href="javascript:void(0)" class="btn btn-block btn-default btn-social btn-social-2" id="btnLoginWithAD"><i class="fa fa-windows"></i> Sign in with Active Directory</a>' +
             // '<span style="float: right;color: #8c8989;">Use AD Login</span>' +
             '                    </div><a href="javascript:void(0);" class="hide" id="btnForgot">Forgot Password Portal.</a>';
 
@@ -339,14 +448,17 @@
 
         localStorage.setItem('LoginFalse', 0);
 
-        var servername = "<?= $_SERVER['SERVER_NAME']; ?>";
-        if(servername!='localhost'){
-            loadModalAwal();
-        }
+        //var servername = "<?//= $_SERVER['SERVER_NAME']; ?>//";
+        //if(servername!='localhost'){
+        //    loadModalAwal();
+        //}
 
     });
 
     function loadModalAwal() {
+
+        return false;
+
         $('#modalGlobal .modal-header').addClass('hide');
         $('#modalGlobal .modal-footer').html('<div id="viewBtnClose"><u>Close on <i class="fa fa-angle-double-right"></i> <span id="viewTimer">-</span> seconds</u></div>');
         $('#modalGlobal .modal-body').html('<div style="text-align: center;">' +
@@ -641,7 +753,7 @@
 
             var splitusername = Username.split('.');
 
-            console.log(splitusername);
+            // console.log(splitusername);
 
             if(splitusername.length>1){
                 if(splitusername[0].toUpperCase()=='I' || splitusername[0].toUpperCase()=='P'){
@@ -812,9 +924,11 @@
                 var rs = jsonResult['data'];
                 if(rs.url_direct.length==1){
 
-                    $('#formSubmitLogin').attr('action',rs.url_direct[0].url_login);
-                    $('#formTokenLogin').val(rs.url_direct[0].token);
-                    $('#formSubmitLogin').submit();
+                    var url = rs.url_direct[0].url_login;
+                    var token = rs.url_direct[0].token;
+                    FormSubmitAuto(url, 'POST', [
+                        { name: 'token', value: token },
+                    ],'');
 
                 } else if(rs.url_direct.length>1){
                     loadPagePanel(rs.url_direct);
@@ -882,10 +996,11 @@
 
                     if(jsonResult.url_direct.length==1){
 
-                        $('#formSubmitLogin').attr('action',jsonResult.url_direct[0].url_login);
-                        $('#formTokenLogin').val(jsonResult.url_direct[0].token);
-
-                        $('#formSubmitLogin').submit();
+                        var url = jsonResult.url_direct[0].url_login;
+                        var token = jsonResult.url_direct[0].token;
+                        FormSubmitAuto(url, 'POST', [
+                            { name: 'token', value: token },
+                        ],'');
 
 
                     } else if(jsonResult.url_direct.length>1){
@@ -957,9 +1072,12 @@
 
             setTimeout(function () {
                 if(jsonResult.url_direct.length==1){
-                    $('#formSubmitLogin').attr('action',jsonResult.url_direct[0].url_login);
-                    $('#formTokenLogin').val(jsonResult.url_direct[0].token);
-                    $('#formSubmitLogin').submit();
+                    var url = jsonResult.url_direct[0].url_login;
+                    var token = jsonResult.url_direct[0].token;
+                    FormSubmitAuto(url, 'POST', [
+                        { name: 'token', value: token },
+                    ],'');
+
                 } else if(jsonResult.url_direct.length>1){
                     loadPagePanel(jsonResult.url_direct);
                 }
@@ -1040,10 +1158,12 @@
         var token = $(this).attr('data-token');
 
         if(url_login!='' && url_login!=null && token!='' && token!=null){
-            $('#formSubmitLogin').attr('action',url_login);
-            $('#formTokenLogin').val(token);
 
-            $('#formSubmitLogin').submit();
+            var url = url_login;
+            var token = token;
+            FormSubmitAuto(url, 'POST', [
+                { name: 'token', value: token },
+            ],'');
 
         }
 
@@ -1052,6 +1172,22 @@
     function loading_button(element) {
         $(''+element).html('<i class="fa fa-refresh fa-spin fa-fw right-margin"></i> Loading...');
         $(''+element).prop('disabled',true);
+    }
+
+    function FormSubmitAuto(action, method, values,blank = '_blank') {
+        var form = $('<form/>', {
+            action: action,
+            method: method
+        });
+        $.each(values, function() {
+            form.append($('<input/>', {
+                type: 'hidden',
+                name: this.name,
+                value: this.value
+            }));
+        });
+        form.attr('target', blank);
+        form.appendTo('body').submit();
     }
 
 </script>

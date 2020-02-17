@@ -8,7 +8,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * Time: 1:41 PM
  */
 
-class C_login extends CI_Controller {
+class C_login extends MY_Controller {
 
     function __construct()
     {
@@ -84,7 +84,9 @@ class C_login extends CI_Controller {
             array('StatusPublish' => '2'))->result_array();
 
         $data['loginURL'] = $this->google->loginURL();
-        $this->load->view('template/dashboard',$data);
+        $content = $this->load->view('page/dashboard/dashboard',$data,true);
+        parent::template($content);
+//        $this->load->view('template/dashboard',$data);
 //        $this->load->view('login3',$data);
     }
 
@@ -94,13 +96,14 @@ class C_login extends CI_Controller {
         $this->load->view('login3',$data);
     }
 
-    public function index3()
+    public function portal_login()
     {
         $data['CalendarAcademic'] = $this->db->get_where('db_academic.calendar_academic',
             array('StatusPublish' => '2'))->result_array();
         $data['loginURL'] = $this->google->loginURL();
 //        $this->load->view('login4',$data);
-        $this->load->view('page/login/login_portal',$data);
+        $content = $this->load->view('page/login/login_portal',$data,true);
+        parent::template($content);
     }
 
     public function meet_our_team()

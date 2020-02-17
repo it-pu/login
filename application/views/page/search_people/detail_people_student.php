@@ -17,10 +17,13 @@ if($sts=='1'){
 
 
 ?>
-    <link href="https://fonts.googleapis.com/css?family=Fjalla+One&display=swap" rel="stylesheet">
+
     <style>
         .avatar-name {
-            font-family: 'Fjalla One', sans-serif;
+            font-family: "MavenPro-Bold";
+        }
+        .panel-title {
+            font-family: "MavenPro-Bold";
         }
         body {
             background: #eaeaea;
@@ -35,12 +38,6 @@ if($sts=='1'){
             padding: 15px;
         }
 
-        #listAcievement h4 {
-            margin-top: 0px;
-            font-family: 'Fjalla One', sans-serif;
-            /*border-left: 7px solid orangered;*/
-            /*padding-left: 10px;*/
-        }
 
         #listAcievement h4 .fa {
             margin-right: 5px;
