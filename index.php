@@ -96,6 +96,7 @@
           	define("url_parents",$HostPath."parentpu.podomorouniversity.ac.id/uath/__portal4SignIn", true);
 	        define("url_sign_out",$HostPath."portal.podomorouniversity.ac.id", true);
 			
+			define("url_alumni",$HostPath."alumni.podomorouniversity.ac.id/", true);
 			break;
 		case 'demoportal.podomorouniversity.ac.id':
 			define("url_registration",$HostPath."demoadmission.podomorouniversity.ac.id/", true);
@@ -106,6 +107,8 @@
 	        define("url_lecturers",$HostPath."demolecturerpu.podomorouniversity.ac.id/uath/__portal4SignIn", true);
           	define("url_parents",$HostPath."demoparentpu.podomorouniversity.ac.id/uath/__portal4SignIn", true);
 	        define("url_sign_out",$HostPath."demoportal.podomorouniversity.ac.id", true);
+
+	        define("url_alumni",$HostPath."demoalumni.podomorouniversity.ac.id/", true);
 			break;	
 		default:
             $port_user = ($_SERVER['SERVER_PORT']!='80') ? ':'.$_SERVER['SERVER_PORT'] : '';
@@ -121,6 +124,8 @@
             define("url_parents",$HostPath."localhost".port."/parent/uath/__portal4SignIn", true);
             define("url_sign_out",$HostPath."localhost".port."/".$portal_user."/", true);
             define("url_registration",$HostPath."localhost/registeronline/", true);
+
+            define("url_alumni",$HostPath."localhost/alumni/", true);
 			break;
 	}
 

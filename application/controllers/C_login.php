@@ -201,6 +201,7 @@ class C_login extends MY_Controller {
             'Message' => 'User Not Exist'
         );
 
+
         if($data_arr['userType']!='' && $data_arr['userType']=='P'){
             $dataparent = $this->db->query('SELECT aup.*,aus.Name,aus.Year  FROM db_academic.auth_parents aup 
                                                           LEFT JOIN db_academic.auth_students aus ON (aus.NPM = aup.NPM)
@@ -228,7 +229,6 @@ class C_login extends MY_Controller {
 
             $dataStudents = $this->db->query('SELECT * FROM db_academic.auth_students
                                                   WHERE NPM = "'.$data_arr['Username'].'" LIMIT 1')->result_array();
-
             if(count($dataStudents)>0){
 
                 $dataMhs = $this->get_dataStd($dataStudents[0]['Year'],$dataStudents[0]['NPM']);
@@ -585,12 +585,27 @@ class C_login extends MY_Controller {
 
             $token = $this->jwt->encode($token_passwd,'s3Cr3T-G4N');
 
-            $arp = array(
-                'url' => url_students.'?token='.$token,
-                'url_login' => url_students,
-                'token' => $token,
-                'flag' => 'std'
-            );
+            // check redirect to alumni or not
+            $queryAlumni = $this->db->query('select count(*) as total from db_alumni.registration where NPM = "'.$Username.'"')->result_array();
+            if ($queryAlumni[0]['total'] > 0) {
+                $arp = array(
+                    'url' => url_alumni.'?token='.$token,
+                    'url_login' => url_alumni.'auth/loginAlumni',
+                    'token' => $token,
+                    'flag' => 'std'
+                );
+            }
+            else
+            {
+                $arp = array(
+                    'url' => url_students.'?token='.$token,
+                    'url_login' => url_students,
+                    'token' => $token,
+                    'flag' => 'std'
+                );
+            }
+
+           
             array_push($url_direct,$arp);
         }
         else if ($User=='Employees') {
