@@ -29,7 +29,7 @@
 <div class="container" id="pageDownload">
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
-            <h2 class="">Download Portal Versi Mobile</h2>
+            <h2 class="">Download Portal Mobile Version</h2>
             <div class="panel panel-default">
                 <div class="panel-body" style="min-height: 100px;">
                     <p>
@@ -41,7 +41,7 @@
 
                     <hr/>
                     <div class="well">
-                        <p>If you experience problems in <span style="color: #0000ff91;">the installation or problems when logging in</span>, please use the alternative lank that we have provided</p>
+                        <p>If you experience problems in <span style="color: #0000ff91;">the installation or problems when logging in</span>, please use the alternative link that we have provided</p>
 
                         <ol>
                             <li><span style="color: #ff4242;">Uninstall</span> the previous application</li>
