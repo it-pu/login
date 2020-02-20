@@ -216,7 +216,7 @@ class C_login extends CI_Controller {
                 $result = array(
                     'DataUser' => $DataUser,
                     'Status' => '1',
-                    'Message' => 'User Exist'
+                    'Message' => 'User Not Active'
                 );
             }
 
@@ -241,7 +241,7 @@ class C_login extends CI_Controller {
                 $result = array(
                     'DataUser' => $DataUser,
                     'Status' => '1',
-                    'Message' => 'User Exist'
+                    'Message' => 'User Not Active'
                 );
 
             } else {
@@ -262,7 +262,7 @@ class C_login extends CI_Controller {
                     $result = array(
                         'DataUser' => $DataUser,
                         'Status' => '1',
-                        'Message' => 'User Exist'
+                        'Message' => 'User Not Active'
                     );
                 }
 
