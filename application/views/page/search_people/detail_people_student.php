@@ -97,9 +97,9 @@ if($sts=='1'){
                                         <td><?= $d['Year']; ?></td>
                                     </tr>
                                     <tr>
-                                        <td>Date of Birth</td>
+                                        <td>E-mail</td>
                                         <td>:</td>
-                                        <td><?= ($d['DateOfBirth']!='' && $d['DateOfBirth']!=null) ? date('d F Y',strtotime($d['DateOfBirth'])) : ''; ?></td>
+                                        <td><span style="color: #FF5722;"><?= $d['EmailPU']; ?></span></td>
                                     </tr>
                                     <?php if($d['JudiciumsDate']!='' && $d['JudiciumsDate']!=null) { ?>
                                         <tr>
