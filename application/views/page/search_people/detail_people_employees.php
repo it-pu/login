@@ -104,9 +104,9 @@ if(count($dataEmployees)>0){
                                 <?php } ?>
 
                                 <tr>
-                                    <td>Status</td>
+                                    <td>E-mail</td>
                                     <td>:</td>
-                                    <td><?= $d['StatusEmployees']; ?></td>
+                                    <td><span style="color: #FF5722;"><?= $d['EmailPU']; ?></span></td>
                                 </tr>
 
                                 <?php if($d['StatusLecturer']!='') { ?>
