@@ -33,7 +33,7 @@
 
 <link href="<?php echo base_url(); ?>assets/hover-master/hover-min.css" rel="stylesheet">
 
-<link href="<?php echo base_url(); ?>assets/css/custom-font.css" rel="stylesheet">
+<link href="<?php echo base_url(); ?>assets/font/custom-font.css" rel="stylesheet">
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="<?php echo base_url(); ?>assets/js/jquery.min.js"></script>
