@@ -336,7 +336,7 @@
 
                 <?php if(count($Recomend)>0){ ?>
                     <div class="panel panel-default">
-                        <div class="panel-heading"> <span class="glyphicon glyphicon-fire"></span><b>Recommend Post</b></div>
+                        <div class="panel-heading"> <span style="color: #FF5722;" class="glyphicon glyphicon-fire"></span><b><span style="border-bottom: 2px solid #ff572266;">Rec</span>ommend Post</b></div>
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-xs-12">
@@ -366,7 +366,7 @@
 
                 <?php if(count($Recent)>0){ ?>
                     <div class="panel panel-default">
-                        <div class="panel-heading"> <span class="glyphicon glyphicon-bookmark"></span><b>Recent Post</b></div>
+                        <div class="panel-heading"> <span style="color: #2196F3;" class="glyphicon glyphicon-bookmark"></span><b><span style="border-bottom: 2px solid #2196f385;">Rec</span>ent Post</b></div>
                         <div class="panel-body">
                             <div class="row">
                                 <div class="col-xs-12">
