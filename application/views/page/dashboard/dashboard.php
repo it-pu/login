@@ -78,6 +78,11 @@
     #listProdi .col-md-6 {
         margin-bottom: 20px;
     }
+
+    .carousel-inner {
+        height: 128px;
+        border-radius: 5px;
+    }
 </style>
 
 <div class="container">
@@ -104,7 +109,7 @@
                 <div class="col-md-4">
                     <div class="row">
                         <div class="col-xs-6 hvr-grow-rotate">
-                            <a href="<?= base_url('portal-login'); ?>" target="_blank">
+                            <a href="<?= base_url('portal-login'); ?>">
                                 <div class="thumbnail">
                                     <img src="<?= base_url(); ?>images/icon/idea.png">
                                     <p>Login Portal</p>
@@ -112,7 +117,7 @@
                             </a>
                         </div>
                         <div class="col-xs-6 hvr-grow-rotate">
-                            <a href="<?= base_url('mobile'); ?>" target="_blank">
+                            <a href="<?= base_url('mobile'); ?>">
                                 <div class="thumbnail">
                                     <img src="<?= base_url(); ?>images/icon/android.png">
                                     <p>Student Mobile</p>
@@ -125,7 +130,7 @@
                 <div class="col-md-4">
                     <div class="row">
                         <div class="col-xs-6 hvr-grow-rotate">
-                            <a href="<?= base_url('search-people'); ?>" target="_blank">
+                            <a href="<?= base_url('search-people'); ?>">
                                 <div class="thumbnail">
                                     <img src="<?= base_url(); ?>images/icon/searc-people.png">
                                     <p>Search People</p>
@@ -133,7 +138,7 @@
                             </a>
                         </div>
                         <div class="col-xs-6 hvr-grow-rotate">
-                            <!--                            <a href="https://alumni.podomorouniversity.ac.id/" target="_blank">-->
+                            <!--                            <a href="https://alumni.podomorouniversity.ac.id/">-->
                             <a href="javascript:void(0)" class="coming-soon">
                                 <div class="thumbnail">
                                     <div class="page-label page-coming-soon"><i class="fa fa-puzzle-piece"></i> Coming soon</div>
@@ -148,7 +153,7 @@
                 <div class="col-md-4">
                     <div class="row">
                         <div class="col-xs-6 hvr-grow-rotate">
-                            <a href="https://podivers.org/" target="_blank">
+                            <a href="https://podivers.org/">
                                 <div class="thumbnail">
                                     <img src="<?= base_url(); ?>images/icon/bem.png">
                                     <p>Podivers</p>
@@ -156,7 +161,7 @@
                             </a>
                         </div>
                         <div class="col-xs-6 hvr-grow-rotate">
-                            <!--                            <a href="https://career.podomorouniversity.ac.id/" target="_blank">-->
+                            <!--                            <a href="https://career.podomorouniversity.ac.id/">-->
                             <a href="javascript:void(0)" class="coming-soon">
                                 <div class="thumbnail">
                                     <div class="page-label page-coming-soon"><i class="fa fa-puzzle-piece"></i> Coming soon</div>
@@ -280,6 +285,23 @@
                         </div>
                     </div>
                 </div>
+                <div class="col-md-4 hide">
+                    <div id="carousel-example-generic" class="carousel slide" data-ride="carousel">
+
+
+                        <!-- Wrapper for slides -->
+                        <div class="carousel-inner" role="listbox">
+                            <div class="item active">
+                                <img data-src="https://adminblogs.podomorouniversity.ac.id/upload/0d9797c01462fb89e4741916ad003b20.jpg" class="img-fitter" width="100%;">
+                            </div>
+                            <div class="item">
+                                <img data-src="https://adminblogs.podomorouniversity.ac.id/upload/4cf92a7c4b7817d5621de499fae3aa9d.jpg" class="img-fitter" width="100%;">
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
             </div>
 
         </div>
@@ -378,10 +400,13 @@
 </div>
 
 <script>
+    $('.img-fitter').imgFitter();
+
     $('.coming-soon').click(function () {
         alert('Coming soon :)');
     });
     $('.maintenance').click(function () {
         alert('Maintenance :)');
     });
+
 </script>
