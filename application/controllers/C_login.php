@@ -87,11 +87,11 @@ class C_login extends MY_Controller {
         // Get Data Recomend Blogs
         $Recomend = $this->db->query('SELECT a.ID_title, a.Title, a.Images FROM db_blogs.show_topic st 
                                                 LEFT JOIN db_blogs.article a ON (a.ID_title = st.ID_article)
-                                                WHERE st.ID_topic = 1 LIMIT 16')->result_array();
+                                                WHERE st.ID_topic = 1 LIMIT 12')->result_array();
         $data['Recomend'] = $Recomend;
 
         $Recent = $this->db->query('SELECT a.ID_title, a.Title, a.Images FROM db_blogs.article a
-                                                ORDER BY a.ID_title DESC LIMIT 16')->result_array();
+                                                ORDER BY a.ID_title DESC LIMIT 12')->result_array();
         $data['Recent'] = $Recent;
 
         $content = $this->load->view('page/dashboard/dashboard',$data,true);
