@@ -243,7 +243,7 @@
                         <div class="col-xs-6 hvr-grow-rotate">
                             <a href="http://pucel.co/" target="_blank">
                                 <div class="thumbnail">
-                                    <img src="<?= base_url(); ?>images/icon/pucel.png">
+                                    <img src="<?= base_url(); ?>images/icon/pucel3.png">
                                     <p>Pucel</p>
                                 </div>
                             </a>
@@ -251,7 +251,7 @@
                         <div class="col-xs-6 hvr-grow-rotate">
                             <a href="https://pu-x.com/" target="_blank">
                                 <div class="thumbnail">
-                                    <img src="<?= base_url(); ?>images/icon/pux.png">
+                                    <img src="<?= base_url(); ?>images/icon/pu-x.png">
                                     <p>PU-X</p>
                                 </div>
                             </a>
@@ -326,6 +326,10 @@
 
                 #listApps a.next, #listApps a.prev {
                     color: #7b7b7b !important;
+                }
+
+                #listBlogs .pagination>li>a, .pagination>li>span {
+                    padding: 3px 11px;
                 }
 
                 /*#listBlogs .pagination>li>a, #listBlogs .pagination>li>span {*/
