@@ -310,8 +310,22 @@
                     color: blue;
                 }
 
+
+
+                #listBlogs .panel, #listBlogs .panel-heading, #listBlogs .panel-footer {
+                    border: none !important;
+                }
+
                 #listBlogs .news-item {
-                    border-bottom : 1px solid #CCCCCC;
+                    border-bottom: 1px solid #cccccc4f;
+                }
+
+                #listBlogs .panel-default>.panel-heading {
+                    color: #7b7b7b;
+                }
+
+                #listApps a.next, #listApps a.prev {
+                    color: #7b7b7b !important;
                 }
 
                 /*#listBlogs .pagination>li>a, #listBlogs .pagination>li>span {*/
