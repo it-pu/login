@@ -50,6 +50,8 @@
 <script src="<?php echo base_url(); ?>assets/toastr/toastr.min.js"></script>
 <!------ Include the above in your HEAD tag ---------->
 
+<script src="<?= base_url('assets/newsbox/jquery.bootstrap.newsbox.min.js') ?>" type="text/javascript"></script>
+
 <script type="text/javascript" src="<?php echo base_url('assets/'); ?>moment/moment.js"></script>
 
 <script>
