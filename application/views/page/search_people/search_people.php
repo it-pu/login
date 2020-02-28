@@ -4,7 +4,7 @@
 <style>
 
     body {
-        background: #eaeaea;
+        background: #fff;
     }
 
     h1 {
@@ -64,7 +64,7 @@
 
 
     .card {
-        background-color: #ffffff;
+        background-color: #f3f3f3;
         text-align: center;
         padding: 15px;
         border: 1px solid #cccccc7a;
@@ -123,16 +123,32 @@
         text-decoration: none;
         margin-bottom: 15px;
     }
+
+    #panelSearch {
+        background-image: url("https://ssl.gstatic.com/support/content/images/static/homepage_header_background.svg") !important;
+        background-repeat: no-repeat;
+        background-size: auto;
+    }
+
+    .avatar-name {
+        color: #4e7da2;
+    }
+    .avatar-name small {
+        font-weight: bold;
+        color: #e68e72;
+    }
 </style>
 
 
 
 <div class="container">
-    <div class="row" style="margin-top: 50px;">
-        <div class="col-md-12" style="text-align: center;">
+    <div class="row" style="margin-top: 0px;">
+        <div class="col-md-12 hide" style="text-align: center;">
             <h1>Search people</h1>
         </div>
-        <div class="col-md-8 col-md-offset-2" style="margin-top: 20px;">
+        <div class="col-md-8 col-md-offset-2" style="margin-top: 20px;text-align: center;">
+            <!--            <img src="https://ssl.gstatic.com/support/content/images/static/homepage_header_background.svg" style="width: 100%;position: relative;">-->
+            <img src="<?= base_url('images/4565.jpg'); ?>" style="width: 100%;max-width:450px;position: relative;">
             <div class="input-group input-group-lg">
                 <span class="input-group-addon" id="sizing-addon1"><i class="fa fa-search"></i></span>
                 <input type="text" class="form-control" id="formSearch" autofocus placeholder="Search minimum 3 characters . . ." aria-describedby="sizing-addon1">
@@ -141,8 +157,14 @@
     </div>
 
     <div id="lastSeen"></div>
-    <div class="row" style="margin-top: 50px;" id="showData"></div>
-    <div class="row" style="margin-top: 50px;" id="showDataStd"></div>
+</div>
+
+<div style="background: #fff;margin-bottom: 50px;">
+    <div class="container">
+
+        <div class="row" style="margin-top: 50px;" id="showData"></div>
+        <div class="row" style="margin-top: 50px;" id="showDataStd"></div>
+    </div>
 </div>
 
 
@@ -420,6 +442,9 @@
                         var depan = (isi==1) ? '<div class="col-md-4"><div class="row">' : '';
                         var belakang = ((i+1) == jsonResult.Students.length || isi==2) ? '</div></div>' : '';
 
+                        var spProdi = v.Prodi.split(' ');
+                        var viewProdi = (v.Prodi.length>30) ? spProdi[0]+' '+spProdi[1]+'...' : v.Prodi;
+
                         detailList = detailList+depan+'<div class="col-xs-6 animated fadeIn hvr-bubble-float-top">' +
                             '            <a href="'+dt_base_url_js+'search-people/detail-student/'+v.NPM+'">' +
                             '             <div class="card">' +
@@ -427,7 +452,7 @@
                             '                    <img class="avatar img-fitter" data-src="'+v.Photo+'">' +
                             '                </div>' +
                             '                <h4 class="avatar-name">'+v.Name+'<br/><small>'+v.NPM+'</small></h4>' +
-                            '                <p>'+v.Prodi+'</p>' +
+                            '                <p>'+viewProdi+'</p>' +
                             '            </div></a>' +
                             '        </div>'+belakang;
 
