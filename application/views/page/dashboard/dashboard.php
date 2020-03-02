@@ -35,7 +35,7 @@
         font-family: "MavenPro-SemiBold";
     }
 
-    #listApps .thumbnail img {
+    #listApps .thumbnail img.apps-icon {
         width: 100%;
         max-width: 50px;
         padding-top: 10px;
@@ -79,9 +79,53 @@
         margin-bottom: 20px;
     }
 
-    .carousel-inner {
-        height: 128px;
-        border-radius: 5px;
+    #listBlogs .glyphicon {
+        margin-right: 5px !important; /*override*/
+    }
+    #listBlogs .pagination .glyphicon {
+        margin-right: 0px !important; /*override*/
+    }
+    #listBlogs .pagination a {
+        color: #555;
+    }
+    #listBlogs .panel ul {
+        padding: 0px;
+        margin: 0px;
+        list-style: none;
+    }
+    #listBlogs .news-item {
+        padding: 4px 4px;
+        margin: 0px;
+        border-bottom: 1px dotted #555;
+    }
+
+    #listBlogs .panel-body {
+        padding: 10px 15px 0px 15px !important;
+    }
+    #listBlogs a:hover {
+        color: blue;
+    }
+
+
+
+    #listBlogs .panel, #listBlogs .panel-heading, #listBlogs .panel-footer {
+        border: none !important;
+    }
+
+    #listBlogs .news-item {
+        border-bottom: 1px solid #cccccc4f;
+    }
+
+    #listBlogs .panel-default>.panel-heading {
+        color: #7b7b7b;
+    }
+
+    #listApps a.next, #listApps a.prev {
+        color: #7b7b7b !important;
+    }
+
+    #listBlogs .pagination>li>a, .pagination>li>span {
+        padding: 3px 11px;
     }
 </style>
 
@@ -95,247 +139,271 @@
     </div>
 </div>
 
-<div class="container" id="listApps">
+<div class="container">
 
     <div class="row">
         <div class="col-md-7 col-md-offset-1">
-            <div class="row apps-grid">
-                <div class="col-md-6">
-                    <div class="row">
-                        <div class="col-xs-6 hvr-grow-rotate">
-                            <a href="<?= base_url('portal-login'); ?>">
-                                <div class="thumbnail">
-                                    <img src="<?= base_url(); ?>images/icon/idea.png">
-                                    <p>Login Portal</p>
-                                </div>
-                            </a>
+            <div  id="listApps">
+                <div class="row apps-grid">
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-xs-6 hvr-grow-rotate">
+                                <a href="<?= base_url('portal-login'); ?>">
+                                    <div class="thumbnail">
+                                        <img class="apps-icon" src="<?= base_url(); ?>images/icon/idea.png">
+                                        <p>Login Portal</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-xs-6 hvr-grow-rotate">
+                                <a href="<?= base_url('mobile'); ?>">
+                                    <div class="thumbnail">
+                                        <img class="apps-icon" src="<?= base_url(); ?>images/icon/android.png">
+                                        <p>Student Mobile</p>
+                                    </div>
+                                </a>
+                            </div>
                         </div>
-                        <div class="col-xs-6 hvr-grow-rotate">
-                            <a href="<?= base_url('mobile'); ?>">
-                                <div class="thumbnail">
-                                    <img src="<?= base_url(); ?>images/icon/android.png">
-                                    <p>Student Mobile</p>
-                                </div>
-                            </a>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-xs-6 hvr-grow-rotate">
+                                <a href="<?= base_url('search-people'); ?>">
+                                    <div class="thumbnail">
+                                        <img class="apps-icon" src="<?= base_url(); ?>images/icon/searc-people.png">
+                                        <p>Search People</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-xs-6 hvr-grow-rotate">
+                                <!--                            <a href="https://alumni.podomorouniversity.ac.id/">-->
+                                <a href="javascript:void(0)" class="coming-soon">
+                                    <div class="thumbnail">
+                                        <div class="page-label page-coming-soon"><i class="fa fa-puzzle-piece"></i> Coming soon</div>
+                                        <img class="apps-icon" src="<?= base_url(); ?>images/icon/alumni.png">
+                                        <p>Alumni</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row apps-grid">
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-xs-6 hvr-grow-rotate">
+                                <a href="https://podivers.org/">
+                                    <div class="thumbnail">
+                                        <img class="apps-icon" src="<?= base_url(); ?>images/icon/bem.png">
+                                        <p>Podivers</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-xs-6 hvr-grow-rotate">
+                                <!--                            <a href="https://career.podomorouniversity.ac.id/">-->
+                                <a href="javascript:void(0)" class="coming-soon">
+                                    <div class="thumbnail">
+                                        <div class="page-label page-coming-soon"><i class="fa fa-puzzle-piece"></i> Coming soon</div>
+                                        <img class="apps-icon" src="<?= base_url(); ?>images/icon/career.png">
+                                        <p>Career</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-xs-6 hvr-grow-rotate">
+                                <a href="https://cblibrary.podomorouniversity.ac.id/" target="_blank">
+                                    <div class="thumbnail">
+                                        <img class="apps-icon" src="<?= base_url(); ?>images/icon/student.png">
+                                        <p>CB Library</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-xs-6 hvr-grow-rotate">
+                                <a href="http://journal.podomorouniversity.ac.id/" target="_blank">
+                                    <div class="thumbnail">
+                                        <img class="apps-icon" src="<?= base_url(); ?>images/icon/journal.png">
+                                        <p>Journal</p>
+                                    </div>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <div class="row apps-grid">
 
-                <div class="col-md-6">
-                    <div class="row">
-                        <div class="col-xs-6 hvr-grow-rotate">
-                            <a href="<?= base_url('search-people'); ?>">
-                                <div class="thumbnail">
-                                    <img src="<?= base_url(); ?>images/icon/searc-people.png">
-                                    <p>Search People</p>
-                                </div>
-                            </a>
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-xs-6 hvr-grow-rotate">
+                                <a href="https://portal.podomorouniversity.ac.id/assets/documents/PARENT_PORTAL.pdf" target="_blank">
+                                    <div class="thumbnail">
+                                        <img class="apps-icon" src="<?= base_url(); ?>images/icon/parents.png">
+                                        <p>Parent Portal</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-xs-6 hvr-grow-rotate">
+                                <a href="http://repository.podomorouniversity.ac.id/" target="_blank">
+                                    <div class="thumbnail">
+                                        <img class="apps-icon" src="<?= base_url(); ?>images/icon/repository.png">
+                                        <p>Repository</p>
+                                    </div>
+                                </a>
+                            </div>
                         </div>
-                        <div class="col-xs-6 hvr-grow-rotate">
-                            <!--                            <a href="https://alumni.podomorouniversity.ac.id/">-->
-                            <a href="javascript:void(0)" class="coming-soon">
-                                <div class="thumbnail">
-                                    <div class="page-label page-coming-soon"><i class="fa fa-puzzle-piece"></i> Coming soon</div>
-                                    <img src="<?= base_url(); ?>images/icon/alumni.png">
-                                    <p>Alumni</p>
-                                </div>
-                            </a>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-xs-6 hvr-grow-rotate">
+                                <a href="http://sister.podomorouniversity.ac.id/auth/login" target="_blank">
+                                    <div class="thumbnail">
+                                        <img class="apps-icon" src="<?= base_url(); ?>images/icon/sister.png">
+                                        <p>Sister</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-xs-6 hvr-grow-rotate">
+                                <a href="https://blogs.podomorouniversity.ac.id/" target="_blank">
+                                    <div class="thumbnail">
+                                        <img class="apps-icon" src="<?= base_url(); ?>images/icon/blogs.png">
+                                        <p>Blogs</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row apps-grid">
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-xs-6 hvr-grow-rotate">
+                                <a href="http://pucel.co/" target="_blank">
+                                    <div class="thumbnail">
+                                        <img class="apps-icon" src="<?= base_url(); ?>images/icon/pucel3.png">
+                                        <p>Pucel</p>
+                                    </div>
+                                </a>
+                            </div>
+                            <div class="col-xs-6 hvr-grow-rotate">
+                                <a href="https://pu-x.com/" target="_blank">
+                                    <div class="thumbnail">
+                                        <img class="apps-icon" src="<?= base_url(); ?>images/icon/pu-x.png">
+                                        <p>PU-X</p>
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-xs-6 hvr-grow-rotate">
+                                <a href="https://play.google.com/store/apps/details?id=com.ypap.CRM" target="_blank">
+                                    <div class="thumbnail">
+                                        <img class="apps-icon" src="<?= base_url(); ?>images/icon/crm.png">
+                                        <p>CRM Mobile</p>
+                                    </div>
+                                </a>
+                            </div>
+
+                            <div class="col-xs-6 hvr-grow-rotate">
+                                <a href="https://admission.podomorouniversity.ac.id/" target="_blank">
+                                    <div class="thumbnail">
+                                        <img class="apps-icon" src="<?= base_url(); ?>images/icon/registration.png">
+                                        <p>Online Registrations</p>
+                                    </div>
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
-
             </div>
 
-            <div class="row apps-grid">
-                <div class="col-md-6">
-                    <div class="row">
-                        <div class="col-xs-6 hvr-grow-rotate">
-                            <a href="https://podivers.org/">
-                                <div class="thumbnail">
-                                    <img src="<?= base_url(); ?>images/icon/bem.png">
-                                    <p>Podivers</p>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-xs-6 hvr-grow-rotate">
-                            <!--                            <a href="https://career.podomorouniversity.ac.id/">-->
-                            <a href="javascript:void(0)" class="coming-soon">
-                                <div class="thumbnail">
-                                    <div class="page-label page-coming-soon"><i class="fa fa-puzzle-piece"></i> Coming soon</div>
-                                    <img src="<?= base_url(); ?>images/icon/career.png">
-                                    <p>Career</p>
-                                </div>
-                            </a>
+            <div id="listProdi">
+                <div class="row" style="">
+                    <div class="col-xs-6">
+                        <div class="row">
+                            <div class="col-md-6 hvr-grow">
+                                <a href="https://acc.podomorouniversity.ac.id/" target="_blank">
+                                    <img src="<?= base_url(); ?>images/prodi/acc.png">
+                                </a>
+                            </div>
+                            <div class="col-md-6 hvr-grow">
+                                <a href="https://arc.podomorouniversity.ac.id/" target="_blank">
+                                    <img src="<?= base_url(); ?>images/prodi/arc.png">
+                                </a>
+                            </div>
                         </div>
                     </div>
+
+                    <div class="col-xs-6">
+                        <div class="row">
+                            <div class="col-md-6 hvr-grow">
+                                <a href="https://law.podomorouniversity.ac.id/" target="_blank">
+                                    <img src="<?= base_url(); ?>images/prodi/blp.png">
+                                </a>
+                            </div>
+                            <div class="col-md-6 hvr-grow">
+                                <a href="https://cem.podomorouniversity.ac.id/" target="_blank">
+                                    <img src="<?= base_url(); ?>images/prodi/cem.png">
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
-                <div class="col-md-6">
-                    <div class="row">
-                        <div class="col-xs-6 hvr-grow-rotate">
-                            <a href="https://cblibrary.podomorouniversity.ac.id/" target="_blank">
-                                <div class="thumbnail">
-                                    <img src="<?= base_url(); ?>images/icon/student.png">
-                                    <p>CB Library</p>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-xs-6 hvr-grow-rotate">
-                            <a href="http://journal.podomorouniversity.ac.id/" target="_blank">
-                                <div class="thumbnail">
-                                    <img src="<?= base_url(); ?>images/icon/journal.png">
-                                    <p>Journal</p>
-                                </div>
-                            </a>
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="row">
+                            <div class="col-md-6 hvr-grow">
+                                <a href="https://ent.podomorouniversity.ac.id/" target="_blank">
+                                    <img src="<?= base_url(); ?>images/prodi/ent.png">
+                                </a>
+                            </div>
+                            <div class="col-md-6 hvr-grow">
+                                <a href="https://hbp.podomorouniversity.ac.id/" target="_blank">
+                                    <img src="<?= base_url(); ?>images/prodi/hbp.png">
+                                </a>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-            <div class="row apps-grid">
 
-                <div class="col-md-6">
-                    <div class="row">
-                        <div class="col-xs-6 hvr-grow-rotate">
-                            <a href="https://portal.podomorouniversity.ac.id/assets/documents/PARENT_PORTAL.pdf" target="_blank">
-                                <div class="thumbnail">
-                                    <img src="<?= base_url(); ?>images/icon/parents.png">
-                                    <p>Parent Portal</p>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-xs-6 hvr-grow-rotate">
-                            <a href="http://repository.podomorouniversity.ac.id/" target="_blank">
-                                <div class="thumbnail">
-                                    <img src="<?= base_url(); ?>images/icon/repository.png">
-                                    <p>Repository</p>
-                                </div>
-                            </a>
+                    <div class="col-xs-6">
+                        <div class="row">
+                            <div class="col-md-6 hvr-grow">
+                                <a href="https://urp.podomorouniversity.ac.id/" target="_blank">
+                                    <img src="<?= base_url(); ?>images/prodi/urp.png">
+                                </a>
+                            </div>
+                            <div class="col-md-6 hvr-grow">
+                                <a href="https://pdp.podomorouniversity.ac.id/" target="_blank">
+                                    <img src="<?= base_url(); ?>images/prodi/pdp.png">
+                                </a>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="col-md-6">
-                    <div class="row">
-                        <div class="col-xs-6 hvr-grow-rotate">
-                            <a href="http://sister.podomorouniversity.ac.id/auth/login" target="_blank">
-                                <div class="thumbnail">
-                                    <img src="<?= base_url(); ?>images/icon/sister.png">
-                                    <p>Sister</p>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-xs-6 hvr-grow-rotate">
-                            <a href="https://blogs.podomorouniversity.ac.id/" target="_blank">
-                                <div class="thumbnail">
-                                    <img src="<?= base_url(); ?>images/icon/blogs.png">
-                                    <p>Blogs</p>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="row apps-grid">
-                <div class="col-md-6">
-                    <div class="row">
-                        <div class="col-xs-6 hvr-grow-rotate">
-                            <a href="http://pucel.co/" target="_blank">
-                                <div class="thumbnail">
-                                    <img src="<?= base_url(); ?>images/icon/pucel3.png">
-                                    <p>Pucel</p>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-xs-6 hvr-grow-rotate">
-                            <a href="https://pu-x.com/" target="_blank">
-                                <div class="thumbnail">
-                                    <img src="<?= base_url(); ?>images/icon/pu-x.png">
-                                    <p>PU-X</p>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="row">
-                        <div class="col-xs-6 hvr-grow-rotate">
-                            <a href="https://play.google.com/store/apps/details?id=com.ypap.CRM" target="_blank">
-                                <div class="thumbnail">
-                                    <img src="<?= base_url(); ?>images/icon/crm.png">
-                                    <p>CRM Mobile</p>
-                                </div>
-                            </a>
-                        </div>
-
-                        <div class="col-xs-6 hvr-grow-rotate">
-                            <a href="https://admission.podomorouniversity.ac.id/" target="_blank">
-                                <div class="thumbnail">
-                                    <img src="<?= base_url(); ?>images/icon/registration.png">
-                                    <p>Online Registrations</p>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
                 </div>
             </div>
+
+
+
         </div>
         <div class="col-md-3">
-            <style>
-                .glyphicon {
-                    margin-right: 5px !important; /*override*/
-                }
-                .pagination .glyphicon {
-                    margin-right: 0px !important; /*override*/
-                }
-                .pagination a {
-                    color: #555;
-                }
-                .panel ul {
-                    padding: 0px;
-                    margin: 0px;
-                    list-style: none;
-                }
-                .news-item {
-                    padding: 4px 4px;
-                    margin: 0px;
-                    border-bottom: 1px dotted #555;
-                }
+            <div style="background: #fff;border-radius: 4px;margin-bottom: 15px;">
+                <img src="<?= base_url('images/create-post.jpg'); ?>" style="width: 100%;border-top-right-radius: 4px;border-top-left-radius: 4px;"/>
+                <div style="padding: 10px;text-align: center;">
+                    <a href="<?= base_url('assets/documents/Panduan_Admin_Blogs_Only_Input_Article.pdf'); ?>" target="_blank" class="btn btn-default" style="color: #2196F3;">Write your passion now</a>
+                </div>
+            </div>
 
-                #listBlogs .panel-body {
-                    padding: 10px 15px 0px 15px !important;
-                }
-                #listBlogs a:hover {
-                    color: blue;
-                }
-
-
-
-                #listBlogs .panel, #listBlogs .panel-heading, #listBlogs .panel-footer {
-                    border: none !important;
-                }
-
-                #listBlogs .news-item {
-                    border-bottom: 1px solid #cccccc4f;
-                }
-
-                #listBlogs .panel-default>.panel-heading {
-                    color: #7b7b7b;
-                }
-
-                #listApps a.next, #listApps a.prev {
-                    color: #7b7b7b !important;
-                }
-
-                #listBlogs .pagination>li>a, .pagination>li>span {
-                    padding: 3px 11px;
-                }
-
-                /*#listBlogs .pagination>li>a, #listBlogs .pagination>li>span {*/
-                /*    padding: 5px 5px;*/
-                /*}*/
-            </style>
             <div id="listBlogs">
 
                 <?php if(count($Recomend)>0){ ?>
@@ -401,126 +469,29 @@
 
             </div>
 
-            <script type="text/javascript">
-                $(function () {
-                    $(".demo").bootstrapNews({
-                        newsPerPage: 3,
-                        navigation: true,
-                        autoplay: true,
-                        direction:'up', // up or down
-                        animationSpeed: 'normal',
-                        newsTickerInterval: 4000, //4 secs
-                        pauseOnHover: true,
-                        onStop: null,
-                        onPause: null,
-                        onReset: null,
-                        onPrev: null,
-                        onNext: null,
-                        onToDo: null
-                    });
-                    $(".demo2").bootstrapNews({
-                        newsPerPage: 3,
-                        navigation: true,
-                        autoplay: true,
-                        direction:'down', // up or down
-                        animationSpeed: 'normal',
-                        newsTickerInterval: 4000, //4 secs
-                        pauseOnHover: true,
-                        onStop: null,
-                        onPause: null,
-                        onReset: null,
-                        onPrev: null,
-                        onNext: null,
-                        onToDo: null
-                    });
-                });
-            </script>
+
+
+            <div class="hide" style="background: #fff;border-radius: 4px;margin-bottom: 15px;">
+                <img src="<?= base_url('images/feedback3.jpg'); ?>" style="width: 100%;border-top-right-radius: 4px;border-top-left-radius: 4px;"/>
+                <div style="padding: 10px;text-align: center;">
+                    <button id="btnFeedback" class="btn btn-default" style="color: #2196F3;">Give us your feedback</button>
+                </div>
+            </div>
         </div>
     </div>
 
-
-</div>
-
-<div class="container" id="listProdi">
-    <div class="row">
+    <div class="row hide">
         <div class="col-md-10 col-md-offset-1">
-            <div class="row hide" style="margin-bottom: 20px;">
-                <div class="col-md-12">
-                    <h4 style="border-left: 7px solid #FF5722;padding-left: 7px;">Undergraduate Programs</h4>
-                </div>
-            </div>
-
-            <div class="row" style="">
-                <div class="col-xs-6">
-                    <div class="row">
-                        <div class="col-md-6 hvr-grow">
-                            <a href="https://acc.podomorouniversity.ac.id/" target="_blank">
-                                <img src="<?= base_url(); ?>images/prodi/acc.png">
-                            </a>
-                        </div>
-                        <div class="col-md-6 hvr-grow">
-                            <a href="https://arc.podomorouniversity.ac.id/" target="_blank">
-                                <img src="<?= base_url(); ?>images/prodi/arc.png">
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-xs-6">
-                    <div class="row">
-                        <div class="col-md-6 hvr-grow">
-                            <a href="https://law.podomorouniversity.ac.id/" target="_blank">
-                                <img src="<?= base_url(); ?>images/prodi/blp.png">
-                            </a>
-                        </div>
-                        <div class="col-md-6 hvr-grow">
-                            <a href="https://cem.podomorouniversity.ac.id/" target="_blank">
-                                <img src="<?= base_url(); ?>images/prodi/cem.png">
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
-
-            <div class="row">
-                <div class="col-xs-6">
-                    <div class="row">
-                        <div class="col-md-6 hvr-grow">
-                            <a href="https://ent.podomorouniversity.ac.id/" target="_blank">
-                                <img src="<?= base_url(); ?>images/prodi/ent.png">
-                            </a>
-                        </div>
-                        <div class="col-md-6 hvr-grow">
-                            <a href="https://hbp.podomorouniversity.ac.id/" target="_blank">
-                                <img src="<?= base_url(); ?>images/prodi/hbp.png">
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-xs-6">
-                    <div class="row">
-                        <div class="col-md-6 hvr-grow">
-                            <a href="https://urp.podomorouniversity.ac.id/" target="_blank">
-                                <img src="<?= base_url(); ?>images/prodi/urp.png">
-                            </a>
-                        </div>
-                        <div class="col-md-6 hvr-grow">
-                            <a href="https://pdp.podomorouniversity.ac.id/" target="_blank">
-                                <img src="<?= base_url(); ?>images/prodi/pdp.png">
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
+            <hr/>
 
         </div>
     </div>
+
 </div>
 
-<div class="container">
+
+
+<div class="container" style="margin-bottom: 30px;">
     <div class="row">
         <div class="col-md-10 col-md-offset-1">
             <div style="text-align: center;">
@@ -533,6 +504,39 @@
 </div>
 
 <script>
+    $(function () {
+        $(".demo").bootstrapNews({
+            newsPerPage: 3,
+            navigation: true,
+            autoplay: true,
+            direction:'up', // up or down
+            animationSpeed: 'normal',
+            newsTickerInterval: 4000, //4 secs
+            pauseOnHover: true,
+            onStop: null,
+            onPause: null,
+            onReset: null,
+            onPrev: null,
+            onNext: null,
+            onToDo: null
+        });
+        $(".demo2").bootstrapNews({
+            newsPerPage: 3,
+            navigation: true,
+            autoplay: true,
+            direction:'down', // up or down
+            animationSpeed: 'normal',
+            newsTickerInterval: 4000, //4 secs
+            pauseOnHover: true,
+            onStop: null,
+            onPause: null,
+            onReset: null,
+            onPrev: null,
+            onNext: null,
+            onToDo: null
+        });
+    });
+
     $('.img-fitter').imgFitter();
 
     $('.coming-soon').click(function () {
@@ -540,6 +544,10 @@
     });
     $('.maintenance').click(function () {
         alert('Maintenance :)');
+    });
+
+    $('#btnFeedback').click(function () {
+
     });
 
 </script>
