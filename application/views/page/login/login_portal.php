@@ -699,9 +699,7 @@
 
         var url = base_url_server+'uath/__checkUsername';
         var token = jwt_encode({Username:Username,userType : userType});
-
         $.post(url,{token:token},function (jsonResult) {
-
             setTimeout(function () {
                 if(jsonResult.Status=='1' && jsonResult.DataUser.Status!='0'){
 
@@ -888,7 +886,6 @@
             };
             var token = jwt_encode(data);
             $.post(url,{token:token},function (jsonResult) {
-
 
                 if(jsonResult.Status=='0'){
 
