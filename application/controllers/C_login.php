@@ -334,7 +334,7 @@ class C_login extends MY_Controller {
                 }
 
             }
-            else if($data_arr['Status']=='1'){
+            else if($data_arr['Status']=='1' || $data_arr['Status']=='2' ){
                 $pass = $this->genratePassword($data_arr['Username'],$data_arr['Password']);
                 $dataMhs = $this->db->get_where('db_academic.auth_students',
                     array('NPM' => $data_arr['Username'],'Password' => $pass),1)
