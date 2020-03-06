@@ -416,12 +416,16 @@
                                         <?php foreach ($Recomend AS $item) {
                                             $expTitle = explode(' ',$item['Title']);
                                             $viewTitle = (strlen($item['Title'])>=40) ? $expTitle[0].' '.$expTitle[1].' '.$expTitle[2].' '.$expTitle[3].'...' : $item['Title'];
+
+                                            $vowels = array(" ", "_");
+                                            $titleNew = str_replace($vowels,'-',strtolower($item['Title']));
+
                                             ?>
                                             <li class="news-item">
                                                 <table cellpadding="4">
                                                     <tr>
                                                         <td><img data-src="https://adminblogs.podomorouniversity.ac.id/upload/<?= $item['Images']; ?>" width="40" class="img-circle img-fitter" /></td>
-                                                        <td><a href="https://blogs.podomorouniversity.ac.id/details/<?= $item['ID_title']; ?>"><?= $viewTitle; ?></a></td>
+                                                        <td><a href="https://blogs.podomorouniversity.ac.id/article/<?= $item['ID_title'].'/'.$titleNew; ?>"><?= $viewTitle; ?></a></td>
                                                     </tr>
                                                 </table>
                                             </li>
@@ -447,12 +451,15 @@
                                         <?php foreach ($Recent AS $item) {
                                             $expTitle = explode(' ',$item['Title']);
                                             $viewTitle = (strlen($item['Title'])>=40) ? $expTitle[0].' '.$expTitle[1].' '.$expTitle[2].' '.$expTitle[3].'...' : $item['Title'];
+
+                                            $vowels = array(" ", "_");
+                                            $titleNew = str_replace($vowels,'-',strtolower($item['Title']));
                                             ?>
                                             <li class="news-item">
                                                 <table cellpadding="4">
                                                     <tr>
                                                         <td><img data-src="https://adminblogs.podomorouniversity.ac.id/upload/<?= $item['Images']; ?>" width="40" class="img-circle img-fitter" /></td>
-                                                        <td><a href="https://blogs.podomorouniversity.ac.id/details/<?= $item['ID_title']; ?>"><?= $viewTitle; ?></a></td>
+                                                        <td><a href="https://blogs.podomorouniversity.ac.id/article/<?= $item['ID_title'].'/'.$titleNew; ?>"><?= $viewTitle; ?></a></td>
                                                     </tr>
                                                 </table>
                                             </li>
