@@ -796,7 +796,12 @@
                                 '                            <label for="password" class="control-label">Password</label>' +
                                 '                            <input type="password" class="hide" hidden readonly id="user" ' +
                                 '                                       value="'+jsonResult.DataUser.Username+'.'+jsonResult.DataUser.Status+'.'+jsonResult.DataUser.User+'.'+jsonResult.DataUser.Year+'">' +
-                                '                            <input type="password" class="form-control" id="password" placeholder="Input password...">' +
+                                '<div class="input-group">' +
+                                '      <input type="password" class="form-control" id="password" placeholder="Input password...">' +
+                                '      <span class="input-group-btn">' +
+                                '        <button class="btn btn-default toggle-password" type="button"><i class="fa fa-eye-slash" aria-hidden="true"></i></button>' +
+                                '      </span>' +
+                                '    </div>' +
                                 '                        </div><div id="divCaptcha"></div>' +
                                 '                        <div style="text-align: right;">' +
                                 '                            <button type="button" class="btn btn-default" id="btnBackLogin"><i class="fa fa-angle-left"></i> Back</button> | ' +
@@ -1106,5 +1111,21 @@
         form.attr('target', blank);
         form.appendTo('body').submit();
     }
+
+    $(document).on('click','.toggle-password',function () {
+        var inputPass = $('#password');
+
+        // $(this).toggleClass("fa-eye fa-eye-slash");
+
+        if (inputPass.attr("type") == "password") {
+            inputPass.attr("type", "text");
+            $('.toggle-password i').removeClass('fa fa-eye-slash');
+            $('.toggle-password i').addClass('fa fa-eye');
+        } else {
+            inputPass.attr("type", "password");
+            $('.toggle-password i').removeClass('fa fa-eye');
+            $('.toggle-password i').addClass('fa fa-eye-slash');
+        }
+    });
 
 </script>
