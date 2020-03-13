@@ -99,16 +99,15 @@
         border-bottom: 1px dotted #555;
     }
 
-    #listBlogs .panel-body {
+    .panel-body {
         padding: 10px 15px 0px 15px !important;
     }
-    #listBlogs a:hover {
+    a:hover {
         color: blue;
     }
 
 
-
-    #listBlogs .panel, #listBlogs .panel-heading, #listBlogs .panel-footer {
+     .panel, .panel-heading, .panel-footer {
         border: none !important;
     }
 
@@ -116,7 +115,7 @@
         border-bottom: 1px solid #cccccc4f;
     }
 
-    #listBlogs .panel-default>.panel-heading {
+     .panel-default>.panel-heading {
         color: #7b7b7b;
     }
 
@@ -126,6 +125,9 @@
 
     #listBlogs .pagination>li>a, .pagination>li>span {
         padding: 3px 11px;
+    }
+    .btn-semibold {
+        font-family: MavenPro-SemiBold;
     }
 </style>
 
@@ -398,10 +400,43 @@
         </div>
         <div class="col-md-3">
             <div style="background: #fff;border-radius: 4px;margin-bottom: 15px;">
+                <img src="<?= base_url('images/banner-corona.png'); ?>" style="width: 100%;border-top-right-radius: 4px;border-top-left-radius: 4px;"/>
+                <div style="padding: 10px;text-align: center;">
+                    <a href="https://blogs.podomorouniversity.ac.id/category/28" target="_blank" class="btn btn-default btn-semibold" style="color: red;">Beware of corona!</a>
+                </div>
+            </div>
+
+            <div style="background: #fff;border-radius: 4px;margin-bottom: 15px;">
                 <img src="<?= base_url('images/create-post.jpg'); ?>" style="width: 100%;border-top-right-radius: 4px;border-top-left-radius: 4px;"/>
                 <div style="padding: 10px;text-align: center;">
-                    <a href="<?= base_url('assets/documents/Panduan_Admin_Blogs_Only_Input_Article.pdf'); ?>" target="_blank" class="btn btn-default" style="color: #2196F3;">Write your passion now</a>
+                    <a href="<?= base_url('assets/documents/Panduan_Admin_Blogs_Only_Input_Article.pdf'); ?>" target="_blank" class="btn btn-default btn-semibold" style="color: #2196F3;">Write your passion now</a>
                 </div>
+            </div>
+
+            <div id="rec" class="hide">
+
+                <div class="panel panel-default">
+                    <div class="panel-heading" style="padding: 7px 5px 0px 5px;">
+                        <table class="table" style="margin-bottom: 0px;">
+                            <tr>
+                                <td style="width: 25%;text-align: center;padding: 0px;border-top:none;">
+                                    <img data-src="https://adminblogs.podomorouniversity.ac.id/upload/2eab6509628f1efc43d8d9add302b043.jpg" width="35" height="35" class="img-circle img-fitter">
+                                </td>
+                                <td style="padding: 0px;border-top:none;">
+                                    <b>Nandang Mulyadi</b>
+                                    <p style="font-size: 10px;">Wed, 9 Jan 2020 09:00</p>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="panel-body">
+                        <img src="https://adminblogs.podomorouniversity.ac.id/upload/2eab6509628f1efc43d8d9add302b043.jpg" class="img-rounded" style="width: 100%;">
+                        <a><b>Tips Merawat Laptop Agar Awet dan Tahan lama</b></a>
+                        <p style="font-size: 12px;">Selalu jaga laptop agar tetap bersih * Jagalah daya tahan baterai laptop...</p>
+                    </div>
+                </div>
+
+
             </div>
 
             <div id="listBlogs">
@@ -424,7 +459,7 @@
                                             <li class="news-item">
                                                 <table cellpadding="4">
                                                     <tr>
-                                                        <td><img data-src="https://adminblogs.podomorouniversity.ac.id/upload/<?= $item['Images']; ?>" width="40" class="img-circle img-fitter" /></td>
+                                                        <td><img data-src="https://adminblogs.podomorouniversity.ac.id/upload/<?= $item['Images']; ?>" width="40" class="img-rounded img-fitter" /></td>
                                                         <td><a href="https://blogs.podomorouniversity.ac.id/article/<?= $item['ID_title'].'/'.$titleNew; ?>"><?= $viewTitle; ?></a></td>
                                                     </tr>
                                                 </table>
@@ -458,7 +493,7 @@
                                             <li class="news-item">
                                                 <table cellpadding="4">
                                                     <tr>
-                                                        <td><img data-src="https://adminblogs.podomorouniversity.ac.id/upload/<?= $item['Images']; ?>" width="40" class="img-circle img-fitter" /></td>
+                                                        <td><img data-src="https://adminblogs.podomorouniversity.ac.id/upload/<?= $item['Images']; ?>" width="40" class="img-rounded img-fitter" /></td>
                                                         <td><a href="https://blogs.podomorouniversity.ac.id/article/<?= $item['ID_title'].'/'.$titleNew; ?>"><?= $viewTitle; ?></a></td>
                                                     </tr>
                                                 </table>
