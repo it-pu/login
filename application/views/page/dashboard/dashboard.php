@@ -402,11 +402,11 @@
             <div style="background: #fff;border-radius: 4px;margin-bottom: 15px;">
                 <img src="<?= base_url('images/banner-corona.png'); ?>" style="width: 100%;border-top-right-radius: 4px;border-top-left-radius: 4px;"/>
                 <div style="padding: 10px;text-align: center;">
-                    <a href="https://blogs.podomorouniversity.ac.id/category/28" target="_blank" class="btn btn-default btn-semibold" style="color: red;">Beware of corona!</a>
+                    <a href="https://blogs.podomorouniversity.ac.id/category/28" target="_blank" class="btn btn-default btn-semibold animated infinite pulse" style="color: red;">Beware of corona!</a>
                 </div>
             </div>
 
-            <div style="background: #fff;border-radius: 4px;margin-bottom: 15px;">
+            <div style="background: #fff;border-radius: 4px;margin-bottom: 15px;" class="hide">
                 <img src="<?= base_url('images/create-post.jpg'); ?>" style="width: 100%;border-top-right-radius: 4px;border-top-left-radius: 4px;"/>
                 <div style="padding: 10px;text-align: center;">
                     <a href="<?= base_url('assets/documents/Panduan_Admin_Blogs_Only_Input_Article.pdf'); ?>" target="_blank" class="btn btn-default btn-semibold" style="color: #2196F3;">Write your passion now</a>
