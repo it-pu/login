@@ -406,6 +406,16 @@
                 </div>
             </div>
 
+            <?php $ServerName = $_SERVER['SERVER_NAME'];
+            if($ServerName=='localhost'){
+            ?>
+            <div style="background: #fff;border-radius: 4px;margin-bottom: 15px;">
+                <a href="<?= base_url('lost-and-found'); ?>">
+                    <img src="<?= base_url('images/lost-found.png'); ?>" style="width: 100%;border-radius: 5px;" />
+                </a>
+            </div>
+            <?php } ?>
+
             <div style="background: #fff;border-radius: 4px;margin-bottom: 15px;" class="hide">
                 <img src="<?= base_url('images/create-post.jpg'); ?>" style="width: 100%;border-top-right-radius: 4px;border-top-left-radius: 4px;"/>
                 <div style="padding: 10px;text-align: center;">
