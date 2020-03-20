@@ -1,13 +1,6 @@
-<!--<script type="text/javascript" src="--><!--plugins/datatables/jquery.dataTables.min.js"></script>-->
-<script type="text/javascript" src="http://localhost/puis/assets/template/plugins/datatables/tes/jquery.dataTables.js"></script>
-<!--<script type="text/javascript" src="--><!--plugins/datatables/tes/dataTables.bootstrap.min.js"></script>-->
-<script type="text/javascript" src="http://localhost/puis/assets/template/plugins/datatables/tabletools/TableTools.min.js"></script> <!-- optional -->
-<script type="text/javascript" src="http://localhost/puis/assets/template/plugins/datatables/colvis/ColVis.min.js"></script> <!-- optional -->
-<script type="text/javascript" src="http://localhost/puis/assets/template/plugins/datatables/DT_bootstrap.js"></script>
-<!--<script type="text/javascript" src="--><!--plugins/datatables/dataTables.rowReorder.js"></script>-->
-
-<!-- Plugin DataTbales -->
-<script type="text/javascript" src="http://localhost/puis/assets/datatables/dataTables.rowsGroup.js"></script>
+<link rel="stylesheet" type="text/css" href="<?=base_url('assets/datatables/dataTables.bootstrap.min.css')?>">
+<script type="text/javascript" src="<?=base_url('assets/datatables/')?>jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="<?=base_url('assets/datatables/')?>dataTables.bootstrap.min.js"></script>
 
 <style type="text/css">
     body{background: #eaeaea}
@@ -96,12 +89,13 @@
 
 <script type="text/javascript">
     function fetchPackageOrder() {
+
         //var filtering = $("#form-filter").serialize();     
 
         var filtering = null;
         var token = jwt_encode({Filter : filtering},'UAP)(*');
 
-        var dataTable = $('#fetch-data-tables #table-list-data').DataTable( {
+        var dataTable = $('#table-list-data').DataTable( {
             
             "ajax":{
                 url : dt_base_url_pas+'general-affair/fetch-lost-and-found', // json datasource
@@ -161,14 +155,7 @@
                         }else{label='<p class="text-center text-danger"><i class="fa fa-exclamation-triangle"></i> Things has not been taken</p>';}
                         return label;
                     }               
-                },   
-                {
-                    "data":"ID",
-                    "render": function (data, type, row, meta) {
-                        var label = '<button class="btn btn-warning btn-sm btn-edit" data-id="'+data+'" title="Edit"><i class="fa fa-edit"></i></button>';
-                        return label;
-                    }
-                },
+                },  
             ]
         });
     }
