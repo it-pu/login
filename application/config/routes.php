@@ -44,6 +44,8 @@ $route['__getDetailsPeople'] = 'c_search_people/getDetailsPeople';
 
 $route['mobile'] = 'c_mobile/mobile_page';
 
+$route['lost-and-found'] = 'c_lostnfound/lost_and_found';
+
 
 
 
