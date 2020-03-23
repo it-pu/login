@@ -407,7 +407,7 @@
             </div>
 
             <?php $ServerName = $_SERVER['SERVER_NAME'];
-            if($ServerName=='localhost'){
+            if($ServerName!='localhost'){
             ?>
             <div style="background: #fff;border-radius: 4px;margin-bottom: 15px;">
                 <a href="<?= base_url('lost-and-found'); ?>">
