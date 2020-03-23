@@ -63,7 +63,7 @@
                                 <i class="fa fa-sticky-note-o"></i> Attention
                             </div>
                             <div class="panel-body">
-                                bla bla bla
+                                <div id="Attention"></div>
                             </div>
                         </div>
                         
@@ -72,7 +72,7 @@
                                 <i class="fa fa-sticky-note-o"></i> Terms and Conditions
                             </div>
                             <div class="panel-body">
-                                bla bla bla
+                                <div id="Terms"></div>
                             </div>
                         </div>
 
@@ -98,7 +98,7 @@
         var dataTable = $('#table-list-data').DataTable( {
             
             "ajax":{
-                url : dt_base_url_pas+'general-affair/fetch-lost-and-found', // json datasource
+                url : dt_base_url_js+'fetch-lost-and-found', // json datasource
                 ordering : false,
                 data : {token:token},
                 type: "post",  // method  , by default get
@@ -159,7 +159,31 @@
             ]
         });
     }
+
+    function fetchInfo(element,TYPE) {
+        var data = {
+          TYPE : TYPE,
+        };
+        var token = jwt_encode(data,'UAP)(*');
+        $.ajax({
+            type : 'POST',
+            url : dt_base_url_js+"info-lost-and-found",
+            data : {token:token},
+            dataType : 'json',
+            beforeSend :function(){$(element).html('<i class="fa fa-circle-o-noth fa-spin"></i>')},
+            error : function(jqXHR){
+                $("body #GlobalModal .modal-body").html(jqXHR.responseText);
+                $("body #GlobalModal").modal("show");
+            },success : function(response){
+                if(!jQuery.isEmptyObject(response)){
+                    $(element).html(response.Description);
+                }else{$(element).html("-");}
+            }
+        });
+    }
     $(document).ready(function(){
         fetchPackageOrder();
+        fetchInfo("#Attention",1);
+        fetchInfo("#Terms",2);
     });
 </script>
