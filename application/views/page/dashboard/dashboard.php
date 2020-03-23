@@ -405,12 +405,13 @@
                     <a href="https://blogs.podomorouniversity.ac.id/category/28" target="_blank" class="btn btn-default btn-semibold animated infinite pulse" style="color: red;">Beware of corona!</a>
                 </div>
             </div>
-
+            
             <div style="background: #fff;border-radius: 4px;margin-bottom: 15px;">
                 <a href="<?= base_url('lost-and-found'); ?>">
                     <img src="<?= base_url('images/lost-found.png'); ?>" style="width: 100%;border-radius: 5px;" />
                 </a>
             </div>
+
             <div style="background: #fff;border-radius: 4px;margin-bottom: 15px;" class="hide">
                 <img src="<?= base_url('images/create-post.jpg'); ?>" style="width: 100%;border-top-right-radius: 4px;border-top-left-radius: 4px;"/>
                 <div style="padding: 10px;text-align: center;">
