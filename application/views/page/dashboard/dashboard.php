@@ -406,6 +406,7 @@
                 </div>
             </div>
 
+
             <div style="background: #fff;border-radius: 4px;margin-bottom: 15px;">
                 <a href="<?= base_url('lost-and-found'); ?>">
                     <img src="<?= base_url('images/lost-found.png'); ?>" style="width: 100%;border-radius: 5px;" />
