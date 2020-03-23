@@ -77,7 +77,8 @@ class C_lostnfound extends MY_Controller {
             $key = "UAP)(*";
             $data_arr = (array) $this->jwt->decode($data['token'],$key);
             $isExist = $this->m_general_affair->fetchData("db_general_affair.lost_n_found_information",$data_arr)->row();
-            $json = $isExist;
+            $json = $isExist; 
+            
         }
         echo json_encode($json);
     }
