@@ -1,4 +1,3 @@
-
 <?php
 
 if(count($dataEmployees)>0){
@@ -94,30 +93,30 @@ if(count($dataEmployees)>0){
                                         <td><?= $d['NIDN']; ?></td>
                                     </tr>
                                 <?php } ?>
-
+                                <!-- HIDE BY FEBRY @ MARCH 2020 -->
                                 <?php if( $d['ProdiName']!='') { ?>
-                                    <tr>
+                                    <!-- <tr>
                                         <td>Home Base</td>
                                         <td>:</td>
                                         <td><a href="https://<?= $d['Host']; ?>" target="_blank"><?= $d['ProdiName']; ?></a></td>
-                                    </tr>
+                                    </tr> -->
                                 <?php } ?>
 
-                                <tr>
+                                <!-- <tr>
                                     <td>E-mail</td>
                                     <td>:</td>
                                     <td><span style="color: #FF5722;"><?= $d['EmailPU']; ?></span></td>
-                                </tr>
+                                </tr> -->
 
                                 <?php if($d['StatusLecturer']!='') { ?>
-                                    <tr>
+                                    <!-- <tr>
                                         <td>Lecturer Status</td>
                                         <td>:</td>
                                         <td><?= $d['StatusLecturer']; ?></td>
-                                    </tr>
+                                    </tr> -->
                                 <?php } ?>
 
-                                <tr>
+                                <!-- <tr>
                                     <td>Position</td>
                                     <td>:</td>
                                     <td><?= $Division; ?> <i class="fa fa-arrow-right" style="margin-right: 5px; margin-left: 5px;"></i> <?= $Position; ?></td>
@@ -126,7 +125,8 @@ if(count($dataEmployees)>0){
                                     <td>Address</td>
                                     <td>:</td>
                                     <td><?= ($d['Address']!='' && $d['Address']!=null) ? substr($d['Address'],0,15).'____' : '-' ; ?></td>
-                                </tr>
+                                </tr> -->
+                                <!-- END HIDE BY FEBRY @ MARCH 2020 -->
                             </table>
                         </div>
                         <div class="hide" style="margin-top: 10px;">
