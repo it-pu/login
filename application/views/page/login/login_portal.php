@@ -676,7 +676,7 @@
             // console.log(splitusername);
 
             if(splitusername.length>1){
-                if(splitusername[0].toUpperCase()=='I' || splitusername[0].toUpperCase()=='P'){
+                if(splitusername[0].toUpperCase()=='I' || splitusername[0].toUpperCase()=='P' || splitusername[0] == 'ekd'){
                     nextToInsertPasswors(splitusername[1],splitusername[0].toUpperCase());
                 }
                 else {
@@ -759,6 +759,44 @@
                                     '                            <label for="password" class="control-label">Password</label>' +
                                     '                            <input type="password" class="hide" hidden readonly id="user" ' +
                                     '                                       value="'+jsonResult.DataUser.Username+'.'+jsonResult.DataUser.Status+'.'+jsonResult.DataUser.User+'.'+jsonResult.DataUser.Year+'">' +
+                                    '                            <input type="password" class="form-control" id="password" placeholder="Input password...">' +
+                                    '                        </div><div id="divCaptcha"></div>' +
+                                    '                        <div style="text-align: right;">' +
+                                    '                            <button type="button" class="btn btn-default" id="btnBackLogin"><i class="fa fa-angle-left"></i> Back</button> | ' +
+                                    '                            <button type="submit" class="btn btn-primary" id="btnLoginCheckPassword">Sign In <i class="fa fa-angle-right"></i></button>' +
+                                    '                        </div>' +
+                                    '                    </div>';
+
+                                $('#divSignIn').html(htmlPass);
+
+                                $('#formWellPassword').animateCss('fadeInRight', function() {
+                                    $('.img-fitter').imgFitter();
+                                    $('#password').focus();
+                                });
+
+                            });
+                        } else {
+                            $('#btnLoginCheckUser').html('Next <i class="fa fa-angle-right"></i>').prop('disabled',false);
+                            toastr.warning('Account non-active','Warning');
+                            $('#username').val('').focus();
+                            $('#formWellUsername').animateCss('shake');
+                        }
+                    }
+                    else if(userType!='' &&  userType=='EKD'){
+                        if(jsonResult.DataUser.Status=='1' || jsonResult.DataUser.Status=='-1'){
+                            $('#formWellUsername').animateCss('fadeOutLeft', function() {
+
+                                var htmlPass = '<div style="text-align: center;" id="dataAvatar">' +
+                                    '                        <img data-src="http://pcam.podomorouniversity.ac.id/images/icon/no_image.png" class="img-fitter img-circle avatar" width="70" height="70" />' +
+                                    '                        <h4 style="margin-bottom:0px;">'+jsonResult.DataUser.Nama.trim()+'</h4>'+
+                                    '                        <hr/>' +
+                                    '                    </div>' +
+                                    '                    <div class="well" id="formWellPassword">' +
+                                    '                        <div class="form-group">' +
+                                    '                             <input type="hidden" class="hide" hidden readonly id="TypeUser" value="'+userType.toUpperCase()+'" />' +
+                                    '                            <label for="password" class="control-label">Password</label>' +
+                                    '                            <input type="password" class="hide" hidden readonly id="user" ' +
+                                    '                                       value="'+jsonResult.DataUser.ID+'.'+jsonResult.DataUser.Status+'.'+'eksternal'+'.'+''+'">' +
                                     '                            <input type="password" class="form-control" id="password" placeholder="Input password...">' +
                                     '                        </div><div id="divCaptcha"></div>' +
                                     '                        <div style="text-align: right;">' +

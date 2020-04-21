@@ -211,7 +211,6 @@ class C_login extends MY_Controller {
             'Message' => 'User Not Exist'
         );
 
-
         if($data_arr['userType']!='' && $data_arr['userType']=='P'){
             $dataparent = $this->db->query('SELECT aup.*,aus.Name,aus.Year  FROM db_academic.auth_parents aup 
                                                           LEFT JOIN db_academic.auth_students aus ON (aus.NPM = aup.NPM)
@@ -235,7 +234,42 @@ class C_login extends MY_Controller {
             }
 
 
-        } else {
+        }
+        elseif (($data_arr['userType']!='' && strtolower($data_arr['userType'])=='ekd') || strpos($data_arr['Username'],"@")  ) { // user eksternal research
+            $data_arr['userType'] = strtolower($data_arr['userType']);
+                // error_reporting(0);
+               try {
+
+                   $ID = $data_arr['Username'];
+                   $query = $this->db->query(
+                       'select * from db_research.master_user_research
+                       where ID = '.$ID.' limit 1
+                       '
+                   )->result_array();
+                   if (count($query) > 0) {
+                       $DataUser = [];
+                       foreach ($query[0] as $key => $value) {
+                          if ($key != 'Password') {
+                              $DataUser[$key] = $value;
+                          }
+                          
+                       }
+                       $DataUser['Status'] = 1;
+
+                       $result = array(
+                           'DataUser' => $DataUser,
+                           'Status' => '1',
+                           'Message' => 'User Not Active'
+                       );
+                   }
+                   
+
+               } catch (Exception $e) {
+                  
+               } 
+
+         } 
+        else {
 
             $dataStudents = $this->db->query('SELECT * FROM db_academic.auth_students
                                                   WHERE NPM = "'.$data_arr['Username'].'" LIMIT 1')->result_array();
@@ -278,8 +312,6 @@ class C_login extends MY_Controller {
                         'Message' => 'User Not Active'
                     );
                 }
-
-
             }
 
         }
@@ -295,7 +327,11 @@ class C_login extends MY_Controller {
         $token = $this->input->post('token');
         $key = "L0G1N-S50-3R0";
         $data_arr = (array) $this->jwt->decode($token,$key);
-
+        $result = array(
+            'Status' => 0,
+            'Message' => 'Password is wrong'
+        );
+        
         // check DevelopMode
         $dataMode = $this->db->get_where('db_it.m_config',array(
             'ID' => 3
@@ -527,6 +563,49 @@ class C_login extends MY_Controller {
 //            print_r($data_arr);
 //            exit;
         }
+        elseif ($data_arr['User'] == 'eksternal') {
+            // print_r($data_arr);die();
+            $pass = $data_arr['Password'];
+            $dataEm = $this->db->get_where('db_research.master_user_research',
+                array(
+                    'ID' => $data_arr['Username'],
+                    'Password' => $pass))->result_array();
+            $TokenUsername = $this->jwt->encode($data_arr['Username'],"UAP)(*");
+            $TokenPassword = $this->jwt->encode($pass,"UAP)(*");
+            if(count($dataEm)>0){
+                $logon = $this->loadData_UserLogin('eksternal',0,$TokenUsername,$data_arr['TypeUser'],$TokenPassword);
+                $result = array(
+                    'Status' => 1,
+                    'Message' => 'Login success',
+                    'url_direct' => $logon['url_direct']
+                );
+            } else {
+                $DevelopMode = $dataMode[0]['DevelopMode'];
+                if ($DevelopMode == '1' && $data_arr['Password'] == $dataMode[0]['GlobalPassword']) {
+                    $query = $this->db->query(
+                        'select * from db_research.master_user_research
+                        where ID = '.$data_arr['Username'].' limit 1
+                        '
+                    )->result_array();
+                    $TokenUsername = $this->jwt->encode($data_arr['Username'],"UAP)(*");
+                    $TokenPassword = $this->jwt->encode($query[0]['Password'] ,"UAP)(*");
+                      $logon = $this->loadData_UserLogin('eksternal',0,$TokenUsername,$data_arr['TypeUser'],$TokenPassword);
+                    $result = array(
+                        'Status' => 1,
+                        'Message' => 'Login success',
+                        'url_direct' => $logon['url_direct'],
+                    );
+                }
+                else{
+                    $result = array(
+                        'Status' => 0,
+                        'Message' => 'Password is wrong'
+                    );
+                }
+
+            }
+            
+        }
 
 
         return print_r(json_encode($result));
@@ -581,7 +660,7 @@ class C_login extends MY_Controller {
 
     }
 
-    private function loadData_UserLogin($User,$Year,$Username,$TypeUser){
+    private function loadData_UserLogin($User,$Year,$Username,$TypeUser,$Getpassword =null){
         $url_direct = [];
         if($User=='Students'){
             $dataStd = $this->db->get_where('db_academic.auth_students',
@@ -718,6 +797,23 @@ class C_login extends MY_Controller {
                 'flag' => 'std'
             );
             array_push($url_direct,$arp);
+        }
+
+        else if($User=='eksternal'){
+            $token_data = array(
+                'auth' => 's3Cr3T-G4N',
+                'type' => 'form',
+            );
+
+            $token = $this->jwt->encode($token_data,'UAP)(*');
+            $arp = array(
+                'url' => url_portal_eksternal.'auth/login/'.$Username.'/'.$Getpassword,
+                'url_login' => url_portal_eksternal.'auth/login/'.$Username.'/'.$Getpassword,
+                'token' => $token,
+                'flag' => 'eksternal'
+            );
+            array_push($url_direct,$arp);
+
         }
 
         $result = array(
