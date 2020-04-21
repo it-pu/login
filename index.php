@@ -97,7 +97,7 @@
 	        define("url_sign_out",$HostPath."portal.podomorouniversity.ac.id", true);
 			
 			define("url_alumni",$HostPath."alumni.podomorouniversity.ac.id/", true);
-			define("url_portal_eksternal",$HostPath."portal_eksternal.ac.id/", true);
+			define("url_portal_eksternal",$HostPath."portal.eksternal.podomorouniversity.ac.id/", true);
 			break;
 		case 'demoportal.podomorouniversity.ac.id':
 			define("url_registration",$HostPath."demoadmission.podomorouniversity.ac.id/", true);
@@ -110,7 +110,7 @@
 	        define("url_sign_out",$HostPath."demoportal.podomorouniversity.ac.id", true);
 
 	        define("url_alumni",$HostPath."demoalumni.podomorouniversity.ac.id/", true);
-	        define("url_portal_eksternal",$HostPath."demo.portal_eksternal.ac.id/", true);
+	        define("url_portal_eksternal",$HostPath."demo.portal.eksternal.podomorouniversity.ac.id/", true);
 			break;	
 		default:
             $port_user = ($_SERVER['SERVER_PORT']!='80') ? ':'.$_SERVER['SERVER_PORT'] : '';
