@@ -184,7 +184,7 @@ class C_login extends MY_Controller {
                     )->result_array();
                     
                     if(count($dataEm)>0){
-                        $TokenUsername = $this->jwt->encode('ekd.'.$dataEm[0]['ID'],"UAP)(*");
+                        $TokenUsername = $this->jwt->encode($dataEm[0]['ID'],"UAP)(*");
                         $TokenPassword = $this->jwt->encode($dataEm[0]['Password'],"UAP)(*");
                         $logon = $this->loadData_UserLogin('eksternal',0,$TokenUsername,'eksternal',$TokenPassword);
 
