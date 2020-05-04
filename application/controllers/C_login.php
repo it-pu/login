@@ -175,7 +175,29 @@ class C_login extends MY_Controller {
 
                 } else {
 
-                    $this->load->view('errorPageLoginGoogle','');
+                    // check di portal eksternal
+                    $Email = $userData['email'];
+                    $dataEm = $this->db->get_where('db_research.master_user_research',
+                        array(
+                            'Email' => $Email,
+                            )
+                    )->result_array();
+                    
+                    if(count($dataEm)>0){
+                        $TokenUsername = $this->jwt->encode('ekd.'.$dataEm[0]['ID'],"UAP)(*");
+                        $TokenPassword = $this->jwt->encode($dataEm[0]['Password'],"UAP)(*");
+                        $logon = $this->loadData_UserLogin('eksternal',0,$TokenUsername,$data_arr['TypeUser'],$TokenPassword);
+
+                        $data['url_login'] = $logon['url_direct'][0]['url_login'];
+                        $data['token'] = $logon['url_direct'][0]['token'];
+                        $data['User'] = 1;
+                        $this->load->view('landingPage',$data);
+                    }
+                    else
+                    {
+                        $this->load->view('errorPageLoginGoogle','');
+                    }
+                    
                 }
 
             } catch (Exception $err){
