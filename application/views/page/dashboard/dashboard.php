@@ -270,11 +270,19 @@
                                     </div>
                                 </a>
                             </div>
+<!--                            <div class="col-xs-6 hvr-grow-rotate">-->
+<!--                                <a href="https://blogs.podomorouniversity.ac.id/" target="_blank">-->
+<!--                                    <div class="thumbnail">-->
+<!--                                        <img class="apps-icon" src="--><?//= base_url(); ?><!--images/icon/blogs.png">-->
+<!--                                        <p>Blogs</p>-->
+<!--                                    </div>-->
+<!--                                </a>-->
+<!--                            </div>-->
                             <div class="col-xs-6 hvr-grow-rotate">
-                                <a href="https://blogs.podomorouniversity.ac.id/" target="_blank">
-                                    <div class="thumbnail">
-                                        <img class="apps-icon" src="<?= base_url(); ?>images/icon/blogs.png">
-                                        <p>Blogs</p>
+                                <a href="https://lpmi.podomorouniversity.ac.id/" target="_blank">
+                                    <div class="thumbnail" style="padding: 0px;">
+                                        <img class="apps-icon" src="<?= base_url(); ?>images/icon/lpmi.jpeg" style="max-width: 93px;padding-top: 26px;">
+                                        <p>LPMI</p>
                                     </div>
                                 </a>
                             </div>
@@ -287,8 +295,8 @@
                         <div class="row">
                             <div class="col-xs-6 hvr-grow-rotate">
                                 <a href="http://pucel.co/" target="_blank">
-                                    <div class="thumbnail">
-                                        <img class="apps-icon" src="<?= base_url(); ?>images/icon/pucel3.png">
+                                    <div class="thumbnail" style="padding: 0px;">
+                                        <img class="apps-icon" src="<?= base_url(); ?>images/icon/pucel.png" style="max-width: 107px;padding-top: 26px;">
                                         <p>Pucel</p>
                                     </div>
                                 </a>
