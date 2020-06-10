@@ -35,7 +35,7 @@ $route['newlogin'] = 'c_login/index2';
 $route['portal-login'] = 'c_login/portal_login';
 $route['meet-our-team'] = 'c_login/meet_our_team';
 
-
+// ++++++++ Search people ++++++++
 $route['search-people'] = 'c_search_people/search_people';
 $route['search-people/detail-employees/(:any)'] = 'c_search_people/detail_people_employees/$1';
 $route['search-people/detail-student/(:any)'] = 'c_search_people/detail_people_student/$1';
@@ -47,6 +47,10 @@ $route['mobile'] = 'c_mobile/mobile_page';
 $route['lost-and-found'] = 'c_lostnfound/lost_and_found';
 $route['fetch-lost-and-found'] = 'c_lostnfound/fetchLostAndFound';
 $route['info-lost-and-found'] = 'c_lostnfound/lostAndFoundInfo';
+
+
+// ++++++++ EULA ++++++++
+$route['eula'] = 'c_eula/eula';
 
 
 
