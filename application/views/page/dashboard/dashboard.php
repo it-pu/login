@@ -303,8 +303,8 @@
                             </div>
                             <div class="col-xs-6 hvr-grow-rotate">
                                 <a href="https://pu-x.com/" target="_blank">
-                                    <div class="thumbnail">
-                                        <img class="apps-icon" src="<?= base_url(); ?>images/icon/pu-x.png">
+                                    <div class="thumbnail";>
+                                        <img class="apps-icon" src="<?= base_url(); ?>images/icon/pu-x.png" style="max-width: 90px;padding-top: 15px;">
                                         <p>PU-X</p>
                                     </div>
                                 </a>
