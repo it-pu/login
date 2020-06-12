@@ -148,10 +148,20 @@ class C_login extends MY_Controller {
                 // Cek Userdata
                 $dataUser = $this->m_auth->__getUserByEmailPU($userData['email'] );
 
-//                print_r($dataUser);
+                $dateNow = date('Y-m-d');
 
 
                 if(count($dataUser['url_direct'])>0) {
+
+                    // Cek EULA
+                    $Flag = $dataUser['url_direct'][0]['flag'];
+                    $dataEula = $this->db->limit(1)->get_where('db_it.eula_publish_list',array(
+                        'PublishedAt' => $dateNow,
+                        'To' => ($Flag=='std') ? 'std' : 'emp'
+                    ))->result_array();
+
+                    $data['EULA'] = (count($dataEula)>0) ?  1 : 0;
+
 
                     if(count($dataUser['url_direct'])==1){
 //                        header("Location : ".$dataUser['url_direct'][0]);
@@ -173,7 +183,11 @@ class C_login extends MY_Controller {
                     }
 
 
-                } else {
+
+
+
+                }
+                else {
 
                     // check di portal eksternal
                     $Email = $userData['email'];
@@ -228,6 +242,8 @@ class C_login extends MY_Controller {
         $key = "L0G1N-S50-3R0";
         $data_arr = (array) $this->jwt->decode($token,$key);
 
+        $dateNow = date('Y-m-d');
+
         $result = array(
             'Status' => '0',
             'Message' => 'User Not Exist'
@@ -251,7 +267,7 @@ class C_login extends MY_Controller {
                 $result = array(
                     'DataUser' => $DataUser,
                     'Status' => '1',
-                    'Message' => 'User Not Active'
+                    'Message' => 'User Active'
                 );
             }
 
@@ -297,6 +313,9 @@ class C_login extends MY_Controller {
                                                   WHERE NPM = "'.$data_arr['Username'].'" LIMIT 1')->result_array();
             if(count($dataStudents)>0){
 
+                // Cek eula
+                $dataEULA = $this->db->query('SELECT * FROM db_it.eula_publish_list epl WHERE epl.PublishedAt = "'.$dateNow.'" AND epl.To = "std" LIMIT 1')->result_array();
+
                 $dataMhs = $this->get_dataStd($dataStudents[0]['Year'],$dataStudents[0]['NPM']);
 
                 $DataUser = array(
@@ -310,10 +329,15 @@ class C_login extends MY_Controller {
                 $result = array(
                     'DataUser' => $DataUser,
                     'Status' => '1',
-                    'Message' => 'User Not Active'
+                    'Message' => 'User Active',
+                    'Flag' => 'std',
+                    'EULA' => (count($dataEULA) > 0) ? 1 : 0
                 );
 
             } else {
+
+                // Cek eula
+                $dataEULA = $this->db->query('SELECT * FROM db_it.eula_publish_list epl WHERE epl.PublishedAt = "'.$dateNow.'" AND epl.To = "emp" LIMIT 1')->result_array();
 
                 // Cek Apakah karyawan atau bukan
                 $dataEmploy = $this->db->get_where('db_employees.employees',
@@ -331,7 +355,9 @@ class C_login extends MY_Controller {
                     $result = array(
                         'DataUser' => $DataUser,
                         'Status' => '1',
-                        'Message' => 'User Not Active'
+                        'Message' => 'User Active',
+                        'Flag' => 'emp',
+                        'EULA' => (count($dataEULA) > 0) ? 1 : 0
                     );
                 }
             }

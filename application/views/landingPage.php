@@ -33,7 +33,7 @@
 <style type="text/css">
 
     body {
-        background: #d4dde6;
+        background: #fcfcfc;
     }
     .avatar {
         border: 2px solid #607D8B;
@@ -50,6 +50,19 @@
         display: block;
         cursor: pointer;
     }
+
+    .panel-eula {
+        font-weight: bold;
+        color: #4a57bd;
+        background-color: #ddebf8;
+        border: 1px solid #9096c7;
+        padding: 19px;
+        border-radius: 4px;
+        margin-bottom: 20px;
+    }
+    .bg-eula {
+        background: #f5dbc0 !important;
+    }
 </style>
 
 <body>
@@ -57,48 +70,66 @@
 <div class="container" style="margin-top: 50px;">
     <div class="row">
 
-    <?php if($User==1 || $User=='1'){ ?>
+        <?php if($EULA==1 || $EULA=='1'){ ?>
+            <div class="col-md-6 col-md-offset-3" style="text-align: center;">
+                <div style="margin-bottom: 20px;">
+                    <img src="<?= base_url('images/eula2.jpg'); ?>" style="width: 100%;max-width: 250px;">
+                </div>
+                <div class="panel-eula">
+                    At this time we have updated the portal usage agreement, and we ask users to learn and understand before using the portal.
+                </div>
+                <button class="btn btn-primary"><b>Start studying usage agreements</b></button>
+            </div>
+        <?php } else { ?>
+
+        <?php if($User==1 || $User=='1'){ ?>
             <div class="col-xs-4 col-md-offset-4">
                 <div class="thumbnail" style="padding: 20px;text-align: center;">
                     <i class="fa fa-refresh fa-spin fa-fw right-margin"></i> Loading page...
                 </div>
             </div>
 
-    <?php } else { ?>
+        <?php } else { ?>
 
-        <div id="double" class="col-md-8 col-md-offset-2">
-            <div class="col-md-2"></div>
+            <div id="double" class="col-md-8 col-md-offset-2">
+                <div class="col-md-2"></div>
 
 
-     <?php   for($p=0;$p<count($DataUser);$p++){
-            $UserData = $DataUser[$p];
-            if($UserData['flag']=='lec'){
-            ?>
-                <div class="col-md-4">
-                    <a href="javascript:void(0);" class="a-link" data-url="<?php echo $UserData['url_login']; ?>" data-token="<?php echo $UserData['token']; ?>">
-                        <div class="thumbnail" style="text-align: center;padding: 20px;">
-                            <img src="<?php echo base_url('assets/icon/lecturer.png') ?>">
-                            <hr/>
-                            <h4><b>Portal Lecturer</b></h4>
+                <?php   for($p=0;$p<count($DataUser);$p++){
+                    $UserData = $DataUser[$p];
+                    if($UserData['flag']=='lec'){
+                        ?>
+                        <div class="col-md-4">
+                            <a href="javascript:void(0);" class="a-link" data-url="<?php echo $UserData['url_login']; ?>" data-token="<?php echo $UserData['token']; ?>">
+                                <div class="thumbnail" style="text-align: center;padding: 20px;">
+                                    <img src="<?php echo base_url('assets/icon/lecturer.png') ?>">
+                                    <hr/>
+                                    <h4><b>Portal Lecturer</b></h4>
+                                </div>
+                            </a>
                         </div>
-                    </a>
-                </div>
 
-    <?php } else {  ?>
-                <div class="col-md-4">
-                    <a href="javascript:void(0);" class="a-link" data-url="<?php echo $UserData['url_login']; ?>" data-token="<?php echo $UserData['token']; ?>">
-                        <div class="thumbnail" style="text-align: center;padding: 20px">
-                            <img src="<?php echo base_url('assets/icon/employee.png') ?>">
-                            <hr/>
-                            <h4><b>P - Cam</b></h4>
+                    <?php } else {  ?>
+                        <div class="col-md-4">
+                            <a href="javascript:void(0);" class="a-link" data-url="<?php echo $UserData['url_login']; ?>" data-token="<?php echo $UserData['token']; ?>">
+                                <div class="thumbnail" style="text-align: center;padding: 20px">
+                                    <img src="<?php echo base_url('assets/icon/employee.png') ?>">
+                                    <hr/>
+                                    <h4><b>P - Cam</b></h4>
+                                </div>
+                            </a>
                         </div>
-                    </a>
-                </div>
-        <?php
-            }
-        } ?>
-        </div>
-    <?php } ?>
+                        <?php
+                    }
+                } ?>
+            </div>
+        <?php } ?>
+
+
+
+        <?php }
+
+        ?>
 
     </div>
 </div>
@@ -110,8 +141,9 @@
 <script>
 
     $(document).ready(function () {
-        var user = "<?php echo $User; ?>";
-        if(user==1 || user=='1'){
+        var user = "<?= $User; ?>";
+        var EULA = "<?= $EULA; ?>"
+        if(parseInt(user)==1 && parseInt(EULA)==0){
             var url_login = "<?php echo $url_login; ?>";
             var token = "<?php echo $token; ?>";
             $('#formSubmitLogin').attr('action',url_login);
