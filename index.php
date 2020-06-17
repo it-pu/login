@@ -114,8 +114,8 @@
 			break;	
 		default:
             $port_user = ($_SERVER['SERVER_PORT']!='80') ? ':'.$_SERVER['SERVER_PORT'] : '';
-            $folder_user = ($_SERVER['SERVER_PORT']!='80') ? 'siak3' : 'puis';
-            $portal_user = ($_SERVER['SERVER_PORT']!='80') ? 'login3' : 'portal';
+            $folder_user = 'puis';
+            $portal_user = 'portal';
             define("port",$port_user, true);
 
             define("serverRoot",$HostPath."localhost".port."/".$folder_user, true);
