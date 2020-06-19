@@ -680,26 +680,25 @@ class C_login extends MY_Controller {
             $dataEULA = $this->db->query('SELECT * FROM db_it.eula_date e WHERE e.To = "'.$To.'" 
                                     AND e.RangeStart <= "'.$dateNow.'" AND e.RangeEnd >= "'.$dateNow.'" 
                                     AND e.Published = "1" LIMIT 1')->result_array();
-
-            // Cek apakah sudah mengisi EULA atau blm
-            $dataCK = $this->db->query('SELECT eu.Username FROM db_it.eula_linked el 
+            $PerluIsi = 0;
+            if(count($dataEULA)>0){
+                // Cek apakah sudah mengisi EULA atau blm
+                $dataCK = $this->db->query('SELECT eu.Username FROM db_it.eula_linked el 
                                                 LEFT JOIN db_it.eula e ON (e.ID = el.EID)
                                                 LEFT JOIN db_it.eula_user eu ON (eu.ELID = el.ID AND eu.Username = "'.$data_arr['Username'].'")
                                                 WHERE el.EDID = "'.$dataEULA[0]['ID'].'" 
                                                 ORDER BY el.Queue ASC ')->result_array();
 
-            $PerluIsi = 0;
-            if(count($dataCK)>0){
-                foreach ($dataCK as $item) {
-                    if($item['Username']!=null && $item['Username']!=''){
+                if(count($dataCK)>0){
+                    foreach ($dataCK as $item) {
+                        if($item['Username']!=null && $item['Username']!=''){
 
-                    } else {
-                        $PerluIsi = 1;
+                        } else {
+                            $PerluIsi = 1;
+                        }
                     }
                 }
             }
-
-
 
             $EULA = (count($dataEULA) > 0 && $PerluIsi==1) ? 1 : 0;
 
