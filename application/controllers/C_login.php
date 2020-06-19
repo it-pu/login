@@ -18,7 +18,6 @@ class C_login extends MY_Controller {
         $this->load->model('m_auth');
 
         date_default_timezone_set("Asia/Jakarta");
-
     }
 
 
@@ -155,12 +154,42 @@ class C_login extends MY_Controller {
 
                     // Cek EULA
                     $Flag = $dataUser['url_direct'][0]['flag'];
-                    $dataEula = $this->db->limit(1)->get_where('db_it.eula_publish_list',array(
-                        'PublishedAt' => $dateNow,
-                        'To' => ($Flag=='std') ? 'std' : 'emp'
-                    ))->result_array();
+                    $To = ($Flag=='std') ? 'std' : 'emp';
 
-                    $data['EULA'] = (count($dataEula)>0) ?  1 : 0;
+                    $dataEula = $this->db->query('SELECT * FROM db_it.eula_date e WHERE e.To = "'.$To.'" AND e.RangeStart <= "'.$dateNow.'" AND e.RangeEnd >= "'.$dateNow.'" AND e.Published = "1" ')->result_array();
+                    $PerluIsi = 0;
+                    if(count($dataEula)>0){
+
+                        // Cek apakah sudah mengisi EULA atau blm
+                        $dataCK = $this->db->query('SELECT eu.Username FROM db_it.eula_linked el 
+                                                LEFT JOIN db_it.eula e ON (e.ID = el.EID)
+                                                LEFT JOIN db_it.eula_user eu ON (eu.ELID = el.ID AND eu.Username = "'.$dataUser['url_direct'][0]['Username'].'")
+                                                WHERE el.EDID = "'.$dataEula[0]['ID'].'" 
+                                                ORDER BY el.Queue ASC ')->result_array();
+
+
+                        if(count($dataCK)>0){
+                            foreach ($dataCK as $item) {
+                                if($item['Username']!=null && $item['Username']!=''){
+
+                                } else {
+                                    $PerluIsi = 1;
+                                }
+                            }
+                        }
+
+                    }
+
+
+                    $data['EULA'] = (count($dataEula)>0 && $PerluIsi==1) ?  1 : 0;
+                    $data['dataEULA'] = ($data['EULA']==1)
+                        ? array(
+                            'Username' => $dataUser['url_direct'][0]['Username'],
+                            'ExpiredAt' => date('Y-m-d H:i:s',strtotime(date('Y-m-d H:i:s')."+1 days")),
+                            'EDID' => $dataEula[0]['ID'],
+                            'UserType' => $To
+                        )
+                        : [];
 
 
                     if(count($dataUser['url_direct'])==1){
@@ -173,7 +202,8 @@ class C_login extends MY_Controller {
                         $data['token'] = $dataUser['url_direct'][0]['token'];
                         $data['User'] = 1;
                         $this->load->view('landingPage',$data);
-                    } else {
+                    }
+                    else {
                         $data['User']=2;
                         $data['url_login']='-';
                         $data['token']='-';
@@ -181,10 +211,6 @@ class C_login extends MY_Controller {
                         $data['DataUser'] = $dataUser['url_direct'];
                         $this->load->view('landingPage',$data);
                     }
-
-
-
-
 
                 }
                 else {
@@ -313,9 +339,6 @@ class C_login extends MY_Controller {
                                                   WHERE NPM = "'.$data_arr['Username'].'" LIMIT 1')->result_array();
             if(count($dataStudents)>0){
 
-                // Cek eula
-                $dataEULA = $this->db->query('SELECT * FROM db_it.eula_publish_list epl WHERE epl.PublishedAt = "'.$dateNow.'" AND epl.To = "std" LIMIT 1')->result_array();
-
                 $dataMhs = $this->get_dataStd($dataStudents[0]['Year'],$dataStudents[0]['NPM']);
 
                 $DataUser = array(
@@ -330,14 +353,10 @@ class C_login extends MY_Controller {
                     'DataUser' => $DataUser,
                     'Status' => '1',
                     'Message' => 'User Active',
-                    'Flag' => 'std',
-                    'EULA' => (count($dataEULA) > 0) ? 1 : 0
+                    'Flag' => 'std'
                 );
 
             } else {
-
-                // Cek eula
-                $dataEULA = $this->db->query('SELECT * FROM db_it.eula_publish_list epl WHERE epl.PublishedAt = "'.$dateNow.'" AND epl.To = "emp" LIMIT 1')->result_array();
 
                 // Cek Apakah karyawan atau bukan
                 $dataEmploy = $this->db->get_where('db_employees.employees',
@@ -356,8 +375,7 @@ class C_login extends MY_Controller {
                         'DataUser' => $DataUser,
                         'Status' => '1',
                         'Message' => 'User Active',
-                        'Flag' => 'emp',
-                        'EULA' => (count($dataEULA) > 0) ? 1 : 0
+                        'Flag' => 'emp'
                     );
                 }
             }
@@ -384,7 +402,7 @@ class C_login extends MY_Controller {
         $dataMode = $this->db->get_where('db_it.m_config',array(
             'ID' => 3
         ))->result_array();
-            // print_r($data_arr['Status']);die();
+
         if($data_arr['User']=='Students'){
 //            $db_ = 'ta_'.$data_arr['Year'];
             if($data_arr['Status']=='-1'){
@@ -608,11 +626,9 @@ class C_login extends MY_Controller {
                 }
             }
 
-//            print_r($data_arr);
-//            exit;
         }
         elseif ($data_arr['User'] == 'eksternal') {
-            // print_r($data_arr);die();
+
             $pass = $data_arr['Password'];
             $dataEm = $this->db->get_where('db_research.master_user_research',
                 array(
@@ -654,6 +670,56 @@ class C_login extends MY_Controller {
             }
             
         }
+
+        $dateNow = date('Y-m-d');
+
+        if($data_arr['User']=='Students' || $data_arr['User']=='Employees'){
+
+
+            $To = ($data_arr['User']=='Students') ? 'std' : 'emp';
+            $dataEULA = $this->db->query('SELECT * FROM db_it.eula_date e WHERE e.To = "'.$To.'" 
+                                    AND e.RangeStart <= "'.$dateNow.'" AND e.RangeEnd >= "'.$dateNow.'" 
+                                    AND e.Published = "1" LIMIT 1')->result_array();
+
+            // Cek apakah sudah mengisi EULA atau blm
+            $dataCK = $this->db->query('SELECT eu.Username FROM db_it.eula_linked el 
+                                                LEFT JOIN db_it.eula e ON (e.ID = el.EID)
+                                                LEFT JOIN db_it.eula_user eu ON (eu.ELID = el.ID AND eu.Username = "'.$data_arr['Username'].'")
+                                                WHERE el.EDID = "'.$dataEULA[0]['ID'].'" 
+                                                ORDER BY el.Queue ASC ')->result_array();
+
+            $PerluIsi = 0;
+            if(count($dataCK)>0){
+                foreach ($dataCK as $item) {
+                    if($item['Username']!=null && $item['Username']!=''){
+
+                    } else {
+                        $PerluIsi = 1;
+                    }
+                }
+            }
+
+
+
+            $EULA = (count($dataEULA) > 0 && $PerluIsi==1) ? 1 : 0;
+
+        } else {
+            $EULA = 0;
+        }
+
+        $result['EULA'] = $EULA;
+
+        $UserType = ($data_arr['User']=='Students') ? 'std' : 'emp';
+
+
+        $result['dataEULA'] = ($EULA==1)
+            ? array(
+                'Username' => $data_arr['Username'],
+                'ExpiredAt' => date('Y-m-d H:i:s',strtotime(date('Y-m-d H:i:s')."+1 days")),
+                'EDID' => $dataEULA[0]['ID'],
+                'UserType' => $UserType
+            )
+            : [];
 
 
         return print_r(json_encode($result));
@@ -963,7 +1029,7 @@ class C_login extends MY_Controller {
           // performing search
           $sr=ldap_search($ds, $dn,  $filter, $justthese);
           $data = ldap_get_entries($ds, $sr);
-          // print_r($data); 
+
           $total =  $data["count"];  
         } else {
           $arr_result['msg'] = 'Login invalid';

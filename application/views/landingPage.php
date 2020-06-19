@@ -19,11 +19,16 @@
 <script src="<?php echo base_url(); ?>assets/bootstrap/js/bootstrap.min.js"></script>
 <!-- <script src="//code.jquery.com/jquery-1.11.1.min.js"></script> -->
 
+<script src="<?php echo base_url(); ?>assets/jwt/encode/hmac-sha256.js"></script>
+<script src="<?php echo base_url(); ?>assets/jwt/encode/enc-base64-min.js"></script>
+<script src="<?php echo base_url(); ?>assets/jwt/encode/jwt.encode.js"></script>
+
 <!------ Include the above in your HEAD tag ---------->
 <script src="<?php echo base_url(); ?>assets/js/jquery.imgFitter.js"></script>
 <script>
 
     $(document).ready(function(){
+        window.base_url_server = '<?php echo base_url(); ?>';
         $('.img-fitter').imgFitter();
     });
 
@@ -78,7 +83,8 @@
                 <div class="panel-eula">
                     At this time we have updated the portal usage agreement, and we ask users to learn and understand before using the portal.
                 </div>
-                <button class="btn btn-primary"><b>Start studying usage agreements</b></button>
+                <textarea class="hide" id="EulaDataToken"><?= json_encode($dataEULA); ?></textarea>
+                <button class="btn btn-primary" id="EulaBtnStart"><b>Start studying usage agreements</b></button>
             </div>
         <?php } else { ?>
 
@@ -160,6 +166,21 @@
             $('#formTokenLogin').val(token);
             $('#formSubmitLogin').submit();
         }
+    });
+
+    $(document).on('click','#EulaBtnStart',function () {
+        var EulaDataToken = $('#EulaDataToken').val();
+        var token = jwt_encode({dataEULA : JSON.parse(EulaDataToken)});
+        var url = base_url_server+'uath/__eulaStart';
+        $.post(url,{token:token},function (jsonResult) {
+            // console.log(jsonResult);
+            // var d = JSON.parse(jsonResult);
+            // console.log(d);
+            if(jsonResult.Status==1){
+                window.location.replace(base_url_server+'eula');
+            }
+        });
+
     });
 
 </script>
