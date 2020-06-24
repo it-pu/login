@@ -62,6 +62,7 @@
         background-color: #ddebf8;
         border: 1px solid #9096c7;
         padding: 19px;
+        padding-top: 15px;
         border-radius: 4px;
         margin-bottom: 20px;
     }
@@ -81,10 +82,10 @@
                     <img src="<?= base_url('images/eula2.jpg'); ?>" style="width: 100%;max-width: 250px;">
                 </div>
                 <div class="panel-eula">
-                    At this time we have updated the portal usage agreement, and we ask users to learn and understand before using the portal.
+                    Thank you for using our portal services. The services are provided by Podomoro University. By using our Services, you are agreeing to these information. Please read them carefully.
                 </div>
                 <textarea class="hide" id="EulaDataToken"><?= json_encode($dataEULA); ?></textarea>
-                <button class="btn btn-primary" id="EulaBtnStart"><b>Start studying usage agreements</b></button>
+                <button class="btn btn-primary" id="EulaBtnStart"><b>Continue <i style="margin-left: 5px;" class="fa fa-arrow-right"></i></b></button>
             </div>
         <?php } else { ?>
 

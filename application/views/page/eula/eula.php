@@ -3,13 +3,14 @@
 <style>
 
     body {
-        background: #3e3e3e !important;
+        background: #eaeaea !important;
+        /*background-image: url("*/<?//= base_url('images/bg-eula.png'); ?>/*") !important;*/
     }
 
     .panel {
-        -webkit-box-shadow: 0px 0px 37px -25px rgba(0,0,0,0.75);
-        -moz-box-shadow: 0px 0px 37px -25px rgba(0,0,0,0.75);
-        box-shadow: 0px 0px 37px -25px rgba(0,0,0,0.75);
+        /*-webkit-box-shadow: 0px 0px 37px -25px rgba(0,0,0,0.75);*/
+        /*-moz-box-shadow: 0px 0px 37px -25px rgba(0,0,0,0.75);*/
+        /*box-shadow: 0px 0px 37px -25px rgba(0,0,0,0.75);*/
     }
 
     .panel-footer button {
@@ -25,6 +26,7 @@
 
     #EULABody::-webkit-scrollbar {
         width: 6px;
+        height: 6px;
         background-color: #F5F5F5;
     }
     #EULABody::-webkit-scrollbar-thumb {
@@ -45,16 +47,20 @@
     /*}*/
 </style>
 
-<div class="container" style="margin-top: 30px;">
+
+<div class="container" style="margin-top: 20px;margin-bottom: 20px;">
     <div class="row">
-        <div class="col-md-8 col-md-offset-2">
+        <div class="col-md-12" style="text-align: center;margin-bottom: 20px;">
+            <img src="https://portal.podomorouniversity.ac.id/assets/icon/logo_pu.png" style="width: 250px;">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
             <div class="panel panel-default">
-                <div class="panel-heading">
-                    <h4 class="panel-title">
-                        <i class="glyphicon glyphicon-fire" style="margin-right: 3px;color: #FF5722;"></i> <span id="EULATitle"></span>
-                    </h4>
-                </div>
+
                 <div class="panel-body" style="padding-right: 3px;">
+
+                    <h3 style="margin-top: 0px;" id="EULATitle"></h3>
 
                     <div id="EULABody"></div>
 
@@ -65,7 +71,7 @@
                     </div>
                     <div id="btnAct">
                         <button class="btn btn-default" id="EULABtnClose">Close</button>
-                        <button class="btn btn-success" id="EULAID">I understand</button>
+                        <button class="btn btn-success" id="EULAID">I understood</button>
                     </div>
                 </div>
             </div>
@@ -129,11 +135,13 @@
             });
 
             if(FillReady==jsonResult.length){
-                $('#EULATitle').html('Finish');
-                $('#EULABody').html('<div style="text-align: center;">' +
+                $('#EULATitle').html('');
+                $('#EULABody').html('<div class="" style="text-align: center;">' +
+                    '<div class="col-md-6 col-md-offset-3">' +
                     '<img src="'+dt_base_url_js+'images/checkmark.png" style="width: 100%;max-width: 100px;" />' +
                     '<h3>Thank you for understanding the usage agreement</h3>' +
-                    '<div class="alert alert-info" role="alert">please relogin to be able to access your portal</div></div>');
+                    '<div class="alert alert-info" role="alert">please relogin to be able to access your portal</div>' +
+                    '</div></div>');
                 $('#btnAct').html('<a href="'+dt_base_url_js+'portal-login" class="btn btn-primary">Relogin</a>');
                 $('#countEula').remove();
             }
