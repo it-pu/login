@@ -69,6 +69,16 @@
     .bg-eula {
         background: #f5dbc0 !important;
     }
+
+    .tb-loading {
+
+        font-size: 39px;
+        margin-top: 85px;
+
+        /*-webkit-box-shadow: 0px 0px 18px -8px rgba(0,0,0,0.75);*/
+        /*-moz-box-shadow: 0px 0px 18px -8px rgba(0,0,0,0.75);*/
+        /*box-shadow: 0px 0px 18px -8px rgba(0,0,0,0.75);*/
+    }
 </style>
 
 <body>
@@ -90,8 +100,8 @@
         <?php } else { ?>
 
         <?php if($User==1 || $User=='1'){ ?>
-            <div class="col-xs-4 col-md-offset-4">
-                <div class="thumbnail" style="padding: 20px;text-align: center;">
+                <div class="col-xs-12">
+                <div class="tb-loading" style="padding: 20px;text-align: center;">
                     <i class="fa fa-refresh fa-spin fa-fw right-margin"></i> Loading page...
                 </div>
             </div>
