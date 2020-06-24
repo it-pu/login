@@ -288,6 +288,7 @@
         background-color: #ddebf8;
         border: 1px solid #9096c7;
         padding: 19px;
+        padding-top: 15px;
         border-radius: 4px;
         margin-bottom: 20px;
     }
@@ -712,152 +713,12 @@
         var token = jwt_encode({Username:Username,userType : userType});
         $.post(url,{token:token},function (jsonResult) {
 
-            if(jsonResult.EULA==1){
+            setTimeout(function () {
+                if(jsonResult.Status=='1' && jsonResult.DataUser.Status!='0'){
 
-                var htmlBody = '<div class="" style="text-align: center;">'+
-                                '                <div style="margin-bottom: 20px;">'+
-                                '                    <img src="'+base_url_server+'images/eula2.jpg" style="width: 100%;max-width: 250px;">'+
-                                '                </div>'+
-                                '                <div class="panel-eula">'+
-                                '                    At this time we have updated the portal usage agreement, and we ask users to learn and understand before using the portal.'+
-                                '                </div>'+
-                                '                <button class="btn btn-primary"><b>Start studying usage agreements</b></button>'+
-                                '            </div>';
+                    if(userType!='' &&  userType=='I'){
 
-                $('#modalGlobal .modal-header').addClass('hide');
-                $('#modalGlobal .modal-dialog').css('max-width','600px');
-                $('#modalGlobal .modal-footer').addClass('hide');
-                $('#modalGlobal .modal-body').html(htmlBody);
-
-                $('#modalGlobal').modal({
-                    'backdrop' : 'static',
-                    'show' : true
-                });
-
-
-            } else {
-
-                setTimeout(function () {
-                    if(jsonResult.Status=='1' && jsonResult.DataUser.Status!='0'){
-
-                        if(userType!='' &&  userType=='I'){
-
-                            if(jsonResult.DataUser.Status=='1' && jsonResult.DataUser.User=='Employees'){
-                                $('#formWellUsername').animateCss('fadeOutLeft', function() {
-
-                                    var htmlPass = '<div style="text-align: center;" id="dataAvatar">' +
-                                        '                        <img data-src="'+jsonResult.DataUser.PathPhoto+'" class="img-fitter img-circle avatar" width="70" height="70" />' +
-                                        '                        <h4 style="margin-bottom:0px;">'+jsonResult.DataUser.Name.trim()+'</h4>'+jsonResult.DataUser.Username+
-                                        '                        <hr/>' +
-                                        '                    </div>' +
-                                        '                    <div class="well" id="formWellPassword">' +
-                                        '                        <div class="form-group">' +
-                                        '                             <input type="hidden" class="hide" hidden readonly id="TypeUser" value="'+userType.toLowerCase()+'" />' +
-                                        '                            <label for="password" class="control-label">Password</label>' +
-                                        '                            <input type="password" class="hide" hidden readonly id="user" ' +
-                                        '                                       value="'+jsonResult.DataUser.Username+'.'+jsonResult.DataUser.Status+'.'+jsonResult.DataUser.User+'.'+jsonResult.DataUser.Year+'">' +
-                                        '                            <input type="password" class="form-control" id="password" placeholder="Input password...">' +
-                                        '                        </div><div id="divCaptcha"></div>' +
-                                        '                        <div style="text-align: right;">' +
-                                        '                            <button type="button" class="btn btn-default" id="btnBackLogin"><i class="fa fa-angle-left"></i> Back</button> | ' +
-                                        '                            <button type="submit" class="btn btn-primary" id="btnLoginCheckPassword">Sign In <i class="fa fa-angle-right"></i></button>' +
-                                        '                        </div>' +
-                                        '                    </div>';
-
-                                    $('#divSignIn').html(htmlPass);
-
-                                    $('#formWellPassword').animateCss('fadeInRight', function() {
-                                        $('.img-fitter').imgFitter();
-                                        $('#password').focus();
-                                    });
-
-                                });
-                            } else {
-                                $('#btnLoginCheckUser').html('Next <i class="fa fa-angle-right"></i>').prop('disabled',false);
-                                toastr.warning('Account non-active','Warning');
-                                $('#username').val('').focus();
-                                $('#formWellUsername').animateCss('shake');
-                            }
-
-
-                        }
-                        else if(userType!='' &&  userType=='P'){
-                            if(jsonResult.DataUser.Status=='1' || jsonResult.DataUser.Status=='-1'){
-                                $('#formWellUsername').animateCss('fadeOutLeft', function() {
-
-                                    var htmlPass = '<div style="text-align: center;" id="dataAvatar">' +
-                                        '                        <img data-src="'+jsonResult.DataUser.PathPhoto+'" class="img-fitter img-circle avatar" width="70" height="70" />' +
-                                        '                        <h4 style="margin-bottom:0px;">'+jsonResult.DataUser.Name.trim()+'</h4>'+jsonResult.DataUser.Username+
-                                        '                        <hr/>' +
-                                        '                    </div>' +
-                                        '                    <div class="well" id="formWellPassword">' +
-                                        '                        <div class="form-group">' +
-                                        '                             <input type="hidden" class="hide" hidden readonly id="TypeUser" value="'+userType.toUpperCase()+'" />' +
-                                        '                            <label for="password" class="control-label">Password</label>' +
-                                        '                            <input type="password" class="hide" hidden readonly id="user" ' +
-                                        '                                       value="'+jsonResult.DataUser.Username+'.'+jsonResult.DataUser.Status+'.'+jsonResult.DataUser.User+'.'+jsonResult.DataUser.Year+'">' +
-                                        '                            <input type="password" class="form-control" id="password" placeholder="Input password...">' +
-                                        '                        </div><div id="divCaptcha"></div>' +
-                                        '                        <div style="text-align: right;">' +
-                                        '                            <button type="button" class="btn btn-default" id="btnBackLogin"><i class="fa fa-angle-left"></i> Back</button> | ' +
-                                        '                            <button type="submit" class="btn btn-primary" id="btnLoginCheckPassword">Sign In <i class="fa fa-angle-right"></i></button>' +
-                                        '                        </div>' +
-                                        '                    </div>';
-
-                                    $('#divSignIn').html(htmlPass);
-
-                                    $('#formWellPassword').animateCss('fadeInRight', function() {
-                                        $('.img-fitter').imgFitter();
-                                        $('#password').focus();
-                                    });
-
-                                });
-                            } else {
-                                $('#btnLoginCheckUser').html('Next <i class="fa fa-angle-right"></i>').prop('disabled',false);
-                                toastr.warning('Account non-active','Warning');
-                                $('#username').val('').focus();
-                                $('#formWellUsername').animateCss('shake');
-                            }
-                        }
-                        else if(userType!='' &&  userType=='EKD'){
-                            if(jsonResult.DataUser.Status=='1' || jsonResult.DataUser.Status=='-1'){
-                                $('#formWellUsername').animateCss('fadeOutLeft', function() {
-
-                                    var htmlPass = '<div style="text-align: center;" id="dataAvatar">' +
-                                        '                        <img data-src="http://pcam.podomorouniversity.ac.id/images/icon/no_image.png" class="img-fitter img-circle avatar" width="70" height="70" />' +
-                                        '                        <h4 style="margin-bottom:0px;">'+jsonResult.DataUser.Nama.trim()+'</h4>'+
-                                        '                        <hr/>' +
-                                        '                    </div>' +
-                                        '                    <div class="well" id="formWellPassword">' +
-                                        '                        <div class="form-group">' +
-                                        '                             <input type="hidden" class="hide" hidden readonly id="TypeUser" value="'+userType.toUpperCase()+'" />' +
-                                        '                            <label for="password" class="control-label">Password</label>' +
-                                        '                            <input type="password" class="hide" hidden readonly id="user" ' +
-                                        '                                       value="'+jsonResult.DataUser.ID+'.'+jsonResult.DataUser.Status+'.'+'eksternal'+'.'+''+'">' +
-                                        '                            <input type="password" class="form-control" id="password" placeholder="Input password...">' +
-                                        '                        </div><div id="divCaptcha"></div>' +
-                                        '                        <div style="text-align: right;">' +
-                                        '                            <button type="button" class="btn btn-default" id="btnBackLogin"><i class="fa fa-angle-left"></i> Back</button> | ' +
-                                        '                            <button type="submit" class="btn btn-primary" id="btnLoginCheckPassword">Sign In <i class="fa fa-angle-right"></i></button>' +
-                                        '                        </div>' +
-                                        '                    </div>';
-
-                                    $('#divSignIn').html(htmlPass);
-
-                                    $('#formWellPassword').animateCss('fadeInRight', function() {
-                                        $('.img-fitter').imgFitter();
-                                        $('#password').focus();
-                                    });
-
-                                });
-                            } else {
-                                $('#btnLoginCheckUser').html('Next <i class="fa fa-angle-right"></i>').prop('disabled',false);
-                                toastr.warning('Account non-active','Warning');
-                                $('#username').val('').focus();
-                                $('#formWellUsername').animateCss('shake');
-                            }
-                        }
-                        else {
+                        if(jsonResult.DataUser.Status=='1' && jsonResult.DataUser.User=='Employees'){
                             $('#formWellUsername').animateCss('fadeOutLeft', function() {
 
                                 var htmlPass = '<div style="text-align: center;" id="dataAvatar">' +
@@ -867,16 +728,11 @@
                                     '                    </div>' +
                                     '                    <div class="well" id="formWellPassword">' +
                                     '                        <div class="form-group">' +
-                                    '                             <input type="hidden" class="hide" hidden readonly id="TypeUser" value="'+userType.toUpperCase()+'" />' +
+                                    '                             <input type="hidden" class="hide" hidden readonly id="TypeUser" value="'+userType.toLowerCase()+'" />' +
                                     '                            <label for="password" class="control-label">Password</label>' +
                                     '                            <input type="password" class="hide" hidden readonly id="user" ' +
                                     '                                       value="'+jsonResult.DataUser.Username+'.'+jsonResult.DataUser.Status+'.'+jsonResult.DataUser.User+'.'+jsonResult.DataUser.Year+'">' +
-                                    '<div class="input-group">' +
-                                    '      <input type="password" class="form-control" id="password" placeholder="Input password...">' +
-                                    '      <span class="input-group-btn">' +
-                                    '        <button class="btn btn-default toggle-password" type="button"><i class="fa fa-eye-slash" aria-hidden="true"></i></button>' +
-                                    '      </span>' +
-                                    '    </div>' +
+                                    '                            <input type="password" class="form-control" id="password" placeholder="Input password...">' +
                                     '                        </div><div id="divCaptcha"></div>' +
                                     '                        <div style="text-align: right;">' +
                                     '                            <button type="button" class="btn btn-default" id="btnBackLogin"><i class="fa fa-angle-left"></i> Back</button> | ' +
@@ -892,23 +748,141 @@
                                 });
 
                             });
+                        } else {
+                            $('#btnLoginCheckUser').html('Next <i class="fa fa-angle-right"></i>').prop('disabled',false);
+                            toastr.warning('Account non-active','Warning');
+                            $('#username').val('').focus();
+                            $('#formWellUsername').animateCss('shake');
                         }
 
 
                     }
+                    else if(userType!='' &&  userType=='P'){
+                        if(jsonResult.DataUser.Status=='1' || jsonResult.DataUser.Status=='-1'){
+                            $('#formWellUsername').animateCss('fadeOutLeft', function() {
+
+                                var htmlPass = '<div style="text-align: center;" id="dataAvatar">' +
+                                    '                        <img data-src="'+jsonResult.DataUser.PathPhoto+'" class="img-fitter img-circle avatar" width="70" height="70" />' +
+                                    '                        <h4 style="margin-bottom:0px;">'+jsonResult.DataUser.Name.trim()+'</h4>'+jsonResult.DataUser.Username+
+                                    '                        <hr/>' +
+                                    '                    </div>' +
+                                    '                    <div class="well" id="formWellPassword">' +
+                                    '                        <div class="form-group">' +
+                                    '                             <input type="hidden" class="hide" hidden readonly id="TypeUser" value="'+userType.toUpperCase()+'" />' +
+                                    '                            <label for="password" class="control-label">Password</label>' +
+                                    '                            <input type="password" class="hide" hidden readonly id="user" ' +
+                                    '                                       value="'+jsonResult.DataUser.Username+'.'+jsonResult.DataUser.Status+'.'+jsonResult.DataUser.User+'.'+jsonResult.DataUser.Year+'">' +
+                                    '                            <input type="password" class="form-control" id="password" placeholder="Input password...">' +
+                                    '                        </div><div id="divCaptcha"></div>' +
+                                    '                        <div style="text-align: right;">' +
+                                    '                            <button type="button" class="btn btn-default" id="btnBackLogin"><i class="fa fa-angle-left"></i> Back</button> | ' +
+                                    '                            <button type="submit" class="btn btn-primary" id="btnLoginCheckPassword">Sign In <i class="fa fa-angle-right"></i></button>' +
+                                    '                        </div>' +
+                                    '                    </div>';
+
+                                $('#divSignIn').html(htmlPass);
+
+                                $('#formWellPassword').animateCss('fadeInRight', function() {
+                                    $('.img-fitter').imgFitter();
+                                    $('#password').focus();
+                                });
+
+                            });
+                        } else {
+                            $('#btnLoginCheckUser').html('Next <i class="fa fa-angle-right"></i>').prop('disabled',false);
+                            toastr.warning('Account non-active','Warning');
+                            $('#username').val('').focus();
+                            $('#formWellUsername').animateCss('shake');
+                        }
+                    }
+                    else if(userType!='' &&  userType=='EKD'){
+                        if(jsonResult.DataUser.Status=='1' || jsonResult.DataUser.Status=='-1'){
+                            $('#formWellUsername').animateCss('fadeOutLeft', function() {
+
+                                var htmlPass = '<div style="text-align: center;" id="dataAvatar">' +
+                                    '                        <img data-src="http://pcam.podomorouniversity.ac.id/images/icon/no_image.png" class="img-fitter img-circle avatar" width="70" height="70" />' +
+                                    '                        <h4 style="margin-bottom:0px;">'+jsonResult.DataUser.Nama.trim()+'</h4>'+
+                                    '                        <hr/>' +
+                                    '                    </div>' +
+                                    '                    <div class="well" id="formWellPassword">' +
+                                    '                        <div class="form-group">' +
+                                    '                             <input type="hidden" class="hide" hidden readonly id="TypeUser" value="'+userType.toUpperCase()+'" />' +
+                                    '                            <label for="password" class="control-label">Password</label>' +
+                                    '                            <input type="password" class="hide" hidden readonly id="user" ' +
+                                    '                                       value="'+jsonResult.DataUser.ID+'.'+jsonResult.DataUser.Status+'.'+'eksternal'+'.'+''+'">' +
+                                    '                            <input type="password" class="form-control" id="password" placeholder="Input password...">' +
+                                    '                        </div><div id="divCaptcha"></div>' +
+                                    '                        <div style="text-align: right;">' +
+                                    '                            <button type="button" class="btn btn-default" id="btnBackLogin"><i class="fa fa-angle-left"></i> Back</button> | ' +
+                                    '                            <button type="submit" class="btn btn-primary" id="btnLoginCheckPassword">Sign In <i class="fa fa-angle-right"></i></button>' +
+                                    '                        </div>' +
+                                    '                    </div>';
+
+                                $('#divSignIn').html(htmlPass);
+
+                                $('#formWellPassword').animateCss('fadeInRight', function() {
+                                    $('.img-fitter').imgFitter();
+                                    $('#password').focus();
+                                });
+
+                            });
+                        } else {
+                            $('#btnLoginCheckUser').html('Next <i class="fa fa-angle-right"></i>').prop('disabled',false);
+                            toastr.warning('Account non-active','Warning');
+                            $('#username').val('').focus();
+                            $('#formWellUsername').animateCss('shake');
+                        }
+                    }
                     else {
-                        $('#btnLoginCheckUser').html('Next <i class="fa fa-angle-right"></i>').prop('disabled',false);
-                        toastr.error(jsonResult.Message,'Error');
-                        $('#username').val('').focus();
-                        $('#formWellUsername').animateCss('shake');
+                        $('#formWellUsername').animateCss('fadeOutLeft', function() {
+
+                            var htmlPass = '<div style="text-align: center;" id="dataAvatar">' +
+                                '                        <img data-src="'+jsonResult.DataUser.PathPhoto+'" class="img-fitter img-circle avatar" width="70" height="70" />' +
+                                '                        <h4 style="margin-bottom:0px;">'+jsonResult.DataUser.Name.trim()+'</h4>'+jsonResult.DataUser.Username+
+                                '                        <hr/>' +
+                                '                    </div>' +
+                                '                    <div class="well" id="formWellPassword">' +
+                                '                        <div class="form-group">' +
+                                '                             <input type="hidden" class="hide" hidden readonly id="TypeUser" value="'+userType.toUpperCase()+'" />' +
+                                '                            <label for="password" class="control-label">Password</label>' +
+                                '                            <input type="password" class="hide" hidden readonly id="user" ' +
+                                '                                       value="'+jsonResult.DataUser.Username+'.'+jsonResult.DataUser.Status+'.'+jsonResult.DataUser.User+'.'+jsonResult.DataUser.Year+'">' +
+                                '<div class="input-group">' +
+                                '      <input type="password" class="form-control" id="password" placeholder="Input password...">' +
+                                '      <span class="input-group-btn">' +
+                                '        <button class="btn btn-default toggle-password" type="button"><i class="fa fa-eye-slash" aria-hidden="true"></i></button>' +
+                                '      </span>' +
+                                '    </div>' +
+                                '                        </div><div id="divCaptcha"></div>' +
+                                '                        <div style="text-align: right;">' +
+                                '                            <button type="button" class="btn btn-default" id="btnBackLogin"><i class="fa fa-angle-left"></i> Back</button> | ' +
+                                '                            <button type="submit" class="btn btn-primary" id="btnLoginCheckPassword">Sign In <i class="fa fa-angle-right"></i></button>' +
+                                '                        </div>' +
+                                '                    </div>';
+
+                            $('#divSignIn').html(htmlPass);
+
+                            $('#formWellPassword').animateCss('fadeInRight', function() {
+                                $('.img-fitter').imgFitter();
+                                $('#password').focus();
+                            });
+
+                        });
                     }
 
 
+                }
+                else {
+                    $('#btnLoginCheckUser').html('Next <i class="fa fa-angle-right"></i>').prop('disabled',false);
+                    toastr.error(jsonResult.Message,'Error');
+                    $('#username').val('').focus();
+                    $('#formWellUsername').animateCss('shake');
+                }
 
 
-                },500);
 
-            }
+
+            },500);
 
 
         });
@@ -923,17 +897,43 @@
         var token = jwt_encode(data);
         $.post(url,{token:token},function (jsonResult) {
             if (jsonResult['Status']) {
-                var rs = jsonResult['data'];
-                if(rs.url_direct.length==1){
 
-                    var url = rs.url_direct[0].url_login;
-                    var token = rs.url_direct[0].token;
-                    FormSubmitAuto(url, 'POST', [
-                        { name: 'token', value: token },
-                    ],'');
+                if(jsonResult.EULA==1){
 
-                } else if(rs.url_direct.length>1){
-                    loadPagePanel(rs.url_direct);
+                    var token_eula = jwt_encode(jsonResult);
+                    var htmlBody = '<div class="" style="text-align: center;">'+
+                        '                <div style="margin-bottom: 20px;">'+
+                        '                    <img src="'+base_url_server+'images/eula2.jpg" style="width: 100%;max-width: 250px;">'+
+                        '                </div>'+
+                        '                <div class="panel-eula">'+
+                        '                    Thank you for using our portal services. The services are provided by Podomoro University. By using our Services, you are agreeing to these information. Please read them carefully.'+
+                        '                </div>' +
+                        '                <textarea class="hide" id="EulaDataToken">'+token_eula+'</textarea>' +
+                        '                <button class="btn btn-primary" id="EulaBtnStart"><b>Continue <i style="margin-left: 5px;" class="fa fa-arrow-right"></i></b></button>'+
+                        '            </div>';
+
+                    $('#modalGlobal .modal-header').addClass('hide');
+                    $('#modalGlobal .modal-dialog').css('max-width','600px');
+                    $('#modalGlobal .modal-footer').addClass('hide');
+                    $('#modalGlobal .modal-body').html(htmlBody);
+
+                    $('#modalGlobal').modal({
+                        'backdrop' : 'static',
+                        'show' : true
+                    });
+
+                } else {
+                    var rs = jsonResult['data'];
+                    if(rs.url_direct.length==1){
+                        var url = rs.url_direct[0].url_login;
+                        var token = rs.url_direct[0].token;
+                        FormSubmitAuto(url, 'POST', [
+                            { name: 'token', value: token },
+                        ],'');
+
+                    } else if(rs.url_direct.length>1){
+                        loadPagePanel(rs.url_direct);
+                    }
                 }
 
             }
@@ -995,18 +995,46 @@
                     modalChangePassword(jsonResult.DataUser);
                 } else if(jsonResult.Status=='1'){
 
-                    if(jsonResult.url_direct.length==1){
+                    if(jsonResult.EULA==1){
 
-                        var url = jsonResult.url_direct[0].url_login;
-                        var token = jsonResult.url_direct[0].token;
-                        FormSubmitAuto(url, 'POST', [
-                            { name: 'token', value: token },
-                        ],'');
+                        var token_eula = jwt_encode(jsonResult);
+                        var htmlBody = '<div class="" style="text-align: center;">'+
+                            '                <div style="margin-bottom: 20px;">'+
+                            '                    <img src="'+base_url_server+'images/eula2.jpg" style="width: 100%;max-width: 250px;">'+
+                            '                </div>'+
+                            '                <div class="panel-eula">'+
+                            '                    Thank you for using our portal services. The services are provided by Podomoro University. By using our Services, you are agreeing to these information. Please read them carefully.'+
+                            '                </div>' +
+                            '                <textarea class="hide" id="EulaDataToken">'+token_eula+'</textarea>' +
+                            '                <button class="btn btn-primary" id="EulaBtnStart"><b>Continue <i style="margin-left: 5px;" class="fa fa-arrow-right"></i></b></button>'+
+                            '            </div>';
+
+                        $('#modalGlobal .modal-header').addClass('hide');
+                        $('#modalGlobal .modal-dialog').css('max-width','600px');
+                        $('#modalGlobal .modal-footer').addClass('hide');
+                        $('#modalGlobal .modal-body').html(htmlBody);
+
+                        $('#modalGlobal').modal({
+                            'backdrop' : 'static',
+                            'show' : true
+                        });
+
+                    } else {
+                        if(jsonResult.url_direct.length==1){
+
+                            var url = jsonResult.url_direct[0].url_login;
+                            var token = jsonResult.url_direct[0].token;
+                            FormSubmitAuto(url, 'POST', [
+                                { name: 'token', value: token },
+                            ],'');
 
 
-                    } else if(jsonResult.url_direct.length>1){
-                        loadPagePanel(jsonResult.url_direct);
+                        } else if(jsonResult.url_direct.length>1){
+                            loadPagePanel(jsonResult.url_direct);
+                        }
                     }
+
+
                 }
 
                 setTimeout(function () {
@@ -1205,6 +1233,20 @@
             $('.toggle-password i').removeClass('fa fa-eye');
             $('.toggle-password i').addClass('fa fa-eye-slash');
         }
+    });
+
+    $(document).on('click','#EulaBtnStart',function () {
+        var EulaDataToken = $('#EulaDataToken').val();
+        var url = base_url_server+'uath/__eulaStart';
+        $.post(url,{token:EulaDataToken},function (jsonResult) {
+            // console.log(jsonResult);
+            // var d = JSON.parse(jsonResult);
+            // console.log(d);
+            if(jsonResult.Status==1){
+                window.location.replace(base_url_server+'eula');
+            }
+        });
+
     });
 
 </script>

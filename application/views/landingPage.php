@@ -19,11 +19,16 @@
 <script src="<?php echo base_url(); ?>assets/bootstrap/js/bootstrap.min.js"></script>
 <!-- <script src="//code.jquery.com/jquery-1.11.1.min.js"></script> -->
 
+<script src="<?php echo base_url(); ?>assets/jwt/encode/hmac-sha256.js"></script>
+<script src="<?php echo base_url(); ?>assets/jwt/encode/enc-base64-min.js"></script>
+<script src="<?php echo base_url(); ?>assets/jwt/encode/jwt.encode.js"></script>
+
 <!------ Include the above in your HEAD tag ---------->
 <script src="<?php echo base_url(); ?>assets/js/jquery.imgFitter.js"></script>
 <script>
 
     $(document).ready(function(){
+        window.base_url_server = '<?php echo base_url(); ?>';
         $('.img-fitter').imgFitter();
     });
 
@@ -57,11 +62,22 @@
         background-color: #ddebf8;
         border: 1px solid #9096c7;
         padding: 19px;
+        padding-top: 15px;
         border-radius: 4px;
         margin-bottom: 20px;
     }
     .bg-eula {
         background: #f5dbc0 !important;
+    }
+
+    .tb-loading {
+
+        font-size: 39px;
+        margin-top: 85px;
+
+        /*-webkit-box-shadow: 0px 0px 18px -8px rgba(0,0,0,0.75);*/
+        /*-moz-box-shadow: 0px 0px 18px -8px rgba(0,0,0,0.75);*/
+        /*box-shadow: 0px 0px 18px -8px rgba(0,0,0,0.75);*/
     }
 </style>
 
@@ -76,15 +92,16 @@
                     <img src="<?= base_url('images/eula2.jpg'); ?>" style="width: 100%;max-width: 250px;">
                 </div>
                 <div class="panel-eula">
-                    At this time we have updated the portal usage agreement, and we ask users to learn and understand before using the portal.
+                    Thank you for using our portal services. The services are provided by Podomoro University. By using our Services, you are agreeing to these information. Please read them carefully.
                 </div>
-                <button class="btn btn-primary"><b>Start studying usage agreements</b></button>
+                <textarea class="hide" id="EulaDataToken"><?= json_encode($dataEULA); ?></textarea>
+                <button class="btn btn-primary" id="EulaBtnStart"><b>Continue <i style="margin-left: 5px;" class="fa fa-arrow-right"></i></b></button>
             </div>
         <?php } else { ?>
 
         <?php if($User==1 || $User=='1'){ ?>
-            <div class="col-xs-4 col-md-offset-4">
-                <div class="thumbnail" style="padding: 20px;text-align: center;">
+                <div class="col-xs-12">
+                <div class="tb-loading" style="padding: 20px;text-align: center;">
                     <i class="fa fa-refresh fa-spin fa-fw right-margin"></i> Loading page...
                 </div>
             </div>
@@ -160,6 +177,21 @@
             $('#formTokenLogin').val(token);
             $('#formSubmitLogin').submit();
         }
+    });
+
+    $(document).on('click','#EulaBtnStart',function () {
+        var EulaDataToken = $('#EulaDataToken').val();
+        var token = jwt_encode({dataEULA : JSON.parse(EulaDataToken)});
+        var url = base_url_server+'uath/__eulaStart';
+        $.post(url,{token:token},function (jsonResult) {
+            // console.log(jsonResult);
+            // var d = JSON.parse(jsonResult);
+            // console.log(d);
+            if(jsonResult.Status==1){
+                window.location.replace(base_url_server+'eula');
+            }
+        });
+
     });
 
 </script>

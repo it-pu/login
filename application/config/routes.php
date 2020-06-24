@@ -62,6 +62,7 @@ $route['uath/getAuthSSOLogin'] = 'c_login/getAuthSSOLogin';
 $route['uath/__checkPassword'] = 'c_login/checkPassword';
 $route['uath/__checkUsername'] = 'c_login/checkUsername';
 $route['uath/__checkloginwithAd'] = 'c_login/checkloginwithAd';
+$route['uath/__eulaStart'] = 'c_eula/eulaStart';
 
 
 $route['uath/updatePassword'] = 'c_login/updatePassword';
