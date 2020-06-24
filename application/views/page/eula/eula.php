@@ -139,7 +139,7 @@
                 $('#EULABody').html('<div class="" style="text-align: center;">' +
                     '<div class="col-md-6 col-md-offset-3">' +
                     '<img src="'+dt_base_url_js+'images/checkmark.png" style="width: 100%;max-width: 100px;" />' +
-                    '<h3>Thank you for understanding the usage agreement</h3>' +
+                    '<h3 style="margin-bottom: 25px;"><small>= = =</small> Thank you <small>= = =</small></h3>' +
                     '<div class="alert alert-info" role="alert">please relogin to be able to access your portal</div>' +
                     '</div></div>');
                 $('#btnAct').html('<a href="'+dt_base_url_js+'portal-login" class="btn btn-primary">Relogin</a>');
