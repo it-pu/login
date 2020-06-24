@@ -1006,6 +1006,8 @@ class C_login extends MY_Controller {
         header('Access-Control-Allow-Origin: *');
         header('Content-Type: application/json');
         $arr_result = array('Status' => false,'msg'=> '','desc' => '','data' => array());
+        
+
         $bool = false;
         $total = 0;
         $token = $this->input->post('token');
@@ -1022,6 +1024,11 @@ class C_login extends MY_Controller {
 
         $filter="(|(sAMAccountName=$usernameAD))";
         $justthese = array("ou","sAMAccountName","mail");
+
+        $To = '';
+        $EULACheck = false;
+        $EULAUsername = '';
+
 
         $ds=ldap_connect($server);
         if ($bind = ldap_bind($ds, $user , $psw)) {
@@ -1062,6 +1069,9 @@ class C_login extends MY_Controller {
                     );
 
                     $logon = $this->loadData_UserLogin('Students',0,$DataUser['Username'],'');
+                    $To = 'std';
+                    $EULACheck = true;
+                    $EULAUsername = $dataStudents[0]['NPM'];
                     $arr_result = array('Status' => true,'msg'=> '','desc' => '','data' => $logon);
 
                 }
@@ -1103,6 +1113,10 @@ class C_login extends MY_Controller {
                     );
 
                     $logon = $this->loadData_UserLogin('Employees',0,$DataUser['Username'],'');
+
+                    $To = 'emp';
+                    $EULACheck = true;
+                    $EULAUsername = $dataEmploy[0]['NIP'];
                     $arr_result = array('Status' => true,'msg'=> '','desc' => '','data' => $logon);
                 }
                 else
@@ -1122,6 +1136,49 @@ class C_login extends MY_Controller {
                 }
             }
         }
+
+
+
+        if($EULACheck){
+            $dateNow = date('Y-m-d');
+            $dataEula = $this->db->query('SELECT * FROM db_it.eula_date e WHERE e.To = "'.$To.'" 
+            AND e.RangeStart <= "'.$dateNow.'" 
+            AND e.RangeEnd >= "'.$dateNow.'" AND e.Published = "1" ')->result_array();
+            $PerluIsi = 0;
+            if(count($dataEula)>0){
+
+                // Cek apakah sudah mengisi EULA atau blm
+                $dataCK = $this->db->query('SELECT eu.Username FROM db_it.eula_linked el 
+                                                LEFT JOIN db_it.eula e ON (e.ID = el.EID)
+                                                LEFT JOIN db_it.eula_user eu ON (eu.ELID = el.ID AND eu.Username = "'.$EULAUsername.'")
+                                                WHERE el.EDID = "'.$dataEula[0]['ID'].'" 
+                                                ORDER BY el.Queue ASC ')->result_array();
+
+
+                if(count($dataCK)>0){
+                    foreach ($dataCK as $item) {
+                        if($item['Username']!=null && $item['Username']!=''){
+
+                        } else {
+                            $PerluIsi = 1;
+                        }
+                    }
+                }
+
+            }
+
+            $arr_result['EULA'] = (count($dataEula)>0 && $PerluIsi==1) ?  1 : 0;
+            $arr_result['dataEULA'] = ($arr_result['EULA']==1)
+                ? array(
+                    'Username' => $EULAUsername,
+                    'ExpiredAt' => date('Y-m-d H:i:s',strtotime(date('Y-m-d H:i:s')."+1 days")),
+                    'EDID' => $dataEula[0]['ID'],
+                    'UserType' => $To
+                )
+                : [];
+        }
+
+
         
         echo json_encode($arr_result);
 
