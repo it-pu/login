@@ -140,10 +140,27 @@
                     '<div class="col-md-6 col-md-offset-3">' +
                     '<img src="'+dt_base_url_js+'images/checkmark.png" style="width: 100%;max-width: 100px;" />' +
                     '<h3 style="margin-bottom: 25px;"><small>= = =</small> Thank you <small>= = =</small></h3>' +
-                    '<div class="alert alert-info" role="alert">please relogin to be able to access your portal</div>' +
+                    '<div class="alert alert-info" role="alert"><b>Directly to the portal in <span id="showCountDown" style="color: red;">-</span> seconds</b></div>' +
                     '</div></div>');
-                $('#btnAct').html('<button id="btnLoginToPortal" class="btn btn-primary">Relogin</button>');
+                $('#btnAct').remove();
                 $('#countEula').remove();
+
+                var tm = 3;
+                $('#showCountDown').html(tm);
+                var intLogin = setInterval(function () {
+                    $('#showCountDown').html(tm);
+                    tm = tm - 1;
+                    if(tm<0){
+                        clearInterval(intLogin);
+                        getRelogin();
+                    }
+
+                },1000);
+
+                // setTimeout(function () {
+                //     alert('3 detik')
+                // },3000);
+
             }
 
         });
@@ -178,16 +195,12 @@
         }
     });
 
-    $(document).on('click','#btnLoginToPortal',function () {
-
-        // Destroy session eula
+    function getRelogin() {
         var urlDest = dt_base_url_js+'uath/__destroySessionEULA';
         $.getJSON(urlDest,function (result) {
             loadNewLogin();
         });
-
-
-    });
+    }
 
     function loadNewLogin() {
         var data = {
