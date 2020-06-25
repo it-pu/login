@@ -48,13 +48,28 @@ class C_eula extends MY_Controller {
 
         $dataEULA = (array) $data_arr['dataEULA'];
 
-        $dataIns = array(
-            'Username' => $dataEULA['Username'],
-            'DetailsData' => $token,
-            'ExpiredAt' => $dataEULA['ExpiredAt']
-        );
+        // Cek apakah username sudah pernah ada atau blm
+        $dataCkUserName = $this->db->get_where('db_it.eula_direct',array('Username' => $dataEULA['Username']))->result_array();
 
-        $this->db->insert('db_it.eula_direct',$dataIns);
+        if(count($dataCkUserName)>0){
+            $dataIns = array(
+                'DetailsData' => $token,
+                'ExpiredAt' => $dataEULA['ExpiredAt'],
+                'EntredAt' => $date = date('Y-m-d H:i:s')
+            );
+            $this->db->where('Username',$dataEULA['Username']);
+            $this->db->update('db_it.eula_direct',$dataIns);
+        } else {
+            $dataIns = array(
+                'Username' => $dataEULA['Username'],
+                'DetailsData' => $token,
+                'ExpiredAt' => $dataEULA['ExpiredAt']
+            );
+
+            $this->db->insert('db_it.eula_direct',$dataIns);
+        }
+
+
 
         $dataSetSession = array(
             'portal_Username' => $dataEULA['Username'],
