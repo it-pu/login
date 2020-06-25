@@ -196,6 +196,15 @@ class C_login extends MY_Controller {
                     $data['url_direct'] = $dataUser['url_direct'];
                     $data['toInsertEULA'] = $this->jwt->encode($data,'L0G1N-S50-3R0');
 
+                    // Insert Log Login
+                    $dataLogLogin = array(
+                        'Username' => $dataUser['url_direct'][0]['Username'],
+                        'UserType' => $To,
+                        'LogonBy' => 'gmail'
+                    );
+
+                    $this->db->insert('db_it.log_login',$dataLogLogin);
+
 
                     if(count($dataUser['url_direct'])==1){
 //                        header("Location : ".$dataUser['url_direct'][0]);
@@ -726,6 +735,14 @@ class C_login extends MY_Controller {
             )
             : [];
 
+        // Insert Log Login
+        $dataLogLogin = array(
+            'Username' => $data_arr['Username'],
+            'UserType' => $UserType,
+            'LogonBy' => 'basic'
+        );
+        $this->db->insert('db_it.log_login',$dataLogLogin);
+
 
         return print_r(json_encode($result));
 
@@ -1183,6 +1200,14 @@ class C_login extends MY_Controller {
                     'UserType' => $To
                 )
                 : [];
+
+            // Insert Log Login
+            $dataLogLogin = array(
+                'Username' => $EULAUsername,
+                'UserType' => $To,
+                'LogonBy' => 'ad'
+            );
+            $this->db->insert('db_it.log_login',$dataLogLogin);
         }
 
 
