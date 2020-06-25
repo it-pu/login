@@ -142,7 +142,7 @@
                     '<h3 style="margin-bottom: 25px;"><small>= = =</small> Thank you <small>= = =</small></h3>' +
                     '<div class="alert alert-info" role="alert">please relogin to be able to access your portal</div>' +
                     '</div></div>');
-                $('#btnAct').html('<a href="'+dt_base_url_js+'portal-login" class="btn btn-primary">Relogin</a>');
+                $('#btnAct').html('<button id="btnLoginToPortal" class="btn btn-primary">Relogin</button>');
                 $('#countEula').remove();
             }
 
@@ -177,5 +177,55 @@
             window.location.replace(dt_base_url_js+'portal-login');
         }
     });
+
+    $(document).on('click','#btnLoginToPortal',function () {
+
+        // Destroy session eula
+        var urlDest = dt_base_url_js+'uath/__destroySessionEULA';
+        $.getJSON(urlDest,function (result) {
+            loadNewLogin();
+        });
+
+
+    });
+
+    function loadNewLogin() {
+        var data = {
+            action : 'getListEULAForDirection',
+            Username : portal_Username
+        };
+
+        var token = jwt_encode(data,'UAP)(*');
+        var url = dt_base_url_pas+'/api4/__crudEula';
+
+        $.post(url,{token:token},function (jsonResult) {
+            // console.log(jsonResult);
+
+            if(jsonResult.LogonBy=='basic' || jsonResult.LogonBy=='gmail'){
+                var dataToken = jsonResult.DetailsData;
+                var d = jwt_decode(dataToken);
+
+                // console.log(d.url_direct);
+                //
+                // return false;
+
+                if(d.url_direct.length==1){
+
+                    var url = d.url_direct[0].url_login;
+                    var token = d.url_direct[0].token;
+                    FormSubmitAuto(url, 'POST', [
+                        { name: 'token', value: token },
+                    ],'');
+
+
+                } else if(d.url_direct.length>1){
+                    loadPagePanel(d.url_direct);
+                }
+
+            }
+
+
+        });
+    }
 
 </script>

@@ -181,6 +181,7 @@ class C_login extends MY_Controller {
                     }
 
 
+
                     $data['EULA'] = (count($dataEula)>0 && $PerluIsi==1) ?  1 : 0;
                     $data['dataEULA'] = ($data['EULA']==1)
                         ? array(
@@ -191,6 +192,9 @@ class C_login extends MY_Controller {
                             'UserType' => $To
                         )
                         : [];
+
+                    $data['url_direct'] = $dataUser['url_direct'];
+                    $data['toInsertEULA'] = $this->jwt->encode($data,'L0G1N-S50-3R0');
 
 
                     if(count($dataUser['url_direct'])==1){

@@ -20,15 +20,16 @@ class C_eula extends MY_Controller {
 
         date_default_timezone_set("Asia/Jakarta");
 
-//        if(!$this->session->userdata('portal_Login')){
-//            redirect(base_url('portal-login'));
-//        }
+
 
     }
 
 
     public function eula()
     {
+        if(!$this->session->userdata('portal_Login')){
+            redirect(base_url('portal-login'));
+        }
         $content = $this->load->view('page/eula/eula','',true);
         parent::template($content);
     }
@@ -85,6 +86,11 @@ class C_eula extends MY_Controller {
         return print_r(json_encode(array('Status'=>1)));
 
 
+    }
+
+    public function destroySessionEULA(){
+        $this->session->sess_destroy();
+        return print_r(1);
     }
 
 }

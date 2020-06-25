@@ -94,7 +94,7 @@
                 <div class="panel-eula">
                     Thank you for using our portal services. The services are provided by Podomoro University. By using our Services, you are agreeing to these information. Please read them carefully.
                 </div>
-                <textarea class="hide" id="EulaDataToken"><?= json_encode($dataEULA); ?></textarea>
+                <textarea class="hide" id="EulaDataToken"><?= $toInsertEULA; ?></textarea>
                 <button class="btn btn-primary" id="EulaBtnStart"><b>Continue <i style="margin-left: 5px;" class="fa fa-arrow-right"></i></b></button>
             </div>
         <?php } else { ?>
@@ -181,9 +181,8 @@
 
     $(document).on('click','#EulaBtnStart',function () {
         var EulaDataToken = $('#EulaDataToken').val();
-        var token = jwt_encode({dataEULA : JSON.parse(EulaDataToken)});
         var url = base_url_server+'uath/__eulaStart';
-        $.post(url,{token:token},function (jsonResult) {
+        $.post(url,{token:EulaDataToken},function (jsonResult) {
             // console.log(jsonResult);
             // var d = JSON.parse(jsonResult);
             // console.log(d);
