@@ -41,9 +41,13 @@
 <script src="<?php echo base_url(); ?>assets/bootstrap/js/bootstrap.min.js"></script>
 <!-- <script src="//code.jquery.com/jquery-1.11.1.min.js"></script> -->
 
+<!-- JWT Encode -->
 <script src="<?php echo base_url(); ?>assets/jwt/encode/hmac-sha256.js"></script>
 <script src="<?php echo base_url(); ?>assets/jwt/encode/enc-base64-min.js"></script>
 <script src="<?php echo base_url(); ?>assets/jwt/encode/jwt.encode.js"></script>
+
+<!-- JWT Decode -->
+<script type="text/javascript" src="<?php echo base_url('assets/jwt/decode/build/jwt-decode.min.js');?>"></script>
 
 <script src="<?php echo base_url(); ?>assets/md5/md5.js"></script>
 <script src="<?php echo base_url(); ?>assets/js/jquery.imgFitter.js"></script>
@@ -132,6 +136,103 @@
         localStorage.setItem('dataLastSeen',JSON.stringify(dataPush2LastSeen));
 
     }
+
+
+    function loadPagePanel(ArrPage) {
+
+        var htmlBody = '';
+        // filtering pcam agar tidak double
+        var rs = [];
+        for (var index = 0; index < ArrPage.length; index++) {
+            var f = true;
+            var flag = ArrPage[index].flag;
+            for (var j = 0; j < rs.length; j++) {
+                var flag2 = rs[j].flag;
+                if (flag == flag2) {
+                    f = false;
+                    break;
+                }
+
+            }
+
+            if (f) {
+                rs.push(ArrPage[index]);
+            }
+
+        }
+
+        ArrPage = [];
+        ArrPage = rs;
+        // End filtering pcam agar tidak double
+        for(var i=0;i<ArrPage.length;i++){
+            var h = '';
+            if(ArrPage[i].flag=='lec'){
+                h = '<div class="col-md-6">' +
+                    '    <a href="javascript:void(0);" data-url="'+ArrPage[i].url_login+'" data-token="'+ArrPage[i].token+'" class="a-link">' +
+                    '        <div class="thumbnail">' +
+                    '            <img src="assets/icon/lecturer.png" />' +
+                    '            <h4>Portal Lecturer</h4>' +
+                    '        </div>' +
+                    '    </a>' +
+                    '</div>';
+            }
+            else {
+                h = '<div class="col-md-6">' +
+                    '    <a href="javascript:void(0);" data-url="'+ArrPage[i].url_login+'" data-token="'+ArrPage[i].token+'" class="a-link">' +
+                    '        <div class="thumbnail">' +
+                    '            <img src="assets/icon/employee.png" />' +
+                    '            <h4>Portal Campus</h4>' +
+                    '        </div>' +
+                    '    </a>' +
+                    '</div>';
+            }
+
+            htmlBody = htmlBody+''+h;
+        }
+
+
+        $('#modalGlobal .modal-header').addClass('hide');
+        $('#modalGlobal .modal-dialog').css('max-width','600px');
+        $('#modalGlobal .modal-footer').addClass('hide');
+        $('#modalGlobal .modal-body').html('<div class="row">'+htmlBody+'</div>');
+        $('#formNewPassword').focus();
+        $('#modalGlobal').modal({
+            'backdrop' : 'static',
+            'show' : true
+        });
+    }
+
+    function FormSubmitAuto(action, method, values,blank = '_blank') {
+        var form = $('<form/>', {
+            action: action,
+            method: method
+        });
+        $.each(values, function() {
+            form.append($('<input/>', {
+                type: 'hidden',
+                name: this.name,
+                value: this.value
+            }));
+        });
+        form.attr('target', blank);
+        form.appendTo('body').submit();
+    }
+
+    $(document).on('click','.a-link',function () {
+        var url_login = $(this).attr('data-url');
+        var token = $(this).attr('data-token');
+
+        if(url_login!='' && url_login!=null && token!='' && token!=null){
+
+            var url = url_login;
+            var token = token;
+            FormSubmitAuto(url, 'POST', [
+                { name: 'token', value: token },
+            ],'');
+
+        }
+
+    });
 </script>
 
 <style>
@@ -143,11 +244,54 @@
     body {
         font-family: 'MavenPro';
     }
+
+
+    .a-link {
+        cursor: pointer;
+    }
+
+    .a-link img {
+        width: 100%;max-width: 100px;
+    }
+
+    .a-link .thumbnail {
+        /*background: #f5f5f5;*/
+
+        padding: 15px;
+        margin-bottom: 0px;
+        border: 1px solid #415a6b;
+        text-align: center;
+    }
+    .a-link .thumbnail:hover {
+
+        background: #ffeb3b1a;
+    }
+
+    .a-link .thumbnail h4 {
+        color: #415a6b;font-weight: bold;margin-bottom: 0px;
+    }
 </style>
 
 <body>
 
 <?= $content; ?>
+
+<!-- Modal -->
+<div class="modal fade" id="modalGlobal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            </div>
+            <div class="modal-body"></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>
