@@ -54,6 +54,7 @@ class C_eula extends MY_Controller {
         if(count($dataCkUserName)>0){
             $dataIns = array(
                 'DetailsData' => $token,
+                'LogonBy' => $dataEULA['LogonBy'],
                 'ExpiredAt' => $dataEULA['ExpiredAt'],
                 'EntredAt' => $date = date('Y-m-d H:i:s')
             );
@@ -63,6 +64,7 @@ class C_eula extends MY_Controller {
             $dataIns = array(
                 'Username' => $dataEULA['Username'],
                 'DetailsData' => $token,
+                'LogonBy' => $dataEULA['LogonBy'],
                 'ExpiredAt' => $dataEULA['ExpiredAt']
             );
 

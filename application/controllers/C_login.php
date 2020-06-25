@@ -187,6 +187,7 @@ class C_login extends MY_Controller {
                             'Username' => $dataUser['url_direct'][0]['Username'],
                             'ExpiredAt' => date('Y-m-d H:i:s',strtotime(date('Y-m-d H:i:s')."+1 days")),
                             'EDID' => $dataEula[0]['ID'],
+                            'LogonBy' => 'gmail',
                             'UserType' => $To
                         )
                         : [];
@@ -716,6 +717,7 @@ class C_login extends MY_Controller {
                 'Username' => $data_arr['Username'],
                 'ExpiredAt' => date('Y-m-d H:i:s',strtotime(date('Y-m-d H:i:s')."+1 days")),
                 'EDID' => $dataEULA[0]['ID'],
+                'LogonBy' => 'basic',
                 'UserType' => $UserType
             )
             : [];
@@ -1173,6 +1175,7 @@ class C_login extends MY_Controller {
                     'Username' => $EULAUsername,
                     'ExpiredAt' => date('Y-m-d H:i:s',strtotime(date('Y-m-d H:i:s')."+1 days")),
                     'EDID' => $dataEula[0]['ID'],
+                    'LogonBy' => 'ad',
                     'UserType' => $To
                 )
                 : [];
