@@ -199,29 +199,25 @@
         var url = dt_base_url_pas+'/api4/__crudEula';
 
         $.post(url,{token:token},function (jsonResult) {
-            // console.log(jsonResult);
 
-            if(jsonResult.LogonBy=='basic' || jsonResult.LogonBy=='gmail'){
-                var dataToken = jsonResult.DetailsData;
-                var d = jwt_decode(dataToken);
+            var dataToken = jsonResult.DetailsData;
+            var d = jwt_decode(dataToken);
 
-                // console.log(d.url_direct);
-                //
-                // return false;
+            // console.log(d.url_direct);
+            //
+            // return false;
 
-                if(d.url_direct.length==1){
+            if(d.url_direct.length==1){
 
-                    var url = d.url_direct[0].url_login;
-                    var token = d.url_direct[0].token;
-                    FormSubmitAuto(url, 'POST', [
-                        { name: 'token', value: token },
-                    ],'');
+                var url = d.url_direct[0].url_login;
+                var token = d.url_direct[0].token;
+                FormSubmitAuto(url, 'POST', [
+                    { name: 'token', value: token },
+                ],'');
 
 
-                } else if(d.url_direct.length>1){
-                    loadPagePanel(d.url_direct);
-                }
-
+            } else if(d.url_direct.length>1){
+                loadPagePanel(d.url_direct);
             }
 
 
