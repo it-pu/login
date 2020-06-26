@@ -66,6 +66,8 @@ $route['uath/__eulaStart'] = 'c_eula/eulaStart';
 $route['uath/__destroySessionEULA'] = 'c_eula/destroySessionEULA';
 
 
+$route['showIPPublic'] = 'c_login/showIPPublic';
+
 $route['uath/updatePassword'] = 'c_login/updatePassword';
 $route['uath/authUserPassword'] = 'c_login/authUserPassword';
 $route['auth/authGoogle'] = 'c_login/authGoogle';
