@@ -137,7 +137,6 @@
 
     }
 
-
     function loadPagePanel(ArrPage) {
 
         var htmlBody = '';
@@ -233,6 +232,28 @@
         }
 
     });
+
+    function getIPPublic() {
+
+        try {
+            $.getJSON("https://api.ipify.org/?format=json", function(e) {
+                // console.log(e);
+                // console.log(e.ip);
+
+                localStorage.setItem('IPPublic',e.ip);
+
+            });
+        }
+        catch (e){
+            localStorage.setItem('IPPublic','');
+        }
+
+    }
+
+    $(document).ready(function () {
+        getIPPublic();
+    });
+
 </script>
 
 <style>

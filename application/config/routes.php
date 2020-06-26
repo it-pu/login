@@ -35,6 +35,8 @@ $route['newlogin'] = 'c_login/index2';
 $route['portal-login'] = 'c_login/portal_login';
 $route['meet-our-team'] = 'c_login/meet_our_team';
 
+$route['setLogLogin'] = 'c_login/setLogLogin';
+
 // ++++++++ Search people ++++++++
 $route['search-people'] = 'c_search_people/search_people';
 $route['search-people/detail-employees/(:any)'] = 'c_search_people/detail_people_employees/$1';

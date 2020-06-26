@@ -852,9 +852,11 @@
 
     function CheckPasswordLoginAD(Username,Password) {
         var url = base_url_server+'uath/__checkloginwithAd';
+        var IPPublic = localStorage.getItem('IPPublic');
         var data = {
             Username : Username.trim(),
-            Password : Password.trim()
+            Password : Password.trim(),
+            IPPublic : IPPublic
         };
         var token = jwt_encode(data);
         $.post(url,{token:token},function (jsonResult) {
@@ -921,6 +923,7 @@
             loading_button('#btnLoginCheckPassword');
             $('#btnBackLogin').prop('disabled',true);
             var dataUser = $('#user').val();
+            var IPPublic = localStorage.getItem('IPPublic');
             var url = base_url_server+'uath/__checkPassword';
             var data = {
                 Username : dataUser.split('.')[0],
@@ -928,7 +931,8 @@
                 Status : dataUser.split('.')[1],
                 User : dataUser.split('.')[2],
                 Year : dataUser.split('.')[3],
-                Password : Password
+                Password : Password,
+                IPPublic : IPPublic
             };
             var token = jwt_encode(data);
             $.post(url,{token:token},function (jsonResult) {

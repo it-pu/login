@@ -202,11 +202,10 @@ class C_login extends MY_Controller {
                         'Username' => $dataUser['url_direct'][0]['Username'],
                         'UserType' => $To,
                         'LogonBy' => 'gmail',
-                        'IPLocal' => $hostname,
-                        'IPPublic' => $this->getPublicIP()
+                        'IPLocal' => $hostname
                     );
 
-                    $this->db->insert('db_it.log_login',$dataLogLogin);
+                    $data['toInsertLogLogin'] = $this->jwt->encode($dataLogLogin,'L0G1N-S50-3R0');
 
 
                     if(count($dataUser['url_direct'])==1){
@@ -719,7 +718,8 @@ class C_login extends MY_Controller {
 
             $EULA = (count($dataEULA) > 0 && $PerluIsi==1) ? 1 : 0;
 
-        } else {
+        }
+        else {
             $EULA = 0;
         }
 
@@ -745,7 +745,7 @@ class C_login extends MY_Controller {
             'UserType' => $UserType,
             'LogonBy' => 'basic',
             'IPLocal' => $hostname,
-            'IPPublic' => $this->getPublicIP()
+            'IPPublic' => $data_arr['IPPublic']
         );
         $this->db->insert('db_it.log_login',$dataLogLogin);
 
@@ -1214,7 +1214,7 @@ class C_login extends MY_Controller {
                 'UserType' => $To,
                 'LogonBy' => 'ad',
                 'IPLocal' => $hostname,
-                'IPPublic' => $this->getPublicIP()
+                'IPPublic' => $Input['IPPublic']
             );
             $this->db->insert('db_it.log_login',$dataLogLogin);
         }
@@ -1259,6 +1259,17 @@ class C_login extends MY_Controller {
         }
 
         return $result;
+
+    }
+
+    public function setLogLogin(){
+
+        $token = $this->input->post('token');
+        $key = "L0G1N-S50-3R0";
+        $data_arr = (array) $this->jwt->decode($token,$key);
+        $this->db->insert('db_it.log_login',$data_arr);
+
+        return print_r(1);
 
     }
 
