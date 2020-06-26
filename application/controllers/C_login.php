@@ -1230,27 +1230,36 @@ class C_login extends MY_Controller {
     }
 
     public function getPublicIP(){
-        $ip_address = @file_get_contents('http://checkip.dyndns.com/',true);
 
-        if ($ip_address === false) {
-            //There is an error opening the file
-            $result = '';
-        } else {
-            $result = str_replace("Current IP Address: ","",$ip_address);
+        try {
+            // create curl resource
+            $ch = curl_init();
+
+            // set url
+            curl_setopt($ch, CURLOPT_URL, "https://api.ipify.org/?format=json");
+
+            //return the transfer as a string
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+
+            // $output contains the output string
+            $output = curl_exec($ch);
+
+            // close curl resource to free up system resources
+            curl_close($ch);
+        } catch (Exception $e){
+            $output = '';
         }
 
-        if($result!=''){
-            if (preg_match('/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/', $result, $ip_match)) {
+        $result = '';
+
+        if($output!=''){
+            if (preg_match('/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/', $output, $ip_match)) {
                 $result = $ip_match[0];
             }
         }
 
         return $result;
 
-    }
-
-    public function showIPPublic(){
-        $this->load->view('page/template/showIPPublic','');
     }
 
 
