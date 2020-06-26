@@ -23,6 +23,9 @@
 <script src="<?php echo base_url(); ?>assets/jwt/encode/enc-base64-min.js"></script>
 <script src="<?php echo base_url(); ?>assets/jwt/encode/jwt.encode.js"></script>
 
+<!-- JWT Decode -->
+<script type="text/javascript" src="<?php echo base_url('assets/jwt/decode/build/jwt-decode.min.js');?>"></script>
+
 <!------ Include the above in your HEAD tag ---------->
 <script src="<?php echo base_url(); ?>assets/js/jquery.imgFitter.js"></script>
 <script>
@@ -151,6 +154,8 @@
     </div>
 </div>
 
+<textarea class="hide" id="toInsertLogLogin"><?= $toInsertLogLogin; ?></textarea>
+
 <form action="" hidden id="formSubmitLogin" method="post">
     <input id="formTokenLogin" class="hide" hidden readonly name="token" />
 </form>
@@ -158,6 +163,23 @@
 <script>
 
     $(document).ready(function () {
+        setLogLoginByGmail();
+    });
+
+    function setLogLoginByGmail(){
+
+        var toInsertLogLogin = $('#toInsertLogLogin').val();
+        var d = jwt_decode(toInsertLogLogin);
+        d.IPPublic = localStorage.getItem('IPPublic');
+
+        var newToken = jwt_encode(d);
+        var url = base_url_server+'setLogLogin';
+        $.post(url,{token:newToken},function (result) {
+            firstLogin();
+        });
+    }
+
+    function firstLogin(){
         var user = "<?= $User; ?>";
         var EULA = "<?= $EULA; ?>"
         if(parseInt(user)==1 && parseInt(EULA)==0){
@@ -167,7 +189,7 @@
             $('#formTokenLogin').val(token);
             $('#formSubmitLogin').submit();
         }
-    });
+    }
 
     $(document).on('click','.a-link',function () {
         var url_login = $(this).attr('data-url');
@@ -183,9 +205,6 @@
         var EulaDataToken = $('#EulaDataToken').val();
         var url = base_url_server+'uath/__eulaStart';
         $.post(url,{token:EulaDataToken},function (jsonResult) {
-            // console.log(jsonResult);
-            // var d = JSON.parse(jsonResult);
-            // console.log(d);
             if(jsonResult.Status==1){
                 window.location.replace(base_url_server+'eula');
             }
