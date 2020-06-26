@@ -197,10 +197,13 @@ class C_login extends MY_Controller {
                     $data['toInsertEULA'] = $this->jwt->encode($data,'L0G1N-S50-3R0');
 
                     // Insert Log Login
+                    $hostname = gethostbyaddr($_SERVER['REMOTE_ADDR']);
                     $dataLogLogin = array(
                         'Username' => $dataUser['url_direct'][0]['Username'],
                         'UserType' => $To,
-                        'LogonBy' => 'gmail'
+                        'LogonBy' => 'gmail',
+                        'IPLocal' => $hostname,
+                        'IPPublic' => $this->getPublicIP()
                     );
 
                     $this->db->insert('db_it.log_login',$dataLogLogin);
@@ -736,10 +739,13 @@ class C_login extends MY_Controller {
             : [];
 
         // Insert Log Login
+        $hostname = gethostbyaddr($_SERVER['REMOTE_ADDR']);
         $dataLogLogin = array(
             'Username' => $data_arr['Username'],
             'UserType' => $UserType,
-            'LogonBy' => 'basic'
+            'LogonBy' => 'basic',
+            'IPLocal' => $hostname,
+            'IPPublic' => $this->getPublicIP()
         );
         $this->db->insert('db_it.log_login',$dataLogLogin);
 
@@ -1202,10 +1208,13 @@ class C_login extends MY_Controller {
                 : [];
 
             // Insert Log Login
+            $hostname = gethostbyaddr($_SERVER['REMOTE_ADDR']);
             $dataLogLogin = array(
                 'Username' => $EULAUsername,
                 'UserType' => $To,
-                'LogonBy' => 'ad'
+                'LogonBy' => 'ad',
+                'IPLocal' => $hostname,
+                'IPPublic' => $this->getPublicIP()
             );
             $this->db->insert('db_it.log_login',$dataLogLogin);
         }
@@ -1219,5 +1228,31 @@ class C_login extends MY_Controller {
     public function maintenance(){
         $this->load->view('maintenance','');
     }
+
+    public function getPublicIP(){
+        $ip_address = @file_get_contents('http://checkip.dyndns.com/',true);
+
+        if ($ip_address === false) {
+            //There is an error opening the file
+            $result = '';
+        } else {
+            $result = str_replace("Current IP Address: ","",$ip_address);
+        }
+
+        if($result!=''){
+            if (preg_match('/\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}/', $result, $ip_match)) {
+                $result = $ip_match[0];
+            }
+        }
+
+        return $result;
+
+    }
+
+    public function showIPPublic(){
+        $this->load->view('page/template/showIPPublic','');
+    }
+
+
 
 }
