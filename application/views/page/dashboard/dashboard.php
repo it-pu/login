@@ -179,10 +179,10 @@
                                 </a>
                             </div>
                             <div class="col-xs-6 hvr-grow-rotate">
-                                <!--                            <a href="https://alumni.podomorouniversity.ac.id/">-->
-                                <a href="javascript:void(0)" class="coming-soon">
+                                <a href="https://alumni.podomorouniversity.ac.id/">
+                                <!-- <a href="javascript:void(0)" class="coming-soon"> -->
                                     <div class="thumbnail">
-                                        <div class="page-label page-coming-soon"><i class="fa fa-puzzle-piece"></i> Coming soon</div>
+                                        <!-- <div class="page-label page-coming-soon"><i class="fa fa-puzzle-piece"></i> Coming soon</div> -->
                                         <img class="apps-icon" src="<?= base_url(); ?>images/icon/alumni.png">
                                         <p>Alumni</p>
                                     </div>
