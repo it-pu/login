@@ -192,8 +192,8 @@
         <div class="col-md-4">
             <div class="row">
                 <div class="col-xs-6">
-                    <img class="img-fitter" data-src="https://pcam.podomorouniversity.ac.id/uploads/employees/2019069.jpeg">
-                    <div class="team-name">Febri Damatraseta</div>
+                    <img class="img-fitter" data-src="https://pcam.podomorouniversity.ac.id/uploads/employees/2019002.jpeg">
+                    <div class="team-name">Jorgie Gilbert Sumual</div>
                 </div>
                 <div class="col-xs-6">
                     <img class="img-fitter" data-src="https://pcam.podomorouniversity.ac.id/uploads/employees/2019064.jpeg">
@@ -204,14 +204,14 @@
 
         <div class="col-md-4">
             <div class="row">
-                <div class="col-xs-6">
+                <!-- <div class="col-xs-6">
                     <img class="img-fitter" data-src="https://pcam.podomorouniversity.ac.id/uploads/employees/2019006.jpeg">
                     <div class="team-name">Bismar Gazali</div>
-                </div>
-                <div class="col-xs-6">
+                </div> -->
+                <!-- <div class="col-xs-6">
                     <img class="img-fitter" data-src="https://pcam.podomorouniversity.ac.id/uploads/employees/2019002.jpeg">
                     <div class="team-name">Jorgie Gilbert Sumual</div>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
