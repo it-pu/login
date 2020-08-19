@@ -1,7 +1,7 @@
 (function ( $ ) {
 	$.fn.imgFitter = function ( options ) {
 		var settings = $.extend( {
-			backgroundPosition: 'center center',
+			backgroundPosition: 'top center',
 			fadeinDelay: 400,
 			fadeinTime: 1200
 		}, options );
