@@ -20,7 +20,7 @@
 <link href="<?php echo base_url(); ?>assets/css/compiled-4.10.1.min.css" rel="stylesheet">
 
 
-<link href="<?php echo base_url(); ?>assets/social/bootstrap-social.css" rel="stylesheet">
+<!-- <link href="<?php echo base_url(); ?>assets/posisi/bootstrap-posisi.css" rel="stylesheet"> -->
 
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="<?php echo base_url(); ?>assets/js/jquery.min.js"></script>
@@ -36,536 +36,302 @@
 <script src="<?php echo base_url(); ?>assets/js/jquery.imgFitter.js"></script>
 <script src="<?php echo base_url(); ?>assets/toastr/toastr.min.js"></script>
 <script src="<?php echo base_url(); ?>assets/js/mdb.min.js"></script>
-<!------ Include the above in your HEAD tag ---------->
-<!-- <script src="<?php echo base_url(); ?>assets/js/js_liquid.js"></script> -->
 
-<script>
-    $.fn.extend({
-        animateCss: function(animationName, callback) {
-            var animationEnd = (function(el) {
-                var animations = {
-                    animation: 'animationend',
-                    OAnimation: 'oAnimationEnd',
-                    MozAnimation: 'mozAnimationEnd',
-                    WebkitAnimation: 'webkitAnimationEnd',
-                };
-
-                for (var t in animations) {
-                    if (el.style[t] !== undefined) {
-                        return animations[t];
-                    }
-                }
-            })(document.createElement('div'));
-
-            this.addClass('animated ' + animationName).one(animationEnd, function() {
-                $(this).removeClass('animated ' + animationName);
-
-                if (typeof callback === 'function') callback();
-            });
-
-            return this;
-        },
-    });
-
-    toastr.options = {
-        "closeButton": true,
-        "debug": false,
-        "newestOnTop": false,
-        "progressBar": false,
-        "positionClass": "toast-top-right",
-        "preventDuplicates": false,
-        "onclick": null,
-        "showDuration": "300",
-        "hideDuration": "1000",
-        "timeOut": "5000",
-        "extendedTimeOut": "1000",
-        "showEasing": "swing",
-        "hideEasing": "linear",
-        "showMethod": "fadeIn",
-        "hideMethod": "fadeOut"
-    };
-</script>
-<link href="https://fonts.googleapis.com/css?family=Courgette&display=swap" rel="stylesheet">
 <style>
-    body {
-        /*background: #f9f9f9;*/
-        background: #ffffff;
-        background: rgb(241 241 241);
-        /*background-image: url(images/bg-liquid.png);
-        background-position: center;
-        background-repeat: none;
-        background-size: cover;*/
-    }
-    h1 {
-        font-family: 'Courgette', cursive;
-    }
+  
+body
+{
+  background: #f1f1f1;
+  margin: 0;
+  padding: 100px 0px;
+  height: 100%;
+  box-sizing: border-box;
+  font-family: sans-serif;
+}
 
-    .thumbnail {
-        padding: 10px;
-        height: 150px;
-        border: 3px solid #e2e2e2;
-    }
+h1
+{
+  margin-top: -50px;
+  font-family: 'Courgette', cursive;
+  text-align: center;
+  color: #1785eb;
+  font-size: 45px;
+  
+}
 
-    img {
-        width: 100px;
-        border-radius: 100px;
-        /*border-bottom-left-radius: 0px;*/
-        /*border-bottom-right-radius: 0px;*/
-        border: 3px solid #e2e2e2;
-    }
-    .team-name {
-        margin-top: 10px;
-        font-family: 'Courgette', cursive;
-        font-size: 17px;
-        /*background: #fff;*/
-        font-weight: bold;
-    }
+.container
+{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80%;
+  margin: auto;
+}
 
-    .col-xs-6 {
-        text-align: center;
-        margin-bottom: 15px;
-    }
+.imgBx
+{
+  border-radius: 30px;
+  background: #ffffff;
+  text-align: center;
+  overflow: hidden;
+  position: relative;
+  padding: 30px 0 40px;
+  margin: 0px 20px;
+  width: 30%; 
+    height: 280px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+}
 
-    .btn-liquid {
-        display: inline-block;
-        position: relative;
-        width: 100%;
-        height: auto;
+.imgBx .pic
+{
+  display: inline-block;
+  width: 130px;
+  height: 130px;
+  margin-bottom: 0px;
+  z-index: 1;
+  position: relative;
+}
 
-        border-radius: 27px;
+.imgBx .pic::before
+{
+  content: "";
+  width: 100%;
+  height: 0;
+  border-radius: 50%;
+  background: #1785eb;
+  position: absolute;
+  bottom: 135%;
+  right: 0;
+  left: 0;
+  opacity: 0.2;
+  transform: scale(3);
+  transition: all 0.3s linear 0s;
+}
 
-        color: #fff;
-        font: 700 14px/60px "Droid Sans", sans-serif;
-        letter-spacing: 0.05em;
-        text-align: center;
-        text-decoration: none;
-        text-transform: uppercase;
-    }
+.imgBx:hover .pic::before
+{
+  height: 100%;
+}
 
-    .btn-liquid .inner {
-        position: relative;
+.imgBx .pic::after
+{
+  content: "";
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: #1785eb;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
 
-        z-index: 2;
-    }
+.imgBx .pic img
+{
+  width: 100%;
+  height: auto;
+  border-radius: 50%;
+  transform: scale(1);
+  transition: all 0.9s ease 0s;
+}
 
-    .btn-liquid canvas {
-        position: absolute;
-        top: -50px;
-        right: -50px;
-        bottom: -50px;
-        left: -50px;
+.imgBx:hover .pic img
+{
+  box-shadow: 0 0 0 14px #f7f5ec;
+  transform: scale(0.7);
+}
 
-        z-index: 1;
-    }
-    .bg-profile{
-        /*background-image: url(images/bg-profile2.png);*/
-        background-position: center;
-        background-repeat: no-repeat;
-        background-size: cover;
-    }
-    .px-2{
-        padding: 42px;
-    }
-    .p-0{
-        padding: 0px;
-    }
-    .my-90{
-        margin-top: 50px;
-        margin-bottom: 50px;
-    }
+.imgBx .content
+{
+  margin-bottom: 30px;
+}
+
+.imgBx .nama
+{
+  font-family: 'Courgette', cursive;
+  font-size: 22px;
+  font-weight: 700;
+  color: #4e5052;
+  letter-spacing: 1px;
+  margin-bottom: 5px;
+}
+
+.imgBx .posisi
+{
+  width: 100%;
+  padding: 0;
+  margin: 0;
+  background: #1785eb;
+  position: absolute;
+  bottom: -100px;
+  left: 0;
+  transition: all 0.5s ease 0s;
+}
+
+.imgBx:hover .posisi
+{
+  bottom: 0;
+}
+
+
+@media (max-width: 720px)
+{
+  .container
+  {
+    flex-direction: column;
+  }
+  .imgBx
+  {
+    width: 80%;
+    margin-top: 30px;
+  }
+}
+
 </style>
 <body>
 
+<h1>- - - Meet our team - - -</h1>
 
-<div class="container my-90">
-
-    <div class="row" style="margin-bottom: 50px;">
-        <div class="col-md-12" style="text-align: center;">
-            <h1>- - - Meet our team - - -</h1>
-        </div>
+<div class="container" style="margin-top: 50px;">
+  <!-- team 1 -->
+  <div class="imgBx">
+    <div class="pic">
+      <img src="https://pcam.podomorouniversity.ac.id/uploads/employees/9907003.jpeg" style="height: 130px;width: 130px;">
     </div>
-    <div class="row justify-content-center">
-        <div class="col-md-3 mb-4">
-            <!-- Card -->
-            <div class="card testimonial-card">
-
-              <!-- Background color -->
-              <div class="card-up rgba-indigo-light"></div>
-
-              <!-- Avatar -->
-              <div class="avatar mx-auto white">
-                    <img class="img-fitter" data-src="https://pcam.podomorouniversity.ac.id/uploads/employees/9907003.jpeg">
-              </div>
-
-              <!-- Content -->
-              <div class="card-body">
-                <!-- Name -->
-                <h4 class="card-title">                    
-                    <div class="team-name ">Lily B Putri</div>                        
-                </h4>
-                <hr>
-                <!-- Quotation -->
-                <p><b> WAKIL REKTOR II</b></p>
-              </div>
-
-            </div>
-            <!-- Card -->
-        </div>
-        <div class="col-md-3 mb-5">
-            <!-- Card -->
-            <div class="card testimonial-card">
-
-              <!-- Background color -->
-              <div class="card-up rgba-indigo-light"></div>
-
-              <!-- Avatar -->
-              <div class="avatar mx-auto white">
-                 <img class="img-fitter" data-src="https://pcam.podomorouniversity.ac.id/uploads/employees/2018034.jpeg">
-              </div>
-
-              <!-- Content -->
-              <div class="card-body">
-                <!-- Name -->
-                <h4 class="card-title">
-                    <div class="team-name">Martin Hasen</div>
-                </h4>
-                <hr>
-                <!-- Quotation -->
-                <p> <b>KABAG IT</b></p>
-              </div>
-
-            </div>
-            <!-- Card -->
-        </div>
-        <div class="col-md-3 mb-5">
-            <!-- Card -->
-            <div class="card testimonial-card">
-
-              <!-- Background color -->
-              <div class="card-up rgba-indigo-light"></div>
-
-              <!-- Avatar -->
-              <div class="avatar mx-auto white">
-                <img class="img-fitter" data-src="https://pcam.podomorouniversity.ac.id/uploads/employees/2017090.JPG">
-              </div>
-
-              <!-- Content -->
-              <div class="card-body">
-                <!-- Name -->
-                <h4 class="card-title">
-                    <div class="team-name">Nandang Mulyadi</div>
-
-                </h4>
-                <hr>
-                <!-- Quotation -->
-                <p> <b>KASUBAG IT</b>
-                </p>
-              </div>
-
-            </div>
-            <!-- Card -->
-        </div>
-        <div class="col-md-3 mb-5">
-            <!-- Card -->
-            <div class="card testimonial-card">
-
-              <!-- Background color -->
-              <div class="card-up rgba-indigo-light"></div>
-
-              <!-- Avatar -->
-              <div class="avatar mx-auto white">
-                <img class="img-fitter" data-src="https://pcam.podomorouniversity.ac.id/uploads/employees/2016065.JPG">
-              </div>
-
-              <!-- Content -->
-              <div class="card-body">
-                <!-- Name -->
-                <h4 class="card-title">
-                    <div class="team-name">Novita Riani Br Ginting</div>
-                </h4>
-                <hr>
-                <!-- Quotation -->
-                <p><b> STAFF IT</b>
-                </p>
-              </div>
-
-            </div>
-            <!-- Card -->
-        </div>
-        
-        <div class="col-md-3 mb-5">
-            <!-- Card -->
-            <div class="card testimonial-card">
-
-              <!-- Background color -->
-              <div class="card-up rgba-indigo-light"></div>
-
-              <!-- Avatar -->
-              <div class="avatar mx-auto white">
-                <img class="img-fitter" data-src="https://pcam.podomorouniversity.ac.id/uploads/employees/2018018.jpg">
-              </div>
-
-              <!-- Content -->
-              <div class="card-body">
-                <!-- Name -->
-                <h4 class="card-title">
-                    <div class="team-name">Alhadi Rahman</div>
-                </h4>
-                <hr>
-                <!-- Quotation -->
-                <p> <b> STAFF IT</b>
-                </p>
-              </div>
-
-            </div>
-            <!-- Card -->
-        </div>
-        <div class="col-md-3 mb-5">
-            <!-- Card -->
-            <div class="card testimonial-card">
-
-              <!-- Background color -->
-              <div class="card-up rgba-indigo-light"></div>
-
-              <!-- Avatar -->
-              <div class="avatar mx-auto white">
-                <img class="img-fitter" data-src="https://pcam.podomorouniversity.ac.id/uploads/employees/2017114.jpeg">
-              </div>
-
-              <!-- Content -->
-              <div class="card-body">
-                <!-- Name -->
-                <h4 class="card-title">
-                    <div class="team-name">
-                        <div class="team-name">Irfan Firdaus</div>
-                    </div>
-                </h4>
-                <hr>
-                <!-- Quotation -->
-                <p> <b> STAFF IT</b>
-                </p>
-              </div>
-
-            </div>
-            <!-- Card -->
-        </div>
-        <div class="col-md-3 mb-5">
-            <!-- Card -->
-            <div class="card testimonial-card">
-
-              <!-- Background color -->
-              <div class="card-up rgba-indigo-light"></div>
-
-              <!-- Avatar -->
-              <div class="avatar mx-auto white">
-                <img class="img-fitter" data-src="https://pcam.podomorouniversity.ac.id/uploads/employees/2019003.jpeg">
-              </div>
-
-              <!-- Content -->
-              <div class="card-body">
-                <!-- Name -->
-                <h4 class="card-title">
-                    <div class="team-name">
-                        <div class="team-name">Agustian</div>
-                    </div>
-                </h4>
-                <hr>
-                <!-- Quotation -->
-                <p> <b> STAFF IT</b>
-                </p>
-              </div>
-
-            </div>
-            <!-- Card -->
-        </div>
-        <div class="col-md-3 mb-5">
-            <!-- Card -->
-            <div class="card testimonial-card">
-
-              <!-- Background color -->
-              <div class="card-up rgba-indigo-light"></div>
-
-              <!-- Avatar -->
-              <div class="avatar mx-auto white">
-                    <img class="img-fitter" data-src="https://pcam.podomorouniversity.ac.id/uploads/employees/2019072.png">
-              </div>
-
-              <!-- Content -->
-              <div class="card-body">
-                <!-- Name -->
-                <h4 class="card-title">
-                    <div class="team-name">
-                        <div class="team-name">Ridwantoro</div>
-                    </div>
-                </h4>
-                <hr>
-                <!-- Quotation -->
-                <p> <b> STAFF IT</b>
-                </p>
-              </div>
-
-            </div>
-            <!-- Card -->
-        </div>
-        <div class="col-md-3 mb-5">
-            <!-- Card -->
-            <div class="card testimonial-card">
-
-              <!-- Background color -->
-              <div class="card-up rgba-indigo-light"></div>
-
-              <!-- Avatar -->
-              <div class="avatar mx-auto white">
-                    <img class="img-fitter" data-src="https://pcam.podomorouniversity.ac.id/uploads/employees/2019002.jpeg">
-              </div>
-
-              <!-- Content -->
-              <div class="card-body">
-                <!-- Name -->
-                <h4 class="card-title">
-                    <div class="team-name">
-                        <div class="team-name">Jorgie Gilbert Sumual</div>
-                    </div>
-                </h4>
-                <hr>
-                <!-- Quotation -->
-                <p> <b> STAFF IT</b>
-                </p>
-              </div>
-
-            </div>
-            <!-- Card -->
-        </div>
-        <div class="col-md-3 mb-5">
-            <!-- Card -->
-            <div class="card testimonial-card">
-
-              <!-- Background color -->
-              <div class="card-up rgba-indigo-light"></div>
-
-              <!-- Avatar -->
-              <div class="avatar mx-auto white">
-                    <img class="img-fitter" data-src="https://pcam.podomorouniversity.ac.id/uploads/employees/2019064.jpeg">
-              </div>
-
-              <!-- Content -->
-              <div class="card-body">
-                <!-- Name -->
-                <h4 class="card-title">
-                    <div class="team-name">
-                        <div class="team-name">Ahmad Askhabul Yamin</div>
-                    </div>
-                </h4>
-                <hr>
-                <!-- Quotation -->
-                <p> <b> STAFF IT</b>
-                </p>
-              </div>
-
-            </div>
-            <!-- Card -->
-        </div>
-
+    <div class="content">
+      <h3 class="nama" style="margin-top: 18px;">Lily B Putri</h3>
+      
     </div>
-
-    <!-- <div class="row justify-content-center">
-
-        <div class="col-xs-6 col-md-3 ">
-
-
-            <div class="bg-profile">
-                <div class="px-2" style="top:10px;position: relative;">                        
-                    <img class="img-fitter" data-src="https://pcam.podomorouniversity.ac.id/uploads/employees/9907003.jpeg">
-                    <div class="team-name ">Lily B Putri</div>                        
-                </div>
-            </div>
-                   
-        </div>
-        <div class="col-xs-6 col-md-3 ">
-                <div class="bg-profile">
-                    <div class="px-2" style="top:10px;position: relative;">
-                        <img class="img-fitter" data-src="https://pcam.podomorouniversity.ac.id/uploads/employees/2018034.jpeg">
-                        <div class="team-name">Martin Hasen</div>
-                    </div>
-                </div>
-        </div>
-
-        <div class="col-xs-6 col-md-3 ">
-                <div class="bg-profile">
-                        <div class="px-2" style="top:10px;position: relative;">
-                        <img class="img-fitter" data-src="https://pcam.podomorouniversity.ac.id/uploads/employees/2016065.JPG">
-                        <div class="team-name">Novita Riani Br Ginting</div>
-                    </div>
-                </div>
-        </div>
-        <div class="col-xs-6 col-md-3 ">
-                <div class="bg-profile">
-                        <div class="px-2" style="top:10px;position: relative;">
-                        <img class="img-fitter" data-src="https://pcam.podomorouniversity.ac.id/uploads/employees/2017090.JPG">
-                        <div class="team-name">Nandang Mulyadi</div>
-                    </div>
-                </div>
-        </div>
-            
-        <div class="col-xs-6 col-md-3 ">
-            
-                <div class="bg-profile">
-                        <div class="px-2" style="top:10px;position: relative;">
-                        <img class="img-fitter" data-src="https://pcam.podomorouniversity.ac.id/uploads/employees/2018018.jpg">
-                        <div class="team-name">Alhadi Rahman</div>
-                    </div>
-                </div>
-        </div>
-        <div class="col-xs-6 col-md-3 ">
-                <div class="bg-profile">
-                        <div class="px-2" style="top:10px;position: relative;">
-                            <img class="img-fitter" data-src="https://pcam.podomorouniversity.ac.id/uploads/employees/2017114.jpeg">
-                            <div class="team-name">Irfan Firdaus</div>
-                        </div>
-                </div>
-        </div>
-            
-
-        <div class="col-xs-6 col-md-3 ">
-                <div class="bg-profile">
-                        <div class="px-2" style="top:10px;position: relative;">
-                        <img class="img-fitter" data-src="https://pcam.podomorouniversity.ac.id/uploads/employees/2019003.jpeg">
-                        <div class="team-name">Agustian</div>
-                    </div>
-                </div>
-        </div>
-        <div class="col-xs-6 col-md-3 ">
-                <div class="bg-profile">
-                    <div class="px-2" style="top:10px;position: relative;">
-                        <img class="img-fitter" data-src="https://pcam.podomorouniversity.ac.id/uploads/employees/2019072.png">
-                        <div class="team-name">Ridwantoro</div>
-                    </div>
-                </div>                
-        </div>
-
-        <div class="col-xs-6 col-md-3 ">           
-                <div class="bg-profile">
-                        <div class="px-2" style="top:10px;position: relative;">
-                            <img class="img-fitter" data-src="https://pcam.podomorouniversity.ac.id/uploads/employees/2019002.jpeg">
-                            <div class="team-name">Jorgie Gilbert Sumual</div>
-                        </div>
-                    </div>
-        </div>
-
-        <div class="col-xs-6 col-md-3 ">
-                    <div class="bg-profile">
-                        <div class="px-2" style="top:10px;position: relative;">
-                            <img class="img-fitter" data-src="https://pcam.podomorouniversity.ac.id/uploads/employees/2019064.jpeg">
-                            <div class="team-name">Ahmad Askhabul Yamin</div>
-                        </div>
-                    </div>
-        </div>
-            
-
-    </div> -->
+    <ul class="posisi">
+      <span style="font-size: 20px; color: white;">WAKIL REKTOR II</span>
+    </ul>
+  </div>
+  <div class="imgBx">
+    <div class="pic">
+      <img src="https://pcam.podomorouniversity.ac.id/uploads/employees/2018034.jpeg" style="height: 130px;width: 130px;">
+    </div>
+    <div class="content">
+      <h3 class="nama" style="margin-top: 18px;">Martin Hasen</h3>
+      
+    </div>
+    <ul class="posisi">
+      <span style="font-size: 20px; color: white;">KABAG IT</span>
+    </ul>
+  </div>
+  <div class="imgBx">
+    <div class="pic">
+      <img src="https://pcam.podomorouniversity.ac.id/uploads/employees/2017090.JPG" style="height: 130px;width: 130px;">
+    </div>
+    <div class="content">
+      <h3 class="nama" style="margin-top: 18px;">Nandang Mulyadi</h3>
+      
+    </div>
+    <ul class="posisi">
+      <span style="font-size: 20px; color: white;">KASUBAG IT</span>
+    </ul>
+  </div>
+  <div class="imgBx">
+    <div class="pic">
+      <img src="https://pcam.podomorouniversity.ac.id/uploads/employees/2016065.JPG" style="height: 130px;width: 130px;">
+    </div>
+    <div class="content">
+      <h3 class="nama" style="margin-top: 18px;">Novita Riani Br Ginting</h3>
+      
+    </div>
+    <ul class="posisi">
+      <span style="font-size: 20px; color: white;">STAFF IT</span>
+    </ul>
+  </div>
 </div>
-
-
+<div class="container" style="margin-top: 50px;">
+  <!-- team 1 -->
+  <div class="imgBx">
+    <div class="pic">
+      <img src="https://pcam.podomorouniversity.ac.id/uploads/employees/2018018.jpg" style="height: 130px;width: 130px;">
+    </div>
+    <div class="content">
+      <h3 class="nama" style="margin-top: 18px;">Alhadi Rahman</h3>
+      
+    </div>
+    <ul class="posisi">
+      <span style="font-size: 20px; color: white;">STAFF IT</span>
+    </ul>
+  </div>
+  <div class="imgBx">
+    <div class="pic">
+      <img src="https://pcam.podomorouniversity.ac.id/uploads/employees/2017114.jpeg" style="height: 130px;width: 130px;">
+    </div>
+    <div class="content">
+      <h3 class="nama" style="margin-top: 18px;">Irfan Firdaus</h3>
+    </div>
+    <ul class="posisi">
+      <span style="font-size: 20px; color: white;">STAFF IT</span>
+    </ul>
+  </div>
+  <div class="imgBx">
+    <div class="pic">
+      <img src="https://pcam.podomorouniversity.ac.id/uploads/employees/2019003.jpeg" style="height: 130px;width: 130px;">
+    </div>
+    <div class="content">
+      <h3 class="nama" style="margin-top: 18px;">Agustian</h3>
+      
+    </div>
+    <ul class="posisi">
+      <span style="font-size: 20px; color: white;">STAFF IT</span>
+    </ul>
+  </div>
+  <div class="imgBx">
+    <div class="pic">
+      <img src="https://pcam.podomorouniversity.ac.id/uploads/employees/2019072.png" style="height: 130px;width: 130px;">
+    </div>
+    <div class="content">
+      <h3 class="nama" style="margin-top: 18px;">Ridwantoro</h3>
+      
+    </div>
+    <ul class="posisi">
+      <span style="font-size: 20px; color: white;">STAFF IT</span>
+    </ul>
+  </div>
+  
+</div>
+<div class="container" style="margin-top: 50px;">
+  <!-- team 1 -->
+  <div class="imgBx" style="width: 230px;">
+    <div class="pic">
+      <img src="https://pcam.podomorouniversity.ac.id/uploads/employees/2019002.jpeg" style="height: 130px;width: 130px;">
+    </div>
+    <div class="content">
+      <h3 class="nama" style="margin-top: 18px;">Jorgie Gilbert Sumual</h3>
+      
+    </div>
+    <ul class="posisi">
+      <span style="font-size: 20px; color: white;">STAFF IT</span>
+    </ul>
+  </div>
+  <div class="imgBx" style="width: 230px;">
+    <div class="pic">
+      <img src="https://pcam.podomorouniversity.ac.id/uploads/employees/2019064.jpeg" style="height: 130px;width: 130px;">
+    </div>
+    <div class="content">
+      <h3 class="nama" style="margin-top: 18px;">Ahmad Askhabul Yamin</h3>
+    </div>
+    <ul class="posisi">
+      <span style="font-size: 20px; color: white;">STAFF IT</span>
+    </ul>
+  </div>
+  <div class="imgBx" style="width: 230px;">
+    <div class="pic">
+      <img src="https://pcam.podomorouniversity.ac.id/uploads/employees/2020046.jpeg" style="height: 130px;width: 130px;">
+    </div>
+    <div class="content">
+      <h3 class="nama" style="margin-top: 18px;">Adi Kurnianto Saputro</h3>
+    </div>
+    <ul class="posisi">
+      <span style="font-size: 20px; color: white;">STAFF IT</span>
+    </ul>
+  </div>
+  
+</div>
 <script>
     $(document).ready(function () {
         $('.img-fitter').imgFitter();
