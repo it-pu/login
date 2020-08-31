@@ -54,6 +54,8 @@ $route['info-lost-and-found'] = 'c_lostnfound/lostAndFoundInfo';
 // ++++++++ EULA ++++++++
 $route['eula'] = 'c_eula/eula';
 
+$route['survey'] = 'c_survey/survey';
+
 
 
 
