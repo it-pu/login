@@ -841,7 +841,13 @@ class C_login extends MY_Controller {
 
 
                         }
-                        $tokenID = $this->jwt->encode(array('SurveyID'=>$SurveyID),'s3Cr3T-G4N');
+                        $tokenID = $this->jwt->encode(array(
+                            'Username' => $data_arr['Username'],
+                            'SurveyID'=>$SurveyID,
+                            'ExpiredAt' => date('Y-m-d H:i:s',strtotime(date('Y-m-d H:i:s')."+1 days")),
+                            'LogonBy' => 'basic',
+                            'url_direct' => $result['url_direct']
+                        ),'s3Cr3T-G4N');
                         $dataCkSurvey[$i]['Token'] = $tokenID;
 
                     }

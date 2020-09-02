@@ -69,6 +69,8 @@ $route['uath/__checkloginwithAd'] = 'c_login/checkloginwithAd';
 $route['uath/__eulaStart'] = 'c_eula/eulaStart';
 $route['uath/__destroySessionEULA'] = 'c_eula/destroySessionEULA';
 
+$route['uath/__surveyStart'] = 'c_survey/surveyStart';
+
 
 $route['getPublicIP'] = 'c_login/getPublicIP';
 
