@@ -937,6 +937,8 @@
             var token = jwt_encode(data);
             $.post(url,{token:token},function (jsonResult) {
 
+                // return false;
+
                 if(jsonResult.Status=='0'){
 
                     toastr.warning(jsonResult.Message,'Warning');
@@ -960,6 +962,43 @@
                 else if(jsonResult.Status=='-1'){
                     modalChangePassword(jsonResult.DataUser);
                 } else if(jsonResult.Status=='1'){
+
+                    var checkSurvey = true;
+                    var checkEULA = true;
+                    // Cek apakah ada survey
+                    if(jsonResult.Survey.length>0){
+
+                        $.each(jsonResult.Survey,function (i,v) {
+                            if(v.std_detail.length>0){
+                                if(v.std_detail[0].SurveyStatus==1){
+
+                                    var htmlBody = '<div class="" style="text-align: center;">'+
+                                        '                <div style="margin-bottom: 20px;">'+
+                                        '                    <img src="'+base_url_server+'images/survey.jpg" style="width: 100%;max-width: 471px;">'+
+                                        '                </div>'+
+                                        '                <div class="panel-eula">'+
+                                        '                    Thank you for using our portal service. Currently, you are expected to fill out a survey for our convenience and progress'+
+                                        '                </div>' +
+                                        '                <textarea class="hide" id="EulaDataToken"></textarea>' +
+                                        '                <button class="btn btn-primary" id="EulaBtnStart"><b>Continue <i style="margin-left: 5px;" class="fa fa-arrow-right"></i></b></button>'+
+                                        '            </div>';
+
+                                    $('#modalGlobal .modal-header').addClass('hide');
+                                    $('#modalGlobal .modal-dialog').css('max-width','600px');
+                                    $('#modalGlobal .modal-footer').addClass('hide');
+                                    $('#modalGlobal .modal-body').html(htmlBody);
+
+                                    $('#modalGlobal').modal({
+                                        'backdrop' : 'static',
+                                        'show' : true
+                                    });
+                                    checkSurvey = false;
+                                    return false;
+                                }
+                            }
+                        })
+
+                    }
 
                     if(jsonResult.EULA==1){
 
@@ -985,7 +1024,12 @@
                             'show' : true
                         });
 
-                    } else {
+                        checkEULA = false;
+
+                    }
+
+
+                    if(checkSurvey && checkEULA){
                         if(jsonResult.url_direct.length==1){
 
                             var url = jsonResult.url_direct[0].url_login;
