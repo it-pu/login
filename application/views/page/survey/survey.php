@@ -37,6 +37,10 @@
              style="width: 100%; max-width: 250px;">
     </div>
 
+    <pre>
+        <?php print_r($this->session->all_userdata()); ?>
+    </pre>
+
     <div class="col-md-10 col-md-offset-1">
 
         <div class="panel panel-default">
@@ -108,3 +112,16 @@
     </div>
     
 </div>
+
+
+<script>
+    
+    $(document).ready(function () {
+
+    });
+    
+    function getSurveyList() {
+
+    }
+    
+</script>
