@@ -979,8 +979,8 @@
                                         '                <div class="panel-eula">'+
                                         '                    Thank you for using our portal service. Currently, you are expected to fill out a survey for our convenience and progress'+
                                         '                </div>' +
-                                        '                <textarea class="hide" id="EulaDataToken"></textarea>' +
-                                        '                <button class="btn btn-primary" id="EulaBtnStart"><b>Continue <i style="margin-left: 5px;" class="fa fa-arrow-right"></i></b></button>'+
+                                        '                <textarea class="hide" id="SurveyDataToken">'+v.Token+'</textarea>' +
+                                        '                <button class="btn btn-primary" id="surveyBtnStart"><b>Continue <i style="margin-left: 5px;" class="fa fa-arrow-right"></i></b></button>'+
                                         '            </div>';
 
                                     $('#modalGlobal .modal-header').addClass('hide');
@@ -1162,6 +1162,20 @@
             // console.log(d);
             if(jsonResult.Status==1){
                 window.location.replace(base_url_server+'eula');
+            }
+        });
+
+    });
+
+    $(document).on('click','#surveyBtnStart',function () {
+        var EulaDataToken = $('#SurveyDataToken').val();
+        var url = base_url_server+'uath/__surveyStart';
+        $.post(url,{token:EulaDataToken},function (jsonResult) {
+            // console.log(jsonResult);
+            // var d = JSON.parse(jsonResult);
+            // console.log(d);
+            if(jsonResult.Status==1){
+                window.location.replace(base_url_server+'survey');
             }
         });
 
