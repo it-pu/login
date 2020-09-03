@@ -284,7 +284,6 @@
 
 <div style="background: #ffffff;border-top: 4px solid #cccccc5e;margin-top: 20px;">
     <div class="container" style="margin-top: 30px;">
-
         <div class="row">
             <div class="col-md-8 hidden-xs">
                 <img src="<?= base_url('images/portal-login-2.jpg'); ?>" style="width: 100%">
@@ -968,38 +967,51 @@
                     // Cek apakah ada survey
                     if(jsonResult.Survey.length>0){
 
+                        var tokenDirectSurvey = '';
+
                         $.each(jsonResult.Survey,function (i,v) {
                             if(typeof v.std_detail !== "undefined" && v.std_detail.length>0){
                                 if(v.std_detail[0].SurveyStatus==1){
 
-                                    var htmlBody = '<div class="" style="text-align: center;">'+
-                                        '                <div style="margin-bottom: 20px;">'+
-                                        '                    <img src="'+base_url_server+'images/survey.jpg" style="width: 100%;max-width: 471px;">'+
-                                        '                </div>'+
-                                        '                <div class="panel-eula">'+
-                                        '                    Thank you for using our portal service. Currently, you are expected to fill out a survey for our convenience and progress'+
-                                        '                </div>' +
-                                        '                <textarea class="hide" id="SurveyDataToken">'+v.Token+'</textarea>' +
-                                        '                <button class="btn btn-primary" id="surveyBtnStart"><b>Continue <i style="margin-left: 5px;" class="fa fa-arrow-right"></i></b></button>'+
-                                        '            </div>';
-
-                                    $('#modalGlobal .modal-header').addClass('hide');
-                                    $('#modalGlobal .modal-dialog').css('max-width','600px');
-                                    $('#modalGlobal .modal-footer').addClass('hide');
-                                    $('#modalGlobal .modal-body').html(htmlBody);
-
-                                    $('#modalGlobal').modal({
-                                        'backdrop' : 'static',
-                                        'show' : true
-                                    });
                                     checkSurvey = false;
-                                    return false;
                                 }
                             }
 
                             if(typeof v.emp_detail !== "undefined" && v.emp_detail.length>0){
 
+                                if(v.emp_detail[0].SurveyStatus==1){
+                                    checkSurvey = false;
+                                }
+
                             }
+
+                            if(!checkSurvey) {
+                                tokenDirectSurvey = v.Token;
+                                var htmlBody = '<div class="" style="text-align: center;">'+
+                                    '                <div style="margin-bottom: 20px;">'+
+                                    '                    <img src="'+base_url_server+'images/survey.jpg" style="width: 100%;max-width: 471px;">'+
+                                    '                </div>'+
+                                    '                <div class="panel-eula">'+
+                                    '                    Thank you for using our portal service. Currently, you are expected to fill out a survey for our convenience and progress'+
+                                    '                </div>' +
+                                    '                <textarea class="hide" id="SurveyDataToken">'+tokenDirectSurvey+'</textarea>' +
+                                    '                <button class="btn btn-primary" id="surveyBtnStart"><b>Continue <i style="margin-left: 5px;" class="fa fa-arrow-right"></i></b></button>'+
+                                    '            </div>';
+
+                                $('#modalGlobal .modal-header').addClass('hide');
+                                $('#modalGlobal .modal-dialog').css('max-width','600px');
+                                $('#modalGlobal .modal-footer').addClass('hide');
+                                $('#modalGlobal .modal-body').html(htmlBody);
+
+                                $('#modalGlobal').modal({
+                                    'backdrop' : 'static',
+                                    'show' : true
+                                });
+
+                                return false;
+                            }
+
+
 
                         })
 
