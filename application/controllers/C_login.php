@@ -764,85 +764,106 @@ class C_login extends MY_Controller {
                     for($i=0;$i<count($dataCkSurvey);$i++){
                         $SurveyID = $dataCkSurvey[$i]['ID'];
 
-                        // Cek user mhs
-                        if($data_arr['User']=='Students'){
-                            $dataSurvDetail = $this->db->select('ID,TypeUser')
-                                ->get_where('db_it.surv_survey_usr_std',
-                                    array('SurveyID'=>$SurveyID))->result_array();
+                        // cek apakah sudah mengisi atau blm
+                        $checkExistFillOut = $this->db->from('db_it.surv_answer')->where(array(
+                            'Username' => $data_arr['Username'],
+                            'SurveyID' => $SurveyID
+                        ))->count_all_results();
 
-                            // 0 = Custom, 1 = Semua, 2 = Mhs Aktif, 3 = Alumni
-                            if(count($dataSurvDetail)>0){
-                                for($s=0;$s<count($dataSurvDetail);$s++){
-                                    if($dataSurvDetail[$s]['TypeUser']=='1'){
-                                        $dataSurvDetail[$s]['SurveyStatus'] = 1;
-                                    } else if ($dataSurvDetail[$s]['TypeUser']=='2'
-                                        && $dataUserSurv[0]['StatusStudentID']=='3') {
-                                        $dataSurvDetail[$s]['SurveyStatus'] = 1;
-                                    }  else if ($dataSurvDetail[$s]['TypeUser']=='3'
-                                        && $dataUserSurv[0]['StatusStudentID']=='1'){
-                                        $dataSurvDetail[$s]['SurveyStatus'] = 1;
-                                    } else {
-                                        $dataSurvLebihDetail = $this->db
-                                            ->query('SELECT COUNT(*) AS Total FROM db_it.surv_survey_usr_std_details 
+                        if($checkExistFillOut>0){
+                            $dataCkSurvey[$i]['emp_detail'] = [];
+                            $dataCkSurvey[$i]['std_detail'] = [];
+                        } else {
+
+                            // Cek user mhs
+                            if($data_arr['User']=='Students'){
+
+                                $dataSurvDetail = $this->db->select('ID,TypeUser')
+                                    ->get_where('db_it.surv_survey_usr_std',
+                                        array('SurveyID'=>$SurveyID))->result_array();
+
+                                // 0 = Custom, 1 = Semua, 2 = Mhs Aktif, 3 = Alumni
+                                if(count($dataSurvDetail)>0){
+                                    for($s=0;$s<count($dataSurvDetail);$s++){
+                                        if($dataSurvDetail[$s]['TypeUser']=='1'){
+                                            $dataSurvDetail[$s]['SurveyStatus'] = 1;
+                                        } else if ($dataSurvDetail[$s]['TypeUser']=='2'
+                                            && $dataUserSurv[0]['StatusStudentID']=='3') {
+                                            $dataSurvDetail[$s]['SurveyStatus'] = 1;
+                                        }  else if ($dataSurvDetail[$s]['TypeUser']=='3'
+                                            && $dataUserSurv[0]['StatusStudentID']=='1'){
+                                            $dataSurvDetail[$s]['SurveyStatus'] = 1;
+                                        } else {
+                                            $dataSurvLebihDetail = $this->db
+                                                ->query('SELECT COUNT(*) AS Total FROM db_it.surv_survey_usr_std_details 
                                                             WHERE SUSID = "'.$dataSurvDetail[$s]['ID'].'" 
                                                             AND ClassOf = "'.$dataUserSurv[0]['Year'].'"
                                                              AND ProdiID = "'.$dataUserSurv[0]['ProdiID'].'"
                                                               AND StatusStudentId = "'.$dataUserSurv[0]['StatusStudentID'].'" ')
-                                            ->result_array();
+                                                ->result_array();
 
-                                        $dataSurvDetail[$s]['SurveyStatus'] = ($dataSurvLebihDetail[0]['Total']>0)
-                                            ? 1 : 0;
+                                            $dataSurvDetail[$s]['SurveyStatus'] = ($dataSurvLebihDetail[0]['Total']>0)
+                                                ? 1 : 0;
 
+                                        }
                                     }
                                 }
+
+                                $dataCkSurvey[$i]['std_detail'] = $dataSurvDetail;
                             }
-                            $dataCkSurvey[$i]['std_detail'] = $dataSurvDetail;
-                        }
-                        // cek untuk emp
-                        else {
+                            // cek untuk emp
+                            else {
 
-                            $dataSurvDetailEmp = $this->db->select('ID,TypeUser')
-                                ->get_where('db_it.surv_survey_usr_emp',
-                                    array('SurveyID'=>$SurveyID))->result_array();
+                                $dataSurvDetailEmp = $this->db->select('ID,TypeUser')
+                                    ->get_where('db_it.surv_survey_usr_emp',
+                                        array('SurveyID'=>$SurveyID))->result_array();
 
-                            // 1 = All emp, 2 = Hanya dosen, 3 = Hanya tenaga pendidik (selain dosen)
-                            if(count($dataSurvDetailEmp)>0){
-                                for($s=0;$s<count($dataSurvDetailEmp);$s++){
+                                // 1 = All emp, 2 = Hanya dosen, 3 = Hanya tenaga pendidik (selain dosen)
+                                if(count($dataSurvDetailEmp)>0){
+                                    for($s=0;$s<count($dataSurvDetailEmp);$s++){
 
-                                    if($dataSurvDetailEmp[$s]['TypeUser']=='1'){
-                                        $dataSurvDetail[$s]['SurveyStatus'] = 1;
-                                    } else if($dataSurvDetailEmp[$s]['TypeUser']=='2') {
-
-                                        if($dataUserSurv[0]['PositionMain']=='14.5' || $dataUserSurv[0]['PositionMain']=='14.6' || $dataUserSurv[0]['PositionMain']=='14.7' ||
-                                            $dataUserSurv[0]['PositionOther1']=='14.5' || $dataUserSurv[0]['PositionOther1']=='14.6' || $dataUserSurv[0]['PositionOther1']=='14.7' ||
-                                            $dataUserSurv[0]['PositionOther2']=='14.5' || $dataUserSurv[0]['PositionOther2']=='14.6' || $dataUserSurv[0]['PositionOther2']=='14.7' ||
-                                            $dataUserSurv[0]['PositionOther3']=='14.5' || $dataUserSurv[0]['PositionOther3']=='14.6' || $dataUserSurv[0]['PositionOther3']=='14.7') {
+                                        if($dataSurvDetailEmp[$s]['TypeUser']=='1'){
                                             $dataSurvDetail[$s]['SurveyStatus'] = 1;
-                                        } else {
-                                            $dataSurvDetail[$s]['SurveyStatus'] = 0;
+                                        } else if($dataSurvDetailEmp[$s]['TypeUser']=='2') {
+
+                                            if($dataUserSurv[0]['PositionMain']=='14.5' || $dataUserSurv[0]['PositionMain']=='14.6' || $dataUserSurv[0]['PositionMain']=='14.7' ||
+                                                $dataUserSurv[0]['PositionOther1']=='14.5' || $dataUserSurv[0]['PositionOther1']=='14.6' || $dataUserSurv[0]['PositionOther1']=='14.7' ||
+                                                $dataUserSurv[0]['PositionOther2']=='14.5' || $dataUserSurv[0]['PositionOther2']=='14.6' || $dataUserSurv[0]['PositionOther2']=='14.7' ||
+                                                $dataUserSurv[0]['PositionOther3']=='14.5' || $dataUserSurv[0]['PositionOther3']=='14.6' || $dataUserSurv[0]['PositionOther3']=='14.7') {
+                                                $dataSurvDetail[$s]['SurveyStatus'] = 1;
+                                            } else {
+                                                $dataSurvDetail[$s]['SurveyStatus'] = 0;
+                                            }
+
+                                        }
+                                        else if($dataSurvDetailEmp[$s]['TypeUser']=='3') {
+
+                                            if($dataUserSurv[0]['PositionMain']!='14.7' && $dataUserSurv[0]['PositionOther1']!='14.7'
+                                                && $dataUserSurv[0]['PositionOther2']!='14.7' && $dataUserSurv[0]['PositionOther3']!='14.7') {
+                                                $dataSurvDetail[$s]['SurveyStatus'] = 1;
+                                            } else {
+                                                $dataSurvDetail[$s]['SurveyStatus'] = 0;
+                                            }
+
                                         }
 
                                     }
-                                    else if($dataSurvDetailEmp[$s]['TypeUser']=='3') {
-
-                                        if($dataUserSurv[0]['PositionMain']!='14.7' && $dataUserSurv[0]['PositionOther1']!='14.7'
-                                            && $dataUserSurv[0]['PositionOther2']!='14.7' && $dataUserSurv[0]['PositionOther3']!='14.7') {
-                                            $dataSurvDetail[$s]['SurveyStatus'] = 1;
-                                        } else {
-                                            $dataSurvDetail[$s]['SurveyStatus'] = 0;
-                                        }
-
-                                    }
-
                                 }
+
+                                $dataCkSurvey[$i]['emp_detail'] = $dataSurvDetailEmp;
+
+
                             }
 
-                            $dataCkSurvey[$i]['emp_detail'] = $dataSurvDetailEmp;
-
-
                         }
+
+
+
+
+
                         $tokenID = $this->jwt->encode(array(
                             'Username' => $data_arr['Username'],
+                            'UserType'=> $UserType,
                             'SurveyID'=>$SurveyID,
                             'ExpiredAt' => date('Y-m-d H:i:s',strtotime(date('Y-m-d H:i:s')."+1 days")),
                             'LogonBy' => 'basic',
@@ -856,22 +877,23 @@ class C_login extends MY_Controller {
                 $result['Survey'] = (count($dataCkSurvey)>0) ? $dataCkSurvey : [];
                 $result['LoginAs'] = $data_arr['User'];
 
-            } else {
+            }
+            else {
                 $result['Survey'] = [];
             }
 
 
 
             // Insert Log Login
-            $hostname = gethostbyaddr($_SERVER['REMOTE_ADDR']);
-            $dataLogLogin = array(
-                'Username' => $data_arr['Username'],
-                'UserType' => $UserType,
-                'LogonBy' => 'basic',
-                'IPLocal' => $hostname,
-                'IPPublic' => $data_arr['IPPublic']
-            );
-            $this->db->insert('db_it.log_login',$dataLogLogin);
+//            $hostname = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+//            $dataLogLogin = array(
+//                'Username' => $data_arr['Username'],
+//                'UserType' => $UserType,
+//                'LogonBy' => 'basic',
+//                'IPLocal' => $hostname,
+//                'IPPublic' => $data_arr['IPPublic']
+//            );
+//            $this->db->insert('db_it.log_login',$dataLogLogin);
 
         }
 
