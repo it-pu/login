@@ -68,6 +68,7 @@ class C_survey extends MY_Controller {
         $dataSetSession = array(
             'portal_Username' => $data_arr['Username'],
             'portal_SurveyID' => $data_arr['SurveyID'],
+            'portal_UserType' => $data_arr['UserType'],
             'portal_SurveyLogin' => true
         );
 

@@ -969,7 +969,7 @@
                     if(jsonResult.Survey.length>0){
 
                         $.each(jsonResult.Survey,function (i,v) {
-                            if(v.std_detail.length>0){
+                            if(typeof v.std_detail !== "undefined" && v.std_detail.length>0){
                                 if(v.std_detail[0].SurveyStatus==1){
 
                                     var htmlBody = '<div class="" style="text-align: center;">'+
@@ -996,6 +996,11 @@
                                     return false;
                                 }
                             }
+
+                            if(typeof v.emp_detail !== "undefined" && v.emp_detail.length>0){
+
+                            }
+
                         })
 
                     }

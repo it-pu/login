@@ -254,6 +254,24 @@
         getIPPublic();
     });
 
+    function loading_page_modal(action) {
+
+        if(action=='hide' && typeof action !== 'undefined'){
+            $('#modal2Loading').modal('hide');
+        } else {
+            $('#modal2Loading .modal-header').addClass('hide');
+            $('#modal2Loading .modal-footer').addClass('hide');
+            $('#modal2Loading .modal-dialog').removeClass('modal-sm modal-lg');
+            $('#modal2Loading .modal-dialog').addClass('modal-sm');
+
+            $('#modal2Loading .modal-body').html('<div style="text-align: center;"><h4><i class="fa fa-circle-o-notch fa-spin fa-fw"></i> <span>Loading page . . .</span></h4></div>');
+            $('#modal2Loading').modal({
+                'backdrop' : 'static',
+                'show' : true
+            });
+        }
+    }
+
 </script>
 
 <style>
@@ -309,6 +327,24 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modal2Loading" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
