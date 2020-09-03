@@ -820,29 +820,43 @@ class C_login extends MY_Controller {
 
                                 // 1 = All emp, 2 = Hanya dosen, 3 = Hanya tenaga pendidik (selain dosen)
                                 if(count($dataSurvDetailEmp)>0){
+
+                                    $arrAllPosition = [];
+
+                                    if($dataUserSurv[0]['PositionMain']!='' && $dataUserSurv[0]['PositionMain']!=null){
+                                        array_push($arrAllPosition,$dataUserSurv[0]['PositionMain']);
+                                    }
+                                    if($dataUserSurv[0]['PositionOther1']!='' && $dataUserSurv[0]['PositionOther1']!=null){
+                                        array_push($arrAllPosition,$dataUserSurv[0]['PositionOther1']);
+                                    }
+                                    if($dataUserSurv[0]['PositionOther2']!='' && $dataUserSurv[0]['PositionOther2']!=null){
+                                        array_push($arrAllPosition,$dataUserSurv[0]['PositionOther2']);
+                                    }
+                                    if($dataUserSurv[0]['PositionOther3']!='' && $dataUserSurv[0]['PositionOther3']!=null){
+                                        array_push($arrAllPosition,$dataUserSurv[0]['PositionOther3']);
+                                    }
+
+
                                     for($s=0;$s<count($dataSurvDetailEmp);$s++){
 
+
                                         if($dataSurvDetailEmp[$s]['TypeUser']=='1'){
-                                            $dataSurvDetail[$s]['SurveyStatus'] = 1;
+                                            $dataSurvDetailEmp[$s]['SurveyStatus'] = 1;
                                         } else if($dataSurvDetailEmp[$s]['TypeUser']=='2') {
 
-                                            if($dataUserSurv[0]['PositionMain']=='14.5' || $dataUserSurv[0]['PositionMain']=='14.6' || $dataUserSurv[0]['PositionMain']=='14.7' ||
-                                                $dataUserSurv[0]['PositionOther1']=='14.5' || $dataUserSurv[0]['PositionOther1']=='14.6' || $dataUserSurv[0]['PositionOther1']=='14.7' ||
-                                                $dataUserSurv[0]['PositionOther2']=='14.5' || $dataUserSurv[0]['PositionOther2']=='14.6' || $dataUserSurv[0]['PositionOther2']=='14.7' ||
-                                                $dataUserSurv[0]['PositionOther3']=='14.5' || $dataUserSurv[0]['PositionOther3']=='14.6' || $dataUserSurv[0]['PositionOther3']=='14.7') {
-                                                $dataSurvDetail[$s]['SurveyStatus'] = 1;
+                                            if( in_array('14.5',$arrAllPosition) ||  in_array('14.6',$arrAllPosition) ||  in_array('14.7',$arrAllPosition)) {
+                                                $dataSurvDetailEmp[$s]['SurveyStatus'] = 1;
                                             } else {
-                                                $dataSurvDetail[$s]['SurveyStatus'] = 0;
+                                                $dataSurvDetailEmp[$s]['SurveyStatus'] = 0;
                                             }
 
                                         }
                                         else if($dataSurvDetailEmp[$s]['TypeUser']=='3') {
 
-                                            if($dataUserSurv[0]['PositionMain']!='14.7' && $dataUserSurv[0]['PositionOther1']!='14.7'
-                                                && $dataUserSurv[0]['PositionOther2']!='14.7' && $dataUserSurv[0]['PositionOther3']!='14.7') {
-                                                $dataSurvDetail[$s]['SurveyStatus'] = 1;
+                                            if(count($arrAllPosition)==1 && in_array('14.7',$arrAllPosition)){
+                                                $dataSurvDetailEmp[$s]['SurveyStatus'] = 0;
                                             } else {
-                                                $dataSurvDetail[$s]['SurveyStatus'] = 0;
+                                                $dataSurvDetailEmp[$s]['SurveyStatus'] = 1;
                                             }
 
                                         }
