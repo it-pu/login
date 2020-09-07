@@ -86,10 +86,30 @@
 
 <body>
 
+<!--<pre>-->
+<!--    --><?php //print_r($Survey_checkSurvey);
+//    exit();?>
+<!--</pre>-->
+
 <div class="container" style="margin-top: 50px;">
     <div class="row">
 
-        <?php if($EULA==1 || $EULA=='1'){ ?>
+        <?php if($Survey_checkSurvey==0) { ?>
+
+            <div class="col-md-6 col-md-offset-3">
+                <div class="" style="text-align: center;">
+                    <div style="margin-bottom: 20px;">
+                        <img src="<?= base_url('images/survey.jpg'); ?>" style="width: 100%;max-width: 471px;">
+                    </div>
+                    <div class="panel-eula">
+                        Thanks for taking the time to complete our survey. This survey should only take a few minutes of your time. We value your feedback. Highly appreciated for your participation that bring improvement for our university.
+                    </div>
+                    <textarea class="hide" id="SurveyDataToken"><?= $Survey_tokenDirectSurvey; ?></textarea>
+                    <button class="btn btn-primary" id="surveyBtnStart"><b>Continue <i style="margin-left: 5px;" class="fa fa-arrow-right"></i></b></button>
+                </div>
+            </div>
+
+        <?php }  else if($EULA==1 || $EULA=='1'){ ?>
             <div class="col-md-6 col-md-offset-3" style="text-align: center;">
                 <div style="margin-bottom: 20px;">
                     <img src="<?= base_url('images/eula2.jpg'); ?>" style="width: 100%;max-width: 250px;">
@@ -100,7 +120,8 @@
                 <textarea class="hide" id="EulaDataToken"><?= $toInsertEULA; ?></textarea>
                 <button class="btn btn-primary" id="EulaBtnStart"><b>Continue <i style="margin-left: 5px;" class="fa fa-arrow-right"></i></b></button>
             </div>
-        <?php } else { ?>
+        <?php }
+        else { ?>
 
         <?php if($User==1 || $User=='1'){ ?>
                 <div class="col-xs-12">
@@ -109,7 +130,8 @@
                 </div>
             </div>
 
-        <?php } else { ?>
+        <?php }
+        else { ?>
 
             <div id="double" class="col-md-8 col-md-offset-2">
                 <div class="col-md-2"></div>
@@ -182,7 +204,8 @@
     function firstLogin(){
         var user = "<?= $User; ?>";
         var EULA = "<?= $EULA; ?>"
-        if(parseInt(user)==1 && parseInt(EULA)==0){
+        var Survey_checkSurvey = <?= $Survey_checkSurvey; ?>;
+        if(parseInt(user)==1 && parseInt(EULA)==0 && Survey_checkSurvey==1){
             var url_login = "<?php echo $url_login; ?>";
             var token = "<?php echo $token; ?>";
             $('#formSubmitLogin').attr('action',url_login);
@@ -210,6 +233,16 @@
             }
         });
 
+    });
+
+    $(document).on('click','#surveyBtnStart',function () {
+        var SurveyDataToken = $('#SurveyDataToken').val();
+        var url = base_url_server+'uath/__surveyStart';
+        $.post(url,{token:SurveyDataToken},function (jsonResult) {
+            if(jsonResult.Status==1){
+                window.location.replace(base_url_server+'survey');
+            }
+        });
     });
 
 </script>

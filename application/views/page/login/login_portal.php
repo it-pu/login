@@ -970,9 +970,9 @@
                         var tokenDirectSurvey = '';
 
                         $.each(jsonResult.Survey,function (i,v) {
+
                             if(typeof v.std_detail !== "undefined" && v.std_detail.length>0){
                                 if(v.std_detail[0].SurveyStatus==1){
-
                                     checkSurvey = false;
                                 }
                             }
@@ -992,7 +992,7 @@
                                     '                    <img src="'+base_url_server+'images/survey.jpg" style="width: 100%;max-width: 471px;">'+
                                     '                </div>'+
                                     '                <div class="panel-eula">'+
-                                    '                    Thank you for using our portal service. Currently, you are expected to fill out a survey for our convenience and progress'+
+                                    '                    Thanks for taking the time to complete our survey. This survey should only take a few minutes of your time. We value your feedback. Highly appreciated for your participation that bring improvement for our university.'+
                                     '                </div>' +
                                     '                <textarea class="hide" id="SurveyDataToken">'+tokenDirectSurvey+'</textarea>' +
                                     '                <button class="btn btn-primary" id="surveyBtnStart"><b>Continue <i style="margin-left: 5px;" class="fa fa-arrow-right"></i></b></button>'+
