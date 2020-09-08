@@ -183,6 +183,7 @@ class C_login extends MY_Controller {
 
                     // cek survey
                     $checkSurvey = 1;
+                    $tokenDirectSurvey = '';
                     if($To=='std' || $To=='emp'){
                         $dataSurvey = $this->checkSurvey($To,$dataUser['url_direct'][0]['Username'],$dataUser['url_direct']);
 
