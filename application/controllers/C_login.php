@@ -189,6 +189,11 @@ class C_login extends MY_Controller {
 
                         if(count($dataSurvey)>0) {
                             foreach ($dataSurvey AS $item){
+
+                                if($checkSurvey==1){
+                                    $tokenDirectSurvey = $item['Token'];
+                                }
+
                                 if(isset($item['std_detail']) && count($item['std_detail'])>0){
                                     if($item['std_detail'][0]['SurveyStatus']==1){
                                         $checkSurvey = 0;
@@ -202,9 +207,7 @@ class C_login extends MY_Controller {
 
                                 }
 
-                                if($checkSurvey==1){
-                                    $tokenDirectSurvey = $item['Token'];
-                                }
+
                             }
                         }
                     }
