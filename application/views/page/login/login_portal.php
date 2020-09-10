@@ -408,11 +408,11 @@
         var html = '<div class="well" id="formWellUsername">' +
             '                        <div class="form-group">' +
             '                            <label for="username" class="control-label">Username</label>' +
-            '                            <input type="text" class="form-control" id="username_ad" placeholder="Input username...">' +
+            '                            <input type="text" class="form-control" id="username" placeholder="Input username...">' +
             '                        </div>' +
             '                        <div class="form-group">' +
             '                            <label for="password" class="control-label">Password</label>' +
-            '                            <input type="password" class="form-control" id="password_ad" placeholder="Input password...">' +
+            '                            <input type="password" class="form-control" id="password" placeholder="Input password...">' +
             '                        </div>' +
             '<div style="text-align: right;"> <button type="button" class="btn btn-default" id="btnBackLoginFrAd"><i class="fa fa-angle-left"></i> Back</button> <button type="submit" class="btn btn-primary" id="btnLoginCheckAD">Sign In <i class="fa fa-angle-right"></i></button></div>';
 
@@ -428,8 +428,8 @@
         var password = $("#password_ad").val();
         if (username == '' || password == '') {
             toastr.error('Username and Password is Required');
-            $('#password_ad').val('');
-            $('#username_ad').val('');
+            $('#password').val('');
+            $('#username').val('');
             $('#btnLoginCheckAD').html('Sign In <i class="fa fa-angle-right"></i>').prop('disabled',false);
             $('#btnBackLoginFrAd').prop('disabled',false);
         }
