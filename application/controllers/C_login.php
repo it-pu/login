@@ -1363,6 +1363,8 @@ class C_login extends MY_Controller {
             }
         }
 
+        $arr_result['Survey'] = $this->checkSurvey($To,$EULAUsername,$arr_result['data']['url_direct']);
+
 
 
         if($EULACheck){
@@ -1405,15 +1407,15 @@ class C_login extends MY_Controller {
                 : [];
 
             // Insert Log Login
-            $hostname = gethostbyaddr($_SERVER['REMOTE_ADDR']);
-            $dataLogLogin = array(
-                'Username' => $EULAUsername,
-                'UserType' => $To,
-                'LogonBy' => 'ad',
-                'IPLocal' => $hostname,
-                'IPPublic' => $Input['IPPublic']
-            );
-            $this->db->insert('db_it.log_login',$dataLogLogin);
+//            $hostname = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+//            $dataLogLogin = array(
+//                'Username' => $EULAUsername,
+//                'UserType' => $To,
+//                'LogonBy' => 'ad',
+//                'IPLocal' => $hostname,
+//                'IPPublic' => $Input['IPPublic']
+//            );
+//            $this->db->insert('db_it.log_login',$dataLogLogin);
         }
 
 

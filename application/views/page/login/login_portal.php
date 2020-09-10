@@ -408,11 +408,11 @@
         var html = '<div class="well" id="formWellUsername">' +
             '                        <div class="form-group">' +
             '                            <label for="username" class="control-label">Username</label>' +
-            '                            <input type="text" class="form-control" id="username" placeholder="Input username...">' +
+            '                            <input type="text" class="form-control" id="username_ad" placeholder="Input username...">' +
             '                        </div>' +
             '                        <div class="form-group">' +
             '                            <label for="password" class="control-label">Password</label>' +
-            '                            <input type="password" class="form-control" id="password" placeholder="Input password...">' +
+            '                            <input type="password" class="form-control" id="password_ad" placeholder="Input password...">' +
             '                        </div>' +
             '<div style="text-align: right;"> <button type="button" class="btn btn-default" id="btnBackLoginFrAd"><i class="fa fa-angle-left"></i> Back</button> <button type="submit" class="btn btn-primary" id="btnLoginCheckAD">Sign In <i class="fa fa-angle-right"></i></button></div>';
 
@@ -424,12 +424,12 @@
     $(document).on('click','#btnLoginCheckAD',function (e) {
         loading_button('#btnLoginCheckAD');
         $('#btnBackLoginFrAd').prop('disabled',true);
-        var username = $("#username").val();
-        var password = $("#password").val();
+        var username = $("#username_ad").val();
+        var password = $("#password_ad").val();
         if (username == '' || password == '') {
             toastr.error('Username and Password is Required');
-            $('#password').val('');
-            $('#username').val('');
+            $('#password_ad').val('');
+            $('#username_ad').val('');
             $('#btnLoginCheckAD').html('Sign In <i class="fa fa-angle-right"></i>').prop('disabled',false);
             $('#btnBackLoginFrAd').prop('disabled',false);
         }
@@ -861,9 +861,60 @@
         $.post(url,{token:token},function (jsonResult) {
             if (jsonResult['Status']) {
 
+                var checkSurvey = true;
+                var checkEULA = true;
+
+                if(jsonResult.Survey.length>0){
+                    var tokenDirectSurvey = '';
+                    $.each(jsonResult.Survey,function (i,v) {
+
+                        if(typeof v.std_detail !== "undefined" && v.std_detail.length>0){
+                            if(v.std_detail[0].SurveyStatus==1){
+                                checkSurvey = false;
+                            }
+                        }
+
+                        if(typeof v.emp_detail !== "undefined" && v.emp_detail.length>0){
+
+                            if(v.emp_detail[0].SurveyStatus==1){
+                                checkSurvey = false;
+                            }
+
+                        }
+
+                        if(!checkSurvey) {
+                            tokenDirectSurvey = v.Token;
+                            var htmlBody = '<div class="" style="text-align: center;">'+
+                                '                <div style="margin-bottom: 20px;">'+
+                                '                    <img src="'+base_url_server+'images/survey.jpg" style="width: 100%;max-width: 471px;">'+
+                                '                </div>'+
+                                '                <div class="panel-eula">'+
+                                '                    Thanks for taking the time to complete our survey. This survey should only take a few minutes of your time. We value your feedback. Highly appreciated for your participation that bring improvement for our university.'+
+                                '                </div>' +
+                                '                <textarea class="hide" id="SurveyDataToken">'+tokenDirectSurvey+'</textarea>' +
+                                '                <button class="btn btn-primary" id="surveyBtnStart"><b>Continue <i style="margin-left: 5px;" class="fa fa-arrow-right"></i></b></button>'+
+                                '            </div>';
+
+                            $('#modalGlobal .modal-header').addClass('hide');
+                            $('#modalGlobal .modal-dialog').css('max-width','600px');
+                            $('#modalGlobal .modal-footer').addClass('hide');
+                            $('#modalGlobal .modal-body').html(htmlBody);
+
+                            $('#modalGlobal').modal({
+                                'backdrop' : 'static',
+                                'show' : true
+                            });
+
+                            return false;
+                        }
+
+                    });
+
+                }
+
                 if(jsonResult.EULA==1){
 
-                    var token_eula = jwt_encode(jsonResult);
+                    var token_eula = jwt_encode(jsonResult['data']);
                     var htmlBody = '<div class="" style="text-align: center;">'+
                         '                <div style="margin-bottom: 20px;">'+
                         '                    <img src="'+base_url_server+'images/eula2.jpg" style="width: 100%;max-width: 250px;">'+
@@ -885,7 +936,11 @@
                         'show' : true
                     });
 
-                } else {
+                    var checkEULA = true;
+
+                }
+
+                if(checkSurvey && checkEULA) {
                     var rs = jsonResult['data'];
                     if(rs.url_direct.length==1){
                         var url = rs.url_direct[0].url_login;
@@ -1146,13 +1201,10 @@
     }
 
 
-
     function loading_button(element) {
         $(''+element).html('<i class="fa fa-refresh fa-spin fa-fw right-margin"></i> Loading...');
         $(''+element).prop('disabled',true);
     }
-
-
 
     $(document).on('click','.toggle-password',function () {
         var inputPass = $('#password');
