@@ -424,8 +424,8 @@
     $(document).on('click','#btnLoginCheckAD',function (e) {
         loading_button('#btnLoginCheckAD');
         $('#btnBackLoginFrAd').prop('disabled',true);
-        var username = $("#username_ad").val();
-        var password = $("#password_ad").val();
+        var username = $("#username").val();
+        var password = $("#password").val();
         if (username == '' || password == '') {
             toastr.error('Username and Password is Required');
             $('#password').val('');
