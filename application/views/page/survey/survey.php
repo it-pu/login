@@ -175,7 +175,7 @@
                     var Answer = (parseInt(v.QTID)==3)
                         ? ans : '';
 
-                    var IsTrue = (parseInt(v.QTID)==3)
+                    var IsTrue = (parseInt(v.QTID)==5)
                         ? ans : '';
 
                     var arr = {
@@ -184,7 +184,7 @@
                         QTID : v.QTID,
                         Rate : Rate,
                         Answer : Answer,
-                        IsTrue : IsTrue
+                        IsTrue : ''+IsTrue
                     };
                     dataAnsw.push(arr);
 
