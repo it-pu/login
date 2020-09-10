@@ -936,7 +936,7 @@
                         'show' : true
                     });
 
-                    var checkEULA = true;
+                    checkEULA = false;
 
                 }
 
