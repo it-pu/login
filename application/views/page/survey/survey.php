@@ -175,12 +175,16 @@
                     var Answer = (parseInt(v.QTID)==3)
                         ? ans : '';
 
+                    var IsTrue = (parseInt(v.QTID)==5)
+                        ? ans : '';
+
                     var arr = {
                         SurveyID : "<?= $this->session->userdata('portal_SurveyID'); ?>",
                         QuestionID : v.QuestionID,
                         QTID : v.QTID,
                         Rate : Rate,
-                        Answer : Answer
+                        Answer : Answer,
+                        IsTrue : ''+IsTrue
                     };
                     dataAnsw.push(arr);
 
@@ -257,6 +261,15 @@
 
 
     });
+
+    $(document).on('change','.radio-select',function () {
+
+        var ID = $(this).attr('data-id');
+        var v = $('input[name="opt_true_false_'+ID+'"]:checked').val();
+
+        $('#formAnsw_'+ID).val(v);
+
+    });
     
     function getSurveyList() {
 
@@ -297,6 +310,16 @@
                             : '<input class="form-control" id="formAnsw_'+v.QuestionID+'">';
 
                         showAnswer = '<div class="item-answer">'+typeInput+'</div>';
+                    } else if(v.QTID==5){
+                        showAnswer = '<div class="item-answer" >' +
+                            '<label class="radio-inline">' +
+                            '  <input type="radio" name="opt_true_false_'+v.QuestionID+'" class="radio-select" data-id="'+v.QuestionID+'" value="1"> Ya ' +
+                            '</label>' +
+                            '<label class="radio-inline">' +
+                            '  <input type="radio" name="opt_true_false_'+v.QuestionID+'" class="radio-select" data-id="'+v.QuestionID+'" value="0"> Tidak ' +
+                            '</label>' +
+                            '<input class="hide" id="formAnsw_'+v.QuestionID+'" />' +
+                            '</div>';
                     }
 
                     var isRequired = (parseInt(v.IsRequired)==1)
