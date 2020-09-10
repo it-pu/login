@@ -914,7 +914,12 @@
 
                 if(jsonResult.EULA==1){
 
-                    var token_eula = jwt_encode(jsonResult['data']);
+                    var arrtoTokenEula = {
+                        EULA : jsonResult.EULA,
+                        dataEULA : jsonResult.dataEULA,
+                        url_direct : jsonResult.data.url_direct
+                    };
+                    var token_eula = jwt_encode(arrtoTokenEula);
                     var htmlBody = '<div class="" style="text-align: center;">'+
                         '                <div style="margin-bottom: 20px;">'+
                         '                    <img src="'+base_url_server+'images/eula2.jpg" style="width: 100%;max-width: 250px;">'+
