@@ -194,11 +194,16 @@
 
                 if(submitAns){
                     loading_page_modal();
+
+                    var FormType = "<?= $this->session->userdata('portal_FormType'); ?>";
+                    var Key = "<?= $this->session->userdata('portal_Key'); ?>";
+
                     var data = {
                         action : 'setDataSurvey',
                         InsAnswer : {
                             Username : "<?= $this->session->userdata('portal_Username'); ?>",
                             Type : "<?= $this->session->userdata('portal_UserType'); ?>",
+                            FormType : FormType,
                             SurveyID : "<?= $this->session->userdata('portal_SurveyID'); ?>",
                         },
                         dataAnsw : dataAnsw
@@ -218,8 +223,21 @@
                                 '                </div>'+
                                 '               <h3 style="margin-bottom: 25px;"><small>= = =</small> Thank you <small>= = =</small></h3>' +
                                 '                  <div class="alert alert-info" role="alert"><b>Directly to the portal in <span id="showCountDown" style="color: red;">-</span> seconds</b></div>' +
-                                '<p>if not automatically login to the portal please re-login, <a href="'+dt_base_url_js+'portal-login">re-login</a></p>'+
+                                '<p>If not automatically login to the portal please re-login, <a href="'+dt_base_url_js+'portal-login">re-login</a></p>'+
                                 '            </div>';
+
+                            if(FormType=='external') {
+                                htmlBody = '<div class="" style="text-align: center;">'+
+                                    '                <div style="margin-bottom: 20px;">'+
+                                    '                   <img src="'+dt_base_url_js+'images/checkmark.png" style="width: 100%;max-width: 100px;" />' +
+                                    '                </div>'+
+                                    '               <h3 style="margin-bottom: 25px;"><small>= = =</small> Thank you <small>= = =</small></h3>' +
+                                    '                  <div class="alert alert-info" role="alert"><b>Directly to the portal in <span id="showCountDown" style="color: red;">-</span> seconds</b></div>' +
+                                    '<p>If not auto redirect please <a href="'+dt_base_url_js+'form/'+Key+'">click here</a></p>'+
+                                    '            </div>';
+                            }
+
+
 
                             $('#modalGlobal .modal-header').addClass('hide');
                             $('#modalGlobal .modal-dialog').css('max-width','600px');
@@ -354,7 +372,7 @@
 
             } else {
                 alert('Survey can not showing!');
-                window.location.replace(dt_base_url_js);
+                // window.location.replace(dt_base_url_js);
             }
 
         })
@@ -362,9 +380,17 @@
     }
     
     function getRelogin() {
+        var FormType = "<?= $this->session->userdata('portal_FormType'); ?>";
+        var Key = "<?= $this->session->userdata('portal_Key'); ?>";
+
         var urlDest = dt_base_url_js+'uath/__destroySessionEULA';
         $.getJSON(urlDest,function (result) {
-            loadNewLogin();
+            if(FormType=='external'){
+                var urlDirect = dt_base_url_js+'form/'+Key;
+                window.location.replace(urlDirect);
+            } else {
+                loadNewLogin();
+            }
         });
 
     }
