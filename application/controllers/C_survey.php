@@ -52,6 +52,7 @@ class C_survey extends MY_Controller {
             $data['ID'] = $dataSurvey[0]['ID'];
             $data['Title'] = $dataSurvey[0]['Title'];
         }
+        $this->session->sess_destroy();
         $content = $this->load->view('page/survey/checksurvey',$data,true);
         parent::template($content);
 
