@@ -1023,16 +1023,26 @@ class C_login extends MY_Controller {
                     'flag' => 'std'
                 );
             }
-            else
+            else // login Podivers
             {
+                $querypodivers = $this->db->query('select count(*) as total from db_podivers.registration where NPM = "'.$Username.'"')->result_array();
+                if ($querypodivers[0]['total'] > 0) {
+                    $arp = array(
+                        'url' => url_podivers.'?token='.$token,
+                        'url_login' => url_podivers.'auth/loginPodivers',
+                        'token' => $token,
+                        'flag' => 'std'
+                    );
+                }
+                else{
                 $arp = array(
                     'url' => url_students.'?token='.$token,
                     'url_login' => url_students,
                     'token' => $token,
                     'flag' => 'std'
                 );
+                }
             }
-
            
             array_push($url_direct,$arp);
         }
