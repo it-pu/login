@@ -835,7 +835,8 @@ class C_login extends MY_Controller {
                 // cek apakah sudah mengisi atau blm
                 $checkExistFillOut = $this->db->from('db_it.surv_answer')->where(array(
                     'Username' => $Username,
-                    'SurveyID' => $SurveyID
+                    'SurveyID' => $SurveyID,
+                    'Status' => '1'
                 ))->count_all_results();
 
                 if($checkExistFillOut>0){
