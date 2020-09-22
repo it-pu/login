@@ -90,25 +90,32 @@
                 <img src="<?php echo base_url('assets/icon/logo_pu.png'); ?>" style="max-width: 200px;">
 
                 <hr/>
+                <?php if ($expired == 1): ?>
+                    <div style="background: lightyellow; border: 1px solid #ccc;padding: 15px;color: #f44336;margin-bottom: 20px;">
+                    <div>
+                      <b>Url Expired</b>
+                    </div>
+                  </div>
+                <?php else: ?>
+                    <textarea hidden class="hide" id="formToken"><?php echo $token; ?></textarea>
 
-                <textarea hidden class="hide" id="formToken"><?php echo $token; ?></textarea>
+                    <div class="form-group">
+                        <input type="password" class="form-control" id="formNewPassword" placeholder="Input new password..." autofocus>
 
-                <div class="form-group">
-                    <input type="password" class="form-control" id="formNewPassword" placeholder="Input new password..." autofocus>
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" id="formNewPasswordRe" disabled placeholder="Re-input new password...">
+                        <span id="alertPass" style="float: right;"></span>
+                    </div>
 
-                </div>
-                <div class="form-group">
-                    <input type="password" class="form-control" id="formNewPasswordRe" disabled placeholder="Re-input new password...">
-                    <span id="alertPass" style="float: right;"></span>
-                </div>
+                    <hr/>
+                    <button id="btnSubmit" class="btn btn-success btn-block" disabled>Submit</button>
 
-                <hr/>
-                <button id="btnSubmit" class="btn btn-success btn-block" disabled>Submit</button>
-
-                <p style="text-align: left;margin-top: 15px;color: #9E9E9E;font-size: 12px;">
-                    - Minimum 8 character
-                    <br/>
-                    - Case sensitive</p>
+                    <p style="text-align: left;margin-top: 15px;color: #9E9E9E;font-size: 12px;">
+                        - Minimum 8 character
+                        <br/>
+                        - Case sensitive</p>   
+                <?php endif ?>
             </div>
         </div>
     </div>
