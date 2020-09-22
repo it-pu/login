@@ -1474,10 +1474,10 @@ class C_login extends MY_Controller {
 
     public function setLogLogin(){
 
-        $token = $this->input->post('token');
-        $key = "L0G1N-S50-3R0";
-        $data_arr = (array) $this->jwt->decode($token,$key);
-        $this->db->insert('db_it.log_login',$data_arr);
+//        $token = $this->input->post('token');
+//        $key = "L0G1N-S50-3R0";
+//        $data_arr = (array) $this->jwt->decode($token,$key);
+//        $this->db->insert('db_it.log_login',$data_arr);
 
         return print_r(1);
 

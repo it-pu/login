@@ -45,6 +45,15 @@
         border: 1px solid #f9b6b6;
         background: #ffdede5c;
     }
+
+    .my-email {
+        background: #efefef;
+        padding: 10px;
+        color: #2196F3;
+        border-radius: 10px;
+        font-weight: 600;
+        text-align: center;
+    }
 </style>
 
 <div class="container" style="margin-top: 40px;">
@@ -54,9 +63,9 @@
              style="width: 100%; max-width: 250px;">
     </div>
 
-<!--    <pre>-->
-<!--        --><?php //print_r($this->session->all_userdata()); ?>
-<!--    </pre>-->
+    <pre>
+    <?php print_r($this->session->all_userdata()); ?>
+    </pre>
 
     <div class="col-md-10 col-md-offset-1">
 
@@ -137,8 +146,131 @@
 
     $(document).on('click','#btnSubmitSurvey',function () {
 
+        localStorage.removeItem('token-question-email');
+
+        var token_q = localStorage.getItem('token-question');
+        var d = jwt_decode(token_q,'UAP)(*');
+
+        var submitAns = true;
+
+        if(d.length>0) {
+
+            var dataAnsw = [];
+
+            $.each(d, function (i, v) {
+
+                var ans = $('#formAnsw_' + v.QuestionID).val();
+
+                // cek required
+                if (parseInt(v.IsRequired) == 1 && ans == '') {
+                    $('#panel_question_' + v.QuestionID).addClass('warning-required');
+                    $('#panel_question_' + v.QuestionID + ' .label-required')
+                        .removeClass('label-default').addClass('label-danger');
+
+                    setTimeout(function () {
+                        $('#panel_question_' + v.QuestionID).css('background', '#fff');
+                    }, 5000);
+                    submitAns = false;
+                } else {
+                    $('#panel_question_' + v.QuestionID).removeClass('warning-required');
+                    $('#panel_question_' + v.QuestionID + ' .label-required')
+                        .removeClass('label-danger').addClass('label-default');
+                }
+
+
+                var Rate = (parseInt(v.QTID) == 4)
+                    ? ans : '';
+
+                var Answer = (parseInt(v.QTID) == 3)
+                    ? ans : '';
+
+                var IsTrue = (parseInt(v.QTID) == 5)
+                    ? ans : '';
+
+                var arr = {
+                    SurveyID: "<?= $this->session->userdata('portal_SurveyID'); ?>",
+                    QuestionID: v.QuestionID,
+                    QTID: v.QTID,
+                    Rate: Rate,
+                    Answer: Answer,
+                    IsTrue: '' + IsTrue
+                };
+                dataAnsw.push(arr);
+
+            });
+
+            if(submitAns){
+
+
+                // get email
+                var data = {
+                    action : 'getEmailUserSurvey',
+                    Username : "<?= $this->session->userdata('portal_Username'); ?>",
+                    Type : "<?= $this->session->userdata('portal_UserType'); ?>"
+                };
+                var token = jwt_encode(data,'UAP)(*');
+                var url = dt_base_url_pas+'apisurvey/__crudSurvey';
+
+                $.post(url,{token:token},function (jsonResult) {
+
+                    var viewEmail = jsonResult.Email;
+                    var isDisabled = (parseInt(jsonResult.Status)==1) ? '' : 'disabled';
+
+                    localStorage.setItem('token-question-email',JSON.stringify(jsonResult));
+
+                    $('#modalGlobal .modal-header').addClass('hide');
+                    $('#modalGlobal .modal-dialog').css('max-width','500px');
+                    $('#modalGlobal .modal-footer').removeClass('hide')
+                        .html('<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>' +
+                            '                <button type="button" onclick="submitSurvey();" class="btn btn-success">Submit</button>');
+
+                    $('#modalGlobal .modal-body').css('padding-bottom','3px').html('<div class="checkbox '+isDisabled+'">' +
+                        '    <label>' +
+                        '      <input type="checkbox" id="isSendMyEmail" value="1" '+isDisabled+'> Send my feedback to my email ' +
+                        '    </label>' +
+                        '  </div>' +
+                        '<div class="my-email">'+viewEmail+'</div>');
+                    $('#formNewPassword').focus();
+                    $('#modalGlobal').modal({
+                        'backdrop' : 'static',
+                        'show' : true
+                    });
+
+                });
+
+            } else {
+                toastr.error('Please, fill in the mandatory form','Warning');
+            }
+
+        }
+
+    });
+
+    $(document).on('change','#isSendMyEmail',function () {
+
+        var dataMail = localStorage.getItem('token-question-email');
+        var d = JSON.parse(dataMail);
+
+        if(parseInt(d.Status)==1){
+
+            var Action = ($(this).is(':checked')) ? 1 : 0;
+            var newAdd = {
+                Email : d.Email,
+                Status : d.Status,
+                Action : Action
+            }
+            localStorage.setItem('token-question-email',JSON.stringify(newAdd));
+        } else {
+            toastr.warning('No email','Warning');
+        }
+
+
+
+    });
+
+    function submitSurvey(){
+
         if(confirm('Are you sure?')){
-            // loading_button('#btnSubmitSurvey');
             var token_q = localStorage.getItem('token-question');
             var d = jwt_decode(token_q,'UAP)(*');
 
@@ -193,6 +325,10 @@
                 // console.log(dataAnsw);
 
                 if(submitAns){
+
+                    var dataMail = localStorage.getItem('token-question-email');
+                    dataMail = JSON.parse(dataMail);
+
                     loading_page_modal();
 
                     var FormType = "<?= $this->session->userdata('portal_FormType'); ?>";
@@ -205,6 +341,8 @@
                             Type : "<?= $this->session->userdata('portal_UserType'); ?>",
                             FormType : FormType,
                             SurveyID : "<?= $this->session->userdata('portal_SurveyID'); ?>",
+                            SendFeedbackToEmail : dataMail.Action,
+                            Email : dataMail.Email
                         },
                         dataAnsw : dataAnsw
                     };
@@ -266,7 +404,8 @@
                         },500);
 
                     });
-                } else {
+                }
+                else {
                     toastr.error('Please, fill in the mandatory form','Warning');
                 }
 
@@ -275,10 +414,7 @@
             }
         }
 
-
-
-
-    });
+    }
 
     $(document).on('change','.radio-select',function () {
 

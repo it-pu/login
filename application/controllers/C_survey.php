@@ -32,6 +32,82 @@ class C_survey extends MY_Controller {
         parent::template($content);
     }
 
+    public function my_answer($token){
+
+        $key = "s3Cr3T-G4N";
+        $data_arr = (array) $this->jwt->decode($token,$key);
+        $AnswerID = $data_arr['AnswerID'];
+
+        $data = $this->db->query('SELECT sa.SurveyID, sa.RecapID, sa.Username, sa.Type, sa.Status, ss.Title,  
+                                            sa.EntredAt,
+                                            CASE 
+                                            WHEN  em.Name IS NOT NULL THEN em.Name
+                                            WHEN  ats.Name IS NOT NULL THEN ats.Name
+                                            ELSE seu.FullName END AS "Name"
+                                            
+                                            FROM db_it.surv_answer sa
+                                            LEFT JOIN db_it.surv_survey ss ON (ss.ID = sa.SurveyID)
+                                            LEFT JOIN db_employees.employees em ON (em.NIP = sa.Username)
+                                            LEFT JOIN db_academic.auth_students ats ON (ats.NPM = sa.Username)
+                                            LEFT JOIN db_it.surv_external_user seu ON (seu.ID = sa.Username)
+                            WHERE sa.ID = "'.$AnswerID.'" ')->result_array();
+
+        if(count($data)>0){
+            $d = $data[0];
+            if($d['Status']=='1'){
+
+                $SurveyID = $d['SurveyID'];
+                $QuesryQuestion = 'SELECT sq.Question, sq.QTID, sad.Rate, sad.Answer, sad.IsTrue  
+                                                            FROM db_it.surv_survey_detail ssd
+                                                            LEFT JOIN db_it.surv_question sq 
+                                                            ON (sq.ID = ssd.QuestionID)
+                                                            LEFT JOIN db_it.surv_answer_detail sad
+                                                            ON (sad.AnswerID = "'.$AnswerID.'"
+                                                            AND sad.SurveyID = ssd.SurveyID 
+                                                                AND sad.QuestionID = sq.ID)
+                                                            WHERE ssd.SurveyID = "'.$SurveyID.'"';
+
+
+            } else {
+                $RecapID = $d['RecapID'];
+                $QuesryQuestion = 'SELECT sq.Question, sq.QTID, sad.Rate, sad.Answer, sad.IsTrue  
+                                                            FROM db_it.surv_recap_question srq
+                                                            LEFT JOIN db_it.surv_question sq 
+                                                            ON (sq.ID = srq.QuestionID)
+                                                            LEFT JOIN db_it.surv_answer_detail sad
+                                                            ON (sad.AnswerID = "'.$AnswerID.'"
+                                                            AND sad.SurveyID = srq.SurveyID 
+                                                                AND sad.QuestionID = sq.ID)
+                                                            WHERE srq.RecapID = "'.$RecapID.'"';
+            }
+
+            $dataQuestion = $this->db->query($QuesryQuestion)->result_array();
+
+//            if(count($dataQuestion)>0){
+//                for($i=0;$i<count($dataQuestion);$i++){
+//
+//                }
+//            }
+
+            $result = array(
+                'Survey' => $d,
+                'MyAnswer' => $dataQuestion,
+                'Status' => 1
+            );
+
+        } else {
+            $result = array('Status'=>0);
+        }
+
+//        print_r($result);
+//        exit();
+
+        $content = $this->load->view('page/survey/my_answer',$result,true);
+        parent::template($content);
+
+
+    }
+
     public function checksurvey($Key){
         // Cek apakah status survey publish
         $dateNow = date('Y-m-d');
