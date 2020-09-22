@@ -55,6 +55,7 @@ $route['info-lost-and-found'] = 'c_lostnfound/lostAndFoundInfo';
 $route['eula'] = 'c_eula/eula';
 
 $route['survey'] = 'c_survey/survey';
+$route['survey/my-answer/(:any)'] = 'c_survey/my_answer/$1';
 $route['form/(:any)'] = 'c_survey/checksurvey/$1';
 $route['submitChecksurvey'] = 'c_survey/submitChecksurvey';
 
