@@ -135,7 +135,7 @@ class C_login extends MY_Controller {
 
 
       // Cek Apakah karyawan atau bukan
-        $dataEmploy = $this->db->select('NIP,Name')->query('SELECT * FROM db_employees.employees
+        $dataEmploy = $this->db->query('SELECT NIP, Name FROM db_employees.employees
                                                   WHERE Email = "'.$Email.'" 
                                                   OR EmailPU = "'.$Email.'" LIMIT 1')->result_array();
 
@@ -151,6 +151,7 @@ class C_login extends MY_Controller {
 
             $dataStudents = $this->db->select('NPM,Name')->get_where('db_academic.auth_students',
                 array('EmailPU' => $Email))->result_array();
+
             if(count($dataStudents)<=0){
 
                 $dataC = $this->db->select('Year')
@@ -177,16 +178,20 @@ class C_login extends MY_Controller {
             
         }
 
+
         if($CheckUser){
 
             $to = $data_arr['email'];
-
+            $DueDate = date('Y-m-d H:i:s');
             $arrNewToken = array(
-                'DueDate' => date('Y-m-d H:i:s'),
+                'DueDate' => $DueDate,
                 'Email'  => $Email,
                 'Name' => $Name,
                 'Type' => $Type );
-
+        $timeINT = strtotime($DueDate) ;
+        $maxURL = 300; // 5 minutes
+        $timeINT += $maxURL;
+        $DateTimeEndURL = date("Y-m-d H:i:s", $timeINT);
             if($Type=='emp') {
                 $arrNewToken['NIP'] = $Username;
             } else {
@@ -197,7 +202,7 @@ class C_login extends MY_Controller {
             $NewToken =  $this->jwt->encode($arrNewToken,$key); 
 
 
-             $subject = 'Reset Your Password'.rand();
+             $subject = 'Reset Your Password '.rand();
             $text = 'Dear <strong style="color: blue;">'.$Name.'</strong>,
 
                 <p style="color: #673AB7;">To reset your password on <strong>Portal Podomoro University</strong>, please Click the link below, and your account will be activated instantly</p>
@@ -206,11 +211,12 @@ class C_login extends MY_Controller {
                     <tbody>
                     <tr>
                         <td bgcolor="#ff9000" align="center">
-                            <a href="'.url_sign_out.'resetpassword/'.$NewToken.'" style="font:bold 16px/1 Helvetica,Arial,sans-serif;color:#ffffff;text-decoration:none;background-color:#ff9000" target="_blank" >Reset Password</a>
+                            <a href="'.url_sign_out.'/resetpassword/'.$NewToken.'" style="font:bold 16px/1 Helvetica,Arial,sans-serif;color:#ffffff;text-decoration:none;background-color:#ff9000" target="_blank" >Reset Password</a>
                         </td>
                     </tr>
                     </tbody>
                 </table>
+                <p style="color: red;">This link will expired at <strong>'.$DateTimeEndURL.'</strong></p>
                 <br/>';
 
                 $this->m_auth->sendEmail($to,$subject,null,null,null,null,$text,null,'Reset Password');
