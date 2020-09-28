@@ -324,7 +324,8 @@
             </div>
         <div class="form-group">
             <input type="email" name="email" id="inputemail" class="form-control" placeholder="Input email...">
-         
+            <span id="alertPass" style="float: right;"></span>
+            <br>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-success" id="forgetpass">Submit</button>
@@ -412,6 +413,11 @@ $('#forgetpass').click(function () {
                 $('#NotificationModal').modal('show');
                 }else{
                     toastr.error('Email not found','Error');
+                    $('#modal_forgetpass #alertPass').html('<i style="color: red;">Please enter the registered email</i>');
+                    setTimeout(function (args) {
+                    $('#modal_forgetpass #alertPass').html('');
+                },3000);
+
                 }
             });         
                    

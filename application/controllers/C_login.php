@@ -220,12 +220,17 @@ class C_login extends MY_Controller {
                 <br/>';
 
                 $this->m_auth->sendEmail($to,$subject,null,null,null,null,$text,null,'Reset Password');
-
+                $result = array(
+                 'Status' => '1',
+                    'Message' => 'Email found',
+                );
+        }else{
+            $result = array(
+                 'Status' => '0',
+                    'Message' => 'Email not found',
+                );
         }
-        $result = array(
-            'Status' => '1',
-            'Message' => 'Email found',
-        );
+        
 
         return print_r(json_encode($result));
     
