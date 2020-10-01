@@ -107,12 +107,133 @@ class C_login extends MY_Controller {
 
     public function portal_login()
     {
+        
         $data['CalendarAcademic'] = $this->db->get_where('db_academic.calendar_academic',
             array('StatusPublish' => '2'))->result_array();
         $data['loginURL'] = $this->google->loginURL();
 //        $this->load->view('login4',$data);
         $content = $this->load->view('page/login/login_portal',$data,true);
         parent::template($content);
+    }
+
+    public function forget_password()
+    {
+        header('Access-Control-Allow-Origin: *');
+        header('Content-Type: application/json');
+      
+      $data = $this->input->post('token');
+      $key = "L0G1N-S50-3R0";
+      $data_arr = (array) $this->jwt->decode($data,$key);  
+
+      $Email = $data_arr['email'];
+      $Name = '';
+      $Type = '';
+
+      $Username = '';
+
+      $CheckUser = false;
+
+
+      // Cek Apakah karyawan atau bukan
+        $dataEmploy = $this->db->query('SELECT NIP, Name FROM db_employees.employees
+                                                  WHERE Email = "'.$Email.'" 
+                                                  OR EmailPU = "'.$Email.'" LIMIT 1')->result_array();
+
+        if(count($dataEmploy)>0){
+
+            $Name = $dataEmploy[0]['Name'];
+            $Type = 'emp';
+            $Username = $dataEmploy[0]['NIP'];
+
+            $CheckUser = true;
+
+        } else {
+
+            $dataStudents = $this->db->select('NPM,Name')->get_where('db_academic.auth_students',
+                array('EmailPU' => $Email))->result_array();
+
+            if(count($dataStudents)<=0){
+
+                $dataC = $this->db->select('Year')
+                ->order_by('ID','DESC')->get('db_academic.curriculum')->result_array();
+
+                for ($i=0; $i < count($dataC) ; $i++) { 
+                    $db = 'ta_'.$dataC[$i]['Year'];
+                    $dataStudents = $this->db->select('NPM,Name')->get_where($db.'.students',
+                                    array('Email' => $Email))->result_array();
+                    break;
+                }
+                
+            } 
+
+            // cek kedua
+            if(count($dataStudents)>0){
+                $Name = $dataStudents[0]['Name'];
+                $Type = 'std';
+                $Username = $dataStudents[0]['NPM'];
+
+                $CheckUser = true;
+            }
+
+            
+        }
+
+
+        if($CheckUser){
+
+            $to = $data_arr['email'];
+            $DueDate = date('Y-m-d H:i:s');
+            $arrNewToken = array(
+                'DueDate' => $DueDate,
+                'Email'  => $Email,
+                'Name' => $Name,
+                'Type' => $Type );
+        $timeINT = strtotime($DueDate) ;
+        $maxURL = 300; // 5 minutes
+        $timeINT += $maxURL;
+        $DateTimeEndURL = date("Y-m-d H:i:s", $timeINT);
+            if($Type=='emp') {
+                $arrNewToken['NIP'] = $Username;
+            } else {
+                $arrNewToken['NPM'] = $Username;
+            }
+
+            $key = "UAP)(*";
+            $NewToken =  $this->jwt->encode($arrNewToken,$key); 
+
+
+             $subject = 'Reset Your Password '.rand();
+            $text = 'Dear <strong style="color: blue;">'.$Name.'</strong>,
+
+                <p style="color: #673AB7;">To reset your password on <strong>Portal Podomoro University</strong>, please Click the link below, and your account will be activated instantly</p>
+
+                <table width="178" cellspacing="0" cellpadding="12" border="0">
+                    <tbody>
+                    <tr>
+                        <td bgcolor="#ff9000" align="center">
+                            <a href="'.url_sign_out.'/resetpassword/'.$NewToken.'" style="font:bold 16px/1 Helvetica,Arial,sans-serif;color:#ffffff;text-decoration:none;background-color:#ff9000" target="_blank" >Reset Password</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <p style="color: red;">This link will expired at <strong>'.$DateTimeEndURL.'</strong></p>
+                <br/>';
+
+                $this->m_auth->sendEmail($to,$subject,null,null,null,null,$text,null,'Reset Password');
+                $result = array(
+                 'Status' => '1',
+                    'Message' => 'Email found',
+                );
+        }else{
+            $result = array(
+                 'Status' => '0',
+                    'Message' => 'Email not found',
+                );
+        }
+        
+
+        return print_r(json_encode($result));
+    
     }
 
     public function meet_our_team()

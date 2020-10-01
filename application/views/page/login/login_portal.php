@@ -309,7 +309,39 @@
     </div>
 </div>
 
+<div class="modal" id="modal_forgetpass" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+        
+      <div class="modal-body">
+        <div class="form-group">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        </div>
+        <div class="thumbnail" style="min-height: 100px;padding: 15px;text-align: center; border: none; margin-bottom: 0px;">
+                <img src="<?php echo base_url('assets/icon/logo_pu.png'); ?>" style="max-width: 200px;">
+                  <hr/>
+            </div>
+        <div class="form-group">
+            <input type="email" name="email" id="inputemail" class="form-control" placeholder="Input email...">
+            <span id="alertPass" style="float: right;"></span>
+            <br>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" id="forgetpass">Submit</button>
+      </div>
+    </div>
+  </div> 
+</div>
+</div>
 
+<div class="modal" id="NotificationModal" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-body">
+       </div> 
+    </div>
+  </div> 
+</div> 
 
 
 
@@ -325,6 +357,9 @@
             '                        <div class="form-group">' +
             '                            <label for="username" class="control-label">Username</label>' +
             '                            <input type="text" class="form-control" id="username" placeholder="Input username...">' +
+            '                        </div>' +
+            '               <div style="text-align: left;">' +
+            '                             <a data-toggle="modal" data-target="#modal_forgetpass" data-backdrop="static" data-keyboard="false">Forget Password?</a>' +
             '                        </div>' +
             '                        <div style="text-align: right;">' +
             '                            <button type="submit" class="btn btn-primary" id="btnLoginCheckUser">Next <i class="fa fa-angle-right"></i></button>' +
@@ -349,6 +384,56 @@
         //}
 
     });
+
+
+$('#forgetpass').click(function () {
+        forgetpassword();
+
+    });
+
+
+ function forgetpassword()
+  {
+     loading_button('#forgetpass');
+
+    var email = $('#modal_forgetpass #inputemail').val();
+    
+    if (email!='' && email!=null) {
+        var url = base_url_server+'forget-password';
+            
+            var token = jwt_encode({email:email});
+
+            $.post(url,{token:token},function(jsonResult) {
+
+                if(jsonResult.Status=='1'){
+                       $('#modal_forgetpass').modal('hide');
+                $('#NotificationModal .modal-body').html(' <div class="thumbnail" style="min-height: 100px;padding: 15px;text-align: center; border: none; margin-bottom: 0px;"><img src="<?php echo base_url('assets/icon/logo_pu.png'); ?>" style="max-width: 200px;"><hr/></div><div style="text-align: center;">Reset password has been send to : <b style="color:blue;">'+email+'</b><hr/><button type="button" class="btn btn-default" data-dismiss="modal" onclick="window.location.reload()">Close</button></div>');
+                $('#NotificationModal').modal({backdrop: 'static', keyboard:'false'});
+                $('#NotificationModal').modal('show');
+                }else{
+                    toastr.error('Email not found','Error');
+                    $('#modal_forgetpass #alertPass').html('<i style="color: red;">Please enter the registered email</i>');
+                    setTimeout(function (args) {
+                    $('#modal_forgetpass #alertPass').html('');
+                },3000);
+
+                }
+            });         
+                   
+    }else{
+
+
+               $('#modal_forgetpass #inputemail').css('border','1px solid red');
+        setTimeout(function (args) {
+                    $('#modal_forgetpass #inputemail').css('border','1px solid #ccc');
+                },500);
+        
+    }
+    setTimeout(function (args) {
+            $('#forgetpass').html('Submit').prop('disabled',false);
+        },1000);
+    
+  }
 
     function loadModalAwal() {
 
