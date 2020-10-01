@@ -302,7 +302,40 @@ class C_login extends MY_Controller {
                     }
 
 
+                    // cek survey
+                    $checkSurvey = 1;
+                    $tokenDirectSurvey = '';
+                    if($To=='std' || $To=='emp'){
+                        $dataSurvey = $this->checkSurvey($To,$dataUser['url_direct'][0]['Username'],$dataUser['url_direct']);
 
+                        if(count($dataSurvey)>0) {
+                            foreach ($dataSurvey AS $item){
+
+                                if($checkSurvey==1){
+                                    $tokenDirectSurvey = $item['Token'];
+                                }
+
+                                if(isset($item['std_detail']) && count($item['std_detail'])>0){
+                                    if($item['std_detail'][0]['SurveyStatus']==1){
+                                        $checkSurvey = 0;
+                                    }
+                                }
+                                if(isset($item['emp_detail']) && count($item['emp_detail'])>0){
+
+                                    if($item['emp_detail'][0]['SurveyStatus']==1){
+                                        $checkSurvey = 0;
+                                    }
+
+                                }
+
+
+                            }
+                        }
+                    }
+
+
+                    $data['Survey_checkSurvey'] = $checkSurvey;
+                    $data['Survey_tokenDirectSurvey'] = $tokenDirectSurvey;
                     $data['EULA'] = (count($dataEula)>0 && $PerluIsi==1) ?  1 : 0;
                     $data['dataEULA'] = ($data['EULA']==1)
                         ? array(
@@ -594,7 +627,8 @@ class C_login extends MY_Controller {
                         $dataMhs = $this->db->get_where('db_academic.auth_students',
                         array('NPM' => $data_arr['Username']),1)
                         ->result_array();
-                        $logon = $this->loadData_UserLogin('Students',$dataMhs[0]['Year'],$data_arr['Username'],$data_arr['TypeUser']);
+                        $logon = $this->loadData_UserLogin('Students',$dataMhs[0]['Year'],
+                            $data_arr['Username'],$data_arr['TypeUser']);
                         $result = array(
                             'Status' => 1,
                             'Message' => 'Login success',
@@ -808,68 +842,84 @@ class C_login extends MY_Controller {
             
         }
 
-        $dateNow = date('Y-m-d');
+        // Jika login berhasil
+        if($result['Status']==1 || $result['Status']=='1'){
 
-        if($data_arr['User']=='Students' || $data_arr['User']=='Employees'){
+            $dateNow = date('Y-m-d');
 
+            if($data_arr['User']=='Students' || $data_arr['User']=='Employees'){
 
-            $To = ($data_arr['User']=='Students') ? 'std' : 'emp';
-            $dataEULA = $this->db->query('SELECT * FROM db_it.eula_date e WHERE e.To = "'.$To.'" 
+                $To = ($data_arr['User']=='Students') ? 'std' : 'emp';
+                $dataEULA = $this->db->query('SELECT * FROM db_it.eula_date e WHERE e.To = "'.$To.'" 
                                     AND e.RangeStart <= "'.$dateNow.'" AND e.RangeEnd >= "'.$dateNow.'" 
                                     AND e.Published = "1" LIMIT 1')->result_array();
-            $PerluIsi = 0;
-            if(count($dataEULA)>0){
-                // Cek apakah sudah mengisi EULA atau blm
-                $dataCK = $this->db->query('SELECT eu.Username FROM db_it.eula_linked el 
+                $PerluIsi = 0;
+                if(count($dataEULA)>0){
+                    // Cek apakah sudah mengisi EULA atau blm
+                    $dataCK = $this->db->query('SELECT eu.Username FROM db_it.eula_linked el 
                                                 LEFT JOIN db_it.eula e ON (e.ID = el.EID)
                                                 LEFT JOIN db_it.eula_user eu ON (eu.ELID = el.ID AND eu.Username = "'.$data_arr['Username'].'")
                                                 WHERE el.EDID = "'.$dataEULA[0]['ID'].'" 
                                                 ORDER BY el.Queue ASC ')->result_array();
 
-                if(count($dataCK)>0){
-                    foreach ($dataCK as $item) {
-                        if($item['Username']!=null && $item['Username']!=''){
+                    if(count($dataCK)>0){
+                        foreach ($dataCK as $item) {
+                            if($item['Username']!=null && $item['Username']!=''){
 
-                        } else {
-                            $PerluIsi = 1;
+                            } else {
+                                $PerluIsi = 1;
+                            }
                         }
                     }
                 }
+
+                $EULA = (count($dataEULA) > 0 && $PerluIsi==1) ? 1 : 0;
+
+            }
+            else {
+                $EULA = 0;
             }
 
-            $EULA = (count($dataEULA) > 0 && $PerluIsi==1) ? 1 : 0;
+            $result['EULA'] = $EULA;
+
+            $UserType = ($data_arr['User']=='Students') ? 'std' : 'emp';
+
+            $result['dataEULA'] = ($EULA==1)
+                ? array(
+                    'Username' => $data_arr['Username'],
+                    'ExpiredAt' => date('Y-m-d H:i:s',strtotime(date('Y-m-d H:i:s')."+1 days")),
+                    'EDID' => $dataEULA[0]['ID'],
+                    'LogonBy' => 'basic',
+                    'UserType' => $UserType
+                )
+                : [];
+
+
+            // === Cek Survey ===
+
+            $result['LoginAs'] = $data_arr['User'];
+
+            if($data_arr['User']=='Students' || $data_arr['User']=='Employees'){
+                $result['Survey'] = $this->checkSurvey($data_arr['User'],$data_arr['Username'],$result['url_direct']);
+            }
+            else {
+                $result['Survey'] = [];
+            }
+
+
+
+            // Insert Log Login pindahin ke log
+//            $hostname = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+//            $dataLogLogin = array(
+//                'Username' => $data_arr['Username'],
+//                'UserType' => $UserType,
+//                'LogonBy' => 'basic',
+//                'IPLocal' => $hostname,
+//                'IPPublic' => $data_arr['IPPublic']
+//            );
+//            $this->db->insert('db_it.log_login',$dataLogLogin);
 
         }
-        else {
-            $EULA = 0;
-        }
-
-        $result['EULA'] = $EULA;
-
-        $UserType = ($data_arr['User']=='Students') ? 'std' : 'emp';
-
-
-        $result['dataEULA'] = ($EULA==1)
-            ? array(
-                'Username' => $data_arr['Username'],
-                'ExpiredAt' => date('Y-m-d H:i:s',strtotime(date('Y-m-d H:i:s')."+1 days")),
-                'EDID' => $dataEULA[0]['ID'],
-                'LogonBy' => 'basic',
-                'UserType' => $UserType
-            )
-            : [];
-
-        // Insert Log Login
-        $hostname = gethostbyaddr($_SERVER['REMOTE_ADDR']);
-        $dataLogLogin = array(
-            'Username' => $data_arr['Username'],
-            'UserType' => $UserType,
-            'LogonBy' => 'basic',
-            'IPLocal' => $hostname,
-            'IPPublic' => $data_arr['IPPublic']
-        );
-        $this->db->insert('db_it.log_login',$dataLogLogin);
-
 
         return print_r(json_encode($result));
 
@@ -880,6 +930,152 @@ class C_login extends MY_Controller {
         $data = $this->db->get_where($db_.'.students', array('NPM'=>$NPM),1);
 
         return $data->result_array()[0];
+    }
+
+    public function checkSurvey($User,$Username,$url_direct){
+
+        $dateNow = date('Y-m-d');
+
+        $dataCkSurvey =  $this->db->query('SELECT ss.ID FROM db_it.surv_survey ss 
+                                            WHERE ss.Status = "1" AND ss.StartDate <= "'.$dateNow.'"
+                                            AND ss.EndDate >= "'.$dateNow.'"  ')->result_array();
+        if(count($dataCkSurvey)>0){
+
+            // Data std
+            $QueryUser = ($User=='Students' || $User=='std')
+                ? 'SELECT * FROM db_academic.auth_students 
+                            WHERE NPM = "'.$Username.'"'
+                : 'SELECT * FROM db_employees.employees 
+                            WHERE NIP = "'.$Username.'" ';
+
+            $dataUserSurv = $this->db->query($QueryUser)->result_array();
+
+            for($i=0;$i<count($dataCkSurvey);$i++){
+                $SurveyID = $dataCkSurvey[$i]['ID'];
+
+                // cek apakah sudah mengisi atau blm
+                $checkExistFillOut = $this->db->from('db_it.surv_answer')->where(array(
+                    'Username' => $Username,
+                    'SurveyID' => $SurveyID,
+                    'Status' => '1'
+                ))->count_all_results();
+
+                if($checkExistFillOut>0){
+                    $dataCkSurvey[$i]['emp_detail'] = [];
+                    $dataCkSurvey[$i]['std_detail'] = [];
+                } else {
+
+                    // Cek user mhs
+                    if($User=='Students' || $User=='std'){
+
+                        $dataSurvDetail = $this->db->select('ID,TypeUser')
+                            ->get_where('db_it.surv_survey_usr_std',
+                                array('SurveyID'=>$SurveyID))->result_array();
+
+                        // 0 = Custom, 1 = Semua, 2 = Mhs Aktif, 3 = Alumni
+                        if(count($dataSurvDetail)>0){
+                            for($s=0;$s<count($dataSurvDetail);$s++){
+                                if($dataSurvDetail[$s]['TypeUser']=='1'){
+                                    $dataSurvDetail[$s]['SurveyStatus'] = 1;
+                                } else if ($dataSurvDetail[$s]['TypeUser']=='2'
+                                    && $dataUserSurv[0]['StatusStudentID']=='3') {
+                                    $dataSurvDetail[$s]['SurveyStatus'] = 1;
+                                }  else if ($dataSurvDetail[$s]['TypeUser']=='3'
+                                    && $dataUserSurv[0]['StatusStudentID']=='1'){
+                                    $dataSurvDetail[$s]['SurveyStatus'] = 1;
+                                } else {
+                                    $dataSurvLebihDetail = $this->db
+                                        ->query('SELECT COUNT(*) AS Total FROM db_it.surv_survey_usr_std_details 
+                                                            WHERE SUSID = "'.$dataSurvDetail[$s]['ID'].'" 
+                                                            AND ClassOf = "'.$dataUserSurv[0]['Year'].'"
+                                                             AND ProdiID = "'.$dataUserSurv[0]['ProdiID'].'"
+                                                              AND StatusStudentId = "'.$dataUserSurv[0]['StatusStudentID'].'" ')
+                                        ->result_array();
+
+                                    $dataSurvDetail[$s]['SurveyStatus'] = ($dataSurvLebihDetail[0]['Total']>0)
+                                        ? 1 : 0;
+
+                                }
+                            }
+                        }
+
+                        $dataCkSurvey[$i]['std_detail'] = $dataSurvDetail;
+                    }
+                    // cek untuk emp
+                    else {
+
+                        $dataSurvDetailEmp = $this->db->select('ID,TypeUser')
+                            ->get_where('db_it.surv_survey_usr_emp',
+                                array('SurveyID'=>$SurveyID))->result_array();
+
+                        // 1 = All emp, 2 = Hanya dosen, 3 = Hanya tenaga pendidik (selain dosen)
+                        if(count($dataSurvDetailEmp)>0){
+
+                            $arrAllPosition = [];
+
+                            if($dataUserSurv[0]['PositionMain']!='' && $dataUserSurv[0]['PositionMain']!=null){
+                                array_push($arrAllPosition,$dataUserSurv[0]['PositionMain']);
+                            }
+                            if($dataUserSurv[0]['PositionOther1']!='' && $dataUserSurv[0]['PositionOther1']!=null){
+                                array_push($arrAllPosition,$dataUserSurv[0]['PositionOther1']);
+                            }
+                            if($dataUserSurv[0]['PositionOther2']!='' && $dataUserSurv[0]['PositionOther2']!=null){
+                                array_push($arrAllPosition,$dataUserSurv[0]['PositionOther2']);
+                            }
+                            if($dataUserSurv[0]['PositionOther3']!='' && $dataUserSurv[0]['PositionOther3']!=null){
+                                array_push($arrAllPosition,$dataUserSurv[0]['PositionOther3']);
+                            }
+
+
+                            for($s=0;$s<count($dataSurvDetailEmp);$s++){
+
+
+                                if($dataSurvDetailEmp[$s]['TypeUser']=='1'){
+                                    $dataSurvDetailEmp[$s]['SurveyStatus'] = 1;
+                                } else if($dataSurvDetailEmp[$s]['TypeUser']=='2') {
+
+                                    if( in_array('14.5',$arrAllPosition) ||  in_array('14.6',$arrAllPosition) ||  in_array('14.7',$arrAllPosition)) {
+                                        $dataSurvDetailEmp[$s]['SurveyStatus'] = 1;
+                                    } else {
+                                        $dataSurvDetailEmp[$s]['SurveyStatus'] = 0;
+                                    }
+
+                                }
+                                else if($dataSurvDetailEmp[$s]['TypeUser']=='3') {
+
+                                    if(count($arrAllPosition)==1 && in_array('14.7',$arrAllPosition)){
+                                        $dataSurvDetailEmp[$s]['SurveyStatus'] = 0;
+                                    } else {
+                                        $dataSurvDetailEmp[$s]['SurveyStatus'] = 1;
+                                    }
+
+                                }
+
+                            }
+                        }
+
+                        $dataCkSurvey[$i]['emp_detail'] = $dataSurvDetailEmp;
+
+
+                    }
+
+                }
+                $UserType = ($User=='Students' || $User=='std') ? 'std' : 'emp';
+                $tokenID = $this->jwt->encode(array(
+                    'Username' => $Username,
+                    'UserType'=> $UserType,
+                    'SurveyID'=>$SurveyID,
+                    'ExpiredAt' => date('Y-m-d H:i:s',strtotime(date('Y-m-d H:i:s')."+1 days")),
+                    'LogonBy' => 'basic',
+                    'url_direct' => $url_direct
+                ),'s3Cr3T-G4N');
+                $dataCkSurvey[$i]['Token'] = $tokenID;
+
+            }
+        }
+
+        $result = (count($dataCkSurvey)>0) ? $dataCkSurvey : [];
+        return $result;
     }
 
 
@@ -938,7 +1134,9 @@ class C_login extends MY_Controller {
             $token = $this->jwt->encode($token_passwd,'s3Cr3T-G4N');
 
             // check redirect to alumni or not
-            $queryAlumni = $this->db->query('select count(*) as total from db_alumni.registration where NPM = "'.$Username.'"')->result_array();
+            $queryAlumni = $this->db->query('select count(*) as total 
+                                    from db_alumni.registration 
+                                    where NPM = "'.$Username.'"')->result_array();
             if ($queryAlumni[0]['total'] > 0) {
                 $arp = array(
                     'url' => url_alumni.'?token='.$token,
@@ -947,16 +1145,26 @@ class C_login extends MY_Controller {
                     'flag' => 'std'
                 );
             }
-            else
+            else // login Podivers
             {
+                $querypodivers = $this->db->query('select count(*) as total from db_podivers.registration where NPM = "'.$Username.'"')->result_array();
+                if ($querypodivers[0]['total'] > 0) {
+                    $arp = array(
+                        'url' => url_podivers.'?token='.$token,
+                        'url_login' => url_podivers.'auth/loginPodivers',
+                        'token' => $token,
+                        'flag' => 'std'
+                    );
+                }
+                else{
                 $arp = array(
                     'url' => url_students.'?token='.$token,
                     'url_login' => url_students,
                     'token' => $token,
                     'flag' => 'std'
                 );
+                }
             }
-
            
             array_push($url_direct,$arp);
         }
@@ -1287,6 +1495,8 @@ class C_login extends MY_Controller {
             }
         }
 
+        $arr_result['Survey'] = $this->checkSurvey($To,$EULAUsername,$arr_result['data']['url_direct']);
+
 
 
         if($EULACheck){
@@ -1329,15 +1539,15 @@ class C_login extends MY_Controller {
                 : [];
 
             // Insert Log Login
-            $hostname = gethostbyaddr($_SERVER['REMOTE_ADDR']);
-            $dataLogLogin = array(
-                'Username' => $EULAUsername,
-                'UserType' => $To,
-                'LogonBy' => 'ad',
-                'IPLocal' => $hostname,
-                'IPPublic' => $Input['IPPublic']
-            );
-            $this->db->insert('db_it.log_login',$dataLogLogin);
+//            $hostname = gethostbyaddr($_SERVER['REMOTE_ADDR']);
+//            $dataLogLogin = array(
+//                'Username' => $EULAUsername,
+//                'UserType' => $To,
+//                'LogonBy' => 'ad',
+//                'IPLocal' => $hostname,
+//                'IPPublic' => $Input['IPPublic']
+//            );
+//            $this->db->insert('db_it.log_login',$dataLogLogin);
         }
 
 
@@ -1385,10 +1595,10 @@ class C_login extends MY_Controller {
 
     public function setLogLogin(){
 
-        $token = $this->input->post('token');
-        $key = "L0G1N-S50-3R0";
-        $data_arr = (array) $this->jwt->decode($token,$key);
-        $this->db->insert('db_it.log_login',$data_arr);
+//        $token = $this->input->post('token');
+//        $key = "L0G1N-S50-3R0";
+//        $data_arr = (array) $this->jwt->decode($token,$key);
+//        $this->db->insert('db_it.log_login',$data_arr);
 
         return print_r(1);
 

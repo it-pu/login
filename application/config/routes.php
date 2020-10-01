@@ -56,6 +56,11 @@ $route['info-lost-and-found'] = 'c_lostnfound/lostAndFoundInfo';
 // ++++++++ EULA ++++++++
 $route['eula'] = 'c_eula/eula';
 
+$route['survey'] = 'c_survey/survey';
+$route['survey/my-answer/(:any)'] = 'c_survey/my_answer/$1';
+$route['form/(:any)'] = 'c_survey/checksurvey/$1';
+$route['submitChecksurvey'] = 'c_survey/submitChecksurvey';
+
 
 
 
@@ -68,6 +73,8 @@ $route['uath/__checkUsername'] = 'c_login/checkUsername';
 $route['uath/__checkloginwithAd'] = 'c_login/checkloginwithAd';
 $route['uath/__eulaStart'] = 'c_eula/eulaStart';
 $route['uath/__destroySessionEULA'] = 'c_eula/destroySessionEULA';
+
+$route['uath/__surveyStart'] = 'c_survey/surveyStart';
 
 
 $route['getPublicIP'] = 'c_login/getPublicIP';

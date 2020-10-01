@@ -24,7 +24,18 @@ class C_reset_password extends CI_Controller {
     public function loadpageReset($token){
 
         $data['token'] = $token;
+        $maxURL = 300; // 5 minutes
+        $DecodeToken = $this->jwt->decode($token,'UAP)(*');
+        $dateTimeRequest =  new DateTime( $DecodeToken->DueDate );
+        $dateNow = new DateTime( date('Y-m-d H:i:s') );
+        $diff = $dateNow->getTimestamp() - $dateTimeRequest->getTimestamp(); // max 300 sec or 5 minutes
+        $data['expired'] = 0;
+        if (!($diff <= $maxURL) ) {
+            $data['expired'] = 1;
+        }
+
         $this->load->view('page/resetPassword',$data);
+        
     }
 
     public function loadpageReset_intake($token)

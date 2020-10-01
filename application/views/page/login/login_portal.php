@@ -284,7 +284,6 @@
 
 <div style="background: #ffffff;border-top: 4px solid #cccccc5e;margin-top: 20px;">
     <div class="container" style="margin-top: 30px;">
-
         <div class="row">
             <div class="col-md-8 hidden-xs">
                 <img src="<?= base_url('images/portal-login-2.jpg'); ?>" style="width: 100%">
@@ -947,9 +946,65 @@ $('#forgetpass').click(function () {
         $.post(url,{token:token},function (jsonResult) {
             if (jsonResult['Status']) {
 
+                var checkSurvey = true;
+                var checkEULA = true;
+
+                if(jsonResult.Survey.length>0){
+                    var tokenDirectSurvey = '';
+                    $.each(jsonResult.Survey,function (i,v) {
+
+                        if(typeof v.std_detail !== "undefined" && v.std_detail.length>0){
+                            if(v.std_detail[0].SurveyStatus==1){
+                                checkSurvey = false;
+                            }
+                        }
+
+                        if(typeof v.emp_detail !== "undefined" && v.emp_detail.length>0){
+
+                            if(v.emp_detail[0].SurveyStatus==1){
+                                checkSurvey = false;
+                            }
+
+                        }
+
+                        if(!checkSurvey) {
+                            tokenDirectSurvey = v.Token;
+                            var htmlBody = '<div class="" style="text-align: center;">'+
+                                '                <div style="margin-bottom: 20px;">'+
+                                '                    <img src="'+base_url_server+'images/survey.jpg" style="width: 100%;max-width: 471px;">'+
+                                '                </div>'+
+                                '                <div class="panel-eula">'+
+                                '                    Thanks for taking the time to complete our survey. This survey should only take a few minutes of your time. We value your feedback. Highly appreciated for your participation that bring improvement for our university.'+
+                                '                </div>' +
+                                '                <textarea class="hide" id="SurveyDataToken">'+tokenDirectSurvey+'</textarea>' +
+                                '                <button class="btn btn-primary" id="surveyBtnStart"><b>Continue <i style="margin-left: 5px;" class="fa fa-arrow-right"></i></b></button>'+
+                                '            </div>';
+
+                            $('#modalGlobal .modal-header').addClass('hide');
+                            $('#modalGlobal .modal-dialog').css('max-width','600px');
+                            $('#modalGlobal .modal-footer').addClass('hide');
+                            $('#modalGlobal .modal-body').html(htmlBody);
+
+                            $('#modalGlobal').modal({
+                                'backdrop' : 'static',
+                                'show' : true
+                            });
+
+                            return false;
+                        }
+
+                    });
+
+                }
+
                 if(jsonResult.EULA==1){
 
-                    var token_eula = jwt_encode(jsonResult);
+                    var arrtoTokenEula = {
+                        EULA : jsonResult.EULA,
+                        dataEULA : jsonResult.dataEULA,
+                        url_direct : jsonResult.data.url_direct
+                    };
+                    var token_eula = jwt_encode(arrtoTokenEula);
                     var htmlBody = '<div class="" style="text-align: center;">'+
                         '                <div style="margin-bottom: 20px;">'+
                         '                    <img src="'+base_url_server+'images/eula2.jpg" style="width: 100%;max-width: 250px;">'+
@@ -971,7 +1026,11 @@ $('#forgetpass').click(function () {
                         'show' : true
                     });
 
-                } else {
+                    checkEULA = false;
+
+                }
+
+                if(checkSurvey && checkEULA) {
                     var rs = jsonResult['data'];
                     if(rs.url_direct.length==1){
                         var url = rs.url_direct[0].url_login;
@@ -1022,6 +1081,8 @@ $('#forgetpass').click(function () {
             var token = jwt_encode(data);
             $.post(url,{token:token},function (jsonResult) {
 
+                // return false;
+
                 if(jsonResult.Status=='0'){
 
                     toastr.warning(jsonResult.Message,'Warning');
@@ -1045,6 +1106,61 @@ $('#forgetpass').click(function () {
                 else if(jsonResult.Status=='-1'){
                     modalChangePassword(jsonResult.DataUser);
                 } else if(jsonResult.Status=='1'){
+
+                    var checkSurvey = true;
+                    var checkEULA = true;
+                    // Cek apakah ada survey
+                    if(jsonResult.Survey.length>0){
+
+                        var tokenDirectSurvey = '';
+
+                        $.each(jsonResult.Survey,function (i,v) {
+
+                            if(typeof v.std_detail !== "undefined" && v.std_detail.length>0){
+                                if(v.std_detail[0].SurveyStatus==1){
+                                    checkSurvey = false;
+                                }
+                            }
+
+                            if(typeof v.emp_detail !== "undefined" && v.emp_detail.length>0){
+
+                                if(v.emp_detail[0].SurveyStatus==1){
+                                    checkSurvey = false;
+                                }
+
+                            }
+
+                            if(!checkSurvey) {
+                                tokenDirectSurvey = v.Token;
+                                var htmlBody = '<div class="" style="text-align: center;">'+
+                                    '                <div style="margin-bottom: 20px;">'+
+                                    '                    <img src="'+base_url_server+'images/survey.jpg" style="width: 100%;max-width: 471px;">'+
+                                    '                </div>'+
+                                    '                <div class="panel-eula">'+
+                                    '                    Thanks for taking the time to complete our survey. This survey should only take a few minutes of your time. We value your feedback. Highly appreciated for your participation that bring improvement for our university.'+
+                                    '                </div>' +
+                                    '                <textarea class="hide" id="SurveyDataToken">'+tokenDirectSurvey+'</textarea>' +
+                                    '                <button class="btn btn-primary" id="surveyBtnStart"><b>Continue <i style="margin-left: 5px;" class="fa fa-arrow-right"></i></b></button>'+
+                                    '            </div>';
+
+                                $('#modalGlobal .modal-header').addClass('hide');
+                                $('#modalGlobal .modal-dialog').css('max-width','600px');
+                                $('#modalGlobal .modal-footer').addClass('hide');
+                                $('#modalGlobal .modal-body').html(htmlBody);
+
+                                $('#modalGlobal').modal({
+                                    'backdrop' : 'static',
+                                    'show' : true
+                                });
+
+                                return false;
+                            }
+
+
+
+                        })
+
+                    }
 
                     if(jsonResult.EULA==1){
 
@@ -1070,7 +1186,12 @@ $('#forgetpass').click(function () {
                             'show' : true
                         });
 
-                    } else {
+                        checkEULA = false;
+
+                    }
+
+
+                    if(checkSurvey && checkEULA){
                         if(jsonResult.url_direct.length==1){
 
                             var url = jsonResult.url_direct[0].url_login;
@@ -1170,13 +1291,10 @@ $('#forgetpass').click(function () {
     }
 
 
-
     function loading_button(element) {
         $(''+element).html('<i class="fa fa-refresh fa-spin fa-fw right-margin"></i> Loading...');
         $(''+element).prop('disabled',true);
     }
-
-
 
     $(document).on('click','.toggle-password',function () {
         var inputPass = $('#password');
@@ -1203,6 +1321,20 @@ $('#forgetpass').click(function () {
             // console.log(d);
             if(jsonResult.Status==1){
                 window.location.replace(base_url_server+'eula');
+            }
+        });
+
+    });
+
+    $(document).on('click','#surveyBtnStart',function () {
+        var EulaDataToken = $('#SurveyDataToken').val();
+        var url = base_url_server+'uath/__surveyStart';
+        $.post(url,{token:EulaDataToken},function (jsonResult) {
+            // console.log(jsonResult);
+            // var d = JSON.parse(jsonResult);
+            // console.log(d);
+            if(jsonResult.Status==1){
+                window.location.replace(base_url_server+'survey');
             }
         });
 
