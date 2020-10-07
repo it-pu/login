@@ -96,7 +96,7 @@
           	define("url_parents",$HostPath."parentpu.podomorouniversity.ac.id/uath/__portal4SignIn", true);
 	        define("url_sign_out",$HostPath."portal.podomorouniversity.ac.id", true);
 			
-			define("url_podivers",$HostPath."podivers.podomorouniversity.ac.id/", true); //yamin
+			define("url_podivers",$HostPath."podivers.org/", true); //yamin
 			define("url_alumni",$HostPath."alumni.podomorouniversity.ac.id/", true);
 			define("url_portal_eksternal",$HostPath."research.podomorouniversity.ac.id/", true);
 			break;
@@ -110,7 +110,7 @@
           	define("url_parents",$HostPath."demoparentpu.podomorouniversity.ac.id/uath/__portal4SignIn", true);
 	        define("url_sign_out",$HostPath."demoportal.podomorouniversity.ac.id", true);
 
-	        define("url_podivers",$HostPath."demopodivers.podomorouniversity.ac.id/", true); //yamin
+	        define("url_podivers",$HostPath."demopodivers.org/", true); //yamin
 	        define("url_alumni",$HostPath."demoalumni.podomorouniversity.ac.id/", true);
 	        define("url_portal_eksternal",$HostPath."demo.research.podomorouniversity.ac.id/", true);
 			break;	
@@ -129,7 +129,7 @@
             define("url_sign_out",$HostPath."localhost".port."/".$portal_user."/", true);
             define("url_registration",$HostPath."localhost/registeronline/", true);
 
-            define("url_podivers",$HostPath."localhost/podivers1/", true); //yamin
+            define("url_podivers",$HostPath."localhost/podivers/", true); //yamin
             define("url_alumni",$HostPath."localhost/alumni/", true);
             define("url_portal_eksternal",$HostPath."localhost/portal_eksternal/", true);
 			break;
