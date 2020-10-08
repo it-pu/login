@@ -96,7 +96,7 @@
           	define("url_parents",$HostPath."parentpu.podomorouniversity.ac.id/uath/__portal4SignIn", true);
 	        define("url_sign_out",$HostPath."portal.podomorouniversity.ac.id", true);
 			
-			define("url_podivers",$HostPath."podivers.org/", true); //yamin
+			define("url_podivers","http://"."podivers.org/", true); //yamin
 			define("url_alumni",$HostPath."alumni.podomorouniversity.ac.id/", true);
 			define("url_portal_eksternal",$HostPath."research.podomorouniversity.ac.id/", true);
 			break;
