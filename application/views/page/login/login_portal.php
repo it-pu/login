@@ -359,7 +359,7 @@
             '                            <input type="text" class="form-control" id="username" placeholder="Input username...">' +
             '                        </div>' +
             '               <div style="text-align: left;">' +
-            '                             <a data-toggle="modal" data-target="#modal_forgetpass" data-backdrop="static" data-keyboard="false">Forget Password?</a>' +
+            '                          <i class="fa fa-question-circle-o" aria-hidden="true" title="Reset password on the portal is now integrated, so it will change other account passwords.\nsuch as: Microsoft Account Password (Sharepoint, Microsoft Team, etc.), Wifi Password, Computer Password (which uses an office computer / laptop)."></i> <a data-toggle="modal" data-target="#modal_forgetpass" data-backdrop="static" data-keyboard="false">Forgot Password?</a>' +
             '                        </div>' +
             '                        <div style="text-align: right;">' +
             '                            <button type="submit" class="btn btn-primary" id="btnLoginCheckUser">Next <i class="fa fa-angle-right"></i></button>' +
@@ -410,6 +410,7 @@ $('#forgetpass').click(function () {
                 $('#NotificationModal .modal-body').html(' <div class="thumbnail" style="min-height: 100px;padding: 15px;text-align: center; border: none; margin-bottom: 0px;"><img src="<?php echo base_url('assets/icon/logo_pu.png'); ?>" style="max-width: 200px;"><hr/></div><div style="text-align: center;">Reset password has been send to : <b style="color:blue;">'+email+'</b><hr/><button type="button" class="btn btn-default" data-dismiss="modal" onclick="window.location.reload()">Close</button></div>');
                 $('#NotificationModal').modal({backdrop: 'static', keyboard:'false'});
                 $('#NotificationModal').modal('show');
+                toastr.success('Reset password success','Success');
                 }else{
                     toastr.error('Email not found','Error');
                     $('#modal_forgetpass #alertPass').html('<i style="color: red;">Please enter the registered email</i>');
@@ -431,7 +432,7 @@ $('#forgetpass').click(function () {
     }
     setTimeout(function (args) {
             $('#forgetpass').html('Submit').prop('disabled',false);
-        },1000);
+        },4000);
     
   }
 

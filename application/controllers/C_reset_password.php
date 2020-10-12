@@ -49,9 +49,13 @@ class C_reset_password extends CI_Controller {
         $token = $this->input->post('token');
 
         $data_arr = (array) $this->jwt->decode($token,'L0G1N-S50-3R0');
-
+        $data_arr2 = array(
+                'NPM' => $data_arr['Username'],
+                'plan_password' => $data_arr['Password']
+         );
         $dataUpdate = array(
             'Password' => $this->genratePassword($data_arr['Username'],$data_arr['Password']),
+            'Password_Curr' => $this->jwt->encode($data_arr2,'UAP)(*'),
             'Status' => '1'
         );
         $w = ($data_arr['Type']=='std') ? 'NPM' : 'NIP';
