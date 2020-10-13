@@ -359,7 +359,7 @@
             '                            <input type="text" class="form-control" id="username" placeholder="Input username...">' +
             '                        </div>' +
             '               <div style="text-align: left;">' +
-            '                          <i class="fa fa-question-circle-o" aria-hidden="true" title="Reset password on the portal is now integrated, so it will change other account passwords.\nsuch as: Microsoft Account Password (Sharepoint, Microsoft Team, etc.), Wifi Password, Computer Password (which uses an office computer / laptop)."></i> <a data-toggle="modal" data-target="#modal_forgetpass" data-backdrop="static" data-keyboard="false">Forgot Password?</a>' +
+            '                           <a data-toggle="modal" data-target="#modal_forgetpass" data-backdrop="static" data-keyboard="false">Forgot Password?</a> <i class="fa fa-question-circle-o" aria-hidden="true" title="Reset password on the portal is now integrated, so it will change other account passwords.\nsuch as: Microsoft Account Password (Sharepoint, Microsoft Team, etc.), Wifi Password, Computer Password (which uses an office computer / laptop)."></i>' +
             '                        </div>' +
             '                        <div style="text-align: right;">' +
             '                            <button type="submit" class="btn btn-primary" id="btnLoginCheckUser">Next <i class="fa fa-angle-right"></i></button>' +
