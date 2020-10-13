@@ -391,7 +391,7 @@ $('#forgetpass').click(function () {
     var at = email.indexOf("@");
     var dot = email.lastIndexOf(".");
     if(at<1||dot<at+2||dot+2>=email.length){
-toastr.error('Email not found','Error');
+
 $('#modal_forgetpass #alertPass').html('<i style="color: red;">Please enter an email address.</i>');
                     setTimeout(function (args) {
                     $('#modal_forgetpass #alertPass').html('');
@@ -425,7 +425,7 @@ $('#modal_forgetpass #alertPass').html('<i style="color: red;">Please enter an e
                 toastr.success('Reset password success','Success');
                 }else{
                     toastr.error('Email not found','Error');
-                    $('#modal_forgetpass #alertPass').html('<i style="color: red;">Please enter the registered email</i>');
+                    $('#modal_forgetpass #alertPass').html('<i style="color: red;">Email is not registered</i>');
                     setTimeout(function (args) {
                     $('#modal_forgetpass #alertPass').html('');
                 },3000);
