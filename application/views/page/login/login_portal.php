@@ -322,7 +322,7 @@
                   <hr/>
             </div>
         <div class="form-group">
-            <input type="email" name="email" id="inputemail" class="form-control" placeholder="Input email...">
+            <input type="text" name="email" id="inputemail" class="form-control" placeholder="Input email...">
             <span id="alertPass" style="float: right;"></span>
             <br>
       </div>
@@ -387,7 +387,19 @@
 
 
 $('#forgetpass').click(function () {
+    var email = $('#modal_forgetpass #inputemail').val();
+    var at = email.indexOf("@");
+    var dot = email.lastIndexOf(".");
+    if(at<1||dot<at+2||dot+2>=email.length){
+
+$('#modal_forgetpass #alertPass').html('<i style="color: red;">Please enter an email address.</i>');
+                    setTimeout(function (args) {
+                    $('#modal_forgetpass #alertPass').html('');
+                },4000);
+    }else{
         forgetpassword();
+    }
+    
 
     });
 
@@ -413,7 +425,7 @@ $('#forgetpass').click(function () {
                 toastr.success('Reset password success','Success');
                 }else{
                     toastr.error('Email not found','Error');
-                    $('#modal_forgetpass #alertPass').html('<i style="color: red;">Please enter the registered email</i>');
+                    $('#modal_forgetpass #alertPass').html('<i style="color: red;">Email is not registered</i>');
                     setTimeout(function (args) {
                     $('#modal_forgetpass #alertPass').html('');
                 },3000);
