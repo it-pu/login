@@ -159,11 +159,14 @@ class C_login extends MY_Controller {
 
                 for ($i=0; $i < count($dataC) ; $i++) { 
                     $db = 'ta_'.$dataC[$i]['Year'];
+                    
                     $dataStudents = $this->db->select('NPM,Name')->get_where($db.'.students',
                                     array('Email' => $Email))->result_array();
-                    break;
+                                        
+                    if (!empty($dataStudents)) {
+                        break;
+                    }
                 }
-                
             } 
 
             // cek kedua
