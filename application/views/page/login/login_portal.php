@@ -322,6 +322,7 @@
                   <hr/>
             </div>
         <div class="form-group">
+            <a style="color: black;">Enter an Registered email address</a>
             <input type="text" name="email" id="inputemail" class="form-control" placeholder="Input email...">
             <span id="alertPass" style="float: right;"></span>
             <br>
@@ -387,12 +388,13 @@
 
 
 $('#forgetpass').click(function () {
+
     var email = $('#modal_forgetpass #inputemail').val();
     var at = email.indexOf("@");
     var dot = email.lastIndexOf(".");
     if(at<1||dot<at+2||dot+2>=email.length){
 
-$('#modal_forgetpass #alertPass').html('<i style="color: red;">Please enter an email address.</i>');
+$('#modal_forgetpass #alertPass').html('<i style="color: red;">Email is not registered.</i>');
                     setTimeout(function (args) {
                     $('#modal_forgetpass #alertPass').html('');
                 },4000);
