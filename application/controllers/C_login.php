@@ -150,7 +150,7 @@ class C_login extends MY_Controller {
         } else {
 
             $dataStudents = $this->db->select('NPM,Name')->get_where('db_academic.auth_students',
-                array('EmailPU' => $Email))->result_array();
+                array('EmailPU' => $Email))->row_array();
 
             if(count($dataStudents)<=0){
 
@@ -161,8 +161,7 @@ class C_login extends MY_Controller {
                     $db = 'ta_'.$dataC[$i]['Year'];
                     
                     $dataStudents = $this->db->select('NPM,Name')->get_where($db.'.students',
-                                    array('Email' => $Email))->result_array();
-                                        
+                                    array('Email' => $Email))->row_array();
                     if (!empty($dataStudents)) {
                         break;
                     }
@@ -171,9 +170,9 @@ class C_login extends MY_Controller {
 
             // cek kedua
             if(count($dataStudents)>0){
-                $Name = $dataStudents[0]['Name'];
+                $Name = $dataStudents['Name'];
                 $Type = 'std';
-                $Username = $dataStudents[0]['NPM'];
+                $Username = $dataStudents['NPM'];
 
                 $CheckUser = true;
             }
