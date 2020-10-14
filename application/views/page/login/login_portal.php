@@ -322,7 +322,7 @@
                   <hr/>
             </div>
         <div class="form-group">
-            <a style="color: black;">Enter an Registered email address</a>
+            <a style="color: black;">Enter The Registered Email Address</a>
             <input type="text" name="email" id="inputemail" class="form-control" placeholder="Input email...">
             <span id="alertPass" style="float: right;"></span>
             <br>
