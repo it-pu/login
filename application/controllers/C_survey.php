@@ -37,14 +37,14 @@ class C_survey extends MY_Controller {
                 if($data_arr['action']=='getSurvQuestionType'){
                     
                             $monthNow = date("m");
-                            $data = $this->db->query('SELECT DISTINCT(DATE_FORMAT(sa.EntredAt, "%d %b %Y")) AS tgl FROM db_it.surv_answer sa JOIN db_it.surv_survey ss ON sa.SurveyID = ss.ID WHERE ss.isPublicSurvey = "1" AND MONTH(sa.EntredAt) = "'.$monthNow.'" AND sa.EntredAt >= ss.StartDate')->result_array();                                           
+                            $data = $this->db->query('SELECT DISTINCT(DATE_FORMAT(sa.EntredAt, "%d %b %Y")) AS tgl FROM db_it.surv_answer sa JOIN db_it.surv_survey ss ON sa.SurveyID = ss.ID WHERE ss.isPublicSurvey = "1" AND MONTH(sa.EntredAt) = "'.$monthNow.'" AND sa.EntredAt >= ss.StartDate AND sa.Status = "1"')->result_array();                                           
                             return print_r(json_encode($data));  
                 }
                 
                 else if($data_arr['action']=='getListSurvey'){
 
             $requestData = $_REQUEST;
-
+            
             $dataWhere = '';
 
             $dataSearch = '';
@@ -52,6 +52,7 @@ class C_survey extends MY_Controller {
                 $search = $requestData['search']['value'];
                 $dataSearch = ' AND ( ss.Title LIKE "%'.$search.'%" OR ss.Key LIKE "%'.$search.'%" )';
             }
+
 
             $queryDefault = 'SELECT ss.* FROM db_it.surv_survey ss WHERE ss.isPublicSurvey="1" AND
                             ss.DepartmentID = "'.$data_arr['DepartmentID'].'"  '.
@@ -81,23 +82,26 @@ class C_survey extends MY_Controller {
 
                     $tokenBtn = $this->jwt->encode(array('ID' => $row['ID']),"UAP)(*");
 
-                    $showBtnAddNewDate = ($row['Status']=='2')
-                    ? '<li class="" id="li_btn_Close_'.$row['ID'].'">
-                                        <a href="javascript:void(0);" class="btnAddNewDate" data-id="'.$row['ID'].'">Add new date 
-                                            <i style="color: #FFC107;padding-top: 3px;" class="fa fa-circle pull-right"></i></a>
-                                 </li>'
-                    : '';
 
 
                     // Cek jumlah yang sudah mengisi survey
 
                     // ketika survey blm close dan sudah close
+                    
+                    $filterType = $data_arr['filterType'];
+
+                    $dataWhereType = '';
+                    if($filterType!=''){
+                    $w_Type = ($filterType!='')
+                        ? 'AND DATE_FORMAT(EntredAt, "%d %b %Y") = "'.$filterType.'" ' : '';
+                        $dataWhereType = $w_Type;
+                    }
 
                     $whereAnswerSurvey = ($row['Status']=='2') ? ' AND RecapID = (SELECT MAX(RecapID) FROM db_it.surv_answer WHERE SurveyID= "'.$row['ID'].'")'
                     : ' AND Status = "1" ';
                     $TotalYgUdahIsiSurvey = $this->db->query('SELECT COUNT(*) AS Total FROM db_it.surv_answer 
                                                                     WHERE SurveyID= "'.$row['ID'].'" AND 
-                                                                      FormType = "internal" '.$whereAnswerSurvey)->result_array()[0]['Total'];
+                                                                      FormType = "internal" '.$whereAnswerSurvey.$dataWhereType)->result_array()[0]['Total'];
                     //                $TotalYgUdahIsiSurvey = $this->db->from('db_it.surv_answer')
                     //                    ->where(array('SurveyID' => $row['ID'],
                     //                        'FormType' => 'internal',
@@ -109,7 +113,7 @@ class C_survey extends MY_Controller {
                     // Cek jumlah yang sudah mengisi survey external
                     $TotalYgUdahIsiSurvey_Ext = $this->db->query('SELECT COUNT(*) AS Total FROM db_it.surv_answer 
                                                                     WHERE SurveyID= "'.$row['ID'].'" AND 
-                                                                      FormType = "external" '.$whereAnswerSurvey)->result_array()[0]['Total'];
+                                                                      FormType = "external" '.$whereAnswerSurvey.$dataWhereType)->result_array()[0]['Total'];
                     //                $TotalYgUdahIsiSurvey_Ext = $this->db->from('db_it.surv_answer')
                     //                    ->where(array('SurveyID' => $row['ID'],
                     //                        'FormType' => 'external',

@@ -35,47 +35,30 @@
                             <div class="panel-heading">
                                 <i class="fa fa-bars"></i> Survey List<label class="month btn btn-xs btn-danger pull-right"><i class="fa fa-calendar"></i> <?=date('F Y')?></label>
                             </div>
+                            
                             <div class="">
-    <div class="row">
-        <div class="col-md-4 col-md-offset-4">
-            <div class="well">
-                <div class="row">
-                    <div class="col-md-12">
-                        <label>Date</label>
-                        <select class="form-control filter-table" id="filterType">
-                            <option value="">--- All Type ---</option>
-                            <option disabled>-----------------------</option>
-
-                        </select>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-</div>
-                            <div class="panel-body">
-                                <div class="fetch-data-tables">
-                                    <table class="table table-bordered" id="table-list-data">
-                                        <thead>
-                                            <tr>
-                                                <th width="5%">No</th>
-                                                <th>Title</th>
-                                                <th>Question</th>
-                                                <th>Internal</th>
-                                                <th>External</th>
-                                                <th>Total</th>
-                                                <th>Publication Date</th>
-                                                
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            <tr>
-                                                <td colspan="10">No data available in table</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                                <div class="row">
+                                    <div class="col-md-4 col-md-offset-4">
+                                        <div class="well">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <label>Date</label>
+                                                    <select class="form-control" id="filterType">
+                                                        <option value="">--- All Date ---</option>
+                                                        <option disabled>-----------------------</option>
+                            
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
+                            </div>
+
+                            <div class="panel-body">
+                                <div id="loadTable"></div>
+                              
+                            
                             </div>
                         </div>
                     </div>
@@ -364,7 +347,7 @@ function totallist(id)
                         '<td style="text-align: left;"><span class="label label-primary">'+v.Category+'</span>' +
                         ' <span class="label label-success">'+v.Type+'</span>' +
                         '       <div style= "overflow: auto; max-height: 250px;">'+v.Question+'</div></td>' +
-                        '<td>'+v.AverageRate+'</td>' +
+
                         '</tr>';
                    
                 })
@@ -378,7 +361,7 @@ function totallist(id)
                 '        <tr style="background: #eceff1;">' +
                 '            <th style="width: 3%">No</th>' +
                 '            <th>Question</th>' +
-                '            <th style="width: 13%">Average</th>' +
+                
                 '        </tr>' +
                 '        </thead>' +
                 '        <tbody>'+tr+'</tbody>' +
@@ -393,24 +376,47 @@ function totallist(id)
    	});
   }
 
+
+
+
 	 $(document).ready(function(){
 	 	 
         listsurvey();
-       loadSelectOptionSurvQuestionType('#filterType','');
+        loadSelectOptionSurvQuestionType('#filterType','');
        
     });
+     $('#filterType').change(function () {
+        listsurvey();
+    });
+
     function listsurvey() {
 
         //var filtering = $("#form-filter").serialize();     
 
-        var filtering = null;
-         var data = {
+        
+        $('#loadTable').html('<table id="tableData" class="table table-bordered table-striped table-centre">' +
+            '               <thead>' +
+            '                <tr style="background: #eceff1;">' +
+            '                    <th width="5%">No</th>'+
+            '                    <th>Title</th>'+
+            '                    <th>Question</th>'+
+            '                    <th>Internal</th>'+
+            '                    <th>External</th>'+
+            '                    <th>Total</th>'+
+            '                    <th>Publication Date</th>'+
+            '                </tr>' +
+            '                </thead>' +
+            '           </table>');
+        var filterType = $('#filterType').val();
+        var data = {
             action : 'getListSurvey',
             DepartmentID : 12,
+            filterType:filterType
+
         };
         var token = jwt_encode(data,'UAP)(*');
 
-        var dataTable = $('#table-list-data').DataTable( {
+        var dataTable = $('#tableData').DataTable( {
             "processing": true,
             "serverSide": true,
             "iDisplayLength" : 10,
