@@ -62,8 +62,8 @@ $route['form/(:any)'] = 'c_survey/checksurvey/$1';
 $route['submitChecksurvey'] = 'c_survey/submitChecksurvey';
 
 
-
-
+$route['list-survey'] = 'c_survey/list_survey';
+$route['data-survey'] = 'c_survey/crudSurvey';
 
 // === AUTH ===
 $route['uath/getAuthSSOLogin'] = 'c_login/getAuthSSOLogin';
