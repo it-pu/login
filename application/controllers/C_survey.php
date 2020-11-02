@@ -22,6 +22,342 @@ class C_survey extends MY_Controller {
 
     }
 
+ public function list_survey()
+    {
+        $content = $this->load->view('page/survey/list_survey','',true);
+        parent::template($content);
+    }
+
+     public function crudSurvey(){
+        $reqdata = $this->input->post();
+         $key = "UAP)(*";
+        $data_arr = (array) $this->jwt->decode($reqdata['token'],$key);
+
+
+                if($data_arr['action']=='getSurvQuestionType'){
+                    
+                            $monthNow = date("m");
+                            $data = $this->db->query('SELECT DISTINCT(DATE_FORMAT(sa.EntredAt, "%d %b %Y")) AS tgl FROM db_it.surv_answer sa JOIN db_it.surv_survey ss ON sa.SurveyID = ss.ID WHERE ss.isPublicSurvey = "1" AND MONTH(sa.EntredAt) = "'.$monthNow.'" AND sa.EntredAt >= ss.StartDate AND sa.Status = "1"')->result_array();                                           
+                            return print_r(json_encode($data));  
+                }
+                
+                else if($data_arr['action']=='getListSurvey'){
+
+            $requestData = $_REQUEST;
+            
+            $dataWhere = '';
+
+            $dataSearch = '';
+            if( !empty($requestData['search']['value']) ) {
+                $search = $requestData['search']['value'];
+                $dataSearch = ' AND ( ss.Title LIKE "%'.$search.'%" OR ss.Key LIKE "%'.$search.'%" )';
+            }
+
+
+            $queryDefault = 'SELECT ss.* FROM db_it.surv_survey ss WHERE ss.isPublicSurvey="1" AND
+                            ss.DepartmentID = "'.$data_arr['DepartmentID'].'"  '.
+                            $dataWhere.$dataSearch;
+
+            $queryDefaultTotal = 'SELECT COUNT(*) AS Total FROM ('.$queryDefault.') xx';
+
+            $sql = $queryDefault.' LIMIT '.$requestData['start'].','.$requestData['length'].' ';
+
+            $query = $this->db->query($sql)->result_array();
+            $queryDefaultRow = $this->db->query($queryDefaultTotal)->result_array()[0]['Total'];
+
+            $no = $requestData['start'] + 1;
+            $data = array();
+
+            for($i=0;$i<count($query);$i++) {
+
+                $nestedData = array();
+                $row = $query[$i];
+
+                $Range = date('d M Y',strtotime($row['StartDate'])).' - '.
+                    date('d M Y',strtotime($row['EndDate']));
+                $dateNow = date("Y-m-d");
+                $dateExpired = $row['EndDate'];
+
+                if ($dateNow<=$dateExpired) {
+
+                    $tokenBtn = $this->jwt->encode(array('ID' => $row['ID']),"UAP)(*");
+
+
+
+                    // Cek jumlah yang sudah mengisi survey
+
+                    // ketika survey blm close dan sudah close
+                    
+                    $filterType = $data_arr['filterType'];
+
+                    $dataWhereType = '';
+                    if($filterType!=''){
+                    $w_Type = ($filterType!='')
+                        ? 'AND DATE_FORMAT(EntredAt, "%d %b %Y") = "'.$filterType.'" ' : '';
+                        $dataWhereType = $w_Type;
+                    }
+
+                    $whereAnswerSurvey = ($row['Status']=='2') ? ' AND RecapID = (SELECT MAX(RecapID) FROM db_it.surv_answer WHERE SurveyID= "'.$row['ID'].'")'
+                    : ' AND Status = "1" ';
+                    $TotalYgUdahIsiSurvey = $this->db->query('SELECT COUNT(*) AS Total FROM db_it.surv_answer 
+                                                                    WHERE SurveyID= "'.$row['ID'].'" AND 
+                                                                      FormType = "internal" '.$whereAnswerSurvey.$dataWhereType)->result_array()[0]['Total'];
+                    //                $TotalYgUdahIsiSurvey = $this->db->from('db_it.surv_answer')
+                    //                    ->where(array('SurveyID' => $row['ID'],
+                    //                        'FormType' => 'internal',
+                    //                        'Status' => '1'))->count_all_results();
+                    $btnTotalAlreadyFillOut = ($TotalYgUdahIsiSurvey>0)
+                    ? '<a href="javascript:void(0)" class="showAlreadyFillIn" onclick="intlist('.$row['ID'].');" data-type="internal" data-status="'.$row['Status'].'" data-id="'.$row['ID'].'">'.$TotalYgUdahIsiSurvey.'</a>'
+                    : '0';
+
+                    // Cek jumlah yang sudah mengisi survey external
+                    $TotalYgUdahIsiSurvey_Ext = $this->db->query('SELECT COUNT(*) AS Total FROM db_it.surv_answer 
+                                                                    WHERE SurveyID= "'.$row['ID'].'" AND 
+                                                                      FormType = "external" '.$whereAnswerSurvey.$dataWhereType)->result_array()[0]['Total'];
+                    //                $TotalYgUdahIsiSurvey_Ext = $this->db->from('db_it.surv_answer')
+                    //                    ->where(array('SurveyID' => $row['ID'],
+                    //                        'FormType' => 'external',
+                    //                        'Status' => '1'))->count_all_results();
+                    $btnTotalAlreadyFillOut_ext = ($TotalYgUdahIsiSurvey_Ext>0)
+                    ? '<a href="javascript:void(0)" class="showAlreadyFillOut" onclick="ekslist('.$row['ID'].');" data-type="external" data-status="'.$row['Status'].'" data-id="'.$row['ID'].'">'.$TotalYgUdahIsiSurvey_Ext.'</a>'
+                    : '0';
+
+                    $TotalQuestion = $this->db->from('db_it.surv_survey_detail')->where('SurveyID',$row['ID'])->count_all_results();
+                    $btnShowTotalQuestion = ($TotalQuestion>0) ? '<a href="javascript:void(0)" class="showQuestionList" onclick="questionlist('.$row['ID'].');" data-id="'.$row['ID'].'">'.$TotalQuestion.'</a>' : '0';
+
+                    $TotalFillOut = $TotalYgUdahIsiSurvey + $TotalYgUdahIsiSurvey_Ext;
+                    $ShowTotalFillOut = ($TotalFillOut>0)
+                    ? '<a href="javascript:void(0)" class="showAlreadyFillTotal" onclick="totallist('.$row['ID'].');" data-status="'.$row['Status'].'" data-type="all" data-id="'.$row['ID'].'">'.$TotalFillOut.'</a>'
+                    : '0';
+
+                    $TotalRecap = $this->db->from('db_it.surv_recap')
+                                            ->where('SurveyID',$row['ID'])
+                                            ->count_all_results();
+
+
+                    $Key = ($row['Key']!='' && $row['Key']!=null) ? '<div style="margin-top: 10px;"><span class="key">'.$row['Key'].'</span></div>' : '';
+
+                    $nestedData[] = '<div>'.$no.'</div>';
+                    $nestedData[] = '<div style="text-align: left;"><b>'.$row['Title'].'</b>'.$Key.'</div>';
+                    $nestedData[] = $btnShowTotalQuestion;
+                    $nestedData[] = $btnTotalAlreadyFillOut;
+                    $nestedData[] = $btnTotalAlreadyFillOut_ext;
+                    $nestedData[] = '<b>'.$ShowTotalFillOut.'</b>';
+                
+                    $nestedData[] = '<div>'.$Range.'</div>';
+              
+
+                    $data[] = $nestedData;
+                    $no++;
+                    
+
+                }
+                else{
+                    //$dataClose = $this->db->query('SELECT ID FROM db_it.surv_survey WHERE EndDate="'.$dateExpired.'"')->result_array(); 
+                    
+                    
+                    $updates = array(
+                        'isPublicSurvey' => '0',
+        
+                    );
+                    //for ($i=0; $i <count($dataClose) ; $i++) { 
+                        $this->db->where('ID', $row['ID']);
+                        $this->db->update('db_it.surv_survey', $updates);
+                        
+                    //}
+                }
+            }
+            $json_data = array(
+                        "draw"            => intval( $requestData['draw'] ),
+                        "recordsTotal"    => intval($queryDefaultRow),
+                        "recordsFiltered" => intval( $queryDefaultRow),
+                        "data"            => $data,
+                        "dataQuery"            => $query
+                    );
+                    echo json_encode($json_data);
+
+        }
+
+
+        else if($data_arr['action']=='showQuestionInSurvey'){
+
+            $SurveyID = $data_arr['SurveyID'];
+
+            $data = $this->db->query('SELECT ssd.QuestionID, sq.Question, sq.QTID, sqc.Description AS Category, 
+                                                 sqt.Description AS Type
+                                                FROM db_it.surv_survey_detail ssd
+                                                LEFT JOIN db_it.surv_question sq ON (sq.ID = ssd.QuestionID)
+                                                LEFT JOIN db_it.surv_question_category sqc ON (sqc.ID = sq.QCID)
+                                                LEFT JOIN db_it.surv_question_type sqt ON (sqt.ID = sq.QTID)
+                                                WHERE ssd.SurveyId = "'.$SurveyID.'" ORDER BY ssd.Queue ASC ')
+                                    ->result_array();
+
+            if(count($data)>0){
+                for($i=0;$i<count($data);$i++){
+
+                    $AverageRate = '';
+
+                    $dataWhere = ' sad.SurveyID = "'.$SurveyID.'" 
+                                    AND sad.QuestionID = "'.$data[$i]['QuestionID'].'"
+                                     AND sad.QTID = "'.$data[$i]['QTID'].'"
+                                      AND sa.Status = "1" ';
+
+                    if($data[$i]['QTID']=='4' || $data[$i]['QTID']==4){
+                        // Cek berapa yang udah jawab
+//                        $dataTotalJawaban = $this->db->get_where('db_it.surv_answer_detail',$dataWhere)->result_array();
+
+                        $whereRate = ' AND sad.Rate = 1';
+                        $R_1 = $this->db->query('SELECT COUNT(*) AS Total 
+                                                        FROM db_it.surv_answer_detail sad 
+                                                        LEFT JOIN db_it.surv_answer sa 
+                                                        ON (sa.ID = sad.AnswerID) 
+                                                        WHERE '.$dataWhere.$whereRate)
+                            ->result_array()[0]['Total'];
+
+                        $whereRate = ' AND sad.Rate = 2';
+                        $R_2 = $this->db->query('SELECT COUNT(*) AS Total 
+                                                        FROM db_it.surv_answer_detail sad 
+                                                        LEFT JOIN db_it.surv_answer sa 
+                                                        ON (sa.ID = sad.AnswerID) 
+                                                        WHERE '.$dataWhere.$whereRate)
+                            ->result_array()[0]['Total'];
+
+                        $whereRate = ' AND sad.Rate = 3';
+                        $R_3 = $this->db->query('SELECT COUNT(*) AS Total 
+                                                        FROM db_it.surv_answer_detail sad 
+                                                        LEFT JOIN db_it.surv_answer sa 
+                                                        ON (sa.ID = sad.AnswerID) 
+                                                        WHERE '.$dataWhere.$whereRate)
+                            ->result_array()[0]['Total'];
+
+                        $whereRate = ' AND sad.Rate = 4';
+                        $R_4 = $this->db->query('SELECT COUNT(*) AS Total 
+                                                        FROM db_it.surv_answer_detail sad 
+                                                        LEFT JOIN db_it.surv_answer sa 
+                                                        ON (sa.ID = sad.AnswerID) 
+                                                        WHERE '.$dataWhere.$whereRate)
+                            ->result_array()[0]['Total'];
+
+                        $AverageRate = '<div>B1 : '.$R_1.'</div>
+                                        <div>B2 : '.$R_2.'</div>
+                                        <div>B3 : '.$R_3.'</div>
+                                        <div>B4 : '.$R_4.'</div>';
+
+                    }
+                    else if($data[$i]['QTID']=='5' || $data[$i]['QTID']==5){
+
+                        $dataWhere = $dataWhere.' AND IsTrue = "1"';
+
+                        $TotalYes = $this->db->query('SELECT COUNT(*) AS Total FROM db_it.surv_answer_detail sad LEFT JOIN db_it.surv_answer sa 
+                                                        ON (sa.ID = sad.AnswerID) WHERE '.$dataWhere)->result_array()[0]['Total'];
+
+                        $dataWhere = $dataWhere.' AND IsTrue = "0"';
+                        $TotalNo = $this->db->query('SELECT COUNT(*) AS Total FROM db_it.surv_answer_detail sad LEFT JOIN db_it.surv_answer sa 
+                                                        ON (sa.ID = sad.AnswerID) WHERE '.$dataWhere)->result_array()[0]['Total'];
+
+                        $AverageRate = '<div>Y : '.$TotalYes.'</div><div>N : '.$TotalNo.'</div>';
+
+
+                    }
+
+                    $data[$i]['AverageRate'] = '<div style="text-align: left;">'.$AverageRate.'</div>';
+                }
+            }
+
+
+            return print_r(json_encode($data));
+
+
+        }
+
+        else if($data_arr['action']=='showUserAlreadyFill'){
+
+            $requestData = $_REQUEST;
+            $filterType = $data_arr['filterType'];
+            
+            $dataWhere = ($data_arr['Type']=='all') ? '' : ' AND sa.FormType = "'.$data_arr['Type'].'" ';
+
+            $dataWhereType = '';
+            if($filterType!=''){
+                $w_Type = ($filterType!='')
+                    ? 'AND DATE_FORMAT(sa.EntredAt, "%d %b %Y") = "'.$filterType.'" ' : '';
+                
+
+                $dataWhereType = $w_Type;
+            }
+
+            $dataSearch = '';
+            if( !empty($requestData['search']['value']) ) {
+                $search = $requestData['search']['value'];
+                $dataScr = ' AND (sa.Username LIKE "%'.$search.'%" OR 
+                                em.Name LIKE "%'.$search.'%"  OR 
+                                ats.Name LIKE "%'.$search.'%")';
+                $dataSearch = $dataScr;
+            }
+
+
+            $whereAnswerSurvey = ($data_arr['Status']=='2') ?
+                ' AND sa.RecapID = (SELECT MAX(RecapID) FROM db_it.surv_answer WHERE SurveyID= "'.$data_arr['SurveyID'].'")'
+                : ' AND sa.Status = "1" ';
+
+            $queryDefault = 'SELECT sa.*,  CASE WHEN  sa.Type = "emp" THEN em.Name
+                                                WHEN  sa.Type = "std" THEN ats.Name
+                                                ELSE exu.FullName END AS "Name" FROM db_it.surv_answer sa 
+                                                LEFT JOIN db_employees.employees em ON (em.NIP = sa.Username)
+                                                LEFT JOIN db_academic.auth_students ats ON (ats.NPM = sa.Username)
+                                                LEFT JOIN db_it.surv_external_user exu ON (exu.ID = sa.Username)
+                                        WHERE sa.SurveyID = "'.$data_arr['SurveyID'].'" '.$whereAnswerSurvey.
+                                        $dataWhere.$dataSearch.$dataWhereType;
+
+            $queryDefaultTotal = 'SELECT COUNT(*) AS Total FROM ('.$queryDefault.') xx';
+
+            $sql = $queryDefault.' LIMIT '.$requestData['start'].','.$requestData['length'].' ';
+
+            $query = $this->db->query($sql)->result_array();
+            $queryDefaultRow = $this->db->query($queryDefaultTotal)->result_array()[0]['Total'];
+
+            $no = $requestData['start'] + 1;
+            $data = array();
+
+            for($i=0;$i<count($query);$i++) {
+
+                $nestedData = array();
+                $row = $query[$i];
+
+//                $Type = ($row['Type']=='std')
+//                    ? '<span class="label label-primary">Student</span>'
+//                    : '<span class="label label-success">Emp / Lec</span>';
+                $Type = '<span class="label label-warning">Other</span>';
+                if($row['Type'] == 'std') {
+                    $Type = '<span class="label label-primary">Std</span>';
+                } else if($row['Type'] == 'emp'){
+                    $Type = '<span class="label label-success">Emp / Lec</span>';
+                }
+
+                $nestedData[] = '<div>'.$no.'</div>';
+                $nestedData[] = '<div style="text-align: left;"><b>'.$row['Name'].'</b><br/>'.$row['Username'].'</div>';
+                $nestedData[] = '<div>'.$Type.'</div>';
+                $nestedData[] = '<div>'.date('d M Y H:i',strtotime($row['EntredAt'])).'</div>';
+
+                $data[] = $nestedData;
+                $no++;
+
+            }
+
+            $json_data = array(
+                "draw"            => intval( $requestData['draw'] ),
+                "recordsTotal"    => intval($queryDefaultRow),
+                "recordsFiltered" => intval( $queryDefaultRow),
+                "data"            => $data,
+                "dataQuery"            => $query
+            );
+            echo json_encode($json_data);
+
+
+        }
+
+    }
+
 
     public function survey()
     {

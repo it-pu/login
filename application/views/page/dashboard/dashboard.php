@@ -413,7 +413,12 @@
                     <a href="https://blogs.podomorouniversity.ac.id/category/28" target="_blank" class="btn btn-default btn-semibold animated infinite pulse" style="color: red;">Beware of corona!</a>
                 </div>
             </div>
-            
+            <div style="background: #fff;border-radius: 4px;margin-bottom: 15px;">
+                <a href="<?= base_url('list-survey'); ?>">
+                    <button class="btn btn-info form-control" title="Survey">Survey</button>
+                    <!-- <img src="<?= base_url('images/lost-found.png'); ?>" style="width: 100%;border-radius: 5px;" /> -->
+                </a>
+            </div>
             <div style="background: #fff;border-radius: 4px;margin-bottom: 15px;">
                 <a href="<?= base_url('lost-and-found'); ?>">
                     <img src="<?= base_url('images/lost-found.png'); ?>" style="width: 100%;border-radius: 5px;" />
