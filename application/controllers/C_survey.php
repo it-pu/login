@@ -140,9 +140,9 @@ class C_survey extends MY_Controller {
                     $nestedData[] = '<div>'.$no.'</div>';
                     $nestedData[] = '<div style="text-align: left;"><b>'.$row['Title'].'</b>'.$Key.'</div>';
                     $nestedData[] = $btnShowTotalQuestion;
-                    $nestedData[] = $btnTotalAlreadyFillOut;
-                    $nestedData[] = $btnTotalAlreadyFillOut_ext;
-                    $nestedData[] = '<b>'.$ShowTotalFillOut.'</b>';
+                    //$nestedData[] = $btnTotalAlreadyFillOut;
+                    //$nestedData[] = $btnTotalAlreadyFillOut_ext;
+                    //$nestedData[] = '<b>'.$ShowTotalFillOut.'</b>';
                 
                     $nestedData[] = '<div>'.$Range.'</div>';
               
