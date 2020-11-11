@@ -347,7 +347,7 @@ function totallist(id)
                         '<td style="text-align: left;"><span class="label label-primary">'+v.Category+'</span>' +
                         ' <span class="label label-success">'+v.Type+'</span>' +
                         '       <div style= "overflow: auto; max-height: 250px;">'+v.Question+'</div></td>' +
-
+                        '<td>'+v.AverageRate+'</td>' +
                         '</tr>';
                    
                 })
@@ -361,7 +361,7 @@ function totallist(id)
                 '        <tr style="background: #eceff1;">' +
                 '            <th style="width: 3%">No</th>' +
                 '            <th>Question</th>' +
-                
+                '            <th>Average</th>' +
                 '        </tr>' +
                 '        </thead>' +
                 '        <tbody>'+tr+'</tbody>' +
@@ -398,11 +398,11 @@ function totallist(id)
             '               <thead>' +
             '                <tr style="background: #eceff1;">' +
             '                    <th width="5%">No</th>'+
-            '                    <th>Title</th>'+
-            '                    <th>Question</th>'+
-            '                    <th>Internal</th>'+
-            '                    <th>External</th>'+
-            '                    <th>Total</th>'+
+            '                    <th width="50%">Title</th>'+
+            '                    <th width="15%">Question</th>'+
+            // '                    <th>Internal</th>'+
+            // '                    <th>External</th>'+
+            // '                    <th>Total</th>'+
             '                    <th>Publication Date</th>'+
             '                </tr>' +
             '                </thead>' +
