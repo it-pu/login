@@ -35,25 +35,6 @@
                             <div class="panel-heading">
                                 <i class="fa fa-bars"></i> Survey List<label class="month btn btn-xs btn-danger pull-right"><i class="fa fa-calendar"></i> <?=date('F Y')?></label>
                             </div>
-                            
-                            <div class="">
-                                <div class="row">
-                                    <div class="col-md-4 col-md-offset-4">
-                                        <div class="well">
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <label>Date</label>
-                                                    <select class="form-control" id="filterType">
-                                                        <option value="">--- All Date ---</option>
-                                                        <option disabled>-----------------------</option>
-                            
-                                                    </select>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
 
                             <div class="panel-body">
                                 <div id="loadTable"></div>
@@ -91,238 +72,67 @@
   </div> 
 </div> 
 
-<div class="modal fade" id="GlobalModal" role="dialog">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content animated jackInTheBox">
-            <div class="modal-header">
-            	<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            	<h4 class="modal-title">Show Detail Already Fill Out</h4>
-            </div>
-            <div class="modal-body"></div>
-            <div class="modal-footer">
-            	<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-
 <script type="text/javascript">
 
 
-function loadSelectOptionSurvQuestionType(element,selected) {
+  
+	 $(document).ready(function(){	 	 
+        listsurvey();     
+    });
 
-        var data = {action : 'getSurvQuestionType'};
+    function listsurvey() {
+        
+        $('#loadTable').html('<table id="tableData" class="table table-bordered table-striped table-centre">' +
+            '               <thead>' +
+            '                <tr style="background: #eceff1;">' +
+            '                    <th width="5%">No</th>'+
+            '                    <th width="35%">Title</th>'+
+            '                    <th width="10%">Question</th>'+
+            '                    <th width="10%">Internal</th>'+
+            '                    <th width="10%">External</th>'+
+            '                    <th width="10%">Total</th>'+
+            '                    <th width="20%">Publication Date</th>'+
+            '                </tr>' +
+            '                </thead>' +
+            '           </table>');
+        var filterType = $('#filterType').val();
+        var data = {
+            action : 'getListSurvey',
+            DepartmentID : 12,
+            filterType:filterType
 
+        };
         var token = jwt_encode(data,'UAP)(*');
-        var url = dt_base_url_js+'data-survey';
 
-        $.post(url,{token:token},function (jsonResult) {
-            $.each(JSON.parse(jsonResult),function (i,v) {
-            	
-                var sc = (selected==v.tgl) ? 'selected' : '';
-                $(element).append('<option value="'+v.tgl+'" '+sc+'>'+v.tgl+'</option>');
-            });
-        });
+        var dataTable = $('#tableData').DataTable( {
+            "processing": true,
+            "serverSide": true,
+            "iDisplayLength" : 10,
+            "ordering" : false,
+            "language": {
+                "searchPlaceholder": "Title..."
+            },
+            "ajax":{
+                url :dt_base_url_js+'data-survey', // json datasource
+                data : {token:token},
+                ordering : false,
+                type: "post",  // method  , by default get
+                error: function(){  // error handling
+                    //loading_modal_hide();
+                    $(".employee-grid-error").html("");
+                    $("#employee-grid").append('<tbody class="employee-grid-error"><tr><th colspan="3">No data found in the server</th></tr></tbody>');
+                    $("#employee-grid_processing").css("display","none");
+                }
+            }
+        } );
 
     }
 
-function totallist(id)
-  {
-      $(document).on('click','.showAlreadyFillTotal',function () {
+    function questionlist(id)
+    {
+        $(document).on('click','.showQuestionList',function () {
 
-        var htmlss = '<div class="">' +
-            '    <table class="table table-bordered table-striped table-centre" id="tableShowUserAlreadyFillTotal" style="width: 100%;">' +
-            '        <thead>' +
-            '        <tr>' +
-            '            <th style="width: 1%;">No</th>' +
-            '            <th>User</th>' +
-            '            <th style="width: 10%;">Type</th>' +
-            '            <th style="width: 25%;">Entred At</th>' +
-            '        </tr>' +
-            '        </thead>' +
-            '    </table>' +
-            '</div>';
-
-    
-        $('#GlobalModal .modal-body').html(htmlss);
-
-        var filterType = $('#filterType').val();
-        var Status = $(this).attr('data-status');
-        var Type = $(this).attr('data-type');
-        var data = {
-            action : 'showUserAlreadyFill',
-            SurveyID : id,
-            Status : Status,
-            Type : Type,
-            filterType:filterType
-        };
-        var token = jwt_encode(data,'UAP)(*');
-        var url = dt_base_url_js+'data-survey';
-
-
-        var dataTable = $('#tableShowUserAlreadyFillTotal').DataTable( {
-            "processing": true,
-            "serverSide": true,
-            "iDisplayLength" : 10,
-            "ordering" : false,
-            "language": {
-                "searchPlaceholder": "Username, Name..."
-            },
-            "ajax":{
-                url :url, // json datasource
-                data : {token:token},
-                ordering : false,
-                type: "post",  // method  , by default get
-                error: function(){  // error handling
-                    loading_modal_hide();
-                    $(".employee-grid-error").html("");
-                    $("#employee-grid").append('<tbody class="employee-grid-error"><tr><th colspan="3">No data found in the server</th></tr></tbody>');
-                    $("#employee-grid_processing").css("display","none");
-                }
-            }
-        } );
-
-        $('#GlobalModal').modal({
-            'show' : true,
-            'backdrop' : 'static'
-        });
-
-    });
-  }
-
-	function ekslist(id)
-  {
-      $(document).on('click','.showAlreadyFillOut',function () {
-
-        var htmlss = '<div class="">' +
-            '    <table class="table table-bordered table-striped table-centre" id="tableShowUserAlreadyFillOut" style="width: 100%;">' +
-            '        <thead>' +
-            '        <tr>' +
-            '            <th style="width: 1%;">No</th>' +
-            '            <th>User</th>' +
-            '            <th style="width: 10%;">Type</th>' +
-            '            <th style="width: 25%;">Entred At</th>' +
-            '        </tr>' +
-            '        </thead>' +
-            '    </table>' +
-            '</div>';
-
-    
-        $('#GlobalModal .modal-body').html(htmlss);
-
-      	var filterType = $('#filterType').val();
-        var Status = $(this).attr('data-status');
-        var Type = $(this).attr('data-type');
-        var data = {
-            action : 'showUserAlreadyFill',
-            SurveyID : id,
-            Status : Status,
-            Type : Type,
-            filterType:filterType
-        };
-        var token = jwt_encode(data,'UAP)(*');
-        var url = dt_base_url_js+'data-survey';
-
-
-        var dataTable = $('#tableShowUserAlreadyFillOut').DataTable( {
-            "processing": true,
-            "serverSide": true,
-            "iDisplayLength" : 10,
-            "ordering" : false,
-            "language": {
-                "searchPlaceholder": "Username, Name..."
-            },
-            "ajax":{
-                url :url, // json datasource
-                data : {token:token},
-                ordering : false,
-                type: "post",  // method  , by default get
-                error: function(){  // error handling
-                    loading_modal_hide();
-                    $(".employee-grid-error").html("");
-                    $("#employee-grid").append('<tbody class="employee-grid-error"><tr><th colspan="3">No data found in the server</th></tr></tbody>');
-                    $("#employee-grid_processing").css("display","none");
-                }
-            }
-        } );
-
-        $('#GlobalModal').modal({
-            'show' : true,
-            'backdrop' : 'static'
-        });
-
-    });
-  }
-
-	function intlist(id)
-  {
-      $(document).on('click','.showAlreadyFillIn',function () {
-
-        var htmlss = '<div class="">' +
-            '    <table class="table table-bordered table-striped table-centre" id="tableShowUserAlreadyFillIn" style="width: 100%;">' +
-            '        <thead>' +
-            '        <tr>' +
-            '            <th style="width: 1%;">No</th>' +
-            '            <th>User</th>' +
-            '            <th style="width: 10%;">Type</th>' +
-            '            <th style="width: 25%;">Entred At</th>' +
-            '        </tr>' +
-            '        </thead>' +
-            '    </table>' +
-            '</div>';
-
-    
-        $('#GlobalModal .modal-body').html(htmlss);
-
-        var filterType = $('#filterType').val();
-        var Status = $(this).attr('data-status');
-        var Type = $(this).attr('data-type');
-        var data = {
-            action : 'showUserAlreadyFill',
-            SurveyID : id,
-            Status : Status,
-            Type : Type,
-            filterType:filterType
-        };
-        var token = jwt_encode(data,'UAP)(*');
-        var url = dt_base_url_js+'data-survey';
-
-
-        var dataTable = $('#tableShowUserAlreadyFillIn').DataTable( {
-            "processing": true,
-            "serverSide": true,
-            "iDisplayLength" : 10,
-            "ordering" : false,
-            "language": {
-                "searchPlaceholder": "Username, Name..."
-            },
-            "ajax":{
-                url :url, // json datasource
-                data : {token:token},
-                ordering : false,
-                type: "post",  // method  , by default get
-                error: function(){  // error handling
-                    loading_modal_hide();
-                    $(".employee-grid-error").html("");
-                    $("#employee-grid").append('<tbody class="employee-grid-error"><tr><th colspan="3">No data found in the server</th></tr></tbody>');
-                    $("#employee-grid_processing").css("display","none");
-                }
-            }
-        } );
-
-        $('#GlobalModal').modal({
-            'show' : true,
-            'backdrop' : 'static'
-        });
-
-    });
-  }
-
-  function questionlist(id)
-  {
-   	$(document).on('click','.showQuestionList',function () {
-
-   		$('#GlobalModalXtraLarge').modal({
+        $('#GlobalModalXtraLarge').modal({
             'show' : true,
             'backdrop' : 'static'
         });
@@ -337,7 +147,7 @@ function totallist(id)
         $.post(url,{token:token},function (jsonResult) {
         
             if(jsonResult.length>0){
-            	
+                
 
                 var tr = '';
                 $.each(JSON.parse(jsonResult),function (i,v) {
@@ -361,7 +171,7 @@ function totallist(id)
                 '        <tr style="background: #eceff1;">' +
                 '            <th style="width: 3%">No</th>' +
                 '            <th>Question</th>' +
-                '            <th>Average</th>' +
+                '            <th>Responsden</th>' +
                 '        </tr>' +
                 '        </thead>' +
                 '        <tbody>'+tr+'</tbody>' +
@@ -373,72 +183,7 @@ function totallist(id)
             },500);
 
         });
-   	});
-  }
-
-
-
-
-	 $(document).ready(function(){
-	 	 
-        listsurvey();
-        loadSelectOptionSurvQuestionType('#filterType','');
-       
-    });
-     $('#filterType').change(function () {
-        listsurvey();
-    });
-
-    function listsurvey() {
-
-        //var filtering = $("#form-filter").serialize();     
-
-        
-        $('#loadTable').html('<table id="tableData" class="table table-bordered table-striped table-centre">' +
-            '               <thead>' +
-            '                <tr style="background: #eceff1;">' +
-            '                    <th width="5%">No</th>'+
-            '                    <th width="50%">Title</th>'+
-            '                    <th width="15%">Question</th>'+
-            // '                    <th>Internal</th>'+
-            // '                    <th>External</th>'+
-            // '                    <th>Total</th>'+
-            '                    <th>Publication Date</th>'+
-            '                </tr>' +
-            '                </thead>' +
-            '           </table>');
-        var filterType = $('#filterType').val();
-        var data = {
-            action : 'getListSurvey',
-            DepartmentID : 12,
-            filterType:filterType
-
-        };
-        var token = jwt_encode(data,'UAP)(*');
-
-        var dataTable = $('#tableData').DataTable( {
-            "processing": true,
-            "serverSide": true,
-            "iDisplayLength" : 10,
-            "ordering" : false,
-            "language": {
-                "searchPlaceholder": "Question..."
-            },
-            "ajax":{
-                url :dt_base_url_js+'data-survey', // json datasource
-                data : {token:token},
-                ordering : false,
-                type: "post",  // method  , by default get
-                error: function(){  // error handling
-                    //loading_modal_hide();
-                    $(".employee-grid-error").html("");
-                    $("#employee-grid").append('<tbody class="employee-grid-error"><tr><th colspan="3">No data found in the server</th></tr></tbody>');
-                    $("#employee-grid_processing").css("display","none");
-                }
-            }
-        } );
-
+        });
     }
-
  
 </script>
