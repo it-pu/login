@@ -1,6 +1,23 @@
+
 <link rel="stylesheet" type="text/css" href="<?=base_url('assets/datatables/dataTables.bootstrap.min.css')?>">
+<!-- <script type="text/javascript" src="https://canvasjs.com/assets/script/jquery-1.11.1.min.js"></script>   -->
+<script type="text/javascript" src="https://canvasjs.com/assets/script/jquery.canvasjs.min.js"></script>
 <script type="text/javascript" src="<?=base_url('assets/datatables/')?>jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="<?=base_url('assets/datatables/')?>dataTables.bootstrap.min.js"></script>
+
+<!-- <script type="text/javascript" src="<?php echo url_pas.'assets/template/';?>js/app.js"></script>
+<script type="text/javascript" src="<?php echo url_pas.'assets/template/';?>js/plugins.js"></script>
+<script type="text/javascript" src="<?php echo url_pas.'assets/';?>plugins/sparkline/jquery.sparkline.min.js"></script>
+<script type="text/javascript" src="<?php echo url_pas.'assets/';?>plugins/flot/jquery.flot.min.js"></script>
+<script type="text/javascript" src="<?php echo url_pas.'assets/';?>plugins/flot/jquery.flot.tooltip.min.js"></script>
+<script type="text/javascript" src="<?php echo url_pas.'assets/';?>plugins/flot/jquery.flot.resize.min.js"></script>
+<script type="text/javascript" src="<?php echo url_pas.'assets/';?>plugins/flot/jquery.flot.time.min.js"></script>
+<script type="text/javascript" src="<?php echo url_pas.'assets/';?>plugins/flot/jquery.flot.orderBars.min.js"></script>
+<script type="text/javascript" src="<?php echo url_pas.'assets/';?>plugins/flot/jquery.flot.pie.min.js"></script>
+<script type="text/javascript" src="<?php echo url_pas.'assets/';?>plugins/flot/jquery.flot.selection.min.js"></script>
+<script type="text/javascript" src="<?php echo url_pas.'assets/';?>plugins/flot/jquery.flot.growraf.min.js"></script>
+<script type="text/javascript" src="<?php echo url_pas.'assets/';?>plugins/easy-pie-chart/jquery.easy-pie-chart.min.js"></script> -->
+
 
 <style type="text/css">
 
@@ -8,10 +25,14 @@
     #lost-n-found .head,#list-survey .body,#list-survey .footer{padding: 10px 0px}
     #lost-n-found .head > .logo .picture{max-width: 200px}
     #lost-n-found .head > .logo .title{text-transform: uppercase;font-weight: bold;letter-spacing: 4px;text-align: center;color: #023f87;line-height: 1.2;font-family: calibri}
+
+.chart {
+    height: 250px;
+    z-index: 90;
+    width: 100%;
+    overflow: hidden;
+}
 </style>
-
-
-
 
 <div id="list-survey">
     <div class="container">
@@ -71,6 +92,71 @@
     </div>
   </div> 
 </div> 
+<script type="text/javascript">
+class Class_total_top10By_EMP
+{
+    constructor(){
+        this.param = [];
+    }
+
+    percentt = (data) =>{
+        // get sum of msgCount prop across all objects in array
+        var msgTotal = data.reduce(function(prev, cur) {
+          return parseInt(prev) + parseInt(cur.y);
+        }, 0);
+
+        for (var i = 0; i < data.length; i++) {
+            data[i].total = data[i].y;
+            data[i].y =  data[i].y/msgTotal*100;
+        }
+
+        return data;
+    }
+
+
+
+    graphShowPie = (sel,data) => {
+
+        data = this.percentt(data);
+
+        var options = {
+          
+            legend:{
+                horizontalAlign: "right",
+                verticalAlign: "center"
+            },
+            data: [{
+                type: "pie",
+                showInLegend: true,
+                toolTipContent: "<b>{name}</b>: {total} (#percent%)",
+                indexLabel: "{name}",
+                legendText: "{name}: {total} (#percent%)",
+                indexLabelPlacement: "inside",
+                dataPoints: data
+            }]
+        };
+
+        sel.CanvasJSChart(options);
+    }
+
+    chart = async() => {
+
+        const myclass = this;
+       $( ".chartsurvey" ).each(function( index ) {
+         const sel = $(this);
+         let data = sel.attr('datachart');
+         data = jwt_decode(data);
+        myclass.graphShowPie(sel,data);
+        });
+
+    }
+}
+
+const total_top10By_EMP = new Class_total_top10By_EMP();
+
+
+</script>
+
 
 <script type="text/javascript">
 
@@ -78,6 +164,7 @@
   
 	 $(document).ready(function(){	 	 
         listsurvey();     
+
     });
 
     function listsurvey() {
@@ -170,7 +257,7 @@
                 '        <thead>' +
                 '        <tr style="background: #eceff1;">' +
                 '            <th style="width: 3%">No</th>' +
-                '            <th>Question</th>' +
+                '            <th style="width: 67%">Question</th>' +
                 '            <th>Responsden</th>' +
                 '        </tr>' +
                 '        </thead>' +
@@ -180,10 +267,14 @@
      
             setTimeout(function () {
                 $('#panelShowQuestion').html(dataListQuestion);
+                total_top10By_EMP.chart();
             },500);
 
         });
         });
     }
+
+
  
 </script>
+

@@ -142,14 +142,21 @@ class C_survey extends MY_Controller {
                             if($data[$i]['QTID']=='4' || $data[$i]['QTID']==4){
                                 // Cek berapa yang udah jawab
                                 // $dataTotalJawaban = $this->db->get_where('db_it.surv_answer_detail',$dataWhere)->result_array();
-
+                                 
                                 $whereRate = ' AND sad.Rate = 1';
+                                $label = array();
+
                                 $R_1 = $this->db->query('SELECT COUNT(*) AS Total 
                                                         FROM db_it.surv_answer_detail sad 
                                                         LEFT JOIN db_it.surv_answer sa 
                                                         ON (sa.ID = sad.AnswerID) 
                                                         WHERE '.$dataWhere.$whereRate)
                                     ->result_array()[0]['Total'];
+
+                                    $label[] = array(
+                                        'name' => 'B1',
+                                        'y' => $R_1,
+                                    );
 
                                 $whereRate = ' AND sad.Rate = 2';
                                 $R_2 = $this->db->query('SELECT COUNT(*) AS Total 
@@ -159,6 +166,11 @@ class C_survey extends MY_Controller {
                                                         WHERE '.$dataWhere.$whereRate)
                                     ->result_array()[0]['Total'];
 
+                                    $label[] = array(
+                                        'name' => 'B2',
+                                        'y' => $R_2,
+                                    );
+
                                 $whereRate = ' AND sad.Rate = 3';
                                 $R_3 = $this->db->query('SELECT COUNT(*) AS Total 
                                                         FROM db_it.surv_answer_detail sad 
@@ -166,6 +178,11 @@ class C_survey extends MY_Controller {
                                                         ON (sa.ID = sad.AnswerID) 
                                                         WHERE '.$dataWhere.$whereRate)
                                     ->result_array()[0]['Total'];
+
+                                    $label[] = array(
+                                        'name' => 'B3',
+                                        'y' => $R_3,
+                                    );
 
                                 $whereRate = ' AND sad.Rate = 4';
                                 $R_4 = $this->db->query('SELECT COUNT(*) AS Total 
@@ -175,27 +192,51 @@ class C_survey extends MY_Controller {
                                                         WHERE '.$dataWhere.$whereRate)
                                     ->result_array()[0]['Total'];
 
-                                $AverageRate = '<div>B1 : '.$R_1.'</div>
-                                        <div>B2 : '.$R_2.'</div>
-                                        <div>B3 : '.$R_3.'</div>
-                                        <div>B4 : '.$R_4.'</div>';
+                                  $label[] = array(
+                                      'name' => 'B4',
+                                      'y' => $R_4,
+                                  );
+                                  
+
+                                  $datachart= $this->jwt->encode($label,$key);
+
+                                  $AverageRate = '<div id="total_top10By_EMP" class="chart chartsurvey" datachart = "'.$datachart.'"></div>';
+
+                                // $AverageRate = '<div>B1 : '.$R_1.'</div>
+                                //         <div>B2 : '.$R_2.'</div>
+                                //         <div>B3 : '.$R_3.'</div>
+                                //         <div>B4 : '.$R_4.'</div>';
 
                             }
                             else if($data[$i]['QTID']=='5' || $data[$i]['QTID']==5){
         
                                 $dataWheretrue = $dataWhere.' AND IsTrue = "1"';
-        
+                                $label = array();
                                 $TotalYes = $this->db->query('SELECT COUNT(*) AS Total FROM db_it.surv_answer_detail sad LEFT JOIN db_it.surv_answer sa 
                                                         ON (sa.ID = sad.AnswerID) WHERE '.$dataWheretrue)->result_array()[0]['Total'];
-
+                                $label[] = array(
+                                    'name' => 'Y',
+                                    'y' => $TotalYes,
+                                );
                                 $dataWherefalse = $dataWhere.' AND IsTrue = "0"';
                                 $TotalNo = $this->db->query('SELECT COUNT(*) AS Total FROM db_it.surv_answer_detail sad LEFT JOIN db_it.surv_answer sa 
                                                         ON (sa.ID = sad.AnswerID) WHERE '.$dataWherefalse)->result_array()[0]['Total'];
 
-                                $AverageRate = '<div>Y : '.$TotalYes.'</div><div>N : '.$TotalNo.'</div>';
+                                $label[] = array(
+                                    'name' => 'N',
+                                    'y' => $TotalNo,
+                                );
+                                $datachart= $this->jwt->encode($label,$key);
+                                //$AverageRate = '<div>Y : '.$TotalYes.'</div><div>N : '.$TotalNo.'</div>';
+                                //$AverageRate = $label;
+                                $AverageRate = '<div id="total_top10By_EMP" class="chart chartsurvey" datachart = "'.$datachart.'"></div>';
+
                             }
 
-                            $data[$i]['AverageRate'] = '<div style="text-align: left;">'.$AverageRate.'</div>';
+                            //$data[$i]['AverageRate'] = '<div id="total_top10By_EMP" class="chart"></div>';
+                             
+                             $data[$i]['AverageRate'] = '<div style="text-align: left;">'.$AverageRate.'</div>';
+                             //$data[$i]['AverageRate'] = '<div>'.$AverageRate.'</div>' ;
                         }
                     }
                     return print_r(json_encode($data));
