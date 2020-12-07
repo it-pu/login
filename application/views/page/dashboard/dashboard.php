@@ -204,8 +204,15 @@
                                 </a>
                             </div>
                             <div class="col-xs-6 hvr-grow-rotate">
+                                <a href="https://cblibrary.podomorouniversity.ac.id/" target="_blank">
+                                    <div class="thumbnail">
+                                        <img class="apps-icon" src="<?= base_url(); ?>images/icon/student.png">
+                                        <p>CB Library</p>
+                                    </div>
+                                </a>
+
                                 <!--                            <a href="https://career.podomorouniversity.ac.id/">-->
-                                <a href="javascript:void(0)" class="coming-soon">
+                                <a href="javascript:void(0)" class="coming-soon hide">
                                     <div class="thumbnail">
                                         <div class="page-label page-coming-soon"><i class="fa fa-puzzle-piece"></i> Coming soon</div>
                                         <img class="apps-icon" src="<?= base_url(); ?>images/icon/career.png">
@@ -219,10 +226,10 @@
                     <div class="col-md-6">
                         <div class="row">
                             <div class="col-xs-6 hvr-grow-rotate">
-                                <a href="https://cblibrary.podomorouniversity.ac.id/" target="_blank">
+                                <a href="http://repository.podomorouniversity.ac.id/" target="_blank">
                                     <div class="thumbnail">
-                                        <img class="apps-icon" src="<?= base_url(); ?>images/icon/student.png">
-                                        <p>CB Library</p>
+                                        <img class="apps-icon" src="<?= base_url(); ?>images/icon/repository.png">
+                                        <p>Repository</p>
                                     </div>
                                 </a>
                             </div>
@@ -250,10 +257,10 @@
                                 </a>
                             </div>
                             <div class="col-xs-6 hvr-grow-rotate">
-                                <a href="http://repository.podomorouniversity.ac.id/" target="_blank">
+                                <a href="https://admission.podomorouniversity.ac.id/" target="_blank">
                                     <div class="thumbnail">
-                                        <img class="apps-icon" src="<?= base_url(); ?>images/icon/repository.png">
-                                        <p>Repository</p>
+                                        <img class="apps-icon" src="<?= base_url(); ?>images/icon/registration.png">
+                                        <p>Online Registrations</p>
                                     </div>
                                 </a>
                             </div>
@@ -279,12 +286,13 @@
 <!--                                </a>-->
 <!--                            </div>-->
                             <div class="col-xs-6 hvr-grow-rotate">
-                                <a href="https://lpmi.podomorouniversity.ac.id/" target="_blank">
-                                    <div class="thumbnail" style="padding: 0px;">
-                                        <img class="apps-icon" src="<?= base_url(); ?>images/icon/lpmi.jpeg" style="max-width: 93px;padding-top: 26px;">
-                                        <p>LPMI</p>
+                                <a href="https://play.google.com/store/apps/details?id=com.ypap.CRM" target="_blank">
+                                    <div class="thumbnail">
+                                        <img class="apps-icon" src="<?= base_url(); ?>images/icon/crm.png">
+                                        <p>CRM Mobile</p>
                                     </div>
                                 </a>
+
                             </div>
                         </div>
                     </div>
@@ -294,18 +302,19 @@
                     <div class="col-md-6">
                         <div class="row">
                             <div class="col-xs-6 hvr-grow-rotate">
-                                <a href="http://pucel.co/" target="_blank">
+                                <a href="https://lpmi.podomorouniversity.ac.id/" target="_blank">
                                     <div class="thumbnail" style="padding: 0px;">
-                                        <img class="apps-icon" src="<?= base_url(); ?>images/icon/pucel.png" style="max-width: 107px;padding-top: 26px;">
-                                        <p>Pucel</p>
+                                        <img class="apps-icon" src="<?= base_url(); ?>images/icon/lpmi-min.jpeg" style="max-width: 93px;padding-top: 26px;">
+                                        <p>LPMI</p>
                                     </div>
                                 </a>
+
                             </div>
                             <div class="col-xs-6 hvr-grow-rotate">
-                                <a href="https://pu-x.com/" target="_blank">
-                                    <div class="thumbnail";>
-                                        <img class="apps-icon" src="<?= base_url(); ?>images/icon/pu-x.png" style="max-width: 90px;padding-top: 15px;">
-                                        <p>PU-X</p>
+                                <a href="http://pucel.co/" target="_blank">
+                                    <div class="thumbnail" style="padding: 0px;">
+                                        <img class="apps-icon" src="<?= base_url(); ?>images/icon/pucel-min.png" style="max-width: 107px;padding-top: 26px;">
+                                        <p>Pucel</p>
                                     </div>
                                 </a>
                             </div>
@@ -314,19 +323,20 @@
                     <div class="col-md-6">
                         <div class="row">
                             <div class="col-xs-6 hvr-grow-rotate">
-                                <a href="https://play.google.com/store/apps/details?id=com.ypap.CRM" target="_blank">
-                                    <div class="thumbnail">
-                                        <img class="apps-icon" src="<?= base_url(); ?>images/icon/crm.png">
-                                        <p>CRM Mobile</p>
+                                <a href="https://lppm.podomorouniversity.ac.id/" target="_blank">
+                                    <div class="thumbnail";>
+                                        <img class="apps-icon" src="<?= base_url(); ?>images/icon/lppm-min.png" style="max-width: 90px;padding-top: 15px;">
+                                        <p>LPPM</p>
                                     </div>
                                 </a>
                             </div>
 
                             <div class="col-xs-6 hvr-grow-rotate">
-                                <a href="https://admission.podomorouniversity.ac.id/" target="_blank">
-                                    <div class="thumbnail">
-                                        <img class="apps-icon" src="<?= base_url(); ?>images/icon/registration.png">
-                                        <p>Online Registrations</p>
+
+                                <a href="https://pu-x.com/" target="_blank">
+                                    <div class="thumbnail";>
+                                        <img class="apps-icon" src="<?= base_url(); ?>images/icon/pu-x-min.png" style="max-width: 90px;padding-top: 15px;">
+                                        <p>PU-X</p>
                                     </div>
                                 </a>
                             </div>
