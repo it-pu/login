@@ -137,7 +137,7 @@
                 $(this).html('<i class="fa fa-star-o"></i>').css('color','#ccc');
             }
         });
-        var arrRate = ['Kurang','Sedang','Cukup','Baik'];
+        var arrRate = ['Kurang','Cukup','Puas','Sangat Puas'];
         $('#'+id+' span').html(arrRate[noStop-1]);
         $('#'+id+' input').val(noStop);
     });
