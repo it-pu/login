@@ -1,0 +1,6 @@
+HTTP_PORT=9081
+PATH_CODE=/root/docker/portal
+DB_PASSWORD=
+DB_NAME= db_academic
+DB_USER= root
+DB_HOST= localhost
