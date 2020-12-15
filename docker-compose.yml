@@ -13,3 +13,4 @@ services:
     volumes:
       - ${PATH_CODE}:/var/www/html
       - ${PATH_CODE}/.docker/nginx/sites-available:/etc/nginx/sites-enabled:ro
+      - ${PATH_CODE}/.docker/nginx:/etc/nginx:ro
