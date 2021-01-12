@@ -101,3 +101,6 @@ $route['updatepassword_intake'] = 'c_reset_password/updatepassword_intake';
 // ======= Digital SKPI ========= //
 $route['skpi'] = 'c_skpi';
 
+// ======= CV ========= //
+
+$route['cv/(:any)'] = 'c_cv/index/$1';
