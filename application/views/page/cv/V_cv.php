@@ -68,8 +68,7 @@
 	.row.display-flex {
 		display: flex;
 		flex-wrap: wrap;
-		}
-	
+	}	
 
 	/* not requied only for demo * */
 	.row [class*='col-'] {
@@ -79,6 +78,36 @@
 	.panel {
 		height: 100%;
 	}
+    ul.timeline {
+        list-style-type: none;
+        position: relative;
+    }
+    ul.timeline:before {
+        content: ' ';
+        background: #d4d9df;
+        display: inline-block;
+        position: absolute;
+        left: 29px;
+        width: 2px;
+        height: 100%;
+        z-index: 400;
+    }
+    ul.timeline > li {
+        margin: 20px 0;
+        padding-left: 20px;
+    }
+    ul.timeline > li:before {
+        content: ' ';
+        background: white;
+        display: inline-block;
+        position: absolute;
+        border-radius: 50%;
+        border: 3px solid #f1c2b8;
+        left: 20px;
+        width: 20px;
+        height: 20px;
+        z-index: 400;
+    }
 </style>
 
 
@@ -94,11 +123,11 @@
     	
     		<div class="col-md-12 mb-5 mt-5 pb-4">
         
-	      <!-- Card -->		
+	            <!-- Card -->		
 				<div class="card pt-3 pb-3 ml-4 mr-4 mt-4 " >
 					<div class="row no-gutters p-4 ">
 					
-						<div class="col-md-3">
+						<div class="col-md-4">
 							<div class="card-body">
 								<p style="-webkit-background-image: url(https://pcam.podomorouniversity.ac.id/uploads/students/<?= $d['DB'].'/'.$d['Photo']; ?>);
 											-moz-background-image: url(https://pcam.podomorouniversity.ac.id/uploads/students/<?= $d['DB'].'/'.$d['Photo']; ?>);
@@ -111,7 +140,7 @@
 								</p>
 							</div>
 						</div>
-						<div class="col-md-9">
+						<div class="col-md-8">
 							<div class="card-body">
 								<div class="pb-4">
 									<h1 class="text-left mb-4 color-blue"><?= ucwords(strtoupper($d['Name'])); ?></h1>
@@ -139,83 +168,82 @@
 
 					</div>
 				
-					<div class="row">
-						
-						<!--2-->
-						<div class="col-md-12">
+					<div class="row no-gutters p-4">
+						<!--1-->
+                        <div class="col-md-4">
 							<div class="card mb-4 ml-4 mr-4 ">
-								<div class="row no-gutters pl-0 pr-4">									
-									<div class="col-md-6 mb-4">
-											<div class="card p-2 mb-5 panel" style="border: 1px solid #f1c2b8; margin:1rem">
-												<div class="card-body">
-													<div class="title-cv ">
-														<h2 class=" text-left"> PERSONAL INFORMATION </h2>
-													</div>
-												</div>
-												
-												<div class="card-body">
-													<div class="row">
-														
-														<div class="col-md-6 mb-4">
-															<p class="font-weight-bold">Date and Place of Brith</p>
-															<p ><?= $d['PlaceOfBirth']; ?>, <?= $d['DateOfBirth']; ?></p>												
-														</div>
-														
-														<div class="col-md-6 mb-4">
-															<!-- Name -->
-															<p class="font-weight-bold">Year of Completion</p>
-															<p ><?= $d['GraduationYear']; ?></p>												
-														</div>
+								<div class="row no-gutters">	
+                                    <div class="col-md-12 mb-4">
+                                        <div class="card panel" style="background-color:#18217c0a">
+                                            <div class="card-body">
+                                                <div class="title-cv ">
+                                                    <h2 class=" text-left"> PERSONAL INFORMATION </h2>
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    
+                                                    <div class="col-md-12 mb-4">
+                                                        <p class="font-weight-bold">Date and Place of Brith</p>
+                                                        <p ><?= $d['PlaceOfBirth']; ?>, <?= $d['DateOfBirth']; ?></p>												
+                                                    </div>
+                                                    
+                                                    <div class="col-md-12 mb-4">
+                                                        <!-- Name -->
+                                                        <p class="font-weight-bold">Year of Completion</p>
+                                                        <p ><?= $d['GraduationYear']; ?></p>												
+                                                    </div>
 
-														<div class="col-md-12 mb-4">
-															<!-- Name -->
-															<p class="font-weight-bold">Address</p>
-														
-															<!-- Quotation -->
-															<p ><?= ucwords(strtolower($d['Address'])); ?></p>												
-														</div>
-														<div class="col-md-6 mb-4">
-															<!-- Name -->
-															<p class="font-weight-bold">Gender</p>
-															<p class=""> <?= ($d['Gender']=='L') ? 'Male' : 'Female'; ?></p>												
-														</div>
-													
-													</div>
-												</div>
-											</div>	
-										</div>		
-										<div class="col-md-6 mb-4">
-											<div class="card p-2 mb-5 panel" style="border: 1px solid #f1c2b8; margin:1rem">
+                                                    <div class="col-md-12 mb-4">
+                                                        <!-- Name -->
+                                                        <p class="font-weight-bold">Address</p>
+                                                    
+                                                        <!-- Quotation -->
+                                                        <p ><?= ucwords(strtolower($d['Address'])); ?></p>												
+                                                    </div>
+                                                    <div class="col-md-12 mb-4">
+                                                        <!-- Name -->
+                                                        <p class="font-weight-bold">Gender</p>
+                                                        <p class=""> <?= ($d['Gender']=='L') ? 'Male' : 'Female'; ?></p>												
+                                                    </div>
+                                                
+                                                </div>
+                                            </div>
+                                        </div>	
+									</div>		
+									<div class="col-md-12 mb-4">
+                                        <div class="card panel" style="background-color:#18217c0a">
 
-												<div class="card-body">
-													<div class="title-cv">
-														<H2 class=" text-left"> SCHOOLS ATTENDED</H2>
-													</div>
-												</div>
-												<div class="card-body">
-													<div class="row">
-													<div class="col-md-12 mb-4">
-															<!-- Name -->
-															<p class="font-weight-bold"><?= $d['GraduationYear']; ?> | Podomoro University</p>
-															
-														</div>
-														<div class="col-md-12 mb-4">
-															<!-- Name -->
-															<p class="font-weight-bold"> <?= $d['HighSchool']; ?></p>
-															
-														</div>
-														<div class="col-md-12 mb-4">
-															<p class="font-weight-bold"><?= $d['MajorsHighSchool']; ?></p>
-														</div>											
-													</div>
-												</div>
-											</div>
-										</div>
+                                            <div class="card-body">
+                                                <div class="title-cv">
+                                                    <H2 class=" text-left"> SCHOOLS ATTENDED</H2>
+                                                </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="row">
+                                                <div class="col-md-12 mb-4">
+                                                        <!-- Name -->
+                                                        <p class="font-weight-bold"><?= $d['GraduationYear']; ?> | Podomoro University</p>
+                                                        
+                                                    </div>
+                                                    <div class="col-md-12 mb-4">
+                                                        <!-- Name -->
+                                                        <p class="font-weight-bold"> <?= $d['HighSchool']; ?></p>
+                                                        
+                                                    </div>
+                                                    <div class="col-md-12 mb-4">
+                                                        <p class="font-weight-bold"><?= $d['MajorsHighSchool']; ?></p>
+                                                    </div>											
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
 									<?php
 										if(count($d['Participation'])>0)
 											{
-												echo'<div class="col-md-6 mb-4">
-												<div class="card p-2 mb-5 panel" style="border: 1px solid #f1c2b8; margin:1rem">
+												echo'<div class="col-md-12 mb-4">
+												<div class="card panel" style="background-color:#18217c0a">
 		
 													<div class="card-body">
 															<div class="title-cv">
@@ -243,11 +271,19 @@
 										</div>';
 										} 
 									?>
+                                </div>
+                            </div>
+                        </div>
+						<!--2-->
+						<div class="col-md-8">
+							<div class="card mb-4 ml-4 mr-4 ">
+								<div class="row no-gutters">									
+                                    
 									<?php
 										if(count($d['Achievement'])>0)
 											{
-												echo'<div class="col-md-6 mb-4">
-												<div class="card p-2 mb-5 panel" style="border: 1px solid #f1c2b8; margin:1rem">
+												echo'<div class="col-md-12 mb-4">
+												<div class="card panel" >
 		
 													<div class="card-body">
 															<div class="title-cv">
@@ -256,30 +292,32 @@
 													</div>
 													<div class="card-body">
 														<div class="row">';
-												echo '<div class="col-md-12 mb-4">';
+                                                echo '<div class="col-md-12 mb-4">
+                                                        <ul class="timeline">';
 												for($i=0;$i<count($d['Achievement']);$i++)
 												{ $da = $d['Achievement'][$i];
 													$Achievement = ($da['Achievement']!='' && $da['Achievement']!=null) ? ' | <span class="event-juara">'.$da['Achievement'].'</span>' : '';
 													?>
+                                                    <li>
 													<p class="font-weight-bold"><?= $da['Year']; ?> | <?= $da['Event']; ?></p>
 													<p>Level : <?= $da['Level'].$Achievement; ?></p>
 													<p class="mb-4 pb-3"><i class="fa fa-map-marker"></i> <?= $da['Location']; ?></p>
-													
+													</li>
 
 												<?php }
 
-												echo '</div>';
+												echo '</ul></div>';
 												echo'</div>
 												</div>
 											</div>
 										</div>';
 										} 
-									?>		
+									?>	
 									<?php
 										if(count($d['Training'])>0)
 											{
-												echo'<div class="col-md-6 mb-4">
-												<div class="card p-2 mb-5 panel" style="border: 1px solid #f1c2b8; margin:1rem">
+												echo'<div class="col-md-12 mb-4">
+												<div class="card panel" >
 		
 													<div class="card-body">
 															<div class="title-cv">
@@ -288,19 +326,21 @@
 													</div>
 													<div class="card-body">
 														<div class="row">';
-												echo '<div class="col-md-12 mb-4">';
+                                                echo '<div class="col-md-12 mb-4">
+                                                        <ul class="timeline">';
 												for($i=0;$i<count($d['Training']);$i++)
 												{ $da = $d['Training'][$i];
 													$Achievement = ($da['Achievement']!='' && $da['Achievement']!=null) ? ' | <span class="event-juara">'.$da['Achievement'].'</span>' : '';
 													?>
+                                                    <li>
 													<p class="font-weight-bold"><?= $da['Year']; ?> | <?= $da['Event']; ?></p>
 													<p>Level : <?= $da['Level'].$Achievement; ?></p>
 													<p class="mb-4 pb-3"><i class="fa fa-map-marker"></i> <?= $da['Location']; ?></p>
-													
+													</li>
 
 												<?php }
 
-												echo '</div>';
+												echo '</ul></div>';
 												echo'</div>
 												</div>
 											</div>
@@ -310,8 +350,8 @@
 									<?php
 										if(count($d['Internship'])>0)
 										{
-											echo'<div class="col-md-6 mb-4">
-												<div class="card p-2 mb-5 panel" style="border: 1px solid #f1c2b8; margin:1rem">
+											echo'<div class="col-md-12 mb-4">
+												<div class="card panel" >
 													<div class="card-body">
 															<div class="title-cv">
 																<h2 class="text-left">EXPERIENCE</h2>
@@ -319,19 +359,21 @@
 													</div>
 													<div class="card-body">
 														<div class="row">';
-											echo '<div class="col-md-12 mb-4">';
+                                            echo '<div class="col-md-12 mb-4">
+                                                    <ul class="timeline">';
 											for($i=0;$i<count($d['Internship']);$i++)
 											{ $da = $d['Internship'][$i];
 												$Achievement = ($da['Achievement']!='' && $da['Achievement']!=null) ? ' | <span class="event-juara">'.$da['Achievement'].'</span>' : '';
 												?>
+                                                <li>
 												<p class="font-weight-bold"><?= $da['Year']; ?> | <?= $da['Event']; ?></p>
 												<p>Level : <?= $da['Level'].$Achievement; ?></p>
 												<p class="mb-4 pb-3"><i class="fa fa-map-marker"></i>  <?= $da['Location']; ?></p>
-												
+												</li>
 
 											<?php }
 
-											echo '</div>';
+											echo '</ul></div>';
 											echo'</div>
 												</div>
 											</div>
