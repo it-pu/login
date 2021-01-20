@@ -1,58 +1,23 @@
+<link href="<?php echo base_url(); ?>assets/mdb/css/bootstrap.min.css" rel="stylesheet">
+<link href="<?php echo base_url(); ?>assets/mdb/css/mdb.min.css" rel="stylesheet">
+<script src="<?php echo base_url(); ?>assets/mdb/js/bootstrap.min.js"></script>
+<script src="<?php echo base_url(); ?>assets/mdb/js/mdb.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.2.0/jspdf.umd.min.js"></script>
 
-
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.3/jspdf.min.js"></script>
-    <script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
-	
-	
-	<script>
-	
-	function getPDF(){
-		$("#downloadbtn").hide();
-		$("#genmsg").show();
-		var HTML_Width = $(".canvas_div_pdf").width();
-		var HTML_Height = $(".canvas_div_pdf").height();
-		var top_left_margin = 15;
-		var PDF_Width = HTML_Width+(top_left_margin*2);
-		var PDF_Height = (PDF_Width*1.2)+(top_left_margin*2);
-		var canvas_image_width = HTML_Width;
-		var canvas_image_height = HTML_Height;
-		
-		var totalPDFPages = Math.ceil(HTML_Height/PDF_Height)-1;
-		
-
-		html2canvas($(".canvas_div_pdf")[0],{allowTaint:true}).then(function(canvas) {
-			canvas.getContext('2d');
-			
-			console.log(canvas.height+"  "+canvas.width);
-			
-			
-			var imgData = canvas.toDataURL("image/jpeg", 1.0);
-			var pdf = new jsPDF('p', 'pt',  [PDF_Width, PDF_Height]);
-		    pdf.addImage(imgData, 'JPG', top_left_margin, top_left_margin,canvas_image_width,canvas_image_height);
-			
-			
-			for (var i = 1; i <= totalPDFPages; i++) { 
-				pdf.addPage(PDF_Width, PDF_Height);
-				pdf.addImage(imgData, 'JPG', top_left_margin, -(PDF_Height*i)+(top_left_margin*4),canvas_image_width,canvas_image_height);
-			}
-			
-		    pdf.save("HTML-Document.pdf");
-			
-			setTimeout(function(){ 			
-				$("#downloadbtn").show();
-				$("#genmsg").hide();
-			}, 0);
-
+<!-- <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+    <script type="text/javascript">
+        $("#btnPrint").live("click", function () {
+            var divContents = $("#contnet").html();
+            var printWindow = window.open('', '', 'height=1600,width=1300');
+            // printWindow.document.write('<html><head><title>DIV Contents</title>');
+            printWindow.document.write('</head><body >');
+            printWindow.document.write(divContents);
+            printWindow.document.write('</body></html>');
+            printWindow.document.close();
+            printWindow.print();
         });
-	};
-	
-	
-	</script>
-	
-    <style type="text/css">
+    </script> -->
+<style type="text/css">
 	body {
         background: #eaeaea;
     }
@@ -147,19 +112,11 @@
 
 
 <?php if(count($dataStd)>0){ $d = $dataStd[0];
-?>	
-
-	<div class="row mb-4">
-		<div class="col align-self-center text-center">
-			<h1 class="text-center fw-bold my-4">Curriculum Vitae</h1>
-			<button class="btn btn-danger btn-lg m-1 mb-3" onclick="getPDF()" id="downloadbtn">Click to Download CV <i class="fa fa-download ms-2"></i></button>
-			<span id="genmsg" style="display:none;">Generating ...</span>
-		</div>
-	</div> 			
+?>
 
 
-<section class="canvas_div_pdf">
-
+<section id="contnet">
+	<!-- <button id="btnPrint">generate PDF</button> -->
 	<div class="container">
 	
 	  	<div class="row p-4 display-flex">
@@ -437,97 +394,40 @@
 
 </section>
 
-
 <script>
 
-	$(document).ready(function () {
+        $(document).ready(function () {
 
-		window.dt_NPM = "<?= $d['NPM']; ?>";
-		window.dt_Name = "<?= ucwords(strtolower($d['Name'])); ?>";
+            window.dt_NPM = "<?= $d['NPM']; ?>";
+            window.dt_Name = "<?= ucwords(strtolower($d['Name'])); ?>";
 
-		addingLastSeen(dt_NPM,'std',dt_Name);
+            addingLastSeen(dt_NPM,'std',dt_Name);
 
-		try {
-			$.getJSON("https://api.ipify.org/?format=json", function(e) {
-				inputLogging(dt_NPM,e.ip);
-			});
-		} catch (e){
-			inputLogging(dt_NPM,'');
-		}
-
-	});
-
-	function inputLogging(NPM,IP_Public) {
-
-		var token = jwt_encode({
-			action : 'setDataLoggingStudent',
-			NPM : NPM,
-			IP_Public : IP_Public
-		});
-		var url = dt_base_url_js+'__getDetailsPeople';
-
-		$.post(url,{token:token},function(result) {
-
-		});
-
-	}
-
-	function loadOne() {
-        var data = {
-            action : 'read',
-            Type : G_Type
-        };
-        var token = jwt_encode(data,'UAP)(*');
-        var url = base_url_js+'c_cv/index';
-
-        $.post(url,{token:token},function (jsonResult) {
-        	var response = jQuery.parseJSON(jsonResult);
-        	
-            $('#viewOne').empty();
-            if(response.length>0){
-            	var no=1;
-                $.each(response,function (i,v) {
-                    $('#viewOne').append('
-						<div class="col-md-4">'+
-							'<div class="card-body">'+
-								'<p style="-webkit-background-image: url(https://pcam.podomorouniversity.ac.id/uploads/students/);background-image: url(https://pcam.podomorouniversity.ac.id/uploads/students/);background-position: center;background-size: cover;background-repeat: no-repeat;min-height: 100%;min-width: 100%;">'+
-								'</p>'+
-'							</div>'+
-						'</div>'+
-						'<div class="col-md-8">'+
-							'<div class="card-body">'+
-								'<div class="pb-4">'+
-									'<h1 class="text-left mb-4 color-blue"><?= ucwords(strtoupper($d['Name'])); ?></h1>'+
-									'<h2 class="" style="color: #0505f996;"><?= ucwords(strtoupper($d['ProdiEng'])); ?></h2>'+
-								'</div>'+
-								'<div class="row">'+
-									'<div class="col-2">  '+
-										'<p class="font-weight-bold">Telephone</p>'+
-										'<p class="font-weight-bold">Email</p>'+
-										'<p class="font-weight-bold">Address</p>'+
-									'</div>'+
-									'<div class="card col-1">'+
-										'<p >:</p>'+
-										'<p >:</p>'+
-										'<p >:</p>'+
-									'</div>'+
-									'<div class="card col-8">'+
-										'<p ><?= $d['Phone']; ?></p>'+
-										'<p ><?= $d['EmailPU']; ?></p>'+
-										'<p ><?= ucwords(strtolower($d['Address'])); ?></p>'+
-									'</div>'+
-								'</div>'+
-							'</div>'+
-						'</div>');
+            try {
+                $.getJSON("https://api.ipify.org/?format=json", function(e) {
+                    inputLogging(dt_NPM,e.ip);
                 });
-
-            } else {
-                $('#viewOne').html('<div class="well">Data not yet</div>');
+            } catch (e){
+                inputLogging(dt_NPM,'');
             }
 
         });
-    }
 
-</script>
+        function inputLogging(NPM,IP_Public) {
+
+            var token = jwt_encode({
+                action : 'setDataLoggingStudent',
+                NPM : NPM,
+                IP_Public : IP_Public
+            });
+            var url = dt_base_url_js+'__getDetailsPeople';
+
+            $.post(url,{token:token},function(result) {
+
+            });
+
+        }
+
+    </script>
 
 <?php } ?>

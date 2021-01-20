@@ -149,17 +149,23 @@
 <?php if(count($dataStd)>0){ $d = $dataStd[0];
 ?>	
 
-	<div class="row mb-4">
-		<div class="col align-self-center text-center">
-			<h1 class="text-center fw-bold my-4">Curriculum Vitae</h1>
-			<button class="btn btn-danger btn-lg m-1 mb-3" onclick="getPDF()" id="downloadbtn">Click to Download CV <i class="fa fa-download ms-2"></i></button>
+
+<body class="container">
+
+
+<h1>Convert HTML into Multipage PDF Example using jsPDF</h1>
+	<div class="row">
+		<div class="col-md-12 text-center">
+			<button onclick="getPDF()" id="downloadbtn"><b>Click to Download HTML as PDF</b></button>
 			<span id="genmsg" style="display:none;">Generating ...</span>
+			<h6><a href="http://www.freakyjolly.com/jspdf-multipage-example-generate-multipage-pdf-using-single-canvas-of-html-document-using-jspdf/" target="_blank">Tutorial here: Generate Multipage PDF using Single Canvas of HTML Document using jsPDF</a></h6>
 		</div>
-	</div> 			
+	</div>
+
+	 			
 
 
-<section class="canvas_div_pdf">
-
+    <section class="canvas_div_pdf">
 	<div class="container">
 	
 	  	<div class="row p-4 display-flex">
@@ -438,96 +444,3 @@
 </section>
 
 
-<script>
-
-	$(document).ready(function () {
-
-		window.dt_NPM = "<?= $d['NPM']; ?>";
-		window.dt_Name = "<?= ucwords(strtolower($d['Name'])); ?>";
-
-		addingLastSeen(dt_NPM,'std',dt_Name);
-
-		try {
-			$.getJSON("https://api.ipify.org/?format=json", function(e) {
-				inputLogging(dt_NPM,e.ip);
-			});
-		} catch (e){
-			inputLogging(dt_NPM,'');
-		}
-
-	});
-
-	function inputLogging(NPM,IP_Public) {
-
-		var token = jwt_encode({
-			action : 'setDataLoggingStudent',
-			NPM : NPM,
-			IP_Public : IP_Public
-		});
-		var url = dt_base_url_js+'__getDetailsPeople';
-
-		$.post(url,{token:token},function(result) {
-
-		});
-
-	}
-
-	function loadOne() {
-        var data = {
-            action : 'read',
-            Type : G_Type
-        };
-        var token = jwt_encode(data,'UAP)(*');
-        var url = base_url_js+'c_cv/index';
-
-        $.post(url,{token:token},function (jsonResult) {
-        	var response = jQuery.parseJSON(jsonResult);
-        	
-            $('#viewOne').empty();
-            if(response.length>0){
-            	var no=1;
-                $.each(response,function (i,v) {
-                    $('#viewOne').append('
-						<div class="col-md-4">'+
-							'<div class="card-body">'+
-								'<p style="-webkit-background-image: url(https://pcam.podomorouniversity.ac.id/uploads/students/);background-image: url(https://pcam.podomorouniversity.ac.id/uploads/students/);background-position: center;background-size: cover;background-repeat: no-repeat;min-height: 100%;min-width: 100%;">'+
-								'</p>'+
-'							</div>'+
-						'</div>'+
-						'<div class="col-md-8">'+
-							'<div class="card-body">'+
-								'<div class="pb-4">'+
-									'<h1 class="text-left mb-4 color-blue"><?= ucwords(strtoupper($d['Name'])); ?></h1>'+
-									'<h2 class="" style="color: #0505f996;"><?= ucwords(strtoupper($d['ProdiEng'])); ?></h2>'+
-								'</div>'+
-								'<div class="row">'+
-									'<div class="col-2">  '+
-										'<p class="font-weight-bold">Telephone</p>'+
-										'<p class="font-weight-bold">Email</p>'+
-										'<p class="font-weight-bold">Address</p>'+
-									'</div>'+
-									'<div class="card col-1">'+
-										'<p >:</p>'+
-										'<p >:</p>'+
-										'<p >:</p>'+
-									'</div>'+
-									'<div class="card col-8">'+
-										'<p ><?= $d['Phone']; ?></p>'+
-										'<p ><?= $d['EmailPU']; ?></p>'+
-										'<p ><?= ucwords(strtolower($d['Address'])); ?></p>'+
-									'</div>'+
-								'</div>'+
-							'</div>'+
-						'</div>');
-                });
-
-            } else {
-                $('#viewOne').html('<div class="well">Data not yet</div>');
-            }
-
-        });
-    }
-
-</script>
-
-<?php } ?>

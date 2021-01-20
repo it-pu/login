@@ -1,14 +1,12 @@
 <?php defined("BASEPATH") OR exit("No direct script access allowed");
-
 class C_cv extends  MY_Controller {
     function __construct()
         {
             parent::__construct();
             $this->load->library('JWT');
             $this->load->library('google');
+            $this->load->library('pdfgenerator');
             $this->load->model('m_auth');
-            $this->load->model('M_search_people','m_sp');
-
             date_default_timezone_set("Asia/Jakarta");
 
         }
@@ -23,9 +21,11 @@ class C_cv extends  MY_Controller {
     }
              
 
-
+    
     // =========== Detail cv ========
     public function index($NPM){
+            
+        
         $data['NPM'] = $NPM;
 
         $student = $this->db->query('SELECT ats.Name, ats.NPM, ats.Year,ats.EmailPU , ps.NameEng AS ProdiEng, j.JudiciumsDate, ats.StatusStudentID,     
@@ -99,7 +99,9 @@ class C_cv extends  MY_Controller {
 
         
             $data['dataStd'] = $student;
-            $content = $this->load->view('page/cv/V_cv',$data,true);
+            $content = $this->load->view('page/cv/V_cv',$data,true);            
+            // $filename = 'cv_'.$NPM;
+            // $this->pdfgenerator->generate($content, $filename, true, 'A4', 'portrait');
             parent::template($content);
         }
         
