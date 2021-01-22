@@ -222,7 +222,7 @@
                                             </div>
                                             <div class="card-body">
                                                 <div class="row">
-                                                <div class="col-md-12 mb-4">
+                                                	<div class="col-md-12 mb-4">
                                                         <!-- Name -->
                                                         <p class="font-weight-bold"><?= $d['GraduationYear']; ?> | Podomoro University</p>
                                                         
