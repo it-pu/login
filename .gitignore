@@ -1,3 +1,16 @@
 \.idea
 /assets/documents/*
 /.env
+/application/logs
+/.env
+/.env.demo-server
+
+
+#docker
+.docker/nginx/log/*
+***/.docker/nginx/log/
+application/logs/*
+.docker/nginx/ssl/*
+***/.docker/nginx/ssl/
+.docker/nginx/php/*
+***/.docker/nginx/php/
