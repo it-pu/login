@@ -1,6 +1,6 @@
 version: '2'
 services:
-   web_pcam:
+   web_portal:
     hostname: web_demo_portal
     image: richarvey/nginx-php-fpm:1.6.4
     environment:
