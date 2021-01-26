@@ -1,5 +1,5 @@
 
-
+	<?php $Segment = $this->uri->segment(2); ?>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.min.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -28,18 +28,20 @@
 			
 			console.log(canvas.height+"  "+canvas.width);
 			
-			
-			var imgData = canvas.toDataURL("image/jpeg", 1.0);
+			var image = new Image();
+			var image = canvas.toDataURL("image/png ", 1.0);
+			image.setAttribute('crossOrigin', 'anonymous');
+			image.src = url;
 			var pdf = new jsPDF('p', 'pt',  [PDF_Width, PDF_Height]);
-		    pdf.addImage(imgData, 'JPG', top_left_margin, top_left_margin,canvas_image_width,canvas_image_height);
+		    pdf.addImage(image, 'JPG', top_left_margin, top_left_margin,canvas_image_width,canvas_image_height);
 			
 			
 			for (var i = 1; i <= totalPDFPages; i++) { 
 				pdf.addPage(PDF_Width, PDF_Height);
-				pdf.addImage(imgData, 'JPG', top_left_margin, -(PDF_Height*i)+(top_left_margin*4),canvas_image_width,canvas_image_height);
+				pdf.addImage(image, 'JPG', top_left_margin, -(PDF_Height*i)+(top_left_margin*4),canvas_image_width,canvas_image_height);
 			}
 			
-		    pdf.save("HTML-Document.pdf");
+		    pdf.save("CV-<?= $Segment?>.pdf");
 			
 			setTimeout(function(){ 			
 				$("#downloadbtn").show();
@@ -77,7 +79,7 @@
     	padding: 5px 10px;
 	}
 	
-	.container{
+	.bg{
 		background: linear-gradient(180deg,
         #f1c2b8 20%,#ffffff 16%,#ffffff 80%,#ffffff 80%, #18217c 60%);
 		background: -moz-linear-gradient(-90deg,
@@ -146,9 +148,7 @@
 </style>
 
 
-<?php if(count($dataStd)>0){ $d = $dataStd[0];
-?>	
-
+<div class="container mb-5">
 	<div class="row mb-4">
 		<div class="col align-self-center text-center">
 			<h1 class="text-center fw-bold my-4">Curriculum Vitae</h1>
@@ -156,11 +156,11 @@
 			<span id="genmsg" style="display:none;">Generating ...</span>
 		</div>
 	</div> 			
-
+</div>
 
 <section class="canvas_div_pdf">
 
-	<div class="container">
+	<div class="container bg">
 	
 	  	<div class="row p-4 display-flex">
     	
@@ -168,46 +168,9 @@
         
 	            <!-- Card -->		
 				<div class="card pt-3 pb-3 ml-4 mr-4 mt-4 " >
-					<div class="row no-gutters p-4 ">
+					<div class="row no-gutters p-4" id="viewOne">
 					
-						<div class="col-md-4">
-							<div class="card-body">
-								<p style="-webkit-background-image: url(https://pcam.podomorouniversity.ac.id/uploads/students/<?= $d['DB'].'/'.$d['Photo']; ?>);
-											-moz-background-image: url(https://pcam.podomorouniversity.ac.id/uploads/students/<?= $d['DB'].'/'.$d['Photo']; ?>);
-											background-image: url(https://pcam.podomorouniversity.ac.id/uploads/students/<?= $d['DB'].'/'.$d['Photo']; ?>);
-											background-position: center;
-											background-size: cover;
-											background-repeat: no-repeat;
-											min-height: 100%;
-											min-width: 100%;">
-								</p>
-							</div>
-						</div>
-						<div class="col-md-8">
-							<div class="card-body">
-								<div class="pb-4">
-									<h1 class="text-left mb-4 color-blue"><?= ucwords(strtoupper($d['Name'])); ?></h1>
-									<h2 class="" style="color: #0505f996;"><?= ucwords(strtoupper($d['ProdiEng'])); ?></h2>
-								</div>
-								<div class="row">			
-									<div class="col-2">  
-										<p class="font-weight-bold">Telephone</p>
-										<p class="font-weight-bold">Email</p>
-										<p class="font-weight-bold">Address</p>		
-									</div> 
-									<div class="card col-1">
-										<p >:</p>
-										<p >:</p>
-										<p >:</p>
-									</div>	
-									<div class="card col-8">
-										<p ><?= $d['Phone']; ?></p>
-										<p ><?= $d['EmailPU']; ?></p>
-										<p ><?= ucwords(strtolower($d['Address'])); ?></p>
-									</div>
-								</div>
-							</div>
-						</div>
+						
 
 					</div>
 				
@@ -225,31 +188,7 @@
                                             </div>
                                             
                                             <div class="card-body">
-                                                <div class="row">
-                                                    
-                                                    <div class="col-md-12 mb-4">
-                                                        <p class="font-weight-bold">Date and Place of Brith</p>
-                                                        <p ><?= $d['PlaceOfBirth']; ?>, <?= $d['DateOfBirth']; ?></p>												
-                                                    </div>
-                                                    
-                                                    <div class="col-md-12 mb-4">
-                                                        <!-- Name -->
-                                                        <p class="font-weight-bold">Year of Completion</p>
-                                                        <p ><?= $d['GraduationYear']; ?></p>												
-                                                    </div>
-
-                                                    <div class="col-md-12 mb-4">
-                                                        <!-- Name -->
-                                                        <p class="font-weight-bold">Address</p>
-                                                    
-                                                        <!-- Quotation -->
-                                                        <p ><?= ucwords(strtolower($d['Address'])); ?></p>												
-                                                    </div>
-                                                    <div class="col-md-12 mb-4">
-                                                        <!-- Name -->
-                                                        <p class="font-weight-bold">Gender</p>
-                                                        <p class=""> <?= ($d['Gender']=='L') ? 'Male' : 'Female'; ?></p>												
-                                                    </div>
+                                                <div class="row" id="viewTwo">
                                                 
                                                 </div>
                                             </div>
@@ -264,56 +203,30 @@
                                                 </div>
                                             </div>
                                             <div class="card-body">
-                                                <div class="row">
-                                                <div class="col-md-12 mb-4">
-                                                        <!-- Name -->
-                                                        <p class="font-weight-bold"><?= $d['GraduationYear']; ?> | Podomoro University</p>
-                                                        
-                                                    </div>
-                                                    <div class="col-md-12 mb-4">
-                                                        <!-- Name -->
-                                                        <p class="font-weight-bold"> <?= $d['HighSchool']; ?></p>
-                                                        
-                                                    </div>
-                                                    <div class="col-md-12 mb-4">
-                                                        <p class="font-weight-bold"><?= $d['MajorsHighSchool']; ?></p>
-                                                    </div>											
+                                                <div class="row" id="viewThree">
+                                                											
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-									<?php
-										if(count($d['Participation'])>0)
-											{
-												echo'<div class="col-md-12 mb-4">
-												<div class="card panel" style="background-color:#18217c0a">
-		
-													<div class="card-body">
-															<div class="title-cv">
-																<H2 class=" text-left"> Organization</H2>
-															</div>
+									<div class="col-md-12 mb-4">
+										<div class="card panel" style="background-color:#18217c0a">
+
+											<div class="card-body">
+													<div class="title-cv">
+														<H2 class=" text-left"> Organization</H2>
 													</div>
-													<div class="card-body">
-														<div class="row">';
-												echo '<div class="col-md-12 mb-4">';
-												for($i=0;$i<count($d['Participation']);$i++)
-												{ $da = $d['Participation'][$i];
-													$Achievement = ($da['Achievement']!='' && $da['Achievement']!=null) ? ' | <span class="event-juara">'.$da['Achievement'].'</span>' : '';
-													?>
-													<p class="font-weight-bold"><?= $da['Year']; ?> | <?= $da['Event']; ?></p>
-													<p>Level : <?= $da['Level'].$Achievement; ?></p>
-													<p class="mb-4 pb-3"><i class="fa fa-map-marker"></i> <?= $da['Location']; ?></p>
-													
-
-												<?php }
-
-												echo '</div>';
-												echo'</div>
+											</div>
+											<div class="card-body">
+												<div class="row">
+													<div class="col-md-12 mb-4" id="viewFour">
+																	
+													</div>
 												</div>
 											</div>
-										</div>';
-										} 
-									?>
+										</div>
+									</div>
+
                                 </div>
                             </div>
                         </div>
@@ -322,112 +235,78 @@
 							<div class="card mb-4 ml-4 mr-4 ">
 								<div class="row no-gutters">									
                                     
-									<?php
-										if(count($d['Achievement'])>0)
-											{
-												echo'<div class="col-md-12 mb-4">
-												<div class="card panel" >
-		
-													<div class="card-body">
-															<div class="title-cv">
-																<H2 class=" text-left"> ACHIEVMENTS</H2>
-															</div>
+									<div class="col-md-12 mb-4">
+										<div class="card panel" >
+
+											<div class="card-body">
+													<div class="title-cv">
+														<H2 class=" text-left"> ACHIEVMENTS</H2>
 													</div>
-													<div class="card-body">
-														<div class="row">';
-                                                echo '<div class="col-md-12 mb-4">
-                                                        <ul class="timeline">';
-												for($i=0;$i<count($d['Achievement']);$i++)
-												{ $da = $d['Achievement'][$i];
-													$Achievement = ($da['Achievement']!='' && $da['Achievement']!=null) ? ' | <span class="event-juara">'.$da['Achievement'].'</span>' : '';
-													?>
-                                                    <li>
-													<p class="font-weight-bold"><?= $da['Year']; ?> | <?= $da['Event']; ?></p>
-													<p>Level : <?= $da['Level'].$Achievement; ?></p>
-													<p class="mb-4 pb-3"><i class="fa fa-map-marker"></i> <?= $da['Location']; ?></p>
-													</li>
+											</div>
+											<div class="card-body">
+												<div class="row">
+                                            		<div class="col-md-12 mb-4">
+                                                    	<ul class="timeline" id="viewFive">
 
-												<?php }
+                                                    	</ul>
+                                                    </div>
 
-												echo '</ul></div>';
-												echo'</div>
 												</div>
 											</div>
-										</div>';
-										} 
-									?>	
-									<?php
-										if(count($d['Training'])>0)
-											{
-												echo'<div class="col-md-12 mb-4">
-												<div class="card panel" >
-		
-													<div class="card-body">
-															<div class="title-cv">
-																<H2 class=" text-left">  Training / Seminar / Workshop</H2>
-															</div>
-													</div>
-													<div class="card-body">
-														<div class="row">';
-                                                echo '<div class="col-md-12 mb-4">
-                                                        <ul class="timeline">';
-												for($i=0;$i<count($d['Training']);$i++)
-												{ $da = $d['Training'][$i];
-													$Achievement = ($da['Achievement']!='' && $da['Achievement']!=null) ? ' | <span class="event-juara">'.$da['Achievement'].'</span>' : '';
-													?>
-                                                    <li>
-													<p class="font-weight-bold"><?= $da['Year']; ?> | <?= $da['Event']; ?></p>
-													<p>Level : <?= $da['Level'].$Achievement; ?></p>
-													<p class="mb-4 pb-3"><i class="fa fa-map-marker"></i> <?= $da['Location']; ?></p>
-													</li>
-
-												<?php }
-
-												echo '</ul></div>';
-												echo'</div>
-												</div>
-											</div>
-										</div>';
-										} 
-									?>								
-									<?php
-										if(count($d['Internship'])>0)
-										{
-											echo'<div class="col-md-12 mb-4">
-												<div class="card panel" >
-													<div class="card-body">
-															<div class="title-cv">
-																<h2 class="text-left">EXPERIENCE</h2>
-															</div>
-													</div>
-													<div class="card-body">
-														<div class="row">';
-                                            echo '<div class="col-md-12 mb-4">
-                                                    <ul class="timeline">';
-											for($i=0;$i<count($d['Internship']);$i++)
-											{ $da = $d['Internship'][$i];
-												$Achievement = ($da['Achievement']!='' && $da['Achievement']!=null) ? ' | <span class="event-juara">'.$da['Achievement'].'</span>' : '';
-												?>
-                                                <li>
-												<p class="font-weight-bold"><?= $da['Year']; ?> | <?= $da['Event']; ?></p>
-												<p>Level : <?= $da['Level'].$Achievement; ?></p>
-												<p class="mb-4 pb-3"><i class="fa fa-map-marker"></i>  <?= $da['Location']; ?></p>
-												</li>
-
-											<?php }
-
-											echo '</ul></div>';
-											echo'</div>
-												</div>
-											</div>
-										</div>';
-										} 
-									?>										
-												
+										</div>
 									</div>
+
+									<div class="col-md-12 mb-4">
+										<div class="card panel" >
+
+											<div class="card-body">
+													<div class="title-cv">
+														<H2 class=" text-left"> Training / Seminar / Workshop</H2>
+													</div>
+											</div>
+											<div class="card-body">
+												<div class="row">';
+					                                <div class="col-md-12 mb-4">
+				                                        <ul class="timeline" id="viewSix">
+
+			                                        	</ul>
+			                                        </div>
+
+												</div>
+											</div>
+										</div>
+									</div>							
+										
+
+									<div class="col-md-12 mb-4">
+										<div class="card panel" >
+
+											<div class="card-body">
+													<div class="title-cv">
+														<H2 class=" text-left"> EXPERIENCE</H2>
+													</div>
+											</div>
+											<div class="card-body">
+												<div class="row">';
+					                                <div class="col-md-12 mb-4">
+				                                        <ul class="timeline" id="viewSeven">
+				                                        	
+			                                        	</ul>
+			                                        </div>
+
+												</div>
+											</div>
+										</div>
+									</div>
+
+									
 								</div>
 							</div>
 						</div>
+
+													
+
+
 					</div>   					
 				</div>  
 			</div>	
@@ -435,73 +314,53 @@
 
 	</div>
 
-</section>
+
 
 
 <script>
-
-	$(document).ready(function () {
-
-		window.dt_NPM = "<?= $d['NPM']; ?>";
-		window.dt_Name = "<?= ucwords(strtolower($d['Name'])); ?>";
-
-		addingLastSeen(dt_NPM,'std',dt_Name);
-
-		try {
-			$.getJSON("https://api.ipify.org/?format=json", function(e) {
-				inputLogging(dt_NPM,e.ip);
-			});
-		} catch (e){
-			inputLogging(dt_NPM,'');
-		}
+	$(document).ready(function () { 
+		loadOne();
+		loadTwo();
+		loadThree();
+		loadFour();
+		loadFive();
+		loadSix();
+		loadSeven();
 
 	});
 
-	function inputLogging(NPM,IP_Public) {
-
-		var token = jwt_encode({
-			action : 'setDataLoggingStudent',
-			NPM : NPM,
-			IP_Public : IP_Public
-		});
-		var url = dt_base_url_js+'__getDetailsPeople';
-
-		$.post(url,{token:token},function(result) {
-
-		});
-
-	}
-
 	function loadOne() {
+		NPM = "<?= $Segment ?>";
         var data = {
             action : 'read',
-            Type : G_Type
+            NPM : NPM,
         };
         var token = jwt_encode(data,'UAP)(*');
-        var url = base_url_js+'c_cv/index';
+        var url = base_url_js+'data/'+NPM;
 
         $.post(url,{token:token},function (jsonResult) {
         	var response = jQuery.parseJSON(jsonResult);
-        	
             $('#viewOne').empty();
-            if(response.length>0){
+            if(jsonResult.length>0){
             	var no=1;
                 $.each(response,function (i,v) {
-                    $('#viewOne').append('
-						<div class="col-md-4">'+
+                	var tlp= (v[0].Phone !="" && v[0].Phone !=null) ? v[0].Phone :'-';
+                	var eml= (v[0].EmailPU !="" && v[0].EmailPU !=null) ? v[0].EmailPU :'-';
+                	var Address= (v[0].Address !="" && v[0].Address !=null) ? v[0].Address :'-';
+                    $('#viewOne').append('<div class="col-md-4">'+
 							'<div class="card-body">'+
-								'<p style="-webkit-background-image: url(https://pcam.podomorouniversity.ac.id/uploads/students/);background-image: url(https://pcam.podomorouniversity.ac.id/uploads/students/);background-position: center;background-size: cover;background-repeat: no-repeat;min-height: 100%;min-width: 100%;">'+
+								'<p style="-webkit-background-image: url(https://pcam.podomorouniversity.ac.id/uploads/students/'+v[0].DB+'/'+v[0].Photo+');-moz-background-image: url(https://pcam.podomorouniversity.ac.id/uploads/students/'+v[0].DB+'/'+v[0].Photo+');background-image: url(https://pcam.podomorouniversity.ac.id/uploads/students/'+v[0].DB+'/'+v[0].Photo+');background-position: center;background-size: cover;background-repeat: no-repeat;min-height: 100%;min-width: 100%;">'+
 								'</p>'+
-'							</div>'+
+						'</div>'+
 						'</div>'+
 						'<div class="col-md-8">'+
 							'<div class="card-body">'+
 								'<div class="pb-4">'+
-									'<h1 class="text-left mb-4 color-blue"><?= ucwords(strtoupper($d['Name'])); ?></h1>'+
-									'<h2 class="" style="color: #0505f996;"><?= ucwords(strtoupper($d['ProdiEng'])); ?></h2>'+
+									'<h1 class="text-left mb-4 color-blue">'+v[0].Name+'</h1>'+
+									'<h2 class="" style="color: #0505f996;">'+v[0].ProdiEng+'</h2>'+
 								'</div>'+
 								'<div class="row">'+
-									'<div class="col-2">  '+
+									'<div class="col-2">'+
 										'<p class="font-weight-bold">Telephone</p>'+
 										'<p class="font-weight-bold">Email</p>'+
 										'<p class="font-weight-bold">Address</p>'+
@@ -512,9 +371,9 @@
 										'<p >:</p>'+
 									'</div>'+
 									'<div class="card col-8">'+
-										'<p ><?= $d['Phone']; ?></p>'+
-										'<p ><?= $d['EmailPU']; ?></p>'+
-										'<p ><?= ucwords(strtolower($d['Address'])); ?></p>'+
+										'<p >'+tlp+'</p>'+
+										'<p >'+eml+'</p>'+
+										'<p class="uppercase">'+Address+'</p>'+
 									'</div>'+
 								'</div>'+
 							'</div>'+
@@ -522,12 +381,223 @@
                 });
 
             } else {
-                $('#viewOne').html('<div class="well">Data not yet</div>');
+                $('#viewOne').html('<div class="col-md-12 well">Data not yet</div>');
             }
 
         });
     }
 
+    function loadTwo() {
+		NPM = "<?= $Segment ?>";
+        var data = {
+            action : 'read',
+            NPM : NPM,
+        };
+        var token = jwt_encode(data,'UAP)(*');
+        var url = base_url_js+'data/'+NPM;
+
+        $.post(url,{token:token},function (jsonResult) {
+        	var response = jQuery.parseJSON(jsonResult);
+            $('#viewTwo').empty();
+            if(jsonResult.length>0){
+            	var no=1;
+                $.each(response,function (i,v) {
+                	var l = v[0].Gender;
+                	var Gender = (l = "L") ? 'Male':'Female';
+                    $('#viewTwo').append('<div class="col-md-12 mb-4">'+
+                                            '<p class="font-weight-bold">Date and Place of Brith</p>'+
+                                            '<p >'+v[0].PlaceOfBirth+', '+v[0].DateOfBirth+'</p>'+							
+                                        '</div>'+
+                                        
+                                        '<div class="col-md-12 mb-4">'+
+                                            '<p class="font-weight-bold">Year of Completion</p>'+
+                                            '<p >'+v[0].GraduationYear+'</p>'+	
+                                        '</div>'+
+
+                                        '<div class="col-md-12 mb-4">'+
+                                        	'<p class="font-weight-bold">Address</p>'+
+                                            '<p >'+v[0].Address+'</p>'+				
+                                        '</div>'+
+
+                                        '<div class="col-md-12 mb-4">'+
+                                            '<p class="font-weight-bold">Gender</p>'+
+                                            '<p >'+Gender+'</p>'+
+                                        '</div>'+
+
+                                        '<div class="col-md-12 mb-4">'+
+                                        '</div>');
+                });
+
+            } else {
+                $('#viewTwo').html('<div class="col-md-12 well">Data not yet</div>');
+            }
+
+        });
+    }
+
+    function loadThree() {
+		NPM = "<?= $Segment ?>";
+        var data = {
+            action : 'read',
+            NPM : NPM,
+        };
+        var token = jwt_encode(data,'UAP)(*');
+        var url = base_url_js+'data/'+NPM;
+
+        $.post(url,{token:token},function (jsonResult) {
+        	var response = jQuery.parseJSON(jsonResult);
+            $('#viewThree').empty();
+            if(jsonResult.length>0){
+            	var no=1;
+                $.each(response,function (i,v) {
+                    $('#viewThree').append('<div class="col-md-12 mb-4">'+
+                                            '<p class="font-weight-bold">Date and Place of Brith</p>'+
+                                            '<p >'+v[0].GraduationYear+' | Podomoro University</p>'+
+                                        '</div>'+
+                                        
+                                        '<div class="col-md-12 mb-4">'+
+                                            '<p >'+v[0].HighSchool+'</p>'+	
+                                        '</div>'+
+
+                                        '<div class="col-md-12 mb-4">'+
+                                            '<p >'+v[0].MajorsHighSchool+'</p>'+				
+                                        '</div>'+
+                                        
+                                        '<div class="col-md-12 mb-4">'+
+                                        '</div>');
+                });
+
+            } else {
+                $('#viewThree').html('<div class="col-md-12 well">Data not yet</div>');
+            }
+
+        });
+    }
+
+    function loadFour() {
+		NPM = "<?= $Segment ?>";
+        var data = {
+            action : 'read',
+            NPM : NPM,
+        };
+        var token = jwt_encode(data,'UAP)(*');
+        var url = base_url_js+'data/'+NPM;     
+
+        $.post(url,{token:token},function (jsonResult) {
+        	var response = jQuery.parseJSON(jsonResult);
+            $('#viewFour').empty();
+            if(jsonResult.length>0){            		
+	            	var no=1;
+	                $.each(response,function (i,v) {
+	                	for(var x=0; x < v.length; x++){	                		
+		                		var Achievement = (v[x].Participation[x].Achievement!='' && v[x].Participation[x].Achievement!=null) ? v[x].Participation[x].Achievement :'';
+		                    	$('#viewFour').append('<p class="font-weight-bold">'+v[x].Participation[x].Year+' | '+v[x].Participation[x].Event+'</p>'+
+												'<p>Level : '+v[x].Participation[x].Level+' | <span class="event-juara">'+Achievement+'</span></p>'+
+												'<p class="mb-4 pb-3"><i class="fa fa-map-marker"></i> '+v[x].Participation[x].Location+'</p>');		                   
+	                	};
+	                	
+	                });	            
+
+            } else {
+                $('#viewFour').html('<div class="col-md-12 well">Data not yet</div>');
+            }
+
+        });
+
+    }
+
+    function loadFive() {
+		NPM = "<?= $Segment ?>";
+        var data = {
+            action : 'read',
+            NPM : NPM,
+        };
+        var token = jwt_encode(data,'UAP)(*');
+        var url = base_url_js+'data/'+NPM;
+
+        $.post(url,{token:token},function (jsonResult) {
+        	var response = jQuery.parseJSON(jsonResult);
+            $('#viewFive').empty();
+            if(jsonResult.length>0){            		
+	            	var no=1;
+	                $.each(response,function (i,v) {
+	                	for(var x=0; x < v.length; x++){	                		
+		                		var Achievement = (v[x].Achievement[x].Achievement!='' && v[x].Achievement[x].Achievement!=null) ? v[x].Achievement[x].Achievement :'';
+		                    	$('#viewFive').append('<p class="font-weight-bold">'+v[x].Achievement[x].Year+' | '+v[x].Achievement[x].Event+'</p>'+
+												'<p>Level : '+v[x].Achievement[x].Level+' | <span class="event-juara">'+Achievement+'</span></p>'+
+												'<p class="mb-4 pb-3"><i class="fa fa-map-marker"></i> '+v[x].Achievement[x].Location+'</p>');		                   
+	                	};
+	                	
+	                });	            
+
+            } else {
+                $('#viewFive').html('<div class="col-md-12 well">Data not yet</div>');
+            }
+
+        });
+    }
+
+    function loadSix() {
+		NPM = "<?= $Segment ?>";
+        var data = {
+            action : 'read',
+            NPM : NPM,
+        };
+        var token = jwt_encode(data,'UAP)(*');
+        var url = base_url_js+'data/'+NPM;
+
+        $.post(url,{token:token},function (jsonResult) {
+        	var response = jQuery.parseJSON(jsonResult);
+            $('#viewSix').empty();
+            if(jsonResult.length>0){            		
+	            	var no=1;
+	                $.each(response,function (i,v) {
+	                	for(var x=0; x < v.length; x++){	
+		                		var Achievement = (v[x].Training[x].Achievement!='' && v[x].Training[x].Achievement!=null) ? v[x].Training[x].Achievement :'';
+		                    	$('#viewSix').append('<p class="font-weight-bold">'+v[x].Training[x].Year+' | '+v[x].Training[x].Event+'</p>'+
+												'<p>Level : '+v[x].Training[x].Level+' | <span class="event-juara">'+Achievement+'</span></p>'+
+												'<p class="mb-4 pb-3"><i class="fa fa-map-marker"></i> '+v[x].Training[x].Location+'</p>');		                   
+	                	};
+	                	
+	                });	            
+
+            } else {
+                $('#viewSix').html('<div class="col-md-12 well">Data not yet</div>');
+            }
+
+        });
+    }
+
+    function loadSeven() {
+		NPM = "<?= $Segment ?>";
+        var data = {
+            action : 'read',
+            NPM : NPM,
+        };
+        var token = jwt_encode(data,'UAP)(*');
+        var url = base_url_js+'data/'+NPM;
+
+        $.post(url,{token:token},function (jsonResult) {
+        	var response = jQuery.parseJSON(jsonResult);
+            $('#viewSeven').empty();
+            if(jsonResult.length>0){            		
+	            	var no=1;
+	                $.each(response,function (i,v) {
+	                	for(var x=0; x < v.length; x++){	                		
+		                		var Achievement = (v[x].Internship[x].Achievement!='' && v[x].Internship[x].Achievement!=null) ? v[x].Internship[x].Achievement :'';
+		                    	$('#viewSeven').append('<p class="font-weight-bold">'+v[x].Internship[x].Year+' | '+v[x].Internship[x].Event+'</p>'+
+												'<p>Level : '+v[x].Internship[x].Level+' | <span class="event-juara">'+Achievement+'</span></p>'+
+												'<p class="mb-4 pb-3"><i class="fa fa-map-marker"></i> '+v[x].Internship[x].Location+'</p>');		                   
+	                	};
+	                	
+	                });	            
+
+            } else {
+                $('#viewSeven').html('<div class="col-md-12 well">Data not yet</div>');
+            }
+
+        });
+    }
 </script>
 
-<?php } ?>
+</section>

@@ -104,3 +104,5 @@ $route['skpi'] = 'c_skpi';
 // ======= CV ========= //
 
 $route['cv/(:any)'] = 'c_cv/index/$1';
+$route['data/(:any)'] = 'c_cv/data/$1';
+

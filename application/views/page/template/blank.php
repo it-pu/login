@@ -59,6 +59,11 @@
 <script type="text/javascript" src="<?php echo base_url('assets/'); ?>moment/moment.js"></script>
 
 <script>
+    $(document).ready(function () {
+        window.url_pas = "<?= url_pas; ?>";
+        window.base_url_js = "<?= base_url(); ?>";
+    });
+
     $.fn.extend({
         animateCss: function(animationName, callback) {
             var animationEnd = (function(el) {
