@@ -369,14 +369,14 @@
                 	var eml= (v[0].EmailPU !="" && v[0].EmailPU !=null) ? v[0].EmailPU :'-';
                 	var Address= (v[0].Address !="" && v[0].Address !=null) ? v[0].Address :'-';
 
-                    $('#viewOne').append('<div class="col-md-4" id="img1">'+
+                    $('#viewOne').append('<div class="col-md-4" id="img1" style="min-height:340px">'+
 							'<div class="card-body" >'+
-								'<p style="-webkit-background-image: url(https://pcam.podomorouniversity.ac.id/uploads/students/'+v[0].DB+'/'+v[0].Photo+');-moz-background-image: url(https://pcam.podomorouniversity.ac.id/uploads/students/'+v[0].DB+'/'+v[0].Photo+');background-image: url(https://pcam.podomorouniversity.ac.id/uploads/students/'+v[0].DB+'/'+v[0].Photo+');background-position: center;background-size: cover;background-repeat: no-repeat;min-height: 100%;min-width: 100%;">'+
+								'<p style="-webkit-background-image: url(https://pcam.podomorouniversity.ac.id/uploads/students/'+v[0].DB+'/'+v[0].Photo+');-moz-background-image: url(https://pcam.podomorouniversity.ac.id/uploads/students/'+v[0].DB+'/'+v[0].Photo+');background-image: url(https://pcam.podomorouniversity.ac.id/uploads/students/'+v[0].DB+'/'+v[0].Photo+');background-position:50% 10%;background-size: cover;background-repeat: no-repeat;min-height: 100%;min-width: 100%;">'+
 								'</p>'+
 						'</div>'+
 						'</div>'+
 						'<div class="col-md-8">'+
-							'<div class="card-body">'+
+							'<div class="card-body ml-4 mr-4">'+
 								'<div class="pb-4">'+
 									'<h1 class="text-left mb-4 color-blue">'+v[0].Name+'</h1>'+
 									'<h2 class="" style="color: #0505f996;">'+v[0].ProdiEng+'</h2>'+
