@@ -1,14 +1,14 @@
 
-	<?php $Segment = $this->uri->segment(2); ?>
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.min.css">
-    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.3/jspdf.min.js"></script>
-    <script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
+<?php $Segment = $this->uri->segment(2); ?>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.1/css/bootstrap.min.css">
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.3/jspdf.min.js"></script>
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
 	
 	
-	<script>
-	
+<script>
+
 	function getPDF(){
 		$("#downloadbtn").hide();
 		$("#genmsg").show();
@@ -23,18 +23,14 @@
 		var totalPDFPages = Math.ceil(HTML_Height/PDF_Height)-1;
 		
 
-		html2canvas($(".canvas_div_pdf")[0],{allowTaint:true}).then(function(canvas) {
-			canvas.getContext('2d');
-			
-			console.log(canvas.height+"  "+canvas.width);
+		html2canvas($(".canvas_div_pdf")[0],{allowTaint:false,useCORS: true,logging: true}).then(function(canvas) {
+			var ctx = canvas.getContext('2d');		
 			
 			var image = new Image();
-			var image = canvas.toDataURL("image/png ", 1.0);
-			image.setAttribute('crossOrigin', 'anonymous');
-			image.src = url;
+			var image = canvas.toDataURL("image/png ", 1.0);			
+
 			var pdf = new jsPDF('p', 'pt',  [PDF_Width, PDF_Height]);
-		    pdf.addImage(image, 'JPG', top_left_margin, top_left_margin,canvas_image_width,canvas_image_height);
-			
+		    pdf.addImage(image, 'JPG', top_left_margin, top_left_margin,canvas_image_width,canvas_image_height);			
 			
 			for (var i = 1; i <= totalPDFPages; i++) { 
 				pdf.addPage(PDF_Width, PDF_Height);
@@ -51,10 +47,9 @@
         });
 	};
 	
+</script>
 	
-	</script>
-	
-    <style type="text/css">
+<style type="text/css">
 	body {
         background: #eaeaea;
     }
@@ -328,6 +323,32 @@
 		loadSeven();
 
 	});
+	// adds CORS headers to the proxied request
+	// https://github.com/Rob--W/cors-anywhere
+	const proxyUrl = "https://cors-anywhere.herokuapp.com/";
+
+	function imageSrcToBase64(img) {
+	  const isBase64 = /^data:image\/(png|jpeg);base64,/.test(img.src);
+	  if (isBase64) {
+	    return;
+	  }
+	  return fetch(proxyUrl + img.src)
+	    .then((res) => res.blob())
+	    .then(
+	      (blob) =>
+	        new Promise((resolve, reject) => {
+	          const reader = new FileReader();
+	          reader.onerror = reject;
+	          reader.onload = () => {
+	            resolve(reader.result);
+	          };
+	          reader.readAsDataURL(blob);
+	        })
+	    )
+	    .then((dataURL) => {
+	      img.src = dataURL;
+	    });
+	}
 
 	function loadOne() {
 		NPM = "<?= $Segment ?>";
@@ -347,14 +368,15 @@
                 	var tlp= (v[0].Phone !="" && v[0].Phone !=null) ? v[0].Phone :'-';
                 	var eml= (v[0].EmailPU !="" && v[0].EmailPU !=null) ? v[0].EmailPU :'-';
                 	var Address= (v[0].Address !="" && v[0].Address !=null) ? v[0].Address :'-';
-                    $('#viewOne').append('<div class="col-md-4">'+
-							'<div class="card-body">'+
-								'<p style="-webkit-background-image: url(https://pcam.podomorouniversity.ac.id/uploads/students/'+v[0].DB+'/'+v[0].Photo+');-moz-background-image: url(https://pcam.podomorouniversity.ac.id/uploads/students/'+v[0].DB+'/'+v[0].Photo+');background-image: url(https://pcam.podomorouniversity.ac.id/uploads/students/'+v[0].DB+'/'+v[0].Photo+');background-position: center;background-size: cover;background-repeat: no-repeat;min-height: 100%;min-width: 100%;">'+
+
+                    $('#viewOne').append('<div class="col-md-4" id="img1" style="min-height:340px">'+
+							'<div class="card-body" >'+
+								'<p style="-webkit-background-image: url(https://pcam.podomorouniversity.ac.id/uploads/students/'+v[0].DB+'/'+v[0].Photo+');-moz-background-image: url(https://pcam.podomorouniversity.ac.id/uploads/students/'+v[0].DB+'/'+v[0].Photo+');background-image: url(https://pcam.podomorouniversity.ac.id/uploads/students/'+v[0].DB+'/'+v[0].Photo+');background-position:50% 10%;background-size: cover;background-repeat: no-repeat;min-height: 100%;min-width: 100%;">'+
 								'</p>'+
 						'</div>'+
 						'</div>'+
 						'<div class="col-md-8">'+
-							'<div class="card-body">'+
+							'<div class="card-body ml-4 mr-4">'+
 								'<div class="pb-4">'+
 									'<h1 class="text-left mb-4 color-blue">'+v[0].Name+'</h1>'+
 									'<h2 class="" style="color: #0505f996;">'+v[0].ProdiEng+'</h2>'+
@@ -488,12 +510,12 @@
             $('#viewFour').empty();
             if(jsonResult.length>0){            		
 	            	var no=1;
-	                $.each(response,function (i,v) {
-	                	for(var x=0; x < v.length; x++){	                		
-		                		var Achievement = (v[x].Participation[x].Achievement!='' && v[x].Participation[x].Achievement!=null) ? v[x].Participation[x].Achievement :'';
-		                    	$('#viewFour').append('<p class="font-weight-bold">'+v[x].Participation[x].Year+' | '+v[x].Participation[x].Event+'</p>'+
-												'<p>Level : '+v[x].Participation[x].Level+' | <span class="event-juara">'+Achievement+'</span></p>'+
-												'<p class="mb-4 pb-3"><i class="fa fa-map-marker"></i> '+v[x].Participation[x].Location+'</p>');		                   
+	                $.each(response,function (i,v) {	                	
+	                	for(var x=0; x < v[0].Participation.length; x++){
+		                		var Achievement = (v[0].Participation[x].Achievement!='' && v[0].Participation[x].Achievement!=null) ? v[0].Participation[0].Achievement :'';
+		                    	$('#viewFour').append('<p class="font-weight-bold">'+v[0].Participation[0].Year+' | '+v[0].Participation[x].Event+'</p>'+
+												'<p>Level : '+v[0].Participation[x].Level+' | <span class="event-juara">'+Achievement+'</span></p>'+
+												'<p class="mb-4 pb-3"><i class="fa fa-map-marker"></i> '+v[0].Participation[x].Location+'</p>');		                   
 	                	};
 	                	
 	                });	            
@@ -521,11 +543,11 @@
             if(jsonResult.length>0){            		
 	            	var no=1;
 	                $.each(response,function (i,v) {
-	                	for(var x=0; x < v.length; x++){	                		
-		                		var Achievement = (v[x].Achievement[x].Achievement!='' && v[x].Achievement[x].Achievement!=null) ? v[x].Achievement[x].Achievement :'';
-		                    	$('#viewFive').append('<p class="font-weight-bold">'+v[x].Achievement[x].Year+' | '+v[x].Achievement[x].Event+'</p>'+
-												'<p>Level : '+v[x].Achievement[x].Level+' | <span class="event-juara">'+Achievement+'</span></p>'+
-												'<p class="mb-4 pb-3"><i class="fa fa-map-marker"></i> '+v[x].Achievement[x].Location+'</p>');		                   
+	                	for(var x=0; x < v[0].Achievement.length; x++){	                		
+		                		var Achievement = (v[0].Achievement[x].Achievement!='' && v[0].Achievement[x].Achievement!=null) ? v[0].Achievement[0].Achievement :'';
+		                    	$('#viewFive').append('<li><p class="font-weight-bold">'+v[0].Achievement[x].Year+' | '+v[0].Achievement[x].Event+'</p>'+
+												'<p>Level : '+v[0].Achievement[x].Level+' | <span class="event-juara">'+Achievement+'</span></p>'+
+												'<p class="mb-4 pb-3"><i class="fa fa-map-marker"></i> '+v[0].Achievement[x].Location+'</p></li>');		                   
 	                	};
 	                	
 	                });	            
@@ -552,11 +574,11 @@
             if(jsonResult.length>0){            		
 	            	var no=1;
 	                $.each(response,function (i,v) {
-	                	for(var x=0; x < v.length; x++){	
-		                		var Achievement = (v[x].Training[x].Achievement!='' && v[x].Training[x].Achievement!=null) ? v[x].Training[x].Achievement :'';
-		                    	$('#viewSix').append('<p class="font-weight-bold">'+v[x].Training[x].Year+' | '+v[x].Training[x].Event+'</p>'+
-												'<p>Level : '+v[x].Training[x].Level+' | <span class="event-juara">'+Achievement+'</span></p>'+
-												'<p class="mb-4 pb-3"><i class="fa fa-map-marker"></i> '+v[x].Training[x].Location+'</p>');		                   
+	                	for(var x=0; x < v[0].Training.length; x++){	
+		                		var Achievement = (v[0].Training[x].Achievement!='' && v[0].Training[x].Achievement!=null) ? v[0].Training[x].Achievement :'';
+		                    	$('#viewSix').append('<li><p class="font-weight-bold">'+v[0].Training[x].Year+' | '+v[0].Training[x].Event+'</p>'+
+												'<p>Level : '+v[0].Training[x].Level+' | <span class="event-juara">'+Achievement+'</span></p>'+
+												'<p class="mb-4 pb-3"><i class="fa fa-map-marker"></i> '+v[0].Training[x].Location+'</p></li>');		                   
 	                	};
 	                	
 	                });	            
@@ -583,11 +605,11 @@
             if(jsonResult.length>0){            		
 	            	var no=1;
 	                $.each(response,function (i,v) {
-	                	for(var x=0; x < v.length; x++){	                		
-		                		var Achievement = (v[x].Internship[x].Achievement!='' && v[x].Internship[x].Achievement!=null) ? v[x].Internship[x].Achievement :'';
-		                    	$('#viewSeven').append('<p class="font-weight-bold">'+v[x].Internship[x].Year+' | '+v[x].Internship[x].Event+'</p>'+
-												'<p>Level : '+v[x].Internship[x].Level+' | <span class="event-juara">'+Achievement+'</span></p>'+
-												'<p class="mb-4 pb-3"><i class="fa fa-map-marker"></i> '+v[x].Internship[x].Location+'</p>');		                   
+	                	for(var x=0; x < v[0].Internship.length; x++){	                		
+		                		var Achievement = (v[0].Internship[x].Achievement!='' && v[0].Internship[x].Achievement!=null) ? v[0].Internship[x].Achievement :'';
+		                    	$('#viewSeven').append('<li><p class="font-weight-bold">'+v[0].Internship[x].Year+' | '+v[0].Internship[x].Event+'</p>'+
+												'<p>Level : '+v[0].Internship[x].Level+' | <span class="event-juara">'+Achievement+'</span></p>'+
+												'<p class="mb-4 pb-3"><i class="fa fa-map-marker"></i> '+v[0].Internship[x].Location+'</p></li>');		                   
 	                	};
 	                	
 	                });	            
