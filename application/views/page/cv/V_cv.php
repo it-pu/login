@@ -14,7 +14,7 @@
 		var HTML_Height = $(".canvas_div_pdf").height();
 		var top_left_margin = 15;
 		var PDF_Width = HTML_Width + (top_left_margin * 2);
-		var PDF_Height = (PDF_Width * 1.2) + (top_left_margin * 2);
+		var PDF_Height = (PDF_Width * 1.2) + (top_left_margin * 1.2);
 		var canvas_image_width = HTML_Width;
 		var canvas_image_height = HTML_Height;
 
@@ -24,14 +24,19 @@
 		html2canvas($(".canvas_div_pdf")[0], {
 			allowTaint: false,
 			useCORS: true,
-			logging: true
+			logging: true,
+			letterRendering: true,
+			// dpi: 300,
+			scale:1.5,
 		}).then(function(canvas) {
 			var ctx = canvas.getContext('2d');
-
+			ctx.webkitImageSmoothingEnabled = false;
+			ctx.mozImageSmoothingEnabled = false;
+			ctx.imageSmoothingEnabled = false;
 			var image = new Image();
-			var image = canvas.toDataURL("image/png ", 1.0);
-
+			var image = canvas.toDataURL("image/png ", 1.9);
 			var pdf = new jsPDF('p', 'pt', [PDF_Width, PDF_Height]);
+
 			pdf.addImage(image, 'JPG', top_left_margin, top_left_margin, canvas_image_width, canvas_image_height);
 
 			for (var i = 1; i <= totalPDFPages; i++) {
@@ -185,7 +190,7 @@
 
 <section class="">
 
-	<div class="container bg canvas_div_pdf">
+	<div class="container bg canvas_div_pdf mb-5">
 
 		<div class="row p-4 display-flex">
 
@@ -261,7 +266,7 @@
 								<div class="row no-gutters">
 
 									<div class="col-md-12 mb-4">
-										<div class="card panel">
+										<div class="card panel mb-0">
 
 											<div class="card-body card-body-title">
 												<div class="title-cv">
@@ -270,7 +275,7 @@
 											</div>
 											<div class="card-body">
 												<div class="row">
-													<div class="col-md-12 mb-4">
+													<div class="col-md-12 mb-1">
 														<ul class="timeline" id="viewFive">
 
 														</ul>
@@ -282,7 +287,7 @@
 									</div>
 
 									<div class="col-md-12 mb-4">
-										<div class="card panel">
+										<div class="card panel mb-0">
 
 											<div class="card-body card-body-title">
 												<div class="title-cv">
@@ -290,8 +295,8 @@
 												</div>
 											</div>
 											<div class="card-body">
-												<div class="row">';
-													<div class="col-md-12 mb-4">
+												<div class="row">
+													<div class="col-md-12 mb-1">
 														<ul class="timeline" id="viewSix">
 
 														</ul>
@@ -304,7 +309,7 @@
 
 
 									<div class="col-md-12 mb-4">
-										<div class="card panel">
+										<div class="card panel mb-0">
 
 											<div class="card-body card-body-title">
 												<div class="title-cv">
@@ -312,8 +317,8 @@
 												</div>
 											</div>
 											<div class="card-body">
-												<div class="row">';
-													<div class="col-md-12 mb-4">
+												<div class="row">
+													<div class="col-md-12 mb-1">
 														<ul class="timeline" id="viewSeven">
 
 														</ul>
@@ -400,18 +405,22 @@
 						var tlp = (v[0].Phone != "" && v[0].Phone != null) ? v[0].Phone : '-';
 						var eml = (v[0].EmailPU != "" && v[0].EmailPU != null) ? v[0].EmailPU : '-';
 						var Address = (v[0].Address != "" && v[0].Address != null) ? v[0].Address : '-';
+						var Name = (v[0].Name != "" && v[0].Name != null) ? v[0].Name : '-';
+						var ProdiEng = (v[0].ProdiEng != "" && v[0].ProdiEng != null) ? v[0].ProdiEng : '-';
+
+
 
 						$('#viewOne').append('<div class="col-md-4" id="img1" style="min-height:340px">' +
-							'<div class="card-body" >' +
+							'<div class="card-body pb-0">' +
 							'<p style="-webkit-background-image: url(https://pcam.podomorouniversity.ac.id/uploads/students/' + v[0].DB + '/' + v[0].Photo + ');-moz-background-image: url(https://pcam.podomorouniversity.ac.id/uploads/students/' + v[0].DB + '/' + v[0].Photo + ');background-image: url(https://pcam.podomorouniversity.ac.id/uploads/students/' + v[0].DB + '/' + v[0].Photo + ');background-position:50% 10%;background-size: cover;background-repeat: no-repeat;min-height: 100%;min-width: 100%;">' +
 							'</p>' +
 							'</div>' +
 							'</div>' +
 							'<div class="col-md-8">' +
-							'<div class="card-body ml-4 mr-4">' +
+							'<div class="card-body ml-4 mr-4 pb-0">' +
 							'<div class="pb-4">' +
-							'<h1 class="text-left mb-4 color-blue">' + v[0].Name + '</h1>' +
-							'<h2 class="">' + v[0].ProdiEng + '</h2>' +
+							'<h1 class="text-left mb-4 color-blue">' + Name + '</h1>' +
+							'<h2 class="">' + ProdiEng + '</h2>' +
 							'</div>' +
 							'<div class="row">' +
 							'<div class="col-2">' +
@@ -459,28 +468,32 @@
 					var no = 1;
 					$.each(response, function(i, v) {
 						var l = v[0].Gender;
+						var date = v[0].DateOfBirth;
+						var dateFramat = moment(date).format('D MMMM, YYYY');
+						var dateStd = (dateFramat != "" && dateFramat != null) ? dateFramat : '-';						
 						var Gender = (l = "L") ? 'Male' : 'Female';
+						var GraduationYear = (v[0].GraduationYear != "" && v[0].GraduationYear != null) ? v[0].GraduationYear : '-';
+						var PlaceOfBirth = (v[0].PlaceOfBirth != "" && v[0].PlaceOfBirth != null) ? v[0].PlaceOfBirth : '-';
+						var Address = (v[0].Address != "" && v[0].Address != null) ? v[0].Address : '-';
+
 						$('#viewTwo').append('<div class="col-md-12 mb-4">' +
 							'<p class="font-weight-bold">Date and Place of Brith</p>' +
-							'<p >' + v[0].PlaceOfBirth + ', ' + v[0].DateOfBirth + '</p>' +
+							'<p >' + PlaceOfBirth + ', ' + dateStd + '</p>' +
 							'</div>' +
 
 							'<div class="col-md-12 mb-4">' +
 							'<p class="font-weight-bold">Year of Completion</p>' +
-							'<p >' + v[0].GraduationYear + '</p>' +
+							'<p >' + GraduationYear + '</p>' +
 							'</div>' +
 
 							'<div class="col-md-12 mb-4">' +
 							'<p class="font-weight-bold">Address</p>' +
-							'<p >' + v[0].Address + '</p>' +
+							'<p >' + Address + '</p>' +
 							'</div>' +
 
 							'<div class="col-md-12 mb-4">' +
 							'<p class="font-weight-bold">Gender</p>' +
 							'<p >' + Gender + '</p>' +
-							'</div>' +
-
-							'<div class="col-md-12 mb-4">' +
 							'</div>');
 					});
 
@@ -508,21 +521,25 @@
 				if (jsonResult.length > 0) {
 					var no = 1;
 					$.each(response, function(i, v) {
+						var GraduationYear = (v[0].GraduationYear != "" && v[0].GraduationYear != null) ? v[0].GraduationYear : '-';
+						var HighSchool = (v[0].HighSchool != "" && v[0].HighSchool != null) ? v[0].HighSchool : '-';
+						var MajorsHighSchool = (v[0].MajorsHighSchool != "" && v[0].MajorsHighSchool != null) ? v[0].MajorsHighSchool : '-';
+
+
 						$('#viewThree').append('<div class="col-md-12 mb-4">' +
 							'<p class="font-weight-bold">Date and Place of Brith</p>' +
-							'<p >' + v[0].GraduationYear + ' | Podomoro University</p>' +
+							'<p >' + GraduationYear + ' | Podomoro University</p>' +
 							'</div>' +
 
 							'<div class="col-md-12 mb-4">' +
-							'<p >' + v[0].HighSchool + '</p>' +
-							'</div>' +
+							'<p >' + HighSchool + '</p>' +
+							'</div>'
 
-							'<div class="col-md-12 mb-4">' +
-							'<p >' + v[0].MajorsHighSchool + '</p>' +
-							'</div>' +
+							// '<div class="col-md-12 mb-4">' +
+							// '<p >' + MajorsHighSchool + '</p>' +
+							// '</div>' +
 
-							'<div class="col-md-12 mb-4">' +
-							'</div>');
+							);
 					});
 
 				} else {
@@ -550,10 +567,16 @@
 					var no = 1;
 					$.each(response, function(i, v) {
 						for (var x = 0; x < v[0].Participation.length; x++) {
-							var Achievement = (v[0].Participation[x].Achievement != '' && v[0].Participation[x].Achievement != null) ? v[0].Participation[0].Achievement : '';
-							$('#viewFour').append('<p class="font-weight-bold">' + v[0].Participation[0].Year + ' | ' + v[0].Participation[x].Event + '</p>' +
-								'<p>Level : ' + v[0].Participation[x].Level + ' | <span class="event-juara">' + Achievement + '</span></p>' +
-								'<p class="mb-4 pb-3"><i class="fa fa-map-marker"></i> ' + v[0].Participation[x].Location + '</p>');
+							var Achievement = (v[0].Participation[x].Achievement != '' && v[0].Participation[x].Achievement != null) ? v[0].Participation[0].Achievement : '-';
+							var Year= (v[0].Participation[x].Year != '' && v[0].Participation[x].Year != null) ? v[0].Participation[x].Year : '-';
+							var Event= (v[0].Participation[x].Event != '' && v[0].Participation[x].Event != null) ? v[0].Participation[x].Event : '-';
+							var Level= (v[0].Participation[x].Level != '' && v[0].Participation[x].Level != null) ? v[0].Participation[x].Level : '-';
+							var Location= (v[0].Participation[x].Location != '' && v[0].Participation[x].Location != null) ? v[0].Participation[x].Location : '-';
+
+
+							$('#viewFour').append('<p class="font-weight-bold">' + Year + ' | ' + Event + '</p>' +
+								'<p>Level : ' + Level + ' | <span class="event-juara">' + Achievement + '</span></p>' +
+								'<p class="mb-4 pb-3"><i class="fa fa-map-marker"></i> ' + Location + '</p>');
 						};
 
 					});
@@ -584,10 +607,15 @@
 					var no = 1;
 					$.each(response, function(i, v) {
 						for (var x = 0; x < v[0].Achievement.length; x++) {
-							var Achievement = (v[0].Achievement[x].Achievement != '' && v[0].Achievement[x].Achievement != null) ? v[0].Achievement[0].Achievement : '';
-							$('#viewFive').append('<li><p class="font-weight-bold">' + v[0].Achievement[x].Year + ' | ' + v[0].Achievement[x].Event + '</p>' +
-								'<p>Level : ' + v[0].Achievement[x].Level + ' | <span class="event-juara">' + Achievement + '</span></p>' +
-								'<p class="mb-4 pb-3"><i class="fa fa-map-marker"></i> ' + v[0].Achievement[x].Location + '</p></li>');
+							var Achievement = (v[0].Achievement[x].Achievement != '' && v[0].Achievement[x].Achievement != null) ? v[0].Achievement[0].Achievement : '-';
+							var Year= (v[0].Achievement[x].Year != '' && v[0].Achievement[x].Year != null) ? v[0].Achievement[x].Year : '-';
+							var Event= (v[0].Achievement[x].Event != '' && v[0].Achievement[x].Event != null) ? v[0].Achievement[x].Event : '-';
+							var Level= (v[0].Achievement[x].Level != '' && v[0].Achievement[x].Level != null) ? v[0].Achievement[x].Level : '-';
+							var Location= (v[0].Achievement[x].Location != '' && v[0].Achievement[x].Location != null) ? v[0].Achievement[x].Location : '-';
+
+							$('#viewFive').append('<li><p class="font-weight-bold">' + Year + ' | ' + Event + '</p>' +
+								'<p>Level : ' + Level + ' | <span class="event-juara">' + Achievement + '</span></p>' +
+								'<p class="mb-4 pb-3"><i class="fa fa-map-marker"></i> ' + Location + '</p></li>');
 						};
 
 					});
@@ -617,10 +645,15 @@
 					var no = 1;
 					$.each(response, function(i, v) {
 						for (var x = 0; x < v[0].Training.length; x++) {
-							var Achievement = (v[0].Training[x].Achievement != '' && v[0].Training[x].Achievement != null) ? v[0].Training[x].Achievement : '';
-							$('#viewSix').append('<li><p class="font-weight-bold">' + v[0].Training[x].Year + ' | ' + v[0].Training[x].Event + '</p>' +
-								'<p>Level : ' + v[0].Training[x].Level + ' | <span class="event-juara">' + Achievement + '</span></p>' +
-								'<p class="mb-4 pb-3"><i class="fa fa-map-marker"></i> ' + v[0].Training[x].Location + '</p></li>');
+							var Achievement = (v[0].Training[x].Achievement != '' && v[0].Training[x].Achievement != null) ? v[0].Training[x].Achievement : '-';
+							var Year= (v[0].Training[x].Year != '' && v[0].Training[x].Year != null) ? v[0].Training[x].Year : '-';
+							var Event= (v[0].Training[x].Event != '' && v[0].Training[x].Event != null) ? v[0].Training[x].Event : '-';
+							var Level= (v[0].Training[x].Level != '' && v[0].Training[x].Level != null) ? v[0].Training[x].Level : '-';
+							var Location= (v[0].Training[x].Location != '' && v[0].Training[x].Location != null) ? v[0].Training[x].Location : '-';
+
+							$('#viewSix').append('<li><p class="font-weight-bold">' + Year + ' | ' + Event + '</p>' +
+								'<p>Level : ' + Level + ' | <span class="event-juara">' + Achievement + '</span></p>' +
+								'<p class="mb-4 pb-3"><i class="fa fa-map-marker"></i> ' + Location + '</p></li>');
 						};
 
 					});
@@ -650,10 +683,15 @@
 					var no = 1;
 					$.each(response, function(i, v) {
 						for (var x = 0; x < v[0].Internship.length; x++) {
-							var Achievement = (v[0].Internship[x].Achievement != '' && v[0].Internship[x].Achievement != null) ? v[0].Internship[x].Achievement : '';
-							$('#viewSeven').append('<li><p class="font-weight-bold">' + v[0].Internship[x].Year + ' | ' + v[0].Internship[x].Event + '</p>' +
-								'<p>Level : ' + v[0].Internship[x].Level + ' | <span class="event-juara">' + Achievement + '</span></p>' +
-								'<p class="mb-4 pb-3"><i class="fa fa-map-marker"></i> ' + v[0].Internship[x].Location + '</p></li>');
+							var Achievement = (v[0].Internship[x].Achievement != '' && v[0].Internship[x].Achievement != null) ? v[0].Internship[x].Achievement : '-';
+							var Year= (v[0].Internship[x].Year != '' && v[0].Internship[x].Year != null) ? v[0].Internship[x].Year : '-';
+							var Event= (v[0].Internship[x].Event != '' && v[0].Internship[x].Event != null) ? v[0].Internship[x].Event : '-';
+							var Level= (v[0].Internship[x].Level != '' && v[0].Internship[x].Level != null) ? v[0].Internship[x].Level : '-';
+							var Location= (v[0].Internship[x].Location != '' && v[0].Internship[x].Location != null) ? v[0].Internship[x].Location : '-';
+
+							$('#viewSeven').append('<li><p class="font-weight-bold">' + Year + ' | ' + Event + '</p>' +
+								'<p>Level : ' + Level + ' | <span class="event-juara">' + Achievement + '</span></p>' +
+								'<p class="mb-4 pb-3"><i class="fa fa-map-marker"></i> ' + Location + '</p></li>');
 						};
 
 					});
