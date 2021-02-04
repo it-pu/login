@@ -4,7 +4,7 @@
 /application/logs
 /.env
 /.env.demo-server
-
+/.env.live-server
 
 #docker
 .docker/nginx/log/*
