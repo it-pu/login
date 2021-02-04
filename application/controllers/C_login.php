@@ -249,9 +249,11 @@ class C_login extends MY_Controller {
 
     public function meet_our_team()
     {
-        $data['loginURL'] = $this->google->loginURL();
-        $this->load->view('meet_our_team',$data);
+        $data['loginURL'] = $this->google->loginURL();     
+        $content=$this->load->view('meet_our_team','', TRUE);
+        parent::template($content);
     }
+
 
     public function authGoogle(){
 

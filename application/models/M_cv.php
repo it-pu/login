@@ -8,7 +8,7 @@ class M_cv extends CI_Model {
         // $this->load->database();
     }
 
-    public function data($NPM){            
+    public function data($NPM){
         
         // $NPM = $this->uri->segment(2);
 
@@ -71,12 +71,12 @@ class M_cv extends CI_Model {
                 ->result_array();
 
             $student[0]['Phone'] = $dataAch_5[0]['Phone'];
-            $student[0]['Address'] = $dataAch_5[0]['Address'];
             $student[0]['GraduationYear'] = $dataAch_5[0]['GraduationYear'];
-            $student[0]['PlaceOfBirth'] = $dataAch_5[0]['PlaceOfBirth'];
-            $student[0]['DateOfBirth'] = $dataAch_5[0]['DateOfBirth'];
-            $student[0]['HighSchool'] = $dataAch_5[0]['HighSchool'];
-            $student[0]['MajorsHighSchool'] = $dataAch_5[0]['MajorsHighSchool'];
+            $student[0]['PlaceOfBirth'] = ucwords(strtolower($dataAch_5[0]['PlaceOfBirth']));
+            $student[0]['DateOfBirth'] = ucwords(strtolower($dataAch_5[0]['DateOfBirth']));
+            $student[0]['HighSchool'] = ucwords(strtoupper($dataAch_5[0]['HighSchool']));
+            $student[0]['MajorsHighSchool'] = ucwords(strtoupper($dataAch_5[0]['MajorsHighSchool']));
+            $student[0]['Address'] = ucwords(strtolower($dataAch_5[0]['Address']));
             $data['dataStd'] = $student;
             
         }
