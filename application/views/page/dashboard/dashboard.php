@@ -567,7 +567,7 @@
         <div class="col-md-10 col-md-offset-1">
             <div style="text-align: center;">
                 <a href="<?= base_url('meet-our-team'); ?>" target="_blank" style="color: #333333;">
-                    <i class="fa fa-copyright" aria-hidden="true"></i> 2020 Universitas Agung Podomoro
+                    <i class="fa fa-copyright" aria-hidden="true"></i> <?= date('Y')?> Universitas Agung Podomoro
                 </a>
             </div>
         </div>

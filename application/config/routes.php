@@ -34,6 +34,9 @@ $route['newlogin'] = 'c_login/index2';
 
 $route['portal-login'] = 'c_login/portal_login';
 $route['meet-our-team'] = 'c_login/meet_our_team';
+$route['__team'] = 'c_team/data';
+
+
 
 $route['forget-password'] = 'c_login/forget_password';
 
