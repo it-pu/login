@@ -1,29 +1,30 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
+defined('BASEPATH') or exit('No direct script access allowed');
 
 
 
-require_once( BASEPATH .'database/DB.php' );
-$db =& DB();
+require_once(BASEPATH . 'database/DB.php');
+$db = &DB();
 
-$dataMode = $db->get_where('db_it.m_config',array(
+$dataMode = $db->get_where('db_it.m_config', array(
     'ID' => 3
 ))->result_array();
 
-if($dataMode[0]['MaintenanceMode']=='1'){
+if ($dataMode[0]['MaintenanceMode'] == '1') {
     $s = '(:any)';
-    for ($i=1;$i<=10;$i++){
+    for ($i = 1; $i <= 10; $i++) {
         $route[$s] = 'c_login/maintenance';
-        $s = $s.'/(:any)';
+        $s = $s . '/(:any)';
     }
-
 }
 
-$route['default_controller'] = ($dataMode[0]['MaintenanceMode']=='1')
+$route['default_controller'] = ($dataMode[0]['MaintenanceMode'] == '1')
     ? 'c_login/maintenance'
     : 'c_login/dashboard';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+
+$route['maintenance'] = 'c_login/maintenance';
 
 $route['loadDataParent/(:num)'] = 'c_login/loadDataParent/$1';
 
@@ -105,4 +106,3 @@ $route['skpi'] = 'c_skpi';
 
 $route['cv/(:any)'] = 'c_cv/index/$1';
 $route['data/(:any)'] = 'c_cv/data/$1';
-
