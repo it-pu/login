@@ -5,57 +5,8 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.3/jspdf.min.js"></script>
 <script src="https://html2canvas.hertzen.com/dist/html2canvas.js"></script>
 
+<style type="text/css">	
 
-<script>
-	function getPDF() {
-		$("#downloadbtn").hide();
-		$("#genmsg").show();
-		var HTML_Width = $(".canvas_div_pdf").width();
-		var HTML_Height = $(".canvas_div_pdf").height();
-		var top_left_margin = 15;
-		var PDF_Width = HTML_Width + (top_left_margin * 2);
-		var PDF_Height = (PDF_Width * 1.2) + (top_left_margin * 1.2);
-		var canvas_image_width = HTML_Width;
-		var canvas_image_height = HTML_Height;
-
-		var totalPDFPages = Math.ceil(HTML_Height / PDF_Height) - 1;
-
-
-		html2canvas($(".canvas_div_pdf")[0], {
-			allowTaint: false,
-			useCORS: true,
-			logging: true,
-			letterRendering: true,
-			// dpi: 300,
-			scale:1.5,
-		}).then(function(canvas) {
-			var ctx = canvas.getContext('2d');
-			ctx.webkitImageSmoothingEnabled = false;
-			ctx.mozImageSmoothingEnabled = false;
-			ctx.imageSmoothingEnabled = false;
-			var image = new Image();
-			var image = canvas.toDataURL("image/png ", 1.9);
-			var pdf = new jsPDF('p', 'pt', [PDF_Width, PDF_Height]);
-
-			pdf.addImage(image, 'JPG', top_left_margin, top_left_margin, canvas_image_width, canvas_image_height);
-
-			for (var i = 1; i <= totalPDFPages; i++) {
-				pdf.addPage(PDF_Width, PDF_Height);
-				pdf.addImage(image, 'JPG', top_left_margin, -(PDF_Height * i) + (top_left_margin * 4), canvas_image_width, canvas_image_height);
-			}
-
-			pdf.save("CV-<?= $Segment ?>.pdf");
-
-			setTimeout(function() {
-				$("#downloadbtn").show();
-				$("#genmsg").hide();
-			}, 0);
-
-		});
-	};
-</script>
-
-<style type="text/css">
 	body {
 		background: #eaeaea;
 	}
@@ -82,7 +33,7 @@
 	}
 
 	.card-body-title {
-		background: #dedede;
+		background: #154053;
 	}
 
 	p {
@@ -177,20 +128,21 @@
 	}
 </style>
 
-
 <div class="container mb-5">
 	<div class="row mb-4">
 		<div class="col align-self-center text-center">
 			<h1 class="text-center fw-bold my-4">Curriculum Vitae</h1>
-			<button class="btn btn-danger btn-lg m-1 mb-3" onclick="getPDF()" id="downloadbtn">Click to Download CV <i class="fa fa-download ms-2"></i></button>
-			<span id="genmsg" style="display:none;">Generating ...</span>
+			<div class="col"><button class="btn btn-danger btn-lg m-1 mb-3" onclick="getPDF()" id="downloadbtn">Download CV to PDF <i class="fa fa-download ms-2"></i></button>
+			<span id="genmsg" style="display:none;">Generating ...</span></div>
+			<div class="col"><button class="btn btn-danger btn-lg m-1 mb-3"  id="downloadbtnpng">Download CV to PNG <i class="fa fa-download ms-2"></i></button>
+			<span id="genmsgimg" style="display:none;">Generating ...</span></div>
 		</div>
 	</div>
 </div>
 
 <section class="">
 
-	<div class="container bg canvas_div_pdf mb-5">
+	<div class="container bg canvas_div_pdf mb-5" id="canvas_div_pdf">
 
 		<div class="row p-4 display-flex">
 
@@ -213,7 +165,7 @@
 										<div class="card panel" style="background-color:#18217c0a">
 											<div class="card-body card-body-title">
 												<div class="title-cv ">
-													<h2 class=" text-left"> PERSONAL INFORMATION </h2>
+													<h2 class="text-left" style="text-transform: uppercase;color: white;"> PERSONAL INFORMATION </h2>
 												</div>
 											</div>
 
@@ -229,7 +181,7 @@
 
 											<div class="card-body card-body-title">
 												<div class="title-cv">
-													<H2 class=" text-left"> SCHOOLS ATTENDED</H2>
+													<H2 class=" text-left" style="text-transform: uppercase;color: white;"> SCHOOLS ATTENDED</H2>
 												</div>
 											</div>
 											<div class="card-body">
@@ -244,7 +196,7 @@
 
 											<div class="card-body card-body-title">
 												<div class="title-cv">
-													<H2 class=" text-left"> Organization</H2>
+													<H2 class=" text-left" style="text-transform: uppercase;color: white;"> Organization</H2>
 												</div>
 											</div>
 											<div class="card-body">
@@ -268,15 +220,23 @@
 									<div class="col-md-12 mb-4">
 										<div class="card panel mb-0">
 
-											<div class="card-body card-body-title">
+											<!-- <div class="card-body card-body-title">
 												<div class="title-cv">
 													<H2 class=" text-left"> ACHIEVMENTS</H2>
 												</div>
-											</div>
-											<div class="card-body">
+											</div> -->
+											<div class="card-body pt-0">
 												<div class="row">
 													<div class="col-md-12 mb-1">
-														<ul class="timeline" id="viewFive">
+														<div class="card-body-title" style="background: #ffffff;">
+															<h2 class=" text-left p-3 pb-4" style=" color: #154053;text-transform: uppercase;
+															    margin-bottom: 15px;
+															    border-bottom: 2px solid;"> 
+															 	<i class="fa-2x fa fa-suitcase" style="font-size: 1.5em"></i> 
+															    <span style="padding-left: 7px;">ACHIEVMENTS</span>
+															</h2>
+														</div>
+														<ul class="timeline mb-0" id="viewFive">
 
 														</ul>
 													</div>
@@ -289,15 +249,22 @@
 									<div class="col-md-12 mb-4">
 										<div class="card panel mb-0">
 
-											<div class="card-body card-body-title">
+											<!-- <div class="card-body card-body-title">
 												<div class="title-cv">
 													<H2 class=" text-left"> Training / Seminar / Workshop</H2>
 												</div>
-											</div>
-											<div class="card-body">
+											</div> -->
+											<div class="card-body pt-0">
 												<div class="row">
 													<div class="col-md-12 mb-1">
-														<ul class="timeline" id="viewSix">
+
+														<h2 class=" text-left p-3 pb-4" style=" color: #154053;text-transform: uppercase;
+														    margin-bottom: 15px;
+														    border-bottom: 2px solid;"> 
+														 	<i class="fa-2x fa fa-certificate" style="font-size: 1.7em"></i> 
+														    <span style="padding-left: 7px;"> Training / Seminar / Workshop</span>
+														</h2>
+														<ul class="timeline mb-0" id="viewSix">
 
 														</ul>
 													</div>
@@ -311,15 +278,21 @@
 									<div class="col-md-12 mb-4">
 										<div class="card panel mb-0">
 
-											<div class="card-body card-body-title">
+											<!-- <div class="card-body card-body-title">
 												<div class="title-cv">
 													<H2 class=" text-left"> EXPERIENCE</H2>
 												</div>
-											</div>
-											<div class="card-body">
+											</div> -->
+											<div class="card-body pt-0">
 												<div class="row">
 													<div class="col-md-12 mb-1">
-														<ul class="timeline" id="viewSeven">
+														<h2 class=" text-left p-3 pb-4" style=" color: #154053;text-transform: uppercase;
+														    margin-bottom: 15px;
+														    border-bottom: 2px solid;"> 
+														 	<i class="fa-2x fa fa-graduation-cap" style="font-size: 1.5em"></i> 
+														    <span style="padding-left: 7px;"> EXPERIENCE</span>
+														</h2>
+														<ul class="timeline mb-0" id="viewSeven">
 
 														</ul>
 													</div>
@@ -345,7 +318,91 @@
 	</div>
 
 
+	<script type="text/javascript">
+		function getPDF() {
+			$("#downloadbtn").hide();
+			$("#genmsg").show();
+			var HTML_Width = $(".canvas_div_pdf").width();
+			var HTML_Height = $(".canvas_div_pdf").height();
+			var top_left_margin = 15;
+			var PDF_Width = HTML_Width + (top_left_margin * 2);
+			var PDF_Height = (PDF_Width * 1.2) + (top_left_margin * 1.2);
+			var canvas_image_width = HTML_Width;
+			var canvas_image_height = HTML_Height;
 
+			var totalPDFPages = Math.ceil(HTML_Height / PDF_Height) - 1;
+
+
+			html2canvas($(".canvas_div_pdf")[0], {
+				allowTaint: false,
+				useCORS: true,
+				logging: true,
+				letterRendering: true,
+				// dpi: 300,
+				scale:1.5,
+			}).then(function(canvas) {
+				var ctx = canvas.getContext('2d');
+				ctx.webkitImageSmoothingEnabled = false;
+				ctx.mozImageSmoothingEnabled = false;
+				ctx.imageSmoothingEnabled = false;
+				var image = new Image();
+				var image = canvas.toDataURL("image/png ", 1.9);
+				var pdf = new jsPDF('p', 'pt', [PDF_Width, PDF_Height]);
+
+				pdf.addImage(image, 'JPG', top_left_margin, top_left_margin, canvas_image_width, canvas_image_height);
+
+				for (var i = 1; i <= totalPDFPages; i++) {
+					pdf.addPage(PDF_Width, PDF_Height);
+					pdf.addImage(image, 'JPG', top_left_margin, -(PDF_Height * i) + (top_left_margin * 4), canvas_image_width, canvas_image_height);
+				}
+
+				pdf.save("CV-<?= $Segment ?>.pdf");
+
+				setTimeout(function() {
+					$("#downloadbtn").show();
+					$("#genmsg").hide();
+				}, 0);
+
+			});
+		};
+		
+		setUpDownloadPageAsImage();
+		function setUpDownloadPageAsImage() {		
+		  document.getElementById("downloadbtnpng").addEventListener("click", function() {
+		  	$("#downloadbtnpng").hide();
+			$("#genmsgimg").show();
+		    html2canvas($(".canvas_div_pdf")[0]).then(function(canvas) {
+		      simulateDownloadImageClick(canvas.toDataURL(), 'file-name.png');
+		      setTimeout(function() {
+					$("#downloadbtnpng").show();
+					$("#genmsgimg").hide();
+				}, 0);
+		    });
+		  });
+		}
+
+		function simulateDownloadImageClick(uri, filename) {
+		  var link = document.createElement('a');
+		  if (typeof link.download !== 'string') {
+		    window.open(uri);
+		  } else {
+		    link.href = uri;
+		    link.download = filename;
+		    accountForFirefox(clickLink, link);
+		  }
+		}
+
+		function clickLink(link) {
+		  link.click();
+		}
+
+		function accountForFirefox(click) { // wrapper function
+		  let link = arguments[1];
+		  document.body.appendChild(link);
+		  click(link);
+		  document.body.removeChild(link);
+		}
+	</script>
 
 	<script>
 		$(document).ready(function() {
@@ -419,8 +476,8 @@
 							'<div class="col-md-8">' +
 							'<div class="card-body ml-4 mr-4 pb-0">' +
 							'<div class="pb-4">' +
-							'<h1 class="text-left mb-4 color-blue">' + Name + '</h1>' +
-							'<h2 class="">' + ProdiEng + '</h2>' +
+							'<h1 class="text-left mb-5 color-blue">' + Name + '</h1>' +
+							'<h2 style="text-transform: uppercase;">' + ProdiEng + '</h2>' +
 							'</div>' +
 							'<div class="row">' +
 							'<div class="col-2">' +
@@ -705,3 +762,5 @@
 	</script>
 
 </section>
+	
+	
