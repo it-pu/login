@@ -371,7 +371,14 @@
 		  document.getElementById("downloadbtnpng").addEventListener("click", function() {
 		  	$("#downloadbtnpng").hide();
 			$("#genmsgimg").show();
-		    html2canvas($(".canvas_div_pdf")[0]).then(function(canvas) {
+		    html2canvas($(".canvas_div_pdf")[0],{
+		    	allowTaint: false,
+		    	taintTest: false,
+				useCORS: true,
+				letterRendering: true,
+				dpi: window.devicePixelRatio * 4, //Increase the resolution to a specific DPI by four times
+                scale: 4
+			}).then(function(canvas) {
 		      simulateDownloadImageClick(canvas.toDataURL(), 'file-name.png');
 		      setTimeout(function() {
 					$("#downloadbtnpng").show();
