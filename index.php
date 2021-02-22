@@ -148,8 +148,14 @@
 	*/
 		define('_HOST_ID', isset($_SERVER['_HOST_ID']) ? $_SERVER['_HOST_ID'] : 'DEMO');
 
-		if (_HOST_ID == 'DEMO') {
-			define('_DB_HOST', isset($_SERVER['_DB_HOST']) ? $_SERVER['_DB_HOST'] : '10.1.30.59');
+		if (isset($_SERVER['_HOST_ID'])) {
+			if (_HOST_ID == 'DEMO') {
+				define('_DB_HOST', isset($_SERVER['_DB_HOST']) ? $_SERVER['_DB_HOST'] : '10.1.30.59');
+			}
+			else
+			{
+				define('_DB_HOST', isset($_SERVER['_DB_HOST']) ? $_SERVER['_DB_HOST'] : '10.1.30.18');
+			}
 		}
 		else
 		{
