@@ -33,7 +33,13 @@
 	}
 
 	.card-body-title {
-		background: #154053;
+		/*background: #154053;*/
+		background: var(--color-primary);
+	}
+
+	.card-body-title>h2 {
+		/*background: #154053;*/
+		color: var(--color-second);
 	}
 
 	p {
@@ -56,7 +62,7 @@
 	}
 
 	.bg {
-		background: linear-gradient(180deg, #143f52 20%, #ffffff 16%, #ffffff 80%, #ffffff 80%, #ffffff 60%);
+		background: linear-gradient(180deg, var(--color-primary) 20%, #ffffff 16%, #ffffff 80%, #ffffff 80%, #ffffff 60%);
 		background: -moz-linear-gradient(-90deg, #f1c2b8 20%, #ffffff 16%, #ffffff 80%, #ffffff 80%, #18217c 60%);
 		background: -webkit-linear-gradient(-90deg, #f1c2b8 20%, #ffffff 16%, #f1cffffff2b8 80%, #ffffff 80%, #18217c 60%);
 	}
@@ -85,12 +91,14 @@
 
 	/* not requied only for demo * */
 	.row [class*='col-'] {
-		background-colo: #cceeee;
 		background-clip: content-box;
 	}
 
 	.panel {
 		height: 100%;
+	}
+	.panel-bg{
+		background: var(--color-bg);		
 	}
 
 	ul.timeline {
@@ -100,7 +108,7 @@
 
 	ul.timeline:before {
 		content: ' ';
-		background: #d4d9df;
+		background: #eaeaea;
 		display: inline-block;
 		position: absolute;
 		left: 29px;
@@ -120,22 +128,40 @@
 		display: inline-block;
 		position: absolute;
 		border-radius: 50%;
-		border: 3px solid #f1c2b8;
+		border: 3px solid var(--color-primary);
 		left: 20px;
 		width: 20px;
 		height: 20px;
 		z-index: 400;
 	}
+	.btn-color	{
+		background: var(--color-primary);
+		color: #fff;
+		font-weight: 400;
+	}
+	.color-nm{
+		color: var(--color-primary);
+	}
+	.color-prodi{
+		color: var(--color-second);
+	}
+	.btn:hover, .btn:focus {
+    color: #fff;
+    text-decoration: none;
+}
+
 </style>
 
 <div class="container mb-5">
 	<div class="row mb-4">
 		<div class="col align-self-center text-center">
-			<h1 class="text-center fw-bold my-4">Curriculum Vitae</h1>
-			<div class="col"><button class="btn btn-danger btn-lg m-1 mb-3" onclick="getPDF()" id="downloadbtn">Download CV to PDF <i class="fa fa-download ms-2"></i></button>
-			<span id="genmsg" style="display:none;">Generating ...</span></div>
-			<div class="col"><button class="btn btn-danger btn-lg m-1 mb-3"  id="downloadbtnpng">Download CV to PNG <i class="fa fa-download ms-2"></i></button>
-			<span id="genmsgimg" style="display:none;">Generating ...</span></div>
+			<h1 class="text-center fw-bold my-4 ">CURRICULUM VITAE</h1>
+			<div class="col">
+				<button class="btn btn-color btn-lg m-1 mb-3" onclick="getPDF()" id="downloadbtn">Download CV to PDF <i class="fa fa-download ms-2"></i></button>
+				<span id="genmsg" style="display:none;">Generating ...</span>
+				<button class="btn btn-color btn-lg m-1 mb-3"  id="downloadbtnpng">Download CV to PNG <i class="fa fa-download ms-2"></i></button>
+				<span id="genmsgimg" style="display:none;">Generating ...</span>
+			</div>
 		</div>
 	</div>
 </div>
@@ -162,7 +188,7 @@
 							<div class="card mb-4 ml-4 mr-4 ">
 								<div class="row no-gutters">
 									<div class="col-md-12 mb-4">
-										<div class="card panel" style="background-color:#18217c0a">
+										<div class="card panel panel-bg" >
 											<div class="card-body card-body-title">
 												<div class="title-cv ">
 													<h2 class="text-left" style="text-transform: uppercase;color: white;"> PERSONAL INFORMATION </h2>
@@ -177,7 +203,7 @@
 										</div>
 									</div>
 									<div class="col-md-12 mb-4">
-										<div class="card panel" style="background-color:#18217c0a">
+										<div class="card panel panel-bg" >
 
 											<div class="card-body card-body-title">
 												<div class="title-cv">
@@ -192,7 +218,7 @@
 										</div>
 									</div>
 									<div class="col-md-12 mb-4">
-										<div class="card panel" style="background-color:#18217c0a">
+										<div class="card panel panel-bg" >
 
 											<div class="card-body card-body-title">
 												<div class="title-cv">
@@ -229,11 +255,11 @@
 												<div class="row">
 													<div class="col-md-12 mb-1">
 														<div class="card-body-title" style="background: #ffffff;">
-															<h2 class=" text-left p-3 pb-4" style=" color: #154053;text-transform: uppercase;
+															<h2 class=" text-left p-3 pb-4" style="text-transform: uppercase;
 															    margin-bottom: 15px;
 															    border-bottom: 2px solid;"> 
 															 	<i class="fa-2x fa fa-suitcase" style="font-size: 1.5em"></i> 
-															    <span style="padding-left: 7px;">ACHIEVMENTS</span>
+															    <span style="padding-left: 7px;">ACHIEVEMENTS</span>
 															</h2>
 														</div>
 														<ul class="timeline mb-0" id="viewFive">
@@ -257,13 +283,14 @@
 											<div class="card-body pt-0">
 												<div class="row">
 													<div class="col-md-12 mb-1">
-
-														<h2 class=" text-left p-3 pb-4" style=" color: #154053;text-transform: uppercase;
-														    margin-bottom: 15px;
-														    border-bottom: 2px solid;"> 
-														 	<i class="fa-2x fa fa-certificate" style="font-size: 1.7em"></i> 
-														    <span style="padding-left: 7px;"> Training / Seminar / Workshop</span>
-														</h2>
+														<div class="card-body-title" style="background: #ffffff;">
+															<h2 class=" text-left p-3 pb-4" style="text-transform: uppercase;
+															    margin-bottom: 15px;
+															    border-bottom: 2px solid;"> 
+															 	<i class="fa-2x fa fa-certificate" style="font-size: 1.7em"></i> 
+															    <span style="padding-left: 7px;"> Training / Seminar / Workshop</span>
+															</h2>
+														</div>
 														<ul class="timeline mb-0" id="viewSix">
 
 														</ul>
@@ -286,12 +313,14 @@
 											<div class="card-body pt-0">
 												<div class="row">
 													<div class="col-md-12 mb-1">
-														<h2 class=" text-left p-3 pb-4" style=" color: #154053;text-transform: uppercase;
-														    margin-bottom: 15px;
-														    border-bottom: 2px solid;"> 
-														 	<i class="fa-2x fa fa-graduation-cap" style="font-size: 1.5em"></i> 
-														    <span style="padding-left: 7px;"> EXPERIENCE</span>
-														</h2>
+														<div class="card-body-title" style="background: #ffffff;">
+															<h2 class=" text-left p-3 pb-4" style="text-transform: uppercase;
+															    margin-bottom: 15px;
+															    border-bottom: 2px solid;"> 
+															 	<i class="fa-2x fa fa-graduation-cap" style="font-size: 1.5em"></i> 
+															    <span style="padding-left: 7px;"> EXPERIENCE</span>
+															</h2>
+														</div>
 														<ul class="timeline mb-0" id="viewSeven">
 
 														</ul>
@@ -379,7 +408,7 @@
 				dpi: window.devicePixelRatio * 4, //Increase the resolution to a specific DPI by four times
                 scale: 4
 			}).then(function(canvas) {
-		      simulateDownloadImageClick(canvas.toDataURL(), 'file-name.png');
+		      simulateDownloadImageClick(canvas.toDataURL(), 'CV-PNG-<?= $Segment ?>.png');
 		      setTimeout(function() {
 					$("#downloadbtnpng").show();
 					$("#genmsgimg").hide();
@@ -483,8 +512,8 @@
 							'<div class="col-md-8">' +
 							'<div class="card-body ml-4 mr-4 pb-0">' +
 							'<div class="pb-4">' +
-							'<h1 class="text-left mb-5 color-blue">' + Name + '</h1>' +
-							'<h2 style="text-transform: uppercase;">' + ProdiEng + '</h2>' +
+							'<h1 class="text-left mb-5 color-nm">' + Name + '</h1>' +
+							'<h2 class="color-prodi" style="text-transform: uppercase;">' + ProdiEng + '</h2>' +
 							'</div>' +
 							'<div class="row">' +
 							'<div class="col-2">' +
