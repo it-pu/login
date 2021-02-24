@@ -23,10 +23,8 @@ class C_cv extends  MY_Controller {
              
 
     // =========== Detail cv ========
-    public function index(){ 
-        // $data = $student;
-        // $data = $this->m_cv->data($NPM);
-        $content = $this->load->view('page/cv/V_cv','',true);        
+    public function index(){        
+        $content = $this->load->view('page/cv/V_cv','', true);        
         parent::template($content);
     }
     public function data($NPM){ 

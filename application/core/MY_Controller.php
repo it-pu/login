@@ -11,7 +11,12 @@ class MY_Controller extends CI_Controller {
 
     public function template($content)
     {
-
+        $NPM = $this->uri->segment(2);
+        $style = $this->db->query('SELECT sp.ColorPrimary as ColorPrimary, sp.ColorSecond as ColorSecond, sp.ColorBG as ColorBG, sp.ColorBGHeaderPage as ColorHeader
+                                                    FROM db_academic.auth_students ats                                                     
+                                                    LEFT JOIN db_prodi.style_prodi sp ON (sp.ProdiID = ats.ProdiID)
+                                                    WHERE ats.NPM = "'.$NPM.'"')->result_array();
+        $data['style'] = (count($style)>0) ? $style[0] : $style;
         $data['content'] = $content;
         $this->load->view('page/template/blank',$data);
     }

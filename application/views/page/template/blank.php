@@ -357,6 +357,12 @@
     .a-link .thumbnail h4 {
         color: #415a6b;font-weight: bold;margin-bottom: 0px;
     }
+    :root{
+        --color-primary: <?= $style['ColorPrimary']; ?>;
+        --color-second: <?= $style['ColorSecond']; ?>;
+        --color-bg: <?= $style['ColorBG']; ?>;
+        --color-bg-page: <?= $style['ColorHeader']; ?>;
+    }
 </style>
 
 <body>
