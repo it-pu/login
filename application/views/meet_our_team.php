@@ -44,7 +44,7 @@
     <div class="row mb-4">
         <div class="col-lg-5">
             <h2 class="display-4 font-weight-light">Our team</h2>
-            <p class="font-italic text-muted">We are not just a team but also a family <i style="color: #ff978f;" class="fa fa-heart"></i></p>
+            <p class="font-italic text-muted">We are not only a team but also a family <i style="color: #ff978f;" class="fa fa-heart"></i></p>
         </div>
     </div>
 
