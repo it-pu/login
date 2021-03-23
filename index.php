@@ -82,8 +82,38 @@
 	$HostPath=(is_https_chek() ? "https://" : "http://");
 	/* End Function https */
 
+	/*
+		Set Environtment if not exist, ref by docker instalation
+		Alhadi Rahman 2021 - 01 - 25
+	*/
+	define('_HOST_ID', isset($_SERVER['_HOST_ID']) ? $_SERVER['_HOST_ID'] : 'DEMO');
+
+	if (isset($_SERVER['_HOST_ID'])) {
+		if (_HOST_ID == 'DEMO') {
+			define('_DB_HOST', isset($_SERVER['_DB_HOST']) ? $_SERVER['_DB_HOST'] : '10.1.30.59');
+			// IP public not set
+			define("URLAD","http://x.x.x.x:8076/", true);
+		}
+		else
+		{
+			define('_DB_HOST', isset($_SERVER['_DB_HOST']) ? $_SERVER['_DB_HOST'] : '10.1.30.18');
+			// IP public not set
+			define("URLAD","http://x.x.x.x:8076/", true);
+		}
+	}
+	else
+	{
+		define('_DB_HOST', isset($_SERVER['_DB_HOST']) ? $_SERVER['_DB_HOST'] : '10.1.30.18');
+		define("URLAD","http://10.1.30.2:8076/", true);
+	}
+
+	define('_DB_USER', isset($_SERVER['_DB_USER']) ? $_SERVER['_DB_USER'] : 'db_itpu');
+	define('_DB_PASSWORD', isset($_SERVER['_DB_PASSWORD']) ? $_SERVER['_DB_PASSWORD'] : 'Uap)(*&^%');
+	define('_DB_NAME', isset($_SERVER['_DB_NAME']) ? $_SERVER['_DB_NAME'] : 'db_academic');
+	define('_DB_PORT', isset($_SERVER['_DB_PORT']) ? $_SERVER['_DB_PORT'] : '3306');
+
 	define('ENVIRONMENT', isset($_SERVER['CI_ENV']) ? $_SERVER['CI_ENV'] : 'development');
-	define("URLAD","http://10.1.30.2:8076/", true);
+
 	$ServerName = $_SERVER['SERVER_NAME'];
 	switch ($ServerName) {
 		case 'portal.podomorouniversity.ac.id':
@@ -155,32 +185,6 @@
 			break;
 	}
 
-
-	
-	/*
-		Set Environtment if not exist, ref by docker instalation
-		Alhadi Rahman 2021 - 01 - 25
-	*/
-		define('_HOST_ID', isset($_SERVER['_HOST_ID']) ? $_SERVER['_HOST_ID'] : 'DEMO');
-
-		if (isset($_SERVER['_HOST_ID'])) {
-			if (_HOST_ID == 'DEMO') {
-				define('_DB_HOST', isset($_SERVER['_DB_HOST']) ? $_SERVER['_DB_HOST'] : '10.1.30.59');
-			}
-			else
-			{
-				define('_DB_HOST', isset($_SERVER['_DB_HOST']) ? $_SERVER['_DB_HOST'] : '10.1.30.18');
-			}
-		}
-		else
-		{
-			define('_DB_HOST', isset($_SERVER['_DB_HOST']) ? $_SERVER['_DB_HOST'] : '10.1.30.18');
-		}
-
-		define('_DB_USER', isset($_SERVER['_DB_USER']) ? $_SERVER['_DB_USER'] : 'db_itpu');
-		define('_DB_PASSWORD', isset($_SERVER['_DB_PASSWORD']) ? $_SERVER['_DB_PASSWORD'] : 'Uap)(*&^%');
-		define('_DB_NAME', isset($_SERVER['_DB_NAME']) ? $_SERVER['_DB_NAME'] : 'db_academic');
-		define('_DB_PORT', isset($_SERVER['_DB_PORT']) ? $_SERVER['_DB_PORT'] : '3306');
 
 	/* replace $_SERVER['SERVER_NAME'] */
 
