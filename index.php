@@ -54,6 +54,10 @@
  * NOTE: If you change these, also change the error_reporting() code below
  */
 
+	if ($_SERVER['SERVER_NAME'] == 'portal.uap.ac.id') {
+		$_SERVER['SERVER_NAME'] = 'portal.podomorouniversity.ac.id';
+	}
+
 	/*
 		Buat function https manual
 		Alhadi Rahman
