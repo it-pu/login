@@ -54,10 +54,6 @@
  * NOTE: If you change these, also change the error_reporting() code below
  */
 
-	if ($_SERVER['SERVER_NAME'] == 'portal.uap.ac.id') {
-		$_SERVER['SERVER_NAME'] = 'portal.podomorouniversity.ac.id';
-	}
-
 	/*
 		Buat function https manual
 		Alhadi Rahman
@@ -99,6 +95,21 @@
 	        define("url_lecturers",$HostPath."lecturerpu.podomorouniversity.ac.id/uath/__portal4SignIn", true);
           	define("url_parents",$HostPath."parentpu.podomorouniversity.ac.id/uath/__portal4SignIn", true);
 	        define("url_sign_out",$HostPath."portal.podomorouniversity.ac.id", true);
+			
+			define("url_podivers","http://"."podivers.org/", true); //yamin
+
+			define("url_alumni",$HostPath."alumni.podomorouniversity.ac.id/", true);
+			define("url_portal_eksternal",$HostPath."research.podomorouniversity.ac.id/", true);
+			break;
+		case 'portal.uap.ac.id':
+			define("url_registration",$HostPath."admission.uap.ac.id/", true);
+	        define("serverRoot",$HostPath."pcam.uap.ac.id", true);
+	        define("url_pas",$HostPath."pcam.uap.ac.id/", true);
+	        define("url_pcam",$HostPath."pcam.uap.ac.id/uath/__portal4SignIn", true);
+	        define("url_students",$HostPath."studentpu.uap.ac.id/uath/__portal4SignIn", true);
+	        define("url_lecturers",$HostPath."lecturerpu.uap.ac.id/uath/__portal4SignIn", true);
+          	define("url_parents",$HostPath."parentpu.podomorouniversity.ac.id/uath/__portal4SignIn", true);
+	        define("url_sign_out",$HostPath."portal.uap.ac.id", true);
 			
 			define("url_podivers","http://"."podivers.org/", true); //yamin
 
@@ -170,6 +181,12 @@
 		define('_DB_PASSWORD', isset($_SERVER['_DB_PASSWORD']) ? $_SERVER['_DB_PASSWORD'] : 'Uap)(*&^%');
 		define('_DB_NAME', isset($_SERVER['_DB_NAME']) ? $_SERVER['_DB_NAME'] : 'db_academic');
 		define('_DB_PORT', isset($_SERVER['_DB_PORT']) ? $_SERVER['_DB_PORT'] : '3306');
+
+	/* replace $_SERVER['SERVER_NAME'] */
+
+	if ($_SERVER['SERVER_NAME'] == 'portal.uap.ac.id') {
+		$_SERVER['SERVER_NAME'] = 'portal.podomorouniversity.ac.id';
+	}
 
 
 /*
