@@ -196,7 +196,7 @@
                     <div class="col-md-6">
                         <div class="row">
                             <div class="col-xs-6 hvr-grow-rotate">
-                                <a href="https://podivers.org/">
+                                <a href="http://podivers.org/">
                                     <div class="thumbnail">
                                         <img class="apps-icon" src="<?= base_url(); ?>images/icon/bem.png">
                                         <p>Podivers</p>
