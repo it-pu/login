@@ -1,14 +1,12 @@
-
-
 <style>
-    body {
-        /*background: #eaeaea;*/
-    }
+    /* body {
+        background: #eaeaea;
+    } */
 
     .panel {
-        -webkit-box-shadow: 3px 3px 10px -4px rgba(0,0,0,0.75);
-        -moz-box-shadow: 3px 3px 10px -4px rgba(0,0,0,0.75);
-        box-shadow: 3px 3px 10px -4px rgba(0,0,0,0.75);
+        -webkit-box-shadow: 3px 3px 10px -4px rgba(0, 0, 0, 0.75);
+        -moz-box-shadow: 3px 3px 10px -4px rgba(0, 0, 0, 0.75);
+        box-shadow: 3px 3px 10px -4px rgba(0, 0, 0, 0.75);
     }
 </style>
 
@@ -16,12 +14,11 @@
 
     <div class="row">
         <div class="col-md-12 text-center" style="margin-bottom: 20px;">
-            <img src="<?= base_url('assets/icon/logo_pu.png'); ?>"
-                 style="width: 100%; max-width: 250px;">
+            <img src="<?= base_url('assets/icon/logo_pu.png'); ?>" style="width: 100%; max-width: 250px;">
         </div>
     </div>
 
-    <?php if($ValidSurvey=='1' || $ValidSurvey==1) { ?>
+    <?php if ($ValidSurvey == '1' || $ValidSurvey == 1) { ?>
 
         <div class="row">
             <div class="col-md-4 col-md-offset-4">
@@ -58,8 +55,7 @@
 
         <div class="row">
             <div class="col-md-6 col-md-offset-3 text-center">
-                <img src="<?= base_url('images/confused.jpg'); ?>"
-                     style="width: 100%;max-width: 250px;">
+                <img src="<?= base_url('images/confused.jpg'); ?>" style="width: 100%;max-width: 250px;">
                 <h1 style="    color: #8479e6;font-weight: bold;">Invalid key or survey is not valid</h1>
             </div>
         </div>
@@ -69,17 +65,16 @@
 
 
 <script>
-
-    $(document).ready(function () {
+    $(document).ready(function() {
         loadTypeForm();
     });
 
 
-    $('#formParticipant').change(function () {
+    $('#formParticipant').change(function() {
         loadTypeForm();
     });
 
-    $(document).on('click','.toggle-password',function () {
+    $(document).on('click', '.toggle-password', function() {
         var inputPass = $('#formPassword');
 
         if (inputPass.attr("type") == "password") {
@@ -93,14 +88,14 @@
         }
     });
 
-    function loadTypeForm(){
+    function loadTypeForm() {
         var formParticipant = $('#formParticipant').val();
-        if(formParticipant=='emp' || formParticipant=='std') {
+        if (formParticipant == 'emp' || formParticipant == 'std') {
 
-            var lbl = (formParticipant=='emp') ? 'NIP / NIK' : 'NIM';
+            var lbl = (formParticipant == 'emp') ? 'NIP / NIK' : 'NIM';
 
             $('#typeInput').html('<div class="form-group">' +
-                '                        <label>'+lbl+'</label>' +
+                '                        <label>' + lbl + '</label>' +
                 '                        <input class="form-control form-req" id="formUsername">' +
                 '                    </div>' +
                 '                    <div class="form-group">' +
@@ -122,6 +117,7 @@
                 '                    <div class="form-group">' +
                 '                        <label>E-mail</label>' +
                 '                        <input id="formEmail" type="email" class="form-control form-req">' +
+                '                       <p class="help-block">Please, enter your email correctly</p>' +
                 '                    </div>' +
                 '                    <div class="form-group">' +
                 '                        <label>Phone</label>' +
@@ -131,7 +127,7 @@
         }
     }
 
-    $('#btnSubmit').click(function () {
+    $('#btnSubmit').click(function() {
 
         var formParticipant = $('#formParticipant').val();
         var formUsername = $('#formUsername').val();
@@ -142,50 +138,68 @@
         var formPhone = $('#formPhone').val();
 
         var next = true;
-        $('.form-req').each(function (i,v) {
+        $('.form-req').each(function(i, v) {
             var cl = $(this).val();
-            if(cl!='' && cl!=null){
-                $(this).css('border','1px solid green');
+            var tp = $(this).attr('type');
+            console.log(tp);
+            if (cl != '' && cl != null) {
+                if (tp == 'email') {
+                    if (validateEmail(cl)) {
+                        $(this).css('border', '1px solid green');
+                    } else {
+                        $(this).css('border', '1px solid red');
+                        next = false;
+                    }
+                } else {
+                    $(this).css('border', '1px solid green');
+                }
+
+
             } else {
-                $(this).css('border','1px solid red');
+                $(this).css('border', '1px solid red');
                 next = false;
             }
         });
 
-        if(next){
+        if (next) {
 
             var data = {
-                action : 'submitForm',
-                SurveyID : $('#SurveyID').val(),
-                Key : "<?= $Key; ?>",
-                Participant : formParticipant,
-                Username : formUsername,
-                Password : formPassword,
-                FullName : formFullname,
-                Email : formEmail,
-                Phone : formPhone
+                action: 'submitForm',
+                SurveyID: $('#SurveyID').val(),
+                Key: "<?= $Key; ?>",
+                Participant: formParticipant,
+                Username: formUsername,
+                Password: formPassword,
+                FullName: formFullname,
+                Email: formEmail,
+                Phone: formPhone
             };
 
-            var token = jwt_encode(data,"s3Cr3T-G4N");
+            var token = jwt_encode(data, "s3Cr3T-G4N");
 
-            var url = dt_base_url_js+'submitChecksurvey';
+            var url = dt_base_url_js + 'submitChecksurvey';
 
-            $.post(url,{token:token},function (jsonResult) {
+            $.post(url, {
+                token: token
+            }, function(jsonResult) {
 
-                if(parseInt(jsonResult.Status)==1){
-                    window.location.replace(dt_base_url_js+'survey');
+                if (parseInt(jsonResult.Status) == 1) {
+                    window.location.replace(dt_base_url_js + 'survey');
                 } else {
-                    toastr.error('Username & Password not match!','Error');
+                    toastr.error('Username & Password not match!', 'Error');
                 }
 
             })
 
         } else {
-            toastr.warning('Form are required','Warning');
+            toastr.warning('Form are required', 'Warning');
         }
 
 
     });
 
-
+    function validateEmail(email) {
+        const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(email);
+    }
 </script>
