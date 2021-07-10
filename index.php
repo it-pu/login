@@ -100,6 +100,10 @@
 
 			define("url_alumni",$HostPath."alumni.podomorouniversity.ac.id/", true);
 			define("url_portal_eksternal",$HostPath."research.podomorouniversity.ac.id/", true);
+			define("url_rest_api",$HostPath."api.podomorouniversity.ac.id/", true);
+			define("url_participant",$HostPath."localhost/t_participant/", true);
+			define("url_trainer",$HostPath."localhost/t_trainer/", true);
+
 			break;
 		case 'demoportal.podomorouniversity.ac.id':
 			define("url_registration",$HostPath."demoadmission.podomorouniversity.ac.id/", true);
@@ -116,6 +120,10 @@
 
 	        define("url_alumni",$HostPath."demoalumni.podomorouniversity.ac.id/", true);
 	        define("url_portal_eksternal",$HostPath."demo.research.podomorouniversity.ac.id/", true);
+			define("url_rest_api",$HostPath."demoapi.podomorouniversity.ac.id/", true);
+			define("url_participant",$HostPath."localhost/t_participant/", true);
+			define("url_trainer",$HostPath."localhost/t_trainer/", true);
+
 			break;	
 		default:
             $port_user = ($_SERVER['SERVER_PORT']!='80') ? ':'.$_SERVER['SERVER_PORT'] : '';
@@ -137,6 +145,10 @@
 
             define("url_alumni",$HostPath."localhost/alumni/", true);
             define("url_portal_eksternal",$HostPath."localhost/portal_eksternal/", true);
+			define("url_rest_api",$HostPath."localhost/pu-rest/", true);
+			define("url_participant",$HostPath."localhost/t_participant/", true);
+			define("url_trainer",$HostPath."localhost/t_trainer/", true);
+
 			break;
 	}
 

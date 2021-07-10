@@ -160,8 +160,8 @@
                             <div class="col-xs-6 hvr-grow-rotate">
                                 <a href="<?= base_url('mobile'); ?>">
                                     <div class="thumbnail">
-                                        <img class="apps-icon" src="<?= base_url(); ?>images/icon/android.png">
-                                        <p>Student Mobile</p>
+                                        <img class="apps-icon" src="<?= base_url(); ?>images/icon/mobile-apps.png">
+                                        <p>Mobile Applications</p>
                                     </div>
                                 </a>
                             </div>
@@ -285,14 +285,22 @@
 <!--                                    </div>-->
 <!--                                </a>-->
 <!--                            </div>-->
-                            <div class="col-xs-6 hvr-grow-rotate">
+                            <!-- <div class="col-xs-6 hvr-grow-rotate">
                                 <a href="https://play.google.com/store/apps/details?id=com.ypap.CRM" target="_blank">
                                     <div class="thumbnail">
                                         <img class="apps-icon" src="<?= base_url(); ?>images/icon/crm.png">
                                         <p>CRM Mobile</p>
                                     </div>
                                 </a>
+                            </div> -->
 
+                            <div class="col-xs-6 hvr-grow-rotate">
+                                <a href="<?= base_url('training'); ?>">
+                                    <div class="thumbnail">
+                                        <img class="apps-icon" src="<?= base_url(); ?>images/icon/training.png">
+                                        <p>Training Portal</p>
+                                    </div>
+                                </a>
                             </div>
                         </div>
                     </div>
