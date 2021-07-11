@@ -145,7 +145,7 @@
 
             define("url_alumni",$HostPath."localhost/alumni/", true);
             define("url_portal_eksternal",$HostPath."localhost/portal_eksternal/", true);
-			define("url_rest_api",$HostPath."localhost/pu-rest/", true);
+			define("url_rest_api",$HostPath."localhost/restserver/", true);
 			define("url_participant",$HostPath."localhost/t_participant/", true);
 			define("url_trainer",$HostPath."localhost/t_trainer/", true);
 

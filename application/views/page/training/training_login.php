@@ -98,9 +98,10 @@ $(document).on('click','#submit',function() {
                     if(result.status){
                         var d = result.data[0];
                         var pathLogin = (d.UserType=='participant') ? '<?= url_participant; ?>' : '<?= url_trainer; ?>';
-                        var newToken = jwt_encode(d);
-                        console.log(newToken);
-                        // window.location.replace(pathLogin+'auth?');
+                        // console.log(d);
+                        // var newToken = jwt_encode(d);
+                        // console.log(newToken);
+                        window.location.replace(pathLogin+'auth/'+d.APIKey);
                     } else {
                         toastr.warning('Please, contact admin','Error');
                         $('#panellogin .panel-default').animateCss('shake');
