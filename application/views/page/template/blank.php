@@ -371,6 +371,10 @@
         --color-bg: <?= $style['ColorBG']; ?>;
         --color-bg-page: <?= $style['ColorHeader']; ?>;
     }
+
+    .modal-sm {
+        max-width: 300px !important;
+    }
 </style>
 
 <body>
