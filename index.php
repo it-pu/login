@@ -1,4 +1,8 @@
 <?php
+ini_set('mysql_connect_timeout', 300);
+ini_set('mysqli_connect_timeout', 300);
+ini_set('default_socket_timeout', 300);
+ini_set('date.timezone', 'Asia/Jakarta');
 /**
  * CodeIgniter
  *
