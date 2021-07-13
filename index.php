@@ -120,7 +120,7 @@
 
 	        define("url_alumni",$HostPath."demoalumni.podomorouniversity.ac.id/", true);
 	        define("url_portal_eksternal",$HostPath."demo.research.podomorouniversity.ac.id/", true);
-			define("url_rest_api",$HostPath."demoapi.podomorouniversity.ac.id/", true);
+			define("url_rest_api",$HostPath."api.podomorouniversity.ac.id/", true);
 			define("url_participant",$HostPath."localhost/t_participant/", true);
 			define("url_trainer",$HostPath."localhost/t_trainer/", true);
 
