@@ -105,8 +105,9 @@ ini_set('date.timezone', 'Asia/Jakarta');
 			define("url_alumni",$HostPath."alumni.podomorouniversity.ac.id/", true);
 			define("url_portal_eksternal",$HostPath."research.podomorouniversity.ac.id/", true);
 			define("url_rest_api",$HostPath."api.podomorouniversity.ac.id/", true);
-			define("url_participant",$HostPath."academycenter.podomorouniversity.ac.id/", true);
-			define("url_trainer",$HostPath."traineracademy.podomorouniversity.ac.id/", true);
+			define("url_training_admin",$HostPath."adminacademy.podomorouniversity.ac.id/", true);
+			define("url_training_participant",$HostPath."academycenter.podomorouniversity.ac.id/", true);
+			define("url_training_trainer",$HostPath."traineracademy.podomorouniversity.ac.id/", true);
 
 			break;
 		case 'demoportal.podomorouniversity.ac.id':
@@ -125,8 +126,9 @@ ini_set('date.timezone', 'Asia/Jakarta');
 	        define("url_alumni",$HostPath."demoalumni.podomorouniversity.ac.id/", true);
 	        define("url_portal_eksternal",$HostPath."demo.research.podomorouniversity.ac.id/", true);
 			define("url_rest_api",$HostPath."api.podomorouniversity.ac.id/", true);
-			define("url_participant",$HostPath."academycenter.podomorouniversity.ac.id/", true);
-			define("url_trainer",$HostPath."traineracademy.podomorouniversity.ac.id/", true);
+			define("url_training_admin",$HostPath."adminacademy.podomorouniversity.ac.id/", true);
+			define("url_training_participant",$HostPath."academycenter.podomorouniversity.ac.id/", true);
+			define("url_training_trainer",$HostPath."traineracademy.podomorouniversity.ac.id/", true);
 
 			break;	
 		default:
@@ -150,8 +152,9 @@ ini_set('date.timezone', 'Asia/Jakarta');
             define("url_alumni",$HostPath."localhost/alumni/", true);
             define("url_portal_eksternal",$HostPath."localhost/portal_eksternal/", true);
 			define("url_rest_api",$HostPath."localhost/restserver/", true);
-			define("url_participant",$HostPath."localhost/t_participant/", true);
-			define("url_trainer",$HostPath."localhost/t_trainer/", true);
+			define("url_training_admin",$HostPath."localhost/t_admin/", true);
+			define("url_training_participant",$HostPath."localhost/t_participant/", true);
+			define("url_training_trainer",$HostPath."localhost/t_trainer/", true);
 
 			break;
 	}

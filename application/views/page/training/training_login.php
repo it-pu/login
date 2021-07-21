@@ -97,7 +97,12 @@ $(document).on('click','#submit',function() {
                 },function(result) {
                     if(result.status){
                         var d = result.data[0];
-                        var pathLogin = (d.UserType=='participant') ? '<?= url_participant; ?>' : '<?= url_trainer; ?>';
+                        var pathLogin = '<?= url_training_trainer; ?>';
+                        if(d.UserType=='participant'){
+                            pathLogin = '<?= url_training_participant; ?>';
+                        } else if(d.UserType=='admin'){
+                            pathLogin = '<?= url_training_admin; ?>';
+                        }
                         // console.log(d);
                         // var newToken = jwt_encode(d);
                         // console.log(newToken);
